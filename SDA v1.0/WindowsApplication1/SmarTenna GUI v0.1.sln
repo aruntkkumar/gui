@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SmarTenna GUI v0.1", "WindowsApplication1\SmarTenna GUI v0.1.vbproj", "{F0F76FCA-7E48-40E4-9ED9-BCF9B2404A85}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0F76FCA-7E48-40E4-9ED9-BCF9B2404A85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0F76FCA-7E48-40E4-9ED9-BCF9B2404A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0F76FCA-7E48-40E4-9ED9-BCF9B2404A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0F76FCA-7E48-40E4-9ED9-BCF9B2404A85}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
