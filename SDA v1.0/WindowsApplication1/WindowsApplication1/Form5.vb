@@ -11,6 +11,7 @@ Public Class Form5
     Dim byte1 As Integer
     Dim bandsel As Integer
     Dim cabandsel As Integer
+    Dim test As Integer
     Delegate Sub SetTextCallBack(ByVal [text] As String)
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
@@ -23,6 +24,7 @@ Public Class Form5
         ComboBox1.Items.AddRange(myPort)
         Button2.Enabled = False
         Button4.Enabled = False
+        Button6.Enabled = False
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -43,6 +45,7 @@ Public Class Form5
                     Button3.Enabled = False
                     Button4.Enabled = True
                     Button5.Enabled = True
+                    Button6.Enabled = True
                     ComboBox1.Enabled = False
                     ComboBox2.Enabled = False
                 End If
@@ -228,8 +231,8 @@ Public Class Form5
                                         End If
                                     End If
                                 End If
-                                'SerialPort1.WriteLine("rw 1 0x05 0xD7" & vbCrLf & "rw 1 0x05 0x58" & vbCrLf & "rw 1 0x05 0x97" & vbCrLf)
-                                SerialPort1.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & bandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & cabandsel.ToString("X") & vbCrLf)
+                                'SerialPort1.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & bandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & cabandsel.ToString("X") & vbCrLf)
+                                SerialPort1.WriteLine("AT!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & byte1.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & bandsel.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & cabandsel.ToString("X") & vbCrLf)
                                 RichTextBox1.Text &= SerialPort1.ReadExisting()
                             End If
                         End If
@@ -250,6 +253,10 @@ Public Class Form5
         Button3.Enabled = True
         Button4.Enabled = False
         Button5.Enabled = True
+        Button6.Enabled = False
+        TextBox1.Enabled = True
+        TextBox2.Enabled = True
+        TextBox3.Enabled = True
         ComboBox1.Enabled = True
         ComboBox2.Enabled = True
         ComboBox1.Items.Clear()
@@ -260,6 +267,12 @@ Public Class Form5
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Button5.Enabled = True
         Button2.Enabled = False
+        TextBox1.Enabled = True
+        TextBox2.Enabled = True
+        TextBox3.Enabled = True
+        TextBox1.Text = ""
+        TextBox2.Text = ""
+        TextBox3.Text = ""
         ComboBox5.SelectedIndex = -1
         ComboBox6.SelectedIndex = -1
         ComboBox7.SelectedIndex = -1
@@ -286,21 +299,74 @@ Public Class Form5
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        If Button3.Enabled = True Then
+            MsgBox("Please open a Comm Port", MsgBoxStyle.Information, "Error")
+            Exit Sub
+        End If
         Try
-            If Button3.Enabled = True Then
-                MsgBox("Please open a Comm Port", MsgBoxStyle.Information, "Error")
-            Else
-                Button5.Enabled = False
-                Button2.Enabled = True
-                SerialPort1.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
-                RichTextBox1.Text &= SerialPort1.ReadExisting()
-            End If
+            test = CInt(TextBox1.Text)
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
-            ComboBox1.Items.Clear()
-            myPort = IO.Ports.SerialPort.GetPortNames()
-            ComboBox1.Items.AddRange(myPort)
+            MsgBox("Please enter an integer between 0-4 as RFFE Bus value. (Use 3 for external tuner)", MsgBoxStyle.Information, "Error")
+            Exit Sub
         End Try
+        Try
+            test = CInt(TextBox2.Text)
+        Catch ex As Exception
+            MsgBox("Please enter an integer between 0-15 as Slave ID value. (LM8335 slave ID is 1)", MsgBoxStyle.Information, "Error")
+            Exit Sub
+        End Try
+        Try
+            test = CInt(TextBox3.Text)
+        Catch ex As Exception
+            MsgBox("Please enter an integer between 0-31 as MIPI Register value. (Default value is 5)", MsgBoxStyle.Information, "Error")
+            Exit Sub
+        End Try
+        test = CInt(TextBox1.Text)
+        If test > 4 Then
+            MsgBox("RFFE Bus value above 4. Please enter a value between 0-4 (Use 3 for external tuner)", MsgBoxStyle.Information, "Error")
+        Else
+            test = CInt(TextBox2.Text)
+            If test > 15 Then
+                MsgBox("Slave ID value above 15. Please enter a value between 0-15 (LM8335 slave ID is 1)", MsgBoxStyle.Information, "Error")
+            Else
+                test = CInt(TextBox3.Text)
+                If test > 31 Then
+                    MsgBox("MIPI Register value above 31. Please enter a value between 0-31 (Default value is 5)", MsgBoxStyle.Information, "Error")
+                Else
+                    Try
+                        SerialPort1.WriteLine("AT+CFUN=" & TextBox3.Text & vbCrLf)
+                    Catch ex As Exception
+                        MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
+                        SerialPort1.Close()
+                        'SerialPort1.Dispose()
+                        ComboBox1.Enabled = True
+                        ComboBox2.Enabled = True
+                        ComboBox1.Items.Clear()
+                        ComboBox1.SelectedIndex = -1
+                        ComboBox2.SelectedIndex = -1
+                        myPort = IO.Ports.SerialPort.GetPortNames()
+                        ComboBox1.Items.AddRange(myPort)
+                        Button3.Enabled = True
+                        Button4.Enabled = False
+                        Exit Sub
+                    End Try
+                    RichTextBox1.Text &= SerialPort1.ReadExisting()
+                    Button5.Enabled = False
+                    Button2.Enabled = True
+                    TextBox1.Enabled = False
+                    TextBox2.Enabled = False
+                    TextBox3.Enabled = False
+                End If
+            End If
+        End If
     End Sub
 
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        SerialPort1.Write(RichTextBox2.Text & vbCr)
+        RichTextBox1.Text &= SerialPort1.ReadExisting()
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        RichTextBox1.Clear()
+    End Sub
 End Class

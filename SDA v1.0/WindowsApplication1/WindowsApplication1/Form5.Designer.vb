@@ -54,8 +54,12 @@ Partial Class Form5
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.RichTextBox2 = New System.Windows.Forms.RichTextBox()
-        Me.RichTextBox3 = New System.Windows.Forms.RichTextBox()
-        Me.RichTextBox4 = New System.Windows.Forms.RichTextBox()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.Button6 = New System.Windows.Forms.Button()
+        Me.Button7 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'SerialPort1
@@ -63,11 +67,11 @@ Partial Class Form5
         '
         'Button5
         '
-        Me.Button5.Location = New System.Drawing.Point(537, 142)
+        Me.Button5.Location = New System.Drawing.Point(378, 188)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(119, 38)
         Me.Button5.TabIndex = 68
-        Me.Button5.Text = "Set Comm"
+        Me.Button5.Text = "Initialise"
         Me.Button5.UseVisualStyleBackColor = True
         '
         'ComboBox5
@@ -126,17 +130,20 @@ Partial Class Form5
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(535, 296)
+        Me.Label14.Location = New System.Drawing.Point(534, 369)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(77, 13)
+        Me.Label14.Size = New System.Drawing.Size(112, 13)
         Me.Label14.TabIndex = 60
-        Me.Label14.Text = "Command Line"
+        Me.Label14.Text = "Output Command Line"
         '
         'RichTextBox1
         '
-        Me.RichTextBox1.Location = New System.Drawing.Point(537, 335)
+        Me.RichTextBox1.BackColor = System.Drawing.SystemColors.InfoText
+        Me.RichTextBox1.Font = New System.Drawing.Font("Consolas", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RichTextBox1.ForeColor = System.Drawing.SystemColors.Window
+        Me.RichTextBox1.Location = New System.Drawing.Point(537, 395)
         Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.Size = New System.Drawing.Size(287, 250)
+        Me.RichTextBox1.Size = New System.Drawing.Size(287, 129)
         Me.RichTextBox1.TabIndex = 59
         Me.RichTextBox1.Text = ""
         '
@@ -155,7 +162,7 @@ Partial Class Form5
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(119, 38)
         Me.Button1.TabIndex = 57
-        Me.Button1.Text = "Reset"
+        Me.Button1.Text = "Reset to Default"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'Label10
@@ -163,18 +170,18 @@ Partial Class Form5
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(91, 201)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(51, 13)
+        Me.Label10.Size = New System.Drawing.Size(81, 13)
         Me.Label10.TabIndex = 51
-        Me.Label10.Text = "Slave ID:"
+        Me.Label10.Text = "Slave ID (0-15):"
         '
         'Label9
         '
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(91, 247)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(74, 13)
+        Me.Label9.Size = New System.Drawing.Size(104, 13)
         Me.Label9.TabIndex = 49
-        Me.Label9.Text = "MIPI Register:"
+        Me.Label9.Text = "MIPI Register (0-31):"
         '
         'ComboBox9
         '
@@ -305,33 +312,68 @@ Partial Class Form5
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(91, 155)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(58, 13)
+        Me.Label11.Size = New System.Drawing.Size(82, 13)
         Me.Label11.TabIndex = 69
-        Me.Label11.Text = "RFFE Bus:"
+        Me.Label11.Text = "RFFE Bus (0-4):"
         '
         'RichTextBox2
         '
-        Me.RichTextBox2.Location = New System.Drawing.Point(238, 159)
+        Me.RichTextBox2.BackColor = System.Drawing.SystemColors.InfoText
+        Me.RichTextBox2.Font = New System.Drawing.Font("Consolas", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RichTextBox2.ForeColor = System.Drawing.SystemColors.Window
+        Me.RichTextBox2.Location = New System.Drawing.Point(537, 152)
         Me.RichTextBox2.Name = "RichTextBox2"
-        Me.RichTextBox2.Size = New System.Drawing.Size(88, 21)
-        Me.RichTextBox2.TabIndex = 70
+        Me.RichTextBox2.Size = New System.Drawing.Size(287, 129)
+        Me.RichTextBox2.TabIndex = 73
         Me.RichTextBox2.Text = ""
         '
-        'RichTextBox3
+        'Label12
         '
-        Me.RichTextBox3.Location = New System.Drawing.Point(238, 201)
-        Me.RichTextBox3.Name = "RichTextBox3"
-        Me.RichTextBox3.Size = New System.Drawing.Size(88, 21)
-        Me.RichTextBox3.TabIndex = 71
-        Me.RichTextBox3.Text = ""
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(534, 127)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(104, 13)
+        Me.Label12.TabIndex = 74
+        Me.Label12.Text = "Input Command Line"
         '
-        'RichTextBox4
+        'TextBox1
         '
-        Me.RichTextBox4.Location = New System.Drawing.Point(238, 239)
-        Me.RichTextBox4.Name = "RichTextBox4"
-        Me.RichTextBox4.Size = New System.Drawing.Size(88, 21)
-        Me.RichTextBox4.TabIndex = 72
-        Me.RichTextBox4.Text = ""
+        Me.TextBox1.Location = New System.Drawing.Point(238, 152)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(105, 20)
+        Me.TextBox1.TabIndex = 75
+        '
+        'TextBox2
+        '
+        Me.TextBox2.Location = New System.Drawing.Point(238, 198)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(105, 20)
+        Me.TextBox2.TabIndex = 76
+        '
+        'TextBox3
+        '
+        Me.TextBox3.Location = New System.Drawing.Point(238, 240)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(105, 20)
+        Me.TextBox3.TabIndex = 77
+        '
+        'Button6
+        '
+        Me.Button6.Location = New System.Drawing.Point(537, 305)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(119, 38)
+        Me.Button6.TabIndex = 78
+        Me.Button6.Text = "Send"
+        Me.Button6.UseVisualStyleBackColor = True
+        '
+        'Button7
+        '
+        Me.Button7.Location = New System.Drawing.Point(537, 547)
+        Me.Button7.Name = "Button7"
+        Me.Button7.Size = New System.Drawing.Size(119, 38)
+        Me.Button7.TabIndex = 79
+        Me.Button7.Text = "Clear Screen"
+        Me.Button7.UseVisualStyleBackColor = True
         '
         'Form5
         '
@@ -339,8 +381,12 @@ Partial Class Form5
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(956, 632)
-        Me.Controls.Add(Me.RichTextBox4)
-        Me.Controls.Add(Me.RichTextBox3)
+        Me.Controls.Add(Me.Button7)
+        Me.Controls.Add(Me.Button6)
+        Me.Controls.Add(Me.TextBox3)
+        Me.Controls.Add(Me.TextBox2)
+        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.RichTextBox2)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Button5)
@@ -410,6 +456,10 @@ Partial Class Form5
     Friend WithEvents Label1 As Label
     Friend WithEvents Label11 As Label
     Friend WithEvents RichTextBox2 As RichTextBox
-    Friend WithEvents RichTextBox3 As RichTextBox
-    Friend WithEvents RichTextBox4 As RichTextBox
+    Friend WithEvents Label12 As Label
+    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents TextBox3 As TextBox
+    Private WithEvents Button6 As Button
+    Private WithEvents Button7 As Button
 End Class
