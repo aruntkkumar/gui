@@ -97,7 +97,7 @@ Partial Class Form3
         Me.MaximizeBox = False
         Me.Name = "Form3"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Developer Login Form"
+        Me.Text = "Engineering Login Form"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

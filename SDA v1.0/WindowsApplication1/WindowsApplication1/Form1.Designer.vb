@@ -79,7 +79,7 @@ Partial Class Form1
         Me.button3.Name = "button3"
         Me.button3.Size = New System.Drawing.Size(119, 38)
         Me.button3.TabIndex = 9
-        Me.button3.Text = "Developer"
+        Me.button3.Text = "Engineering"
         Me.button3.UseVisualStyleBackColor = True
         '
         'button2

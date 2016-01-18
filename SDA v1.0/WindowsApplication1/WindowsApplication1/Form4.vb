@@ -2,6 +2,9 @@
 Imports System.Threading
 Imports System.IO.Ports
 Imports System.ComponentModel
+Imports Microsoft.VisualBasic
+Imports System.Security.Permissions
+Imports Microsoft.Win32
 
 Public Class Form4
 
@@ -23,6 +26,8 @@ Public Class Form4
         ComboBox1.Items.AddRange(myPort)
         Button2.Enabled = False
         Button4.Enabled = False
+        RichTextBox1.ReadOnly = True
+        FullScreenToolStripMenuItem.Checked = False
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -346,4 +351,22 @@ Public Class Form4
         End Try
     End Sub
 
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        RichTextBox1.Clear()
+    End Sub
+
+    Private Sub FullScreenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FullScreenToolStripMenuItem.Click
+        If FullScreenToolStripMenuItem.Checked = False Then
+            FullScreenToolStripMenuItem.Checked = True
+            Me.WindowState = FormWindowState.Maximized
+        Else
+            FullScreenToolStripMenuItem.Checked = False
+            Me.WindowState = FormWindowState.Normal
+        End If
+    End Sub
+
+    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
+        SerialPort1.Close()
+        Me.Close()
+    End Sub
 End Class

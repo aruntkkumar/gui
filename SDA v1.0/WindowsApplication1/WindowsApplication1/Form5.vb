@@ -25,6 +25,7 @@ Public Class Form5
         Button2.Enabled = False
         Button4.Enabled = False
         Button6.Enabled = False
+        RichTextBox1.ReadOnly = True
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
