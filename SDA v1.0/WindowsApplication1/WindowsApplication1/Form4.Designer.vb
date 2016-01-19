@@ -71,6 +71,13 @@ Partial Class Form4
         Me.FullScreenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MyDevicesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SCOUTSC4410ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SierraWirelessToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PINGPIOToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DisableToolbarsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CommPortSelectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.VIOSelectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Button6 = New System.Windows.Forms.Button()
@@ -112,6 +119,7 @@ Partial Class Form4
         '
         'ComboBox2
         '
+        Me.ComboBox2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.Items.AddRange(New Object() {"256000", "128000", "115200", "57600", "38400", "28800", "19200", "14400", "9600", "4800", "2400", "1200", "600"})
@@ -123,6 +131,7 @@ Partial Class Form4
         '
         'Label4
         '
+        Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(91, 109)
         Me.Label4.Name = "Label4"
@@ -132,6 +141,7 @@ Partial Class Form4
         '
         'Label5
         '
+        Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(91, 339)
         Me.Label5.Name = "Label5"
@@ -141,6 +151,7 @@ Partial Class Form4
         '
         'ComboBox6
         '
+        Me.ComboBox6.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox6.FormattingEnabled = True
         Me.ComboBox6.Items.AddRange(New Object() {"IDLE mode", "TX ON", "RX ON", "TX and RX ON"})
@@ -151,6 +162,7 @@ Partial Class Form4
         '
         'Label6
         '
+        Me.Label6.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(91, 385)
         Me.Label6.Name = "Label6"
@@ -160,6 +172,7 @@ Partial Class Form4
         '
         'ComboBox7
         '
+        Me.ComboBox7.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox7.FormattingEnabled = True
         Me.ComboBox7.Items.AddRange(New Object() {"Band 1: 1920-1980 MHz TX, 2110-2170 MHz RX", "Band 2: 1850-1910 MHz TX, 1930-1990 MHz RX", "Band 3: 1710-1785 MHz TX, 1805-1880 MHz RX", "Band 4: 1710-1785 MHz TX, 2110-2155 MHz RX", "Band 5: 824-849 MHz TX, 869-894 MHz RX", "Band 7: 2500-2570 MHz TX, 2620-2690 MHz RX", "Band 8: 880-915 MHz TX, 925-960 MHz RX", "Band 12: 699-716 MHz TX, 729-746 MHz RX", "Band 13: 777-787 MHz TX, 746-756 MHz RX", "Band 20: 832-862 MHz TX, 791-821 MHz RX", "Band 25: 1850-1915 MHz TX, 1930-1995 MHz RX", "Band 26: 814-849 MHz TX, 859-894 MHz RX", "Band 29: 717-728 MHz RX", "Band 30: 2305-2315 MHz TX, 2350-2360 MHz RX", "Band 41: 2496-2690 MHz TDD"})
@@ -170,6 +183,7 @@ Partial Class Form4
         '
         'Label7
         '
+        Me.Label7.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(91, 431)
         Me.Label7.Name = "Label7"
@@ -179,6 +193,7 @@ Partial Class Form4
         '
         'ComboBox8
         '
+        Me.ComboBox8.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox8.FormattingEnabled = True
         Me.ComboBox8.Items.AddRange(New Object() {"None selected", "Band 1+8: 2110-2170 MHz RX, 925-960 MHz RX", "Band 2+5: 1930-1990 MHz RX, 869-894 MHz RX", "Band 2+12: 1930-1990 MHz RX, 729-746 MHz RX", "Band 2+13: 1930-1990 MHz RX, 746-756 MHz RX", "Band 2+29: 1930-1990 MHz RX, 717-728 MHz RX", "Band 3+7: 1805-1880 MHz RX, 2620-2690 MHz RX", "Band 3+20: 1805-1880 MHz RX, 791-821 MHz RX", "Band 4+5: 2110-2155 MHz RX, 869-894 MHz RX", "Band 4+12: 2110-2155 MHz RX, 729-746 MHz RX", "Band 4+13: 2110-2155 MHz RX, 746-756 MHz RX", "Band 4+29: 2110-2155 MHz RX, 717-728 MHz RX", "Band 5+30: 869-894 MHz RX, 2350-2360 MHz RX", "Band 7+20: 2620-2690 MHz RX, 791-821 MHz RX", "Band 12+30: 729-746 MHz RX, 2350-2360 MHz RX", "Band 41+41: 2496-2690 MHz RX"})
@@ -189,6 +204,7 @@ Partial Class Form4
         '
         'Label8
         '
+        Me.Label8.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(91, 477)
         Me.Label8.Name = "Label8"
@@ -198,6 +214,7 @@ Partial Class Form4
         '
         'ComboBox9
         '
+        Me.ComboBox9.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox9.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox9.FormattingEnabled = True
         Me.ComboBox9.Items.AddRange(New Object() {"Low power (below 5 dBm)", "Low to medium power (5 to 15 dBm)", "Medium to high power (15 to 20 dBm)", "High power (20 to 30 dBm)"})
@@ -208,6 +225,7 @@ Partial Class Form4
         '
         'Label9
         '
+        Me.Label9.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(91, 247)
         Me.Label9.Name = "Label9"
@@ -217,6 +235,7 @@ Partial Class Form4
         '
         'ComboBox4
         '
+        Me.ComboBox4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox4.FormattingEnabled = True
         Me.ComboBox4.Items.AddRange(New Object() {"OFF/External", "1.2", "1.8"})
@@ -227,6 +246,7 @@ Partial Class Form4
         '
         'Label10
         '
+        Me.Label10.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(91, 201)
         Me.Label10.Name = "Label10"
@@ -236,6 +256,7 @@ Partial Class Form4
         '
         'Label11
         '
+        Me.Label11.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(91, 155)
         Me.Label11.Name = "Label11"
@@ -245,6 +266,7 @@ Partial Class Form4
         '
         'Label12
         '
+        Me.Label12.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(249, 155)
         Me.Label12.Name = "Label12"
@@ -254,6 +276,7 @@ Partial Class Form4
         '
         'Label13
         '
+        Me.Label13.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(308, 155)
         Me.Label13.Name = "Label13"
@@ -263,6 +286,7 @@ Partial Class Form4
         '
         'RadioButton1
         '
+        Me.RadioButton1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton1.AutoSize = True
         Me.RadioButton1.Location = New System.Drawing.Point(288, 155)
         Me.RadioButton1.Name = "RadioButton1"
@@ -273,6 +297,7 @@ Partial Class Form4
         '
         'RadioButton2
         '
+        Me.RadioButton2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton2.AutoSize = True
         Me.RadioButton2.Location = New System.Drawing.Point(348, 155)
         Me.RadioButton2.Name = "RadioButton2"
@@ -283,6 +308,7 @@ Partial Class Form4
         '
         'Button1
         '
+        Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button1.Location = New System.Drawing.Point(89, 547)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(119, 38)
@@ -292,6 +318,7 @@ Partial Class Form4
         '
         'Button2
         '
+        Me.Button2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button2.Location = New System.Drawing.Point(259, 547)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(119, 38)
@@ -301,6 +328,7 @@ Partial Class Form4
         '
         'RichTextBox1
         '
+        Me.RichTextBox1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RichTextBox1.BackColor = System.Drawing.SystemColors.InfoText
         Me.RichTextBox1.Font = New System.Drawing.Font("Consolas", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RichTextBox1.ForeColor = System.Drawing.SystemColors.Window
@@ -312,6 +340,7 @@ Partial Class Form4
         '
         'Label14
         '
+        Me.Label14.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(535, 214)
         Me.Label14.Name = "Label14"
@@ -321,6 +350,7 @@ Partial Class Form4
         '
         'Label15
         '
+        Me.Label15.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(91, 63)
         Me.Label15.Name = "Label15"
@@ -330,6 +360,7 @@ Partial Class Form4
         '
         'ComboBox1
         '
+        Me.ComboBox1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Location = New System.Drawing.Point(238, 59)
@@ -339,6 +370,7 @@ Partial Class Form4
         '
         'Button3
         '
+        Me.Button3.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button3.Location = New System.Drawing.Point(537, 46)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(119, 38)
@@ -348,6 +380,7 @@ Partial Class Form4
         '
         'Button4
         '
+        Me.Button4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button4.Location = New System.Drawing.Point(704, 46)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(119, 38)
@@ -360,6 +393,7 @@ Partial Class Form4
         '
         'ComboBox5
         '
+        Me.ComboBox5.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox5.FormattingEnabled = True
         Me.ComboBox5.Items.AddRange(New Object() {"MCM Sleep Mode", "Main Antenna", "Aux Antenna", "Both Antennas"})
@@ -370,6 +404,7 @@ Partial Class Form4
         '
         'Label16
         '
+        Me.Label16.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label16.AutoSize = True
         Me.Label16.Location = New System.Drawing.Point(91, 293)
         Me.Label16.Name = "Label16"
@@ -379,6 +414,7 @@ Partial Class Form4
         '
         'ComboBox3
         '
+        Me.ComboBox3.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox3.FormattingEnabled = True
         Me.ComboBox3.Items.AddRange(New Object() {"1 (ADR = Low)", "9 (ADR = High)"})
@@ -389,6 +425,7 @@ Partial Class Form4
         '
         'Button5
         '
+        Me.Button5.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button5.Location = New System.Drawing.Point(537, 142)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(119, 38)
@@ -456,7 +493,7 @@ Partial Class Form4
         'FullScreenToolStripMenuItem
         '
         Me.FullScreenToolStripMenuItem.Name = "FullScreenToolStripMenuItem"
-        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.FullScreenToolStripMenuItem.Text = "Full Screen"
         '
         'ToolsToolStripMenuItem
@@ -468,9 +505,54 @@ Partial Class Form4
         '
         'OptionsToolStripMenuItem
         '
+        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MyDevicesToolStripMenuItem, Me.DisableToolbarsToolStripMenuItem})
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
+        '
+        'MyDevicesToolStripMenuItem
+        '
+        Me.MyDevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SCOUTSC4410ToolStripMenuItem, Me.SierraWirelessToolStripMenuItem, Me.PINGPIOToolStripMenuItem})
+        Me.MyDevicesToolStripMenuItem.Name = "MyDevicesToolStripMenuItem"
+        Me.MyDevicesToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.MyDevicesToolStripMenuItem.Text = "My Devices"
+        '
+        'SCOUTSC4410ToolStripMenuItem
+        '
+        Me.SCOUTSC4410ToolStripMenuItem.Name = "SCOUTSC4410ToolStripMenuItem"
+        Me.SCOUTSC4410ToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.SCOUTSC4410ToolStripMenuItem.Text = "SCOUT SC4410"
+        '
+        'SierraWirelessToolStripMenuItem
+        '
+        Me.SierraWirelessToolStripMenuItem.Name = "SierraWirelessToolStripMenuItem"
+        Me.SierraWirelessToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.SierraWirelessToolStripMenuItem.Text = "Sierra Wireless"
+        '
+        'PINGPIOToolStripMenuItem
+        '
+        Me.PINGPIOToolStripMenuItem.Name = "PINGPIOToolStripMenuItem"
+        Me.PINGPIOToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.PINGPIOToolStripMenuItem.Text = "8 PIN GPIO"
+        '
+        'DisableToolbarsToolStripMenuItem
+        '
+        Me.DisableToolbarsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CommPortSelectToolStripMenuItem, Me.VIOSelectToolStripMenuItem})
+        Me.DisableToolbarsToolStripMenuItem.Name = "DisableToolbarsToolStripMenuItem"
+        Me.DisableToolbarsToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
+        Me.DisableToolbarsToolStripMenuItem.Text = "Disable Toolbars"
+        '
+        'CommPortSelectToolStripMenuItem
+        '
+        Me.CommPortSelectToolStripMenuItem.Name = "CommPortSelectToolStripMenuItem"
+        Me.CommPortSelectToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.CommPortSelectToolStripMenuItem.Text = "Comm Port Select"
+        '
+        'VIOSelectToolStripMenuItem
+        '
+        Me.VIOSelectToolStripMenuItem.Name = "VIOSelectToolStripMenuItem"
+        Me.VIOSelectToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.VIOSelectToolStripMenuItem.Text = "VIO Select"
         '
         'HelpToolStripMenuItem
         '
@@ -482,11 +564,12 @@ Partial Class Form4
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.AboutToolStripMenuItem.Text = "About"
         '
         'Button6
         '
+        Me.Button6.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button6.Location = New System.Drawing.Point(538, 547)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(119, 38)
@@ -538,7 +621,6 @@ Partial Class Form4
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.MaximizeBox = False
         Me.Name = "Form4"
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -577,7 +659,6 @@ Partial Class Form4
     Friend WithEvents RichTextBox1 As RichTextBox
     Friend WithEvents Label14 As Label
     Friend WithEvents Label15 As Label
-    Friend WithEvents ComboBox1 As ComboBox
     Private WithEvents Button3 As Button
     Private WithEvents Button4 As Button
     Friend WithEvents SerialPort1 As IO.Ports.SerialPort
@@ -597,7 +678,15 @@ Partial Class Form4
     Friend WithEvents ViewToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents FullScreenToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolsToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents OptionsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HelpToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AboutToolStripMenuItem As ToolStripMenuItem
+    Public WithEvents ComboBox1 As ComboBox
+    Friend WithEvents OptionsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MyDevicesToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DisableToolbarsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SCOUTSC4410ToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SierraWirelessToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PINGPIOToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CommPortSelectToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents VIOSelectToolStripMenuItem As ToolStripMenuItem
 End Class

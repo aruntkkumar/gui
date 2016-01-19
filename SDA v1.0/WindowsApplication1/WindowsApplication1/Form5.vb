@@ -370,4 +370,10 @@ Public Class Form5
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         RichTextBox1.Clear()
     End Sub
+
+    Private Sub Form5_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If SerialPort1.IsOpen() Then
+            SerialPort1.Close()
+        End If
+    End Sub
 End Class

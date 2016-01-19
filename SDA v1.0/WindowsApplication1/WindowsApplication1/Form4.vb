@@ -1,19 +1,19 @@
-﻿Imports System
-Imports System.Threading
-Imports System.IO.Ports
-Imports System.ComponentModel
-Imports Microsoft.VisualBasic
-Imports System.Security.Permissions
+﻿Imports System.IO.Ports
 Imports Microsoft.Win32
 
 Public Class Form4
 
+    Public Shared device As Integer = 0
     Dim Line As String
     Dim myPort As Array
     Dim vio As Integer
     Dim byte1 As Integer
     Dim bandsel As Integer
     Dim cabandsel As Integer
+    Dim Reg1 As RegistryKey
+    Dim Reg2 As RegistryKey
+    Dim portname As String
+    Dim readValue As String
     Delegate Sub SetTextCallBack(ByVal [text] As String)
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
@@ -27,7 +27,46 @@ Public Class Form4
         Button2.Enabled = False
         Button4.Enabled = False
         RichTextBox1.ReadOnly = True
-        FullScreenToolStripMenuItem.Checked = False
+        SCOUTSC4410ToolStripMenuItem.Enabled = False
+        SierraWirelessToolStripMenuItem.Enabled = False
+        PINGPIOToolStripMenuItem.Enabled = False
+        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing)
+        For Each Str As String In myPort
+            If Str.Contains(readValue) Then
+                SierraWirelessToolStripMenuItem.Enabled = Enabled
+                device = 2
+            End If
+        Next
+        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
+        For Each Str As String In myPort
+            If Str.Contains(readValue) Then
+                SierraWirelessToolStripMenuItem.Enabled = Enabled
+                device = 2
+            End If
+        Next
+
+        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&1\Device Parameters", "PortName", Nothing)
+        For Each Str As String In myPort
+            If Str.Contains(readValue) Then
+                SCOUTSC4410ToolStripMenuItem.Enabled = True
+                device = 1
+            End If
+        Next
+        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&2\Device Parameters", "PortName", Nothing)
+        For Each Str As String In myPort
+            If Str.Contains(readValue) Then
+                SCOUTSC4410ToolStripMenuItem.Enabled = True
+                device = 1
+            End If
+        Next
+        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\6&2a9e2b2e&0&3\Device Parameters", "PortName", Nothing)
+        For Each Str As String In myPort
+            If Str.Contains(readValue) Then
+                SCOUTSC4410ToolStripMenuItem.Enabled = True
+                device = 1
+            End If
+        Next
+
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -268,6 +307,9 @@ Public Class Form4
         ComboBox1.Items.Clear()
         myPort = IO.Ports.SerialPort.GetPortNames()
         ComboBox1.Items.AddRange(myPort)
+        SCOUTSC4410ToolStripMenuItem.Checked = False
+        SierraWirelessToolStripMenuItem.Checked = False
+        PINGPIOToolStripMenuItem.Checked = False
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -356,17 +398,176 @@ Public Class Form4
     End Sub
 
     Private Sub FullScreenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FullScreenToolStripMenuItem.Click
-        If FullScreenToolStripMenuItem.Checked = False Then
-            FullScreenToolStripMenuItem.Checked = True
-            Me.WindowState = FormWindowState.Maximized
-        Else
-            FullScreenToolStripMenuItem.Checked = False
+        If Me.WindowState = FormWindowState.Maximized Then
             Me.WindowState = FormWindowState.Normal
+        Else
+            Me.WindowState = FormWindowState.Maximized
         End If
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
-        SerialPort1.Close()
+        If SerialPort1.IsOpen() Then
+            SerialPort1.Close()
+        End If
         Me.Close()
     End Sub
+
+    Private Sub MyDevicesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MyDevicesToolStripMenuItem.Click
+        Form6.ShowDialog()
+        If device = 1 Then
+            RichTextBox1.Text &= "Active device selected as SCOUT SC4410" & vbCrLf
+            If device = 2 Then
+                RichTextBox1.Text &= "Active device selected as SIERRA WIRELESS" & vbCrLf
+            End If
+        End If
+        'Dim readValue As String = ""
+        'readValue = Reg2.GetValue("PortName")
+        'If My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing) Is Nothing Then
+        'MsgBox("Value does not exist.")
+        'Else
+        'If My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing) Is Nothing Then
+        'MsgBox("Value does not exist.")
+        'Else
+        'End If
+        'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
+        'MsgBox("The value is " & readValue)
+        'End If
+        'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
+        'MsgBox("The value is " & readValue)
+    End Sub
+
+    Private Sub SCOUTSC4410ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SCOUTSC4410ToolStripMenuItem.Click
+        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&1\Device Parameters", "PortName", Nothing)
+        For Each Str As String In myPort
+            If Str.Contains(readValue) Then
+                ScoutON(readValue)
+            End If
+        Next
+        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&2\Device Parameters", "PortName", Nothing)
+        For Each Str As String In myPort
+            If Str.Contains(readValue) Then
+                ScoutON(readValue)
+            End If
+        Next
+        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\6&2a9e2b2e&0&3\Device Parameters", "PortName", Nothing)
+        For Each Str As String In myPort
+            If Str.Contains(readValue) Then
+                ScoutON(readValue)
+            End If
+        Next
+    End Sub
+
+    Function ScoutON(ByVal readvalue1 As String)
+        SerialPort1.Close()
+        SCOUTSC4410ToolStripMenuItem.Checked = True
+        SierraWirelessToolStripMenuItem.Checked = False
+        PINGPIOToolStripMenuItem.Checked = False
+        SerialPort1.PortName = readvalue1
+        SerialPort1.BaudRate = 115200
+        SerialPort1.Parity = Parity.None
+        SerialPort1.DataBits = 8
+        SerialPort1.StopBits = StopBits.One
+        SerialPort1.Open()
+        Button3.Enabled = False
+        Button4.Enabled = True
+        Button5.Enabled = True
+        ComboBox1.Enabled = False
+        ComboBox2.Enabled = False
+        ComboBox3.Enabled = True
+        ComboBox4.Enabled = True
+        Return 0
+    End Function
+
+    Private Sub SierraWirelessToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SierraWirelessToolStripMenuItem.Click
+        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing)
+        For Each Str As String In myPort
+            If Str.Contains(readValue) Then
+                SierraON(readValue)
+            End If
+        Next
+        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
+        For Each Str As String In myPort
+            If Str.Contains(readValue) Then
+                SierraON(readValue)
+            End If
+        Next
+    End Sub
+
+    Function SierraON(ByVal readvalue1 As String)
+        SerialPort1.Close()
+        SCOUTSC4410ToolStripMenuItem.Checked = False
+        SierraWirelessToolStripMenuItem.Checked = True
+        PINGPIOToolStripMenuItem.Checked = False
+        SerialPort1.PortName = readvalue1
+        SerialPort1.BaudRate = 115200
+        SerialPort1.Parity = Parity.None
+        SerialPort1.DataBits = 8
+        SerialPort1.StopBits = StopBits.One
+        SerialPort1.Open()
+        Button3.Enabled = False
+        Button4.Enabled = True
+        Button5.Enabled = True
+        ComboBox1.Enabled = False
+        ComboBox2.Enabled = False
+        ComboBox3.Enabled = True
+        ComboBox4.Enabled = True
+        Return 0
+    End Function
+
+    Private Sub CommPortSelectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CommPortSelectToolStripMenuItem.Click
+        If CommPortSelectToolStripMenuItem.Checked = False Then
+            CommPortSelectToolStripMenuItem.Checked = True
+            Label15.Visible = False
+            Label4.Visible = False
+            ComboBox1.Visible = False
+            ComboBox2.Visible = False
+            Button3.Visible = False
+            Button4.Visible = False
+        Else
+            CommPortSelectToolStripMenuItem.Checked = False
+            Label15.Visible = True
+            Label4.Visible = True
+            ComboBox1.Visible = True
+            ComboBox2.Visible = True
+            Button3.Visible = True
+            Button4.Visible = True
+        End If
+    End Sub
+
+    Private Sub VIOSelectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VIOSelectToolStripMenuItem.Click
+        If VIOSelectToolStripMenuItem.Checked = False Then
+            VIOSelectToolStripMenuItem.Checked = True
+            Label9.Visible = False
+            Label10.Visible = False
+            Label11.Visible = False
+            Label12.Visible = False
+            Label13.Visible = False
+            RadioButton1.Visible = False
+            RadioButton2.Visible = False
+            Button1.Visible = False
+            Button5.Visible = False
+            ComboBox3.Visible = False
+            ComboBox4.Visible = False
+        Else
+            VIOSelectToolStripMenuItem.Checked = False
+            Label9.Visible = True
+            Label10.Visible = True
+            Label11.Visible = True
+            Label12.Visible = True
+            Label13.Visible = True
+            RadioButton1.Visible = True
+            RadioButton2.Visible = True
+            Button1.Visible = True
+            Button5.Visible = True
+            ComboBox3.Visible = True
+            ComboBox4.Visible = True
+        End If
+    End Sub
+
+    Private Sub Form4_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If SerialPort1.IsOpen() Then
+            SerialPort1.Close()
+        End If
+    End Sub
+
 End Class
