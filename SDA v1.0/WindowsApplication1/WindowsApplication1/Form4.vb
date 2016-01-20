@@ -4,6 +4,7 @@ Imports Microsoft.Win32
 Public Class Form4
 
     Public Shared device As Integer = 0
+    Public Shared pword As Integer = 0
     Dim Line As String
     Dim myPort As Array
     Dim vio As Integer
@@ -14,6 +15,9 @@ Public Class Form4
     Dim Reg2 As RegistryKey
     Dim portname As String
     Dim readValue As String
+    Dim fullscreen As Boolean = False
+    Dim intX As Integer = Screen.PrimaryScreen.Bounds.Width
+    Dim intY As Integer = Screen.PrimaryScreen.Bounds.Height
     Delegate Sub SetTextCallBack(ByVal [text] As String)
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
@@ -30,18 +34,20 @@ Public Class Form4
         SCOUTSC4410ToolStripMenuItem.Enabled = False
         SierraWirelessToolStripMenuItem.Enabled = False
         PINGPIOToolStripMenuItem.Enabled = False
+        OptionsToolStripMenuItem.Enabled = False
+        NewToolStripMenuItem.Enabled = False
+        OpenToolStripMenuItem.Enabled = False
+        SaveToolStripMenuItem.Enabled = False
         readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing)
         For Each Str As String In myPort
             If Str.Contains(readValue) Then
                 SierraWirelessToolStripMenuItem.Enabled = Enabled
-                device = 2
             End If
         Next
         readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
         For Each Str As String In myPort
             If Str.Contains(readValue) Then
                 SierraWirelessToolStripMenuItem.Enabled = Enabled
-                device = 2
             End If
         Next
 
@@ -49,24 +55,20 @@ Public Class Form4
         For Each Str As String In myPort
             If Str.Contains(readValue) Then
                 SCOUTSC4410ToolStripMenuItem.Enabled = True
-                device = 1
             End If
         Next
         readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&2\Device Parameters", "PortName", Nothing)
         For Each Str As String In myPort
             If Str.Contains(readValue) Then
                 SCOUTSC4410ToolStripMenuItem.Enabled = True
-                device = 1
             End If
         Next
         readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\6&2a9e2b2e&0&3\Device Parameters", "PortName", Nothing)
         For Each Str As String In myPort
             If Str.Contains(readValue) Then
                 SCOUTSC4410ToolStripMenuItem.Enabled = True
-                device = 1
             End If
         Next
-
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -93,6 +95,7 @@ Public Class Form4
                     ComboBox4.Enabled = True
                     RadioButton1.Enabled = True
                     RadioButton2.Enabled = True
+                    RichTextBox1.Text &= "Port Name: " & ComboBox1.Text & "; Baud Rate: " & ComboBox2.Text & vbCrLf & vbCrLf
                 End If
             End If
         Catch ex As Exception
@@ -310,6 +313,7 @@ Public Class Form4
         SCOUTSC4410ToolStripMenuItem.Checked = False
         SierraWirelessToolStripMenuItem.Checked = False
         PINGPIOToolStripMenuItem.Checked = False
+        RichTextBox1.Text &= "The active device has been disconnected" & vbCrLf & vbCrLf
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -398,10 +402,170 @@ Public Class Form4
     End Sub
 
     Private Sub FullScreenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FullScreenToolStripMenuItem.Click
-        If Me.WindowState = FormWindowState.Maximized Then
-            Me.WindowState = FormWindowState.Normal
-        Else
+        If Me.WindowState = FormWindowState.Normal Then
             Me.WindowState = FormWindowState.Maximized
+            FullScreenToolStripMenuItem.Checked = True
+            Label15.Location = New Point(x:=(intX / 8), y:=(intY / 14))
+            Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2 / 14))
+            Label11.Location = New Point(x:=(intX / 8), y:=(intY * 3 / 14))
+            Label10.Location = New Point(x:=(intX / 8), y:=(intY * 4 / 14))
+            Label9.Location = New Point(x:=(intX / 8), y:=(intY * 5 / 14))
+            Label16.Location = New Point(x:=(intX / 8), y:=(intY * 6 / 14))
+            Label5.Location = New Point(x:=(intX / 8), y:=(intY * 7 / 14))
+            Label6.Location = New Point(x:=(intX / 8), y:=(intY * 8 / 14))
+            Label7.Location = New Point(x:=(intX / 8), y:=(intY * 9 / 14))
+            Label8.Location = New Point(x:=(intX / 8), y:=(intY * 10 / 14))
+            Button1.Location = New Point(x:=(intX / 8), y:=(intY * 11 / 14))
+            Button2.Location = New Point(x:=(intX / 4), y:=(intY * 11 / 14))
+
+            ComboBox1.Location = New Point(x:=(intX / 4), y:=(intY * 1 / 14))
+            ComboBox2.Location = New Point(x:=(intX / 4), y:=(intY * 2 / 14))
+
+            Label12.Location = New Point(x:=(intX / 3.8), y:=(intY * 3 / 14))
+            Label13.Location = New Point(x:=(intX / 3), y:=(intY * 3 / 14))
+            RadioButton1.Location = New Point(x:=(intX / 3.5), y:=(intY * 3 / 14))
+            RadioButton2.Location = New Point(x:=(intX / 2.8), y:=(intY * 3 / 14))
+
+            ComboBox3.Location = New Point(x:=(intX / 4), y:=(intY * 4 / 14))
+            ComboBox4.Location = New Point(x:=(intX / 4), y:=(intY * 5 / 14))
+            ComboBox5.Location = New Point(x:=(intX / 4), y:=(intY * 6 / 14))
+            ComboBox6.Location = New Point(x:=(intX / 4), y:=(intY * 7 / 14))
+            ComboBox7.Location = New Point(x:=(intX / 4), y:=(intY * 8 / 14))
+            ComboBox8.Location = New Point(x:=(intX / 4), y:=(intY * 9 / 14))
+            ComboBox9.Location = New Point(x:=(intX / 4), y:=(intY * 10 / 14))
+
+            Button3.Location = New Point(x:=(intX / 1.9), y:=(intY * 1 / 14))
+            Button4.Location = New Point(x:=(intX / 1.29), y:=(intY * 1 / 14))
+            Button5.Location = New Point(x:=(intX / 1.9), y:=(intY * 4 / 14))
+            Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 5.4 / 14))
+            RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 6 / 14))
+            RichTextBox1.Size = New Size(width:=(intX / 3), height:=(intY / 4))
+            Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 14))
+
+            fullscreen = True
+        Else
+            Me.WindowState = FormWindowState.Normal
+            FullScreenToolStripMenuItem.Checked = False
+            Label15.Location = New Point(x:=91, y:=63)
+            Label4.Location = New Point(x:=91, y:=109)
+            Label11.Location = New Point(x:=91, y:=155)
+            Label10.Location = New Point(x:=91, y:=201)
+            Label9.Location = New Point(x:=91, y:=247)
+            Label16.Location = New Point(x:=91, y:=293)
+            Label5.Location = New Point(x:=91, y:=339)
+            Label6.Location = New Point(x:=91, y:=385)
+            Label7.Location = New Point(x:=91, y:=431)
+            Label8.Location = New Point(x:=91, y:=477)
+            Button1.Location = New Point(x:=89, y:=547)
+            Button2.Location = New Point(x:=259, y:=547)
+
+            ComboBox1.Location = New Point(x:=238, y:=59)
+            ComboBox2.Location = New Point(x:=238, y:=104)
+
+            Label12.Location = New Point(x:=249, y:=155)
+            Label13.Location = New Point(x:=308, y:=155)
+            RadioButton1.Location = New Point(x:=288, y:=155)
+            RadioButton2.Location = New Point(x:=348, y:=155)
+
+            ComboBox3.Location = New Point(x:=238, y:=193)
+            ComboBox4.Location = New Point(x:=238, y:=241)
+            ComboBox5.Location = New Point(x:=238, y:=288)
+            ComboBox6.Location = New Point(x:=238, y:=335)
+            ComboBox7.Location = New Point(x:=238, y:=382)
+            ComboBox8.Location = New Point(x:=238, y:=429)
+            ComboBox9.Location = New Point(x:=238, y:=476)
+
+            Button3.Location = New Point(x:=537, y:=46)
+            Button4.Location = New Point(x:=704, y:=46)
+            Button5.Location = New Point(x:=537, y:=142)
+            Label14.Location = New Point(x:=535, y:=214)
+            RichTextBox1.Location = New Point(x:=537, y:=253)
+            RichTextBox1.Size = New Size(width:=287, height:=250)
+            Button6.Location = New Point(x:=538, y:=547)
+
+            fullscreen = False
+        End If
+    End Sub
+
+    Private Sub Form4_SizeChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.SizeChanged
+        If (fullscreen) Then
+            FullScreenToolStripMenuItem.Checked = False
+            Label15.Location = New Point(x:=91, y:=63)
+            Label4.Location = New Point(x:=91, y:=109)
+            Label11.Location = New Point(x:=91, y:=155)
+            Label10.Location = New Point(x:=91, y:=201)
+            Label9.Location = New Point(x:=91, y:=247)
+            Label16.Location = New Point(x:=91, y:=293)
+            Label5.Location = New Point(x:=91, y:=339)
+            Label6.Location = New Point(x:=91, y:=385)
+            Label7.Location = New Point(x:=91, y:=431)
+            Label8.Location = New Point(x:=91, y:=477)
+            Button1.Location = New Point(x:=89, y:=547)
+            Button2.Location = New Point(x:=259, y:=547)
+
+            ComboBox1.Location = New Point(x:=238, y:=59)
+            ComboBox2.Location = New Point(x:=238, y:=104)
+
+            Label12.Location = New Point(x:=249, y:=155)
+            Label13.Location = New Point(x:=308, y:=155)
+            RadioButton1.Location = New Point(x:=288, y:=155)
+            RadioButton2.Location = New Point(x:=348, y:=155)
+
+            ComboBox3.Location = New Point(x:=238, y:=193)
+            ComboBox4.Location = New Point(x:=238, y:=241)
+            ComboBox5.Location = New Point(x:=238, y:=288)
+            ComboBox6.Location = New Point(x:=238, y:=335)
+            ComboBox7.Location = New Point(x:=238, y:=382)
+            ComboBox8.Location = New Point(x:=238, y:=429)
+            ComboBox9.Location = New Point(x:=238, y:=476)
+
+            Button3.Location = New Point(x:=537, y:=46)
+            Button4.Location = New Point(x:=704, y:=46)
+            Button5.Location = New Point(x:=537, y:=142)
+            Label14.Location = New Point(x:=535, y:=214)
+            RichTextBox1.Location = New Point(x:=537, y:=253)
+            RichTextBox1.Size = New Size(width:=287, height:=250)
+            Button6.Location = New Point(x:=538, y:=547)
+            fullscreen = False
+        Else
+            FullScreenToolStripMenuItem.Checked = True
+            Label15.Location = New Point(x:=(intX / 8), y:=(intY / 14))
+            Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2 / 14))
+            Label11.Location = New Point(x:=(intX / 8), y:=(intY * 3 / 14))
+            Label10.Location = New Point(x:=(intX / 8), y:=(intY * 4 / 14))
+            Label9.Location = New Point(x:=(intX / 8), y:=(intY * 5 / 14))
+            Label16.Location = New Point(x:=(intX / 8), y:=(intY * 6 / 14))
+            Label5.Location = New Point(x:=(intX / 8), y:=(intY * 7 / 14))
+            Label6.Location = New Point(x:=(intX / 8), y:=(intY * 8 / 14))
+            Label7.Location = New Point(x:=(intX / 8), y:=(intY * 9 / 14))
+            Label8.Location = New Point(x:=(intX / 8), y:=(intY * 10 / 14))
+            Button1.Location = New Point(x:=(intX / 8), y:=(intY * 11 / 14))
+            Button2.Location = New Point(x:=(intX / 4), y:=(intY * 11 / 14))
+
+            ComboBox1.Location = New Point(x:=(intX / 4), y:=(intY * 1 / 14))
+            ComboBox2.Location = New Point(x:=(intX / 4), y:=(intY * 2 / 14))
+
+            Label12.Location = New Point(x:=(intX / 3.8), y:=(intY * 3 / 14))
+            Label13.Location = New Point(x:=(intX / 3), y:=(intY * 3 / 14))
+            RadioButton1.Location = New Point(x:=(intX / 3.5), y:=(intY * 3 / 14))
+            RadioButton2.Location = New Point(x:=(intX / 2.8), y:=(intY * 3 / 14))
+
+            ComboBox3.Location = New Point(x:=(intX / 4), y:=(intY * 4 / 14))
+            ComboBox4.Location = New Point(x:=(intX / 4), y:=(intY * 5 / 14))
+            ComboBox5.Location = New Point(x:=(intX / 4), y:=(intY * 6 / 14))
+            ComboBox6.Location = New Point(x:=(intX / 4), y:=(intY * 7 / 14))
+            ComboBox7.Location = New Point(x:=(intX / 4), y:=(intY * 8 / 14))
+            ComboBox8.Location = New Point(x:=(intX / 4), y:=(intY * 9 / 14))
+            ComboBox9.Location = New Point(x:=(intX / 4), y:=(intY * 10 / 14))
+
+            Button3.Location = New Point(x:=(intX / 1.9), y:=(intY * 1 / 14))
+            Button4.Location = New Point(x:=(intX / 1.29), y:=(intY * 1 / 14))
+            Button5.Location = New Point(x:=(intX / 1.9), y:=(intY * 4 / 14))
+            Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 5.4 / 14))
+            RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 6 / 14))
+            RichTextBox1.Size = New Size(width:=(intX / 3), height:=(intY / 4))
+            Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 14))
+            fullscreen = True
         End If
     End Sub
 
@@ -412,49 +576,63 @@ Public Class Form4
         Me.Close()
     End Sub
 
-    Private Sub MyDevicesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MyDevicesToolStripMenuItem.Click
-        Form6.ShowDialog()
-        If device = 1 Then
-            RichTextBox1.Text &= "Active device selected as SCOUT SC4410" & vbCrLf
-            If device = 2 Then
-                RichTextBox1.Text &= "Active device selected as SIERRA WIRELESS" & vbCrLf
-            End If
-        End If
-        'Dim readValue As String = ""
-        'readValue = Reg2.GetValue("PortName")
-        'If My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing) Is Nothing Then
-        'MsgBox("Value does not exist.")
-        'Else
-        'If My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing) Is Nothing Then
-        'MsgBox("Value does not exist.")
-        'Else
-        'End If
-        'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
-        'MsgBox("The value is " & readValue)
-        'End If
-        'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
-        'MsgBox("The value is " & readValue)
-    End Sub
+    'Private Sub MyDevicesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MyDevicesToolStripMenuItem.Click
+    'Form6.ShowDialog()
+    'If device = 1 Then
+    'RichTextBox1.Text &= "Active device selected as SCOUT SC4410" & vbCrLf
+    'Else
+    'If device = 2 Then
+    'RichTextBox1.Text &= "Active device selected as SIERRA WIRELESS" & vbCrLf
+    'End If
+    'End If
+    'Dim readValue As String = ""
+    'readValue = Reg2.GetValue("PortName")
+    'If My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing) Is Nothing Then
+    'MsgBox("Value does not exist.")
+    'Else
+    'If My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing) Is Nothing Then
+    'MsgBox("Value does not exist.")
+    'Else
+    'End If
+    'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
+    'MsgBox("The value is " & readValue)
+    'End If
+    'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
+    'MsgBox("The value is " & readValue)
+    'End Sub
 
     Private Sub SCOUTSC4410ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SCOUTSC4410ToolStripMenuItem.Click
-        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&1\Device Parameters", "PortName", Nothing)
-        For Each Str As String In myPort
-            If Str.Contains(readValue) Then
-                ScoutON(readValue)
-            End If
-        Next
-        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&2\Device Parameters", "PortName", Nothing)
-        For Each Str As String In myPort
-            If Str.Contains(readValue) Then
-                ScoutON(readValue)
-            End If
-        Next
-        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\6&2a9e2b2e&0&3\Device Parameters", "PortName", Nothing)
-        For Each Str As String In myPort
-            If Str.Contains(readValue) Then
-                ScoutON(readValue)
-            End If
-        Next
+        If SCOUTSC4410ToolStripMenuItem.Checked = True Then
+            SerialPort1.Close()
+            SCOUTSC4410ToolStripMenuItem.Checked = False
+            RichTextBox1.Text &= "SCOUT SC4410 has been disconnected" & vbCrLf & vbCrLf
+            Button3.Enabled = True
+            Button4.Enabled = False
+            Button5.Enabled = True
+            ComboBox1.Enabled = True
+            ComboBox2.Enabled = True
+            ComboBox3.Enabled = True
+            ComboBox4.Enabled = True
+        Else
+            readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&1\Device Parameters", "PortName", Nothing)
+            For Each Str As String In myPort
+                If Str.Contains(readValue) Then
+                    ScoutON(readValue)
+                End If
+            Next
+            readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&2\Device Parameters", "PortName", Nothing)
+            For Each Str As String In myPort
+                If Str.Contains(readValue) Then
+                    ScoutON(readValue)
+                End If
+            Next
+            readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\6&2a9e2b2e&0&3\Device Parameters", "PortName", Nothing)
+            For Each Str As String In myPort
+                If Str.Contains(readValue) Then
+                    ScoutON(readValue)
+                End If
+            Next
+        End If
     End Sub
 
     Function ScoutON(ByVal readvalue1 As String)
@@ -475,22 +653,37 @@ Public Class Form4
         ComboBox2.Enabled = False
         ComboBox3.Enabled = True
         ComboBox4.Enabled = True
+        device = 1
+        RichTextBox1.Text &= "Active device selected as SCOUT SC4410" & vbCrLf & "Port Name: " & readvalue1 & "; Baud Rate: 115200" & vbCrLf & vbCrLf
         Return 0
     End Function
 
     Private Sub SierraWirelessToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SierraWirelessToolStripMenuItem.Click
-        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing)
-        For Each Str As String In myPort
-            If Str.Contains(readValue) Then
-                SierraON(readValue)
-            End If
-        Next
-        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
-        For Each Str As String In myPort
-            If Str.Contains(readValue) Then
-                SierraON(readValue)
-            End If
-        Next
+        If SierraWirelessToolStripMenuItem.Checked = True Then
+            SerialPort1.Close()
+            SierraWirelessToolStripMenuItem.Checked = False
+            RichTextBox1.Text &= "SIERRA WIRELESS has been disconnected" & vbCrLf & vbCrLf
+            Button3.Enabled = True
+            Button4.Enabled = False
+            Button5.Enabled = True
+            ComboBox1.Enabled = True
+            ComboBox2.Enabled = True
+            ComboBox3.Enabled = True
+            ComboBox4.Enabled = True
+        Else
+            readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing)
+            For Each Str As String In myPort
+                If Str.Contains(readValue) Then
+                    SierraON(readValue)
+                End If
+            Next
+            readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
+            For Each Str As String In myPort
+                If Str.Contains(readValue) Then
+                    SierraON(readValue)
+                End If
+            Next
+        End If
     End Sub
 
     Function SierraON(ByVal readvalue1 As String)
@@ -511,6 +704,8 @@ Public Class Form4
         ComboBox2.Enabled = False
         ComboBox3.Enabled = True
         ComboBox4.Enabled = True
+        device = 2
+        RichTextBox1.Text &= "Active device selected as SIERRA WIRELESS" & vbCrLf & "Port Name: " & readvalue1 & "; Baud Rate: 115200" & vbCrLf & vbCrLf
         Return 0
     End Function
 
@@ -570,4 +765,20 @@ Public Class Form4
         End If
     End Sub
 
+    Private Sub EnableAdminModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EnableAdminModeToolStripMenuItem.Click
+        Form7.ShowDialog()
+        If pword = 1 Then
+            OptionsToolStripMenuItem.Enabled = True
+            NewToolStripMenuItem.Enabled = True
+            OpenToolStripMenuItem.Enabled = True
+            SaveToolStripMenuItem.Enabled = True
+            EnableAdminModeToolStripMenuItem.Text = "Disable Admin mode"
+        Else
+            OptionsToolStripMenuItem.Enabled = False
+            NewToolStripMenuItem.Enabled = False
+            OpenToolStripMenuItem.Enabled = False
+            SaveToolStripMenuItem.Enabled = False
+            EnableAdminModeToolStripMenuItem.Text = "Enable Admin mode"
+        End If
+    End Sub
 End Class

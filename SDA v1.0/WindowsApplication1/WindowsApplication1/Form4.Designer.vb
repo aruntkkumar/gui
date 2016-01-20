@@ -78,6 +78,8 @@ Partial Class Form4
         Me.DisableToolbarsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CommPortSelectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.VIOSelectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.EnableAdminModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Button6 = New System.Windows.Forms.Button()
@@ -88,6 +90,7 @@ Partial Class Form4
         '
         Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Transparent
         Me.Label1.Location = New System.Drawing.Point(842, 9)
         Me.Label1.Name = "Label1"
         Me.Label1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -99,6 +102,7 @@ Partial Class Form4
         '
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
+        Me.Label2.BackColor = System.Drawing.Color.Transparent
         Me.Label2.Location = New System.Drawing.Point(842, 35)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(33, 13)
@@ -133,6 +137,7 @@ Partial Class Form4
         '
         Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label4.AutoSize = True
+        Me.Label4.BackColor = System.Drawing.Color.Transparent
         Me.Label4.Location = New System.Drawing.Point(91, 109)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(61, 13)
@@ -143,6 +148,7 @@ Partial Class Form4
         '
         Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label5.AutoSize = True
+        Me.Label5.BackColor = System.Drawing.Color.Transparent
         Me.Label5.Location = New System.Drawing.Point(91, 339)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(63, 13)
@@ -164,6 +170,7 @@ Partial Class Form4
         '
         Me.Label6.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label6.AutoSize = True
+        Me.Label6.BackColor = System.Drawing.Color.Transparent
         Me.Label6.Location = New System.Drawing.Point(91, 385)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(134, 13)
@@ -185,6 +192,7 @@ Partial Class Form4
         '
         Me.Label7.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label7.AutoSize = True
+        Me.Label7.BackColor = System.Drawing.Color.Transparent
         Me.Label7.Location = New System.Drawing.Point(91, 431)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(141, 13)
@@ -206,6 +214,7 @@ Partial Class Form4
         '
         Me.Label8.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label8.AutoSize = True
+        Me.Label8.BackColor = System.Drawing.Color.Transparent
         Me.Label8.Location = New System.Drawing.Point(91, 477)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(81, 13)
@@ -227,6 +236,7 @@ Partial Class Form4
         '
         Me.Label9.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label9.AutoSize = True
+        Me.Label9.BackColor = System.Drawing.Color.Transparent
         Me.Label9.Location = New System.Drawing.Point(91, 247)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(66, 13)
@@ -248,6 +258,7 @@ Partial Class Form4
         '
         Me.Label10.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label10.AutoSize = True
+        Me.Label10.BackColor = System.Drawing.Color.Transparent
         Me.Label10.Location = New System.Drawing.Point(91, 201)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(89, 13)
@@ -258,6 +269,7 @@ Partial Class Form4
         '
         Me.Label11.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label11.AutoSize = True
+        Me.Label11.BackColor = System.Drawing.Color.Transparent
         Me.Label11.Location = New System.Drawing.Point(91, 155)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(66, 13)
@@ -268,6 +280,7 @@ Partial Class Form4
         '
         Me.Label12.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label12.AutoSize = True
+        Me.Label12.BackColor = System.Drawing.Color.Transparent
         Me.Label12.Location = New System.Drawing.Point(249, 155)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(33, 13)
@@ -278,6 +291,7 @@ Partial Class Form4
         '
         Me.Label13.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label13.AutoSize = True
+        Me.Label13.BackColor = System.Drawing.Color.Transparent
         Me.Label13.Location = New System.Drawing.Point(308, 155)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(34, 13)
@@ -288,23 +302,25 @@ Partial Class Form4
         '
         Me.RadioButton1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton1.AutoSize = True
+        Me.RadioButton1.BackColor = System.Drawing.Color.Transparent
         Me.RadioButton1.Location = New System.Drawing.Point(288, 155)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(14, 13)
         Me.RadioButton1.TabIndex = 20
         Me.RadioButton1.TabStop = True
-        Me.RadioButton1.UseVisualStyleBackColor = True
+        Me.RadioButton1.UseVisualStyleBackColor = False
         '
         'RadioButton2
         '
         Me.RadioButton2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton2.AutoSize = True
+        Me.RadioButton2.BackColor = System.Drawing.Color.Transparent
         Me.RadioButton2.Location = New System.Drawing.Point(348, 155)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(14, 13)
         Me.RadioButton2.TabIndex = 21
         Me.RadioButton2.TabStop = True
-        Me.RadioButton2.UseVisualStyleBackColor = True
+        Me.RadioButton2.UseVisualStyleBackColor = False
         '
         'Button1
         '
@@ -342,6 +358,7 @@ Partial Class Form4
         '
         Me.Label14.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label14.AutoSize = True
+        Me.Label14.BackColor = System.Drawing.Color.Transparent
         Me.Label14.Location = New System.Drawing.Point(535, 214)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(77, 13)
@@ -352,6 +369,7 @@ Partial Class Form4
         '
         Me.Label15.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label15.AutoSize = True
+        Me.Label15.BackColor = System.Drawing.Color.Transparent
         Me.Label15.Location = New System.Drawing.Point(91, 63)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(61, 13)
@@ -406,6 +424,7 @@ Partial Class Form4
         '
         Me.Label16.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label16.AutoSize = True
+        Me.Label16.BackColor = System.Drawing.Color.Transparent
         Me.Label16.Location = New System.Drawing.Point(91, 293)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(81, 13)
@@ -435,6 +454,7 @@ Partial Class Form4
         '
         'MenuStrip1
         '
+        Me.MenuStrip1.BackColor = System.Drawing.Color.Lavender
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ViewToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
@@ -452,35 +472,35 @@ Partial Class Form4
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.NewToolStripMenuItem.Text = "New"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.OpenToolStripMenuItem.Text = "Open"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(100, 6)
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(100, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'ViewToolStripMenuItem
@@ -493,12 +513,12 @@ Partial Class Form4
         'FullScreenToolStripMenuItem
         '
         Me.FullScreenToolStripMenuItem.Name = "FullScreenToolStripMenuItem"
-        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
+        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FullScreenToolStripMenuItem.Text = "Full Screen"
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.ToolStripMenuItem3, Me.EnableAdminModeToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
@@ -507,7 +527,7 @@ Partial Class Form4
         '
         Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MyDevicesToolStripMenuItem, Me.DisableToolbarsToolStripMenuItem})
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
         'MyDevicesToolStripMenuItem
@@ -554,6 +574,17 @@ Partial Class Form4
         Me.VIOSelectToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.VIOSelectToolStripMenuItem.Text = "VIO Select"
         '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(179, 6)
+        '
+        'EnableAdminModeToolStripMenuItem
+        '
+        Me.EnableAdminModeToolStripMenuItem.Name = "EnableAdminModeToolStripMenuItem"
+        Me.EnableAdminModeToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.EnableAdminModeToolStripMenuItem.Text = "Enable Admin mode"
+        '
         'HelpToolStripMenuItem
         '
         Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutToolStripMenuItem})
@@ -581,7 +612,7 @@ Partial Class Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.White
+        Me.BackColor = System.Drawing.Color.Lavender
         Me.ClientSize = New System.Drawing.Size(956, 632)
         Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.Button5)
@@ -677,7 +708,6 @@ Partial Class Form4
     Private WithEvents Button6 As Button
     Friend WithEvents ViewToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents FullScreenToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ToolsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HelpToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AboutToolStripMenuItem As ToolStripMenuItem
     Public WithEvents ComboBox1 As ComboBox
@@ -689,4 +719,7 @@ Partial Class Form4
     Friend WithEvents PINGPIOToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CommPortSelectToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents VIOSelectToolStripMenuItem As ToolStripMenuItem
+    Public WithEvents ToolsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
+    Friend WithEvents EnableAdminModeToolStripMenuItem As ToolStripMenuItem
 End Class
