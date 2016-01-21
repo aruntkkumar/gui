@@ -18,6 +18,7 @@ Public Class Form4
     Dim fullscreen As Boolean = False
     Dim intX As Integer = Screen.PrimaryScreen.Bounds.Width
     Dim intY As Integer = Screen.PrimaryScreen.Bounds.Height
+    Dim x As New ComPortFinder
     Delegate Sub SetTextCallBack(ByVal [text] As String)
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
@@ -38,36 +39,52 @@ Public Class Form4
         NewToolStripMenuItem.Enabled = False
         OpenToolStripMenuItem.Enabled = False
         SaveToolStripMenuItem.Enabled = False
-        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing)
-        For Each Str As String In myPort
-            If Str.Contains(readValue) Then
-                SierraWirelessToolStripMenuItem.Enabled = Enabled
-            End If
-        Next
-        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
-        For Each Str As String In myPort
-            If Str.Contains(readValue) Then
-                SierraWirelessToolStripMenuItem.Enabled = Enabled
-            End If
-        Next
+        'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing)
+        'For Each Str As String In myPort
+        '    If Str.Contains(readValue) Then
+        '        SierraWirelessToolStripMenuItem.Enabled = Enabled
+        '    End If
+        'Next
+        'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
+        'For Each Str As String In myPort
+        '    If Str.Contains(readValue) Then
+        '        SierraWirelessToolStripMenuItem.Enabled = Enabled
+        '    End If
+        'Next
 
-        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&1\Device Parameters", "PortName", Nothing)
-        For Each Str As String In myPort
-            If Str.Contains(readValue) Then
-                SCOUTSC4410ToolStripMenuItem.Enabled = True
-            End If
+        'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&1\Device Parameters", "PortName", Nothing)
+        'For Each Str As String In myPort
+        '    If Str.Contains(readValue) Then
+        '        SCOUTSC4410ToolStripMenuItem.Enabled = True
+        '    End If
+        'Next
+        'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&2\Device Parameters", "PortName", Nothing)
+        'For Each Str As String In myPort
+        '    If Str.Contains(readValue) Then
+        '        SCOUTSC4410ToolStripMenuItem.Enabled = True
+        '    End If
+        'Next
+        'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\6&2a9e2b2e&0&3\Device Parameters", "PortName", Nothing)
+        'For Each Str As String In myPort
+        '    If Str.Contains(readValue) Then
+        '        SCOUTSC4410ToolStripMenuItem.Enabled = True
+        '    End If
+        'Next
+        Dim list = x.ComPortNames("173C", "0002")
+        For Each item As String In list
+            For Each Str As String In myPort
+                If Str.Contains(item) Then
+                    SCOUTSC4410ToolStripMenuItem.Enabled = True
+                End If
+            Next
         Next
-        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&2\Device Parameters", "PortName", Nothing)
-        For Each Str As String In myPort
-            If Str.Contains(readValue) Then
-                SCOUTSC4410ToolStripMenuItem.Enabled = True
-            End If
-        Next
-        readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\6&2a9e2b2e&0&3\Device Parameters", "PortName", Nothing)
-        For Each Str As String In myPort
-            If Str.Contains(readValue) Then
-                SCOUTSC4410ToolStripMenuItem.Enabled = True
-            End If
+        list = x.ComPortNames("413C", "81B6", "03")
+        For Each item As String In list
+            For Each Str As String In myPort
+                If Str.Contains(item) Then
+                    SierraWirelessToolStripMenuItem.Enabled = Enabled
+                End If
+            Next
         Next
     End Sub
 
@@ -614,23 +631,31 @@ Public Class Form4
             ComboBox3.Enabled = True
             ComboBox4.Enabled = True
         Else
-            readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&1\Device Parameters", "PortName", Nothing)
-            For Each Str As String In myPort
-                If Str.Contains(readValue) Then
-                    ScoutON(readValue)
-                End If
-            Next
-            readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&2\Device Parameters", "PortName", Nothing)
-            For Each Str As String In myPort
-                If Str.Contains(readValue) Then
-                    ScoutON(readValue)
-                End If
-            Next
-            readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\6&2a9e2b2e&0&3\Device Parameters", "PortName", Nothing)
-            For Each Str As String In myPort
-                If Str.Contains(readValue) Then
-                    ScoutON(readValue)
-                End If
+            'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&1\Device Parameters", "PortName", Nothing)
+            'For Each Str As String In myPort
+            '    If Str.Contains(readValue) Then
+            '        ScoutON(readValue)
+            '    End If
+            'Next
+            'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&2\Device Parameters", "PortName", Nothing)
+            'For Each Str As String In myPort
+            '    If Str.Contains(readValue) Then
+            '        ScoutON(readValue)
+            '    End If
+            'Next
+            'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\6&2a9e2b2e&0&3\Device Parameters", "PortName", Nothing)
+            'For Each Str As String In myPort
+            '    If Str.Contains(readValue) Then
+            '        ScoutON(readValue)
+            '    End If
+            'Next
+            Dim list = x.ComPortNames("173C", "0002")
+            For Each item As String In list
+                For Each Str As String In myPort
+                    If Str.Contains(item) Then
+                        ScoutON(item)
+                    End If
+                Next
             Next
         End If
     End Sub
@@ -671,17 +696,25 @@ Public Class Form4
             ComboBox3.Enabled = True
             ComboBox4.Enabled = True
         Else
-            readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing)
-            For Each Str As String In myPort
-                If Str.Contains(readValue) Then
-                    SierraON(readValue)
-                End If
-            Next
-            readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
-            For Each Str As String In myPort
-                If Str.Contains(readValue) Then
-                    SierraON(readValue)
-                End If
+            'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing)
+            'For Each Str As String In myPort
+            '    If Str.Contains(readValue) Then
+            '        SierraON(readValue)
+            '    End If
+            'Next
+            'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1e9f55e2&0&0003\Device Parameters", "PortName", Nothing)
+            'For Each Str As String In myPort
+            '    If Str.Contains(readValue) Then
+            '        SierraON(readValue)
+            '    End If
+            'Next
+            Dim List = x.ComPortNames("413C", "81B6", "03")
+            For Each item As String In List
+                For Each Str As String In myPort
+                    If Str.Contains(item) Then
+                        SierraON(item)
+                    End If
+                Next
             Next
         End If
     End Sub
