@@ -250,6 +250,8 @@ Public Class Form5
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         SerialPort1.Close()
+        Application.DoEvents()  ' Give port time to close down
+        Thread.Sleep(200)
         Button2.Enabled = False
         Button3.Enabled = True
         Button4.Enabled = False
@@ -339,6 +341,8 @@ Public Class Form5
                     Catch ex As Exception
                         MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
                         SerialPort1.Close()
+                        Application.DoEvents()  ' Give port time to close down
+                        Thread.Sleep(200)
                         'SerialPort1.Dispose()
                         ComboBox1.Enabled = True
                         ComboBox2.Enabled = True
@@ -374,6 +378,8 @@ Public Class Form5
     Private Sub Form5_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         If SerialPort1.IsOpen() Then
             SerialPort1.Close()
+            Application.DoEvents()  ' Give port time to close down
+            Thread.Sleep(200)
         End If
     End Sub
 End Class

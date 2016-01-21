@@ -350,7 +350,7 @@ Partial Class Form4
         Me.RichTextBox1.ForeColor = System.Drawing.SystemColors.Window
         Me.RichTextBox1.Location = New System.Drawing.Point(537, 253)
         Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.Size = New System.Drawing.Size(287, 250)
+        Me.RichTextBox1.Size = New System.Drawing.Size(287, 244)
         Me.RichTextBox1.TabIndex = 24
         Me.RichTextBox1.Text = ""
         '
@@ -513,7 +513,7 @@ Partial Class Form4
         'FullScreenToolStripMenuItem
         '
         Me.FullScreenToolStripMenuItem.Name = "FullScreenToolStripMenuItem"
-        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.FullScreenToolStripMenuItem.Text = "Full Screen"
         '
         'ToolsToolStripMenuItem
@@ -595,7 +595,7 @@ Partial Class Form4
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
         Me.AboutToolStripMenuItem.Text = "About"
         '
         'Button6

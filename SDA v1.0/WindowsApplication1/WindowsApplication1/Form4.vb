@@ -1,4 +1,5 @@
-﻿Imports System.IO.Ports
+﻿Imports System.Threading
+Imports System.IO.Ports
 Imports Microsoft.Win32
 
 Public Class Form4
@@ -82,7 +83,7 @@ Public Class Form4
         For Each item As String In list
             For Each Str As String In myPort
                 If Str.Contains(item) Then
-                    SierraWirelessToolStripMenuItem.Enabled = Enabled
+                    SierraWirelessToolStripMenuItem.Enabled = True
                 End If
             Next
         Next
@@ -314,6 +315,8 @@ Public Class Form4
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         SerialPort1.Close()
+        Application.DoEvents()  ' Give port time to close down
+        Thread.Sleep(200)
         Button2.Enabled = False
         Button3.Enabled = True
         Button4.Enabled = False
@@ -422,173 +425,31 @@ Public Class Form4
         If Me.WindowState = FormWindowState.Normal Then
             Me.WindowState = FormWindowState.Maximized
             FullScreenToolStripMenuItem.Checked = True
-            Label15.Location = New Point(x:=(intX / 8), y:=(intY / 14))
-            Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2 / 14))
-            Label11.Location = New Point(x:=(intX / 8), y:=(intY * 3 / 14))
-            Label10.Location = New Point(x:=(intX / 8), y:=(intY * 4 / 14))
-            Label9.Location = New Point(x:=(intX / 8), y:=(intY * 5 / 14))
-            Label16.Location = New Point(x:=(intX / 8), y:=(intY * 6 / 14))
-            Label5.Location = New Point(x:=(intX / 8), y:=(intY * 7 / 14))
-            Label6.Location = New Point(x:=(intX / 8), y:=(intY * 8 / 14))
-            Label7.Location = New Point(x:=(intX / 8), y:=(intY * 9 / 14))
-            Label8.Location = New Point(x:=(intX / 8), y:=(intY * 10 / 14))
-            Button1.Location = New Point(x:=(intX / 8), y:=(intY * 11 / 14))
-            Button2.Location = New Point(x:=(intX / 4), y:=(intY * 11 / 14))
-
-            ComboBox1.Location = New Point(x:=(intX / 4), y:=(intY * 1 / 14))
-            ComboBox2.Location = New Point(x:=(intX / 4), y:=(intY * 2 / 14))
-
-            Label12.Location = New Point(x:=(intX / 3.8), y:=(intY * 3 / 14))
-            Label13.Location = New Point(x:=(intX / 3), y:=(intY * 3 / 14))
-            RadioButton1.Location = New Point(x:=(intX / 3.5), y:=(intY * 3 / 14))
-            RadioButton2.Location = New Point(x:=(intX / 2.8), y:=(intY * 3 / 14))
-
-            ComboBox3.Location = New Point(x:=(intX / 4), y:=(intY * 4 / 14))
-            ComboBox4.Location = New Point(x:=(intX / 4), y:=(intY * 5 / 14))
-            ComboBox5.Location = New Point(x:=(intX / 4), y:=(intY * 6 / 14))
-            ComboBox6.Location = New Point(x:=(intX / 4), y:=(intY * 7 / 14))
-            ComboBox7.Location = New Point(x:=(intX / 4), y:=(intY * 8 / 14))
-            ComboBox8.Location = New Point(x:=(intX / 4), y:=(intY * 9 / 14))
-            ComboBox9.Location = New Point(x:=(intX / 4), y:=(intY * 10 / 14))
-
-            Button3.Location = New Point(x:=(intX / 1.9), y:=(intY * 1 / 14))
-            Button4.Location = New Point(x:=(intX / 1.29), y:=(intY * 1 / 14))
-            Button5.Location = New Point(x:=(intX / 1.9), y:=(intY * 4 / 14))
-            Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 5.4 / 14))
-            RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 6 / 14))
-            RichTextBox1.Size = New Size(width:=(intX / 3), height:=(intY / 4))
-            Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 14))
-
             fullscreen = True
         Else
             Me.WindowState = FormWindowState.Normal
             FullScreenToolStripMenuItem.Checked = False
-            Label15.Location = New Point(x:=91, y:=63)
-            Label4.Location = New Point(x:=91, y:=109)
-            Label11.Location = New Point(x:=91, y:=155)
-            Label10.Location = New Point(x:=91, y:=201)
-            Label9.Location = New Point(x:=91, y:=247)
-            Label16.Location = New Point(x:=91, y:=293)
-            Label5.Location = New Point(x:=91, y:=339)
-            Label6.Location = New Point(x:=91, y:=385)
-            Label7.Location = New Point(x:=91, y:=431)
-            Label8.Location = New Point(x:=91, y:=477)
-            Button1.Location = New Point(x:=89, y:=547)
-            Button2.Location = New Point(x:=259, y:=547)
-
-            ComboBox1.Location = New Point(x:=238, y:=59)
-            ComboBox2.Location = New Point(x:=238, y:=104)
-
-            Label12.Location = New Point(x:=249, y:=155)
-            Label13.Location = New Point(x:=308, y:=155)
-            RadioButton1.Location = New Point(x:=288, y:=155)
-            RadioButton2.Location = New Point(x:=348, y:=155)
-
-            ComboBox3.Location = New Point(x:=238, y:=193)
-            ComboBox4.Location = New Point(x:=238, y:=241)
-            ComboBox5.Location = New Point(x:=238, y:=288)
-            ComboBox6.Location = New Point(x:=238, y:=335)
-            ComboBox7.Location = New Point(x:=238, y:=382)
-            ComboBox8.Location = New Point(x:=238, y:=429)
-            ComboBox9.Location = New Point(x:=238, y:=476)
-
-            Button3.Location = New Point(x:=537, y:=46)
-            Button4.Location = New Point(x:=704, y:=46)
-            Button5.Location = New Point(x:=537, y:=142)
-            Label14.Location = New Point(x:=535, y:=214)
-            RichTextBox1.Location = New Point(x:=537, y:=253)
-            RichTextBox1.Size = New Size(width:=287, height:=250)
-            Button6.Location = New Point(x:=538, y:=547)
-
             fullscreen = False
         End If
+        SizeAdjust()
     End Sub
 
     Private Sub Form4_SizeChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.SizeChanged
         If (fullscreen) Then
             FullScreenToolStripMenuItem.Checked = False
-            Label15.Location = New Point(x:=91, y:=63)
-            Label4.Location = New Point(x:=91, y:=109)
-            Label11.Location = New Point(x:=91, y:=155)
-            Label10.Location = New Point(x:=91, y:=201)
-            Label9.Location = New Point(x:=91, y:=247)
-            Label16.Location = New Point(x:=91, y:=293)
-            Label5.Location = New Point(x:=91, y:=339)
-            Label6.Location = New Point(x:=91, y:=385)
-            Label7.Location = New Point(x:=91, y:=431)
-            Label8.Location = New Point(x:=91, y:=477)
-            Button1.Location = New Point(x:=89, y:=547)
-            Button2.Location = New Point(x:=259, y:=547)
-
-            ComboBox1.Location = New Point(x:=238, y:=59)
-            ComboBox2.Location = New Point(x:=238, y:=104)
-
-            Label12.Location = New Point(x:=249, y:=155)
-            Label13.Location = New Point(x:=308, y:=155)
-            RadioButton1.Location = New Point(x:=288, y:=155)
-            RadioButton2.Location = New Point(x:=348, y:=155)
-
-            ComboBox3.Location = New Point(x:=238, y:=193)
-            ComboBox4.Location = New Point(x:=238, y:=241)
-            ComboBox5.Location = New Point(x:=238, y:=288)
-            ComboBox6.Location = New Point(x:=238, y:=335)
-            ComboBox7.Location = New Point(x:=238, y:=382)
-            ComboBox8.Location = New Point(x:=238, y:=429)
-            ComboBox9.Location = New Point(x:=238, y:=476)
-
-            Button3.Location = New Point(x:=537, y:=46)
-            Button4.Location = New Point(x:=704, y:=46)
-            Button5.Location = New Point(x:=537, y:=142)
-            Label14.Location = New Point(x:=535, y:=214)
-            RichTextBox1.Location = New Point(x:=537, y:=253)
-            RichTextBox1.Size = New Size(width:=287, height:=250)
-            Button6.Location = New Point(x:=538, y:=547)
             fullscreen = False
         Else
             FullScreenToolStripMenuItem.Checked = True
-            Label15.Location = New Point(x:=(intX / 8), y:=(intY / 14))
-            Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2 / 14))
-            Label11.Location = New Point(x:=(intX / 8), y:=(intY * 3 / 14))
-            Label10.Location = New Point(x:=(intX / 8), y:=(intY * 4 / 14))
-            Label9.Location = New Point(x:=(intX / 8), y:=(intY * 5 / 14))
-            Label16.Location = New Point(x:=(intX / 8), y:=(intY * 6 / 14))
-            Label5.Location = New Point(x:=(intX / 8), y:=(intY * 7 / 14))
-            Label6.Location = New Point(x:=(intX / 8), y:=(intY * 8 / 14))
-            Label7.Location = New Point(x:=(intX / 8), y:=(intY * 9 / 14))
-            Label8.Location = New Point(x:=(intX / 8), y:=(intY * 10 / 14))
-            Button1.Location = New Point(x:=(intX / 8), y:=(intY * 11 / 14))
-            Button2.Location = New Point(x:=(intX / 4), y:=(intY * 11 / 14))
-
-            ComboBox1.Location = New Point(x:=(intX / 4), y:=(intY * 1 / 14))
-            ComboBox2.Location = New Point(x:=(intX / 4), y:=(intY * 2 / 14))
-
-            Label12.Location = New Point(x:=(intX / 3.8), y:=(intY * 3 / 14))
-            Label13.Location = New Point(x:=(intX / 3), y:=(intY * 3 / 14))
-            RadioButton1.Location = New Point(x:=(intX / 3.5), y:=(intY * 3 / 14))
-            RadioButton2.Location = New Point(x:=(intX / 2.8), y:=(intY * 3 / 14))
-
-            ComboBox3.Location = New Point(x:=(intX / 4), y:=(intY * 4 / 14))
-            ComboBox4.Location = New Point(x:=(intX / 4), y:=(intY * 5 / 14))
-            ComboBox5.Location = New Point(x:=(intX / 4), y:=(intY * 6 / 14))
-            ComboBox6.Location = New Point(x:=(intX / 4), y:=(intY * 7 / 14))
-            ComboBox7.Location = New Point(x:=(intX / 4), y:=(intY * 8 / 14))
-            ComboBox8.Location = New Point(x:=(intX / 4), y:=(intY * 9 / 14))
-            ComboBox9.Location = New Point(x:=(intX / 4), y:=(intY * 10 / 14))
-
-            Button3.Location = New Point(x:=(intX / 1.9), y:=(intY * 1 / 14))
-            Button4.Location = New Point(x:=(intX / 1.29), y:=(intY * 1 / 14))
-            Button5.Location = New Point(x:=(intX / 1.9), y:=(intY * 4 / 14))
-            Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 5.4 / 14))
-            RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 6 / 14))
-            RichTextBox1.Size = New Size(width:=(intX / 3), height:=(intY / 4))
-            Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 14))
             fullscreen = True
         End If
+        SizeAdjust()
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
         If SerialPort1.IsOpen() Then
             SerialPort1.Close()
+            Application.DoEvents()  ' Give port time to close down
+            Thread.Sleep(200)
         End If
         Me.Close()
     End Sub
@@ -621,6 +482,8 @@ Public Class Form4
     Private Sub SCOUTSC4410ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SCOUTSC4410ToolStripMenuItem.Click
         If SCOUTSC4410ToolStripMenuItem.Checked = True Then
             SerialPort1.Close()
+            Application.DoEvents()  ' Give port time to close down
+            Thread.Sleep(200)
             SCOUTSC4410ToolStripMenuItem.Checked = False
             RichTextBox1.Text &= "SCOUT SC4410 has been disconnected" & vbCrLf & vbCrLf
             Button3.Enabled = True
@@ -662,6 +525,8 @@ Public Class Form4
 
     Function ScoutON(ByVal readvalue1 As String)
         SerialPort1.Close()
+        Application.DoEvents()  ' Give port time to close down
+        Thread.Sleep(200)
         SCOUTSC4410ToolStripMenuItem.Checked = True
         SierraWirelessToolStripMenuItem.Checked = False
         PINGPIOToolStripMenuItem.Checked = False
@@ -686,6 +551,8 @@ Public Class Form4
     Private Sub SierraWirelessToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SierraWirelessToolStripMenuItem.Click
         If SierraWirelessToolStripMenuItem.Checked = True Then
             SerialPort1.Close()
+            Application.DoEvents()  ' Give port time to close down
+            Thread.Sleep(200)
             SierraWirelessToolStripMenuItem.Checked = False
             RichTextBox1.Text &= "SIERRA WIRELESS has been disconnected" & vbCrLf & vbCrLf
             Button3.Enabled = True
@@ -721,6 +588,8 @@ Public Class Form4
 
     Function SierraON(ByVal readvalue1 As String)
         SerialPort1.Close()
+        Application.DoEvents()  ' Give port time to close down
+        Thread.Sleep(200)
         SCOUTSC4410ToolStripMenuItem.Checked = False
         SierraWirelessToolStripMenuItem.Checked = True
         PINGPIOToolStripMenuItem.Checked = False
@@ -760,6 +629,7 @@ Public Class Form4
             Button3.Visible = True
             Button4.Visible = True
         End If
+        SizeAdjust()
     End Sub
 
     Private Sub VIOSelectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VIOSelectToolStripMenuItem.Click
@@ -790,11 +660,14 @@ Public Class Form4
             ComboBox3.Visible = True
             ComboBox4.Visible = True
         End If
+        SizeAdjust()
     End Sub
 
     Private Sub Form4_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         If SerialPort1.IsOpen() Then
             SerialPort1.Close()
+            Application.DoEvents()  ' Give port time to close down
+            Thread.Sleep(200)
         End If
     End Sub
 
@@ -814,4 +687,218 @@ Public Class Form4
             EnableAdminModeToolStripMenuItem.Text = "Enable Admin mode"
         End If
     End Sub
+
+    Function SizeAdjust()
+        If Me.WindowState = FormWindowState.Maximized Then
+            If CommPortSelectToolStripMenuItem.Checked = True Then
+                If VIOSelectToolStripMenuItem.Checked = True Then
+                    Label16.Location = New Point(x:=(intX / 8), y:=(intY * 1 / 14))
+                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 3 / 14))
+                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 5 / 14))
+                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 7 / 14))
+                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 9 / 14))
+                    Button2.Location = New Point(x:=(intX / 4), y:=(intY * 11 / 14))
+                    ComboBox5.Location = New Point(x:=(intX / 4), y:=(intY * 1 / 14))
+                    ComboBox6.Location = New Point(x:=(intX / 4), y:=(intY * 3 / 14))
+                    ComboBox7.Location = New Point(x:=(intX / 4), y:=(intY * 5 / 14))
+                    ComboBox8.Location = New Point(x:=(intX / 4), y:=(intY * 7 / 14))
+                    ComboBox9.Location = New Point(x:=(intX / 4), y:=(intY * 9 / 14))
+                    Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 1 / 14))
+                    RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 2 / 14))
+                    RichTextBox1.Size = New Size(width:=(intX / 3), height:=(intY / 1.95))
+                    Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 14))
+                Else
+                    Label11.Location = New Point(x:=(intX / 8), y:=(intY * 1 / 14))
+                    Label10.Location = New Point(x:=(intX / 8), y:=(intY * 2.25 / 14))
+                    Label9.Location = New Point(x:=(intX / 8), y:=(intY * 3.5 / 14))
+                    Label16.Location = New Point(x:=(intX / 8), y:=(intY * 4.75 / 14))
+                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 6 / 14))
+                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 7.25 / 14))
+                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 8.5 / 14))
+                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 9.75 / 14))
+                    Button1.Location = New Point(x:=(intX / 8), y:=(intY * 11 / 14))
+                    Button2.Location = New Point(x:=(intX / 4), y:=(intY * 11 / 14))
+                    Label12.Location = New Point(x:=(intX / 3.8), y:=(intY * 1 / 14))
+                    Label13.Location = New Point(x:=(intX / 3), y:=(intY * 1 / 14))
+                    RadioButton1.Location = New Point(x:=(intX / 3.5), y:=(intY * 1 / 14))
+                    RadioButton2.Location = New Point(x:=(intX / 2.8), y:=(intY * 1 / 14))
+                    ComboBox3.Location = New Point(x:=(intX / 4), y:=(intY * 2.25 / 14))
+                    ComboBox4.Location = New Point(x:=(intX / 4), y:=(intY * 3.5 / 14))
+                    ComboBox5.Location = New Point(x:=(intX / 4), y:=(intY * 4.75 / 14))
+                    ComboBox6.Location = New Point(x:=(intX / 4), y:=(intY * 6 / 14))
+                    ComboBox7.Location = New Point(x:=(intX / 4), y:=(intY * 7.25 / 14))
+                    ComboBox8.Location = New Point(x:=(intX / 4), y:=(intY * 8.5 / 14))
+                    ComboBox9.Location = New Point(x:=(intX / 4), y:=(intY * 9.75 / 14))
+                    Button5.Location = New Point(x:=(intX / 1.9), y:=(intY * 1 / 14))
+                    Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 4 / 14))
+                    RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 5 / 14))
+                    RichTextBox1.Size = New Size(width:=(intX / 3), height:=(intY / 2.9))
+                    Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 14))
+                End If
+            Else
+                If VIOSelectToolStripMenuItem.Checked = True Then
+                    Label15.Location = New Point(x:=(intX / 8), y:=(intY / 14))
+                    Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2.43 / 14))
+                    Label16.Location = New Point(x:=(intX / 8), y:=(intY * 3.85 / 14))
+                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 5.28 / 14))
+                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 6.71 / 14))
+                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 8.14 / 14))
+                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 9.57 / 14))
+                    Button2.Location = New Point(x:=(intX / 4), y:=(intY * 11 / 14))
+                    ComboBox1.Location = New Point(x:=(intX / 4), y:=(intY * 1 / 14))
+                    ComboBox2.Location = New Point(x:=(intX / 4), y:=(intY * 2.43 / 14))
+                    ComboBox5.Location = New Point(x:=(intX / 4), y:=(intY * 3.85 / 14))
+                    ComboBox6.Location = New Point(x:=(intX / 4), y:=(intY * 5.28 / 14))
+                    ComboBox7.Location = New Point(x:=(intX / 4), y:=(intY * 6.71 / 14))
+                    ComboBox8.Location = New Point(x:=(intX / 4), y:=(intY * 8.14 / 14))
+                    ComboBox9.Location = New Point(x:=(intX / 4), y:=(intY * 9.57 / 14))
+                    Button3.Location = New Point(x:=(intX / 1.9), y:=(intY * 1 / 14))
+                    Button4.Location = New Point(x:=(intX / 1.29), y:=(intY * 1 / 14))
+                    Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 3.3 / 14))
+                    RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 4 / 14))
+                    RichTextBox1.Size = New Size(width:=(intX / 3), height:=(intY / 2.4))
+                    Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 14))
+                Else
+                    Label15.Location = New Point(x:=(intX / 8), y:=(intY / 14))
+                    Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2 / 14))
+                    Label11.Location = New Point(x:=(intX / 8), y:=(intY * 3 / 14))
+                    Label10.Location = New Point(x:=(intX / 8), y:=(intY * 4 / 14))
+                    Label9.Location = New Point(x:=(intX / 8), y:=(intY * 5 / 14))
+                    Label16.Location = New Point(x:=(intX / 8), y:=(intY * 6 / 14))
+                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 7 / 14))
+                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 8 / 14))
+                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 9 / 14))
+                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 10 / 14))
+                    Button1.Location = New Point(x:=(intX / 8), y:=(intY * 11 / 14))
+                    Button2.Location = New Point(x:=(intX / 4), y:=(intY * 11 / 14))
+                    ComboBox1.Location = New Point(x:=(intX / 4), y:=(intY * 1 / 14))
+                    ComboBox2.Location = New Point(x:=(intX / 4), y:=(intY * 2 / 14))
+                    Label12.Location = New Point(x:=(intX / 3.8), y:=(intY * 3 / 14))
+                    Label13.Location = New Point(x:=(intX / 3), y:=(intY * 3 / 14))
+                    RadioButton1.Location = New Point(x:=(intX / 3.5), y:=(intY * 3 / 14))
+                    RadioButton2.Location = New Point(x:=(intX / 2.8), y:=(intY * 3 / 14))
+                    ComboBox3.Location = New Point(x:=(intX / 4), y:=(intY * 4 / 14))
+                    ComboBox4.Location = New Point(x:=(intX / 4), y:=(intY * 5 / 14))
+                    ComboBox5.Location = New Point(x:=(intX / 4), y:=(intY * 6 / 14))
+                    ComboBox6.Location = New Point(x:=(intX / 4), y:=(intY * 7 / 14))
+                    ComboBox7.Location = New Point(x:=(intX / 4), y:=(intY * 8 / 14))
+                    ComboBox8.Location = New Point(x:=(intX / 4), y:=(intY * 9 / 14))
+                    ComboBox9.Location = New Point(x:=(intX / 4), y:=(intY * 10 / 14))
+                    Button3.Location = New Point(x:=(intX / 1.9), y:=(intY * 1 / 14))
+                    Button4.Location = New Point(x:=(intX / 1.29), y:=(intY * 1 / 14))
+                    Button5.Location = New Point(x:=(intX / 1.9), y:=(intY * 4 / 14))
+                    Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 5.4 / 14))
+                    RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 6 / 14))
+                    RichTextBox1.Size = New Size(width:=(intX / 3), height:=(intY / 3.3))
+                    Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 14))
+                End If
+            End If
+        Else
+            If CommPortSelectToolStripMenuItem.Checked = True Then
+                If VIOSelectToolStripMenuItem.Checked = True Then
+                    Label16.Location = New Point(x:=91, y:=63)
+                    Label5.Location = New Point(x:=91, y:=166.5)
+                    Label6.Location = New Point(x:=91, y:=270)
+                    Label7.Location = New Point(x:=91, y:=373.5)
+                    Label8.Location = New Point(x:=91, y:=477)
+                    Button2.Location = New Point(x:=259, y:=547)
+                    ComboBox5.Location = New Point(x:=238, y:=58)
+                    ComboBox6.Location = New Point(x:=238, y:=162.5)
+                    ComboBox7.Location = New Point(x:=238, y:=267)
+                    ComboBox8.Location = New Point(x:=238, y:=370.5)
+                    ComboBox9.Location = New Point(x:=238, y:=476)
+                    Label14.Location = New Point(x:=535, y:=63)
+                    RichTextBox1.Location = New Point(x:=537, y:=117)
+                    RichTextBox1.Size = New Size(width:=287, height:=380)
+                    Button6.Location = New Point(x:=538, y:=547)
+                Else
+                    Label11.Location = New Point(x:=91, y:=63)
+                    Label10.Location = New Point(x:=91, y:=123.5)
+                    Label9.Location = New Point(x:=91, y:=184)
+                    Label16.Location = New Point(x:=91, y:=244.5)
+                    Label5.Location = New Point(x:=91, y:=305)
+                    Label6.Location = New Point(x:=91, y:=365.5)
+                    Label7.Location = New Point(x:=91, y:=426)
+                    Label8.Location = New Point(x:=91, y:=486.5)
+                    Button1.Location = New Point(x:=89, y:=547)
+                    Button2.Location = New Point(x:=259, y:=547)
+                    Label12.Location = New Point(x:=249, y:=63)
+                    Label13.Location = New Point(x:=308, y:=63)
+                    RadioButton1.Location = New Point(x:=288, y:=63)
+                    RadioButton2.Location = New Point(x:=348, y:=63)
+                    ComboBox3.Location = New Point(x:=238, y:=117.5)
+                    ComboBox4.Location = New Point(x:=238, y:=179)
+                    ComboBox5.Location = New Point(x:=238, y:=240.5)
+                    ComboBox6.Location = New Point(x:=238, y:=301)
+                    ComboBox7.Location = New Point(x:=238, y:=362.5)
+                    ComboBox8.Location = New Point(x:=238, y:=424)
+                    ComboBox9.Location = New Point(x:=238, y:=485.5)
+                    Button5.Location = New Point(x:=537, y:=50)
+                    Label14.Location = New Point(x:=535, y:=136.5)
+                    RichTextBox1.Location = New Point(x:=537, y:=190)
+                    RichTextBox1.Size = New Size(width:=287, height:=317)
+                    Button6.Location = New Point(x:=538, y:=547)
+                End If
+            Else
+                If VIOSelectToolStripMenuItem.Checked = True Then
+                    Label15.Location = New Point(x:=91, y:=63)
+                    Label4.Location = New Point(x:=91, y:=132.14)
+                    Label16.Location = New Point(x:=91, y:=201.28)
+                    Label5.Location = New Point(x:=91, y:=270.43)
+                    Label6.Location = New Point(x:=91, y:=339.57)
+                    Label7.Location = New Point(x:=91, y:=408.71)
+                    Label8.Location = New Point(x:=91, y:=477.85)
+                    Button2.Location = New Point(x:=259, y:=547)
+                    ComboBox1.Location = New Point(x:=238, y:=59)
+                    ComboBox2.Location = New Point(x:=238, y:=127.14)
+                    ComboBox5.Location = New Point(x:=238, y:=196.28)
+                    ComboBox6.Location = New Point(x:=238, y:=266.43)
+                    ComboBox7.Location = New Point(x:=238, y:=336.57)
+                    ComboBox8.Location = New Point(x:=238, y:=406.71)
+                    ComboBox9.Location = New Point(x:=238, y:=476.85)
+                    Button3.Location = New Point(x:=537, y:=46)
+                    Button4.Location = New Point(x:=704, y:=46)
+                    Label14.Location = New Point(x:=535, y:=132.14)
+                    RichTextBox1.Location = New Point(x:=537, y:=171.14)
+                    RichTextBox1.Size = New Size(width:=287, height:=329)
+                    Button6.Location = New Point(x:=538, y:=547)
+                Else
+                    Label15.Location = New Point(x:=91, y:=63)
+                    Label4.Location = New Point(x:=91, y:=109)
+                    Label11.Location = New Point(x:=91, y:=155)
+                    Label10.Location = New Point(x:=91, y:=201)
+                    Label9.Location = New Point(x:=91, y:=247)
+                    Label16.Location = New Point(x:=91, y:=293)
+                    Label5.Location = New Point(x:=91, y:=339)
+                    Label6.Location = New Point(x:=91, y:=385)
+                    Label7.Location = New Point(x:=91, y:=431)
+                    Label8.Location = New Point(x:=91, y:=477)
+                    Button1.Location = New Point(x:=89, y:=547)
+                    Button2.Location = New Point(x:=259, y:=547)
+                    ComboBox1.Location = New Point(x:=238, y:=59)
+                    ComboBox2.Location = New Point(x:=238, y:=104)
+                    Label12.Location = New Point(x:=249, y:=155)
+                    Label13.Location = New Point(x:=308, y:=155)
+                    RadioButton1.Location = New Point(x:=288, y:=155)
+                    RadioButton2.Location = New Point(x:=348, y:=155)
+                    ComboBox3.Location = New Point(x:=238, y:=193)
+                    ComboBox4.Location = New Point(x:=238, y:=241)
+                    ComboBox5.Location = New Point(x:=238, y:=288)
+                    ComboBox6.Location = New Point(x:=238, y:=335)
+                    ComboBox7.Location = New Point(x:=238, y:=382)
+                    ComboBox8.Location = New Point(x:=238, y:=429)
+                    ComboBox9.Location = New Point(x:=238, y:=476)
+                    Button3.Location = New Point(x:=537, y:=46)
+                    Button4.Location = New Point(x:=704, y:=46)
+                    Button5.Location = New Point(x:=537, y:=142)
+                    Label14.Location = New Point(x:=535, y:=214)
+                    RichTextBox1.Location = New Point(x:=537, y:=253)
+                    RichTextBox1.Size = New Size(width:=287, height:=244)
+                    Button6.Location = New Point(x:=538, y:=547)
+                End If
+            End If
+        End If
+        Return 0
+    End Function
+
 End Class
