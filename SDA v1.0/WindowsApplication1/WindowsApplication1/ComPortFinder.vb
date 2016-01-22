@@ -2,7 +2,7 @@
 Imports Microsoft.Win32
 
 Public Class ComPortFinder
-    Public Function ComPortNames(VID As String, PID As String, Optional MI As String = "") As List(Of String)
+    Public Function ComPortNames(ByVal VID As String, ByVal PID As String, Optional ByVal MI As String = "") As List(Of String)
         Dim pattern As String
         If String.IsNullOrEmpty(MI) Then
             pattern = String.Format("^VID_{0}.PID_{1}", VID, PID)

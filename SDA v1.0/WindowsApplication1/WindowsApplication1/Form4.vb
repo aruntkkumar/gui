@@ -19,7 +19,6 @@ Public Class Form4
     Dim fullscreen As Boolean = False
     Dim intX As Integer = Screen.PrimaryScreen.Bounds.Width
     Dim intY As Integer = Screen.PrimaryScreen.Bounds.Height
-    Dim x As New ComPortFinder
     Delegate Sub SetTextCallBack(ByVal [text] As String)
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
@@ -28,18 +27,20 @@ Public Class Form4
 
     Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Timer1.Enabled = True
-        myPort = IO.Ports.SerialPort.GetPortNames()
-        ComboBox1.Items.AddRange(myPort)
-        Button2.Enabled = False
-        Button4.Enabled = False
-        RichTextBox1.ReadOnly = True
-        SCOUTSC4410ToolStripMenuItem.Enabled = False
-        SierraWirelessToolStripMenuItem.Enabled = False
-        PINGPIOToolStripMenuItem.Enabled = False
         OptionsToolStripMenuItem.Enabled = False
         NewToolStripMenuItem.Enabled = False
         OpenToolStripMenuItem.Enabled = False
         SaveToolStripMenuItem.Enabled = False
+        RichTextBox1.ReadOnly = True
+        SerialReset()
+        'myPort = IO.Ports.SerialPort.GetPortNames()
+        'ComboBox1.Items.AddRange(myPort)
+        'Button2.Enabled = False
+        'Button4.Enabled = False
+        'SCOUTSC4410ToolStripMenuItem.Enabled = False
+        'SierraWirelessToolStripMenuItem.Enabled = False
+        'PINGPIOToolStripMenuItem.Enabled = False
+
         'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing)
         'For Each Str As String In myPort
         '    If Str.Contains(readValue) Then
@@ -71,22 +72,27 @@ Public Class Form4
         '        SCOUTSC4410ToolStripMenuItem.Enabled = True
         '    End If
         'Next
-        Dim list = x.ComPortNames("173C", "0002")
-        For Each item As String In list
-            For Each Str As String In myPort
-                If Str.Contains(item) Then
-                    SCOUTSC4410ToolStripMenuItem.Enabled = True
-                End If
-            Next
-        Next
-        list = x.ComPortNames("413C", "81B6", "03")
-        For Each item As String In list
-            For Each Str As String In myPort
-                If Str.Contains(item) Then
-                    SierraWirelessToolStripMenuItem.Enabled = True
-                End If
-            Next
-        Next
+        'Dim x As New ComPortFinder
+        'Dim list As List(Of String)
+        'Try
+        '    list = x.ComPortNames("173C", "0002")
+        '    For Each item As String In list
+        '        For Each Str As String In myPort
+        '            If Str.Contains(item) Then
+        '                SCOUTSC4410ToolStripMenuItem.Enabled = True
+        '            End If
+        '        Next
+        '    Next
+        'Catch ex As Exception
+        'End Try
+        'list = x.ComPortNames("413C", "81B6", "03")
+        'For Each item As String In list
+        '    For Each Str As String In myPort
+        '        If Str.Contains(item) Then
+        '            SierraWirelessToolStripMenuItem.Enabled = True
+        '        End If
+        '    Next
+        'Next
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -118,9 +124,10 @@ Public Class Form4
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message)
-            ComboBox1.Items.Clear()
-            myPort = IO.Ports.SerialPort.GetPortNames()
-            ComboBox1.Items.AddRange(myPort)
+            SerialReset()
+            'ComboBox1.Items.Clear()
+            'myPort = IO.Ports.SerialPort.GetPortNames()
+            'ComboBox1.Items.AddRange(myPort)
         End Try
     End Sub
 
@@ -305,34 +312,37 @@ Public Class Form4
                     End If
                 End If
             End If
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-            ComboBox1.Items.Clear()
-            myPort = IO.Ports.SerialPort.GetPortNames()
-            ComboBox1.Items.AddRange(myPort)
+        Catch generatedExceptionName As TimeoutException
+            'Catch ex As Exception
+            'MessageBox.Show(ex.Message)
+            SerialReset()
+            'ComboBox1.Items.Clear()
+            'myPort = IO.Ports.SerialPort.GetPortNames()
+            'ComboBox1.Items.AddRange(myPort)
         End Try
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        SerialPort1.Close()
-        Application.DoEvents()  ' Give port time to close down
-        Thread.Sleep(200)
-        Button2.Enabled = False
-        Button3.Enabled = True
-        Button4.Enabled = False
-        Button5.Enabled = True
-        ComboBox1.Enabled = True
-        ComboBox2.Enabled = True
-        ComboBox3.Enabled = True
-        ComboBox4.Enabled = True
-        RadioButton1.Enabled = True
-        RadioButton2.Enabled = True
-        ComboBox1.Items.Clear()
-        myPort = IO.Ports.SerialPort.GetPortNames()
-        ComboBox1.Items.AddRange(myPort)
-        SCOUTSC4410ToolStripMenuItem.Checked = False
-        SierraWirelessToolStripMenuItem.Checked = False
-        PINGPIOToolStripMenuItem.Checked = False
+        'SerialPort1.Close()
+        'Application.DoEvents()  ' Give port time to close down
+        'Thread.Sleep(200)
+        'Button2.Enabled = False
+        'Button3.Enabled = True
+        'Button4.Enabled = False
+        'Button5.Enabled = True
+        'ComboBox1.Enabled = True
+        'ComboBox2.Enabled = True
+        'ComboBox3.Enabled = True
+        'ComboBox4.Enabled = True
+        'RadioButton1.Enabled = True
+        'RadioButton2.Enabled = True
+        'ComboBox1.Items.Clear()
+        'myPort = IO.Ports.SerialPort.GetPortNames()
+        'ComboBox1.Items.AddRange(myPort)
+        'SCOUTSC4410ToolStripMenuItem.Checked = False
+        'SierraWirelessToolStripMenuItem.Checked = False
+        'PINGPIOToolStripMenuItem.Checked = False
+        SerialReset()
         RichTextBox1.Text &= "The active device has been disconnected" & vbCrLf & vbCrLf
     End Sub
 
@@ -409,11 +419,20 @@ Public Class Form4
                     End If
                 End If
             End If
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-            ComboBox1.Items.Clear()
-            myPort = IO.Ports.SerialPort.GetPortNames()
-            ComboBox1.Items.AddRange(myPort)
+        Catch generatedExceptionName As TimeoutException
+            'Catch ex As Exception
+            'MsgBox(ex.Message)
+            'Me.Close()
+            'Me.Show()
+            'SerialPort1.Dispose()
+            'Application.DoEvents()  ' Give port time to close down
+            'Thread.Sleep(200)
+            SerialPort1.DiscardInBuffer()
+            SerialPort1.DiscardOutBuffer()
+            SerialReset()
+            'ComboBox1.Items.Clear()
+            'myPort = IO.Ports.SerialPort.GetPortNames()
+            'ComboBox1.Items.AddRange(myPort)
         End Try
     End Sub
 
@@ -481,18 +500,19 @@ Public Class Form4
 
     Private Sub SCOUTSC4410ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SCOUTSC4410ToolStripMenuItem.Click
         If SCOUTSC4410ToolStripMenuItem.Checked = True Then
-            SerialPort1.Close()
-            Application.DoEvents()  ' Give port time to close down
-            Thread.Sleep(200)
-            SCOUTSC4410ToolStripMenuItem.Checked = False
+            'SerialPort1.Close()
+            'Application.DoEvents()  ' Give port time to close down
+            'Thread.Sleep(200)
+            'SCOUTSC4410ToolStripMenuItem.Checked = False
+            'Button3.Enabled = True
+            'Button4.Enabled = False
+            'Button5.Enabled = True
+            'ComboBox1.Enabled = True
+            'ComboBox2.Enabled = True
+            'ComboBox3.Enabled = True
+            'ComboBox4.Enabled = True
+            SerialReset()
             RichTextBox1.Text &= "SCOUT SC4410 has been disconnected" & vbCrLf & vbCrLf
-            Button3.Enabled = True
-            Button4.Enabled = False
-            Button5.Enabled = True
-            ComboBox1.Enabled = True
-            ComboBox2.Enabled = True
-            ComboBox3.Enabled = True
-            ComboBox4.Enabled = True
         Else
             'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_173C&PID_0002\5&1c8c57d1&0&1\Device Parameters", "PortName", Nothing)
             'For Each Str As String In myPort
@@ -512,14 +532,32 @@ Public Class Form4
             '        ScoutON(readValue)
             '    End If
             'Next
-            Dim list = x.ComPortNames("173C", "0002")
-            For Each item As String In list
-                For Each Str As String In myPort
-                    If Str.Contains(item) Then
-                        ScoutON(item)
-                    End If
+            Dim x As New ComPortFinder
+            Try
+                Dim list = x.ComPortNames("173C", "0002")
+                For Each item As String In list
+                    For Each Str As String In myPort
+                        If Str.Contains(item) Then
+                            ScoutON(item)
+                        End If
+                    Next
                 Next
-            Next
+            Catch ex As Exception
+                'SerialPort1.Close()
+                'Application.DoEvents()  ' Give port time to close down
+                'Thread.Sleep(200)
+                'SCOUTSC4410ToolStripMenuItem.Enabled = False
+                'SCOUTSC4410ToolStripMenuItem.Checked = False
+                'Button3.Enabled = True
+                'Button4.Enabled = False
+                'Button5.Enabled = True
+                'ComboBox1.Enabled = True
+                'ComboBox2.Enabled = True
+                'ComboBox3.Enabled = True
+                'ComboBox4.Enabled = True
+                SerialReset()
+                RichTextBox1.Text &= "SCOUT SC4410 has been disconnected" & vbCrLf & vbCrLf
+            End Try
         End If
     End Sub
 
@@ -550,18 +588,19 @@ Public Class Form4
 
     Private Sub SierraWirelessToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SierraWirelessToolStripMenuItem.Click
         If SierraWirelessToolStripMenuItem.Checked = True Then
-            SerialPort1.Close()
-            Application.DoEvents()  ' Give port time to close down
-            Thread.Sleep(200)
-            SierraWirelessToolStripMenuItem.Checked = False
+            'SerialPort1.Close()
+            'Application.DoEvents()  ' Give port time to close down
+            'Thread.Sleep(200)
+            'SierraWirelessToolStripMenuItem.Checked = False
+            'Button3.Enabled = True
+            'Button4.Enabled = False
+            'Button5.Enabled = True
+            'ComboBox1.Enabled = True
+            'ComboBox2.Enabled = True
+            'ComboBox3.Enabled = True
+            'ComboBox4.Enabled = True
+            SerialReset()
             RichTextBox1.Text &= "SIERRA WIRELESS has been disconnected" & vbCrLf & vbCrLf
-            Button3.Enabled = True
-            Button4.Enabled = False
-            Button5.Enabled = True
-            ComboBox1.Enabled = True
-            ComboBox2.Enabled = True
-            ComboBox3.Enabled = True
-            ComboBox4.Enabled = True
         Else
             'readValue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_413C&PID_81B6&MI_03\6&1831ed82&0&0003\Device Parameters", "PortName", Nothing)
             'For Each Str As String In myPort
@@ -575,14 +614,32 @@ Public Class Form4
             '        SierraON(readValue)
             '    End If
             'Next
-            Dim List = x.ComPortNames("413C", "81B6", "03")
-            For Each item As String In List
-                For Each Str As String In myPort
-                    If Str.Contains(item) Then
-                        SierraON(item)
-                    End If
+            Dim x As New ComPortFinder
+            Try
+                Dim List = x.ComPortNames("413C", "81B6", "03")
+                For Each item As String In List
+                    For Each Str As String In myPort
+                        If Str.Contains(item) Then
+                            SierraON(item)
+                        End If
+                    Next
                 Next
-            Next
+            Catch ex As Exception
+                'SerialPort1.Close()
+                'Application.DoEvents()  ' Give port time to close down
+                'Thread.Sleep(200)
+                'SierraWirelessToolStripMenuItem.Enabled = False
+                'SierraWirelessToolStripMenuItem.Checked = False
+                'Button3.Enabled = True
+                'Button4.Enabled = False
+                'Button5.Enabled = True
+                'ComboBox1.Enabled = True
+                'ComboBox2.Enabled = True
+                'ComboBox3.Enabled = True
+                'ComboBox4.Enabled = True
+                SerialReset()
+                RichTextBox1.Text &= "SIERRA WIRELESS has been disconnected" & vbCrLf & vbCrLf
+            End Try
         End If
     End Sub
 
@@ -900,5 +957,78 @@ Public Class Form4
         End If
         Return 0
     End Function
+
+    Function SerialReset()
+        SerialPort1.Close()
+        Application.DoEvents()  ' Give port time to close down
+        Thread.Sleep(200)
+        Button2.Enabled = False
+        Button3.Enabled = True
+        Button4.Enabled = False
+        Button5.Enabled = True
+        ComboBox1.Enabled = True
+        ComboBox2.Enabled = True
+        ComboBox3.Enabled = True
+        ComboBox4.Enabled = True
+        RadioButton1.Enabled = True
+        RadioButton2.Enabled = True
+        ComboBox1.Items.Clear()
+        myPort = IO.Ports.SerialPort.GetPortNames()
+        ComboBox1.Items.AddRange(myPort)
+        SCOUTSC4410ToolStripMenuItem.Checked = False
+        SierraWirelessToolStripMenuItem.Checked = False
+        PINGPIOToolStripMenuItem.Checked = False
+        SCOUTSC4410ToolStripMenuItem.Enabled = False
+        SierraWirelessToolStripMenuItem.Enabled = False
+        PINGPIOToolStripMenuItem.Enabled = False
+        Dim x As New ComPortFinder
+        Dim list As List(Of String)
+        Try
+            list = x.ComPortNames("173C", "0002")
+            For Each item As String In list
+                For Each Str As String In myPort
+                    If Str.Contains(item) Then
+                        SCOUTSC4410ToolStripMenuItem.Enabled = True
+                    End If
+                Next
+            Next
+        Catch ex As Exception
+        End Try
+        list = x.ComPortNames("413C", "81B6", "03")
+        For Each item As String In list
+            For Each Str As String In myPort
+                If Str.Contains(item) Then
+                    SierraWirelessToolStripMenuItem.Enabled = True
+                End If
+            Next
+        Next
+        Return 0
+    End Function
+
+    Class SafeSerialPort
+        Inherits SerialPort
+        Public Shadows Sub Open()
+            If Not MyBase.IsOpen Then
+                MyBase.Open()
+                GC.SuppressFinalize(Me.BaseStream)
+            End If
+        End Sub
+
+        Public Shadows Sub Close()
+            If MyBase.IsOpen Then
+                GC.ReRegisterForFinalize(Me.BaseStream)
+                MyBase.Close()
+            End If
+        End Sub
+
+        Protected Overrides Sub Dispose(disposing As Boolean)
+            Try
+                MyBase.Dispose(disposing)
+            Catch ex As Exception
+                Debug.WriteLine(ex.Message)
+            End Try
+
+        End Sub
+    End Class
 
 End Class
