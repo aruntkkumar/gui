@@ -81,18 +81,18 @@ Public Class Form4
 
         Dim x As New ComPortFinder
         Dim list As List(Of String)
-        'Try
-        list = x.ComPortNames("173C", "0002")
-        For Each item As String In list
-            For Each Str As String In myPort
-                If Str.Contains(item) Then
-                    SCOUTSC4410ToolStripMenuItem.Enabled = True
-                End If
+        Try
+            list = x.ComPortNames("173C", "0002")
+            For Each item As String In list
+                For Each Str As String In myPort
+                    If Str.Contains(item) Then
+                        SCOUTSC4410ToolStripMenuItem.Enabled = True
+                    End If
+                Next
             Next
-        Next
-        'Catch ex As Exception
-        'MessageBox.Show(ex.Message)
-        'End Try
+        Catch ex As Exception
+            'MessageBox.Show(ex.Message)
+        End Try
         list = x.ComPortNames("2A19", "0800")
         For Each item As String In list
             For Each Str As String In myPort
