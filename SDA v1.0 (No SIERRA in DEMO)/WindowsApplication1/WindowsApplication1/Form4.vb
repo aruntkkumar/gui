@@ -1154,6 +1154,10 @@ Public Class Form4
         Return 0
     End Function
 
+    Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
+        Form8.ShowDialog()
+
+    End Sub
 End Class
 
 Public Class ExSerialPort
