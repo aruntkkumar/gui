@@ -39,18 +39,20 @@ Partial Class Form8
         'PictureBox1
         '
         Me.PictureBox1.BackColor = System.Drawing.Color.White
+        Me.PictureBox1.Cursor = System.Windows.Forms.Cursors.Hand
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(20, 26)
+        Me.PictureBox1.Location = New System.Drawing.Point(447, 133)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(588, 87)
+        Me.PictureBox1.Size = New System.Drawing.Size(175, 95)
         Me.PictureBox1.TabIndex = 0
         Me.PictureBox1.TabStop = False
         '
         'Label1
         '
         Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Transparent
         Me.Label1.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(25, 128)
+        Me.Label1.Location = New System.Drawing.Point(25, 18)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(596, 112)
         Me.Label1.TabIndex = 2
@@ -62,7 +64,7 @@ Partial Class Form8
         '
         Me.PictureBox2.Cursor = System.Windows.Forms.Cursors.Hand
         Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
-        Me.PictureBox2.Location = New System.Drawing.Point(28, 250)
+        Me.PictureBox2.Location = New System.Drawing.Point(28, 140)
         Me.PictureBox2.Name = "PictureBox2"
         Me.PictureBox2.Size = New System.Drawing.Size(40, 40)
         Me.PictureBox2.TabIndex = 3
@@ -72,7 +74,7 @@ Partial Class Form8
         '
         Me.PictureBox3.Cursor = System.Windows.Forms.Cursors.Hand
         Me.PictureBox3.Image = CType(resources.GetObject("PictureBox3.Image"), System.Drawing.Image)
-        Me.PictureBox3.Location = New System.Drawing.Point(74, 250)
+        Me.PictureBox3.Location = New System.Drawing.Point(74, 140)
         Me.PictureBox3.Name = "PictureBox3"
         Me.PictureBox3.Size = New System.Drawing.Size(40, 40)
         Me.PictureBox3.TabIndex = 4
@@ -82,7 +84,7 @@ Partial Class Form8
         '
         Me.PictureBox4.Cursor = System.Windows.Forms.Cursors.Hand
         Me.PictureBox4.Image = CType(resources.GetObject("PictureBox4.Image"), System.Drawing.Image)
-        Me.PictureBox4.Location = New System.Drawing.Point(120, 250)
+        Me.PictureBox4.Location = New System.Drawing.Point(120, 140)
         Me.PictureBox4.Name = "PictureBox4"
         Me.PictureBox4.Size = New System.Drawing.Size(40, 40)
         Me.PictureBox4.TabIndex = 5
@@ -92,7 +94,7 @@ Partial Class Form8
         '
         Me.PictureBox5.Cursor = System.Windows.Forms.Cursors.Hand
         Me.PictureBox5.Image = CType(resources.GetObject("PictureBox5.Image"), System.Drawing.Image)
-        Me.PictureBox5.Location = New System.Drawing.Point(166, 250)
+        Me.PictureBox5.Location = New System.Drawing.Point(166, 140)
         Me.PictureBox5.Name = "PictureBox5"
         Me.PictureBox5.Size = New System.Drawing.Size(40, 40)
         Me.PictureBox5.TabIndex = 6
@@ -103,13 +105,14 @@ Partial Class Form8
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(645, 344)
+        Me.ClientSize = New System.Drawing.Size(645, 231)
         Me.Controls.Add(Me.PictureBox5)
         Me.Controls.Add(Me.PictureBox4)
         Me.Controls.Add(Me.PictureBox3)
         Me.Controls.Add(Me.PictureBox2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.PictureBox1)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "Form8"
