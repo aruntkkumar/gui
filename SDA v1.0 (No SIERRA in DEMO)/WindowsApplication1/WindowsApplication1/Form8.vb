@@ -14,13 +14,21 @@ Public Class Form8
         Process.Start("https://www.linkedin.com/company/smart-antenna-technologies")
     End Sub
 
-    Private Sub PictureBox4_Click(sender As Object, e As EventArgs) Handles PictureBox4.Click
-        Process.Start("https://plus.google.com/103011616596456540984/posts")
-
-    End Sub
-
     Private Sub PictureBox5_Click(sender As Object, e As EventArgs) Handles PictureBox5.Click
-        Process.Start("https://www.facebook.com/Smart-Antenna-Tech-Ltd-1050346681650577/")
+
     End Sub
+
+    Private Sub PictureBox4_Click(sender As Object, e As EventArgs) Handles PictureBox4.Click
+
+    End Sub
+
+    'Private Sub PictureBox4_Click(sender As Object, e As EventArgs)
+    '    Process.Start("https://plus.google.com/103011616596456540984/posts")
+
+    'End Sub
+
+    'Private Sub PictureBox5_Click(sender As Object, e As EventArgs)
+    '    Process.Start("https://www.facebook.com/Smart-Antenna-Tech-Ltd-1050346681650577/")
+    'End Sub
 
 End Class

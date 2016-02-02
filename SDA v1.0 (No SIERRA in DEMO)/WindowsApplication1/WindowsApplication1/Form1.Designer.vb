@@ -36,40 +36,44 @@ Partial Class Form1
         'label3
         '
         Me.label3.AutoSize = True
-        Me.label3.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.label3.Font = New System.Drawing.Font("Calibri", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
         Me.label3.Location = New System.Drawing.Point(3, 364)
         Me.label3.Name = "label3"
-        Me.label3.Size = New System.Drawing.Size(54, 16)
+        Me.label3.Size = New System.Drawing.Size(46, 15)
         Me.label3.TabIndex = 13
         Me.label3.Text = "Ver. 1.0"
         '
         'label2
         '
         Me.label2.AutoSize = True
-        Me.label2.Font = New System.Drawing.Font("Tahoma", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.label2.Location = New System.Drawing.Point(250, 35)
+        Me.label2.BackColor = System.Drawing.Color.Transparent
+        Me.label2.Font = New System.Drawing.Font("Calibri", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.label2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
+        Me.label2.Location = New System.Drawing.Point(371, 50)
         Me.label2.Name = "label2"
-        Me.label2.Size = New System.Drawing.Size(46, 29)
+        Me.label2.Size = New System.Drawing.Size(51, 33)
         Me.label2.TabIndex = 12
         Me.label2.Text = "TM"
         '
         'label1
         '
         Me.label1.AutoSize = True
-        Me.label1.Font = New System.Drawing.Font("Tahoma", 36.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.label1.Location = New System.Drawing.Point(2, 32)
+        Me.label1.Font = New System.Drawing.Font("Calibri", 48.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.label1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
+        Me.label1.Location = New System.Drawing.Point(73, 39)
         Me.label1.Name = "label1"
-        Me.label1.Size = New System.Drawing.Size(400, 58)
+        Me.label1.Size = New System.Drawing.Size(482, 78)
         Me.label1.TabIndex = 11
-        Me.label1.Text = "SmarTenna   SDA"
+        Me.label1.Text = "SmarTenna    SDA"
         '
         'pictureBox1
         '
+        Me.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand
         Me.pictureBox1.Image = CType(resources.GetObject("pictureBox1.Image"), System.Drawing.Image)
-        Me.pictureBox1.Location = New System.Drawing.Point(432, 247)
+        Me.pictureBox1.Location = New System.Drawing.Point(423, 279)
         Me.pictureBox1.Name = "pictureBox1"
-        Me.pictureBox1.Size = New System.Drawing.Size(197, 135)
-        Me.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pictureBox1.Size = New System.Drawing.Size(176, 101)
         Me.pictureBox1.TabIndex = 10
         Me.pictureBox1.TabStop = False
         '
@@ -104,7 +108,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.White
+        Me.BackColor = System.Drawing.Color.Lavender
         Me.ClientSize = New System.Drawing.Size(630, 383)
         Me.Controls.Add(Me.label3)
         Me.Controls.Add(Me.label2)

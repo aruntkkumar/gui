@@ -15,4 +15,7 @@
         Me.Close()
     End Sub
 
+    Private Sub pictureBox1_Click(sender As Object, e As EventArgs) Handles pictureBox1.Click
+        Process.Start("http://www.smartantennatech.com/")
+    End Sub
 End Class

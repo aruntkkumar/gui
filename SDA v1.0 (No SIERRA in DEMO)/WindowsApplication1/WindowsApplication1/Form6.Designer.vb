@@ -128,6 +128,7 @@ Partial Class Form6
         '
         'TextBox1
         '
+        Me.TextBox1.BackColor = System.Drawing.Color.Lavender
         Me.TextBox1.Location = New System.Drawing.Point(302, 96)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(234, 20)
@@ -135,6 +136,7 @@ Partial Class Form6
         '
         'TextBox2
         '
+        Me.TextBox2.BackColor = System.Drawing.Color.Lavender
         Me.TextBox2.Location = New System.Drawing.Point(302, 132)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(234, 20)
@@ -142,6 +144,7 @@ Partial Class Form6
         '
         'TextBox3
         '
+        Me.TextBox3.BackColor = System.Drawing.Color.Lavender
         Me.TextBox3.Location = New System.Drawing.Point(302, 167)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(234, 20)
@@ -151,7 +154,7 @@ Partial Class Form6
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.White
+        Me.BackColor = System.Drawing.Color.Lavender
         Me.ClientSize = New System.Drawing.Size(562, 381)
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.TextBox2)
