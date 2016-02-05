@@ -25,7 +25,7 @@ Public Class Form5
         ComboBox1.Items.AddRange(myPort)
         Button2.Enabled = False
         Button4.Enabled = False
-        Button7.Enabled = False
+        Button6.Enabled = False
         RichTextBox1.ReadOnly = True
     End Sub
 
@@ -58,7 +58,7 @@ Public Class Form5
                     Button3.Enabled = False
                     Button4.Enabled = True
                     Button5.Enabled = True
-                    Button7.Enabled = True
+                    Button6.Enabled = True
                     ComboBox1.Enabled = False
                     ComboBox2.Enabled = False
                     RichTextBox1.Text &= "Port Name: " & ComboBox1.Text & "; Baud Rate: " & ComboBox2.Text & vbCrLf & vbCrLf
@@ -289,7 +289,7 @@ Public Class Form5
         Button3.Enabled = True
         Button4.Enabled = False
         Button5.Enabled = True
-        Button7.Enabled = False
+        Button6.Enabled = False
         TextBox1.Enabled = True
         TextBox2.Enabled = True
         TextBox3.Enabled = True
@@ -395,7 +395,7 @@ Public Class Form5
         End If
     End Sub
 
-    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button7.Click
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         Try
             'SerialPort1.Write(RichTextBox2.Text & vbCr)
             'RichTextBox1.Text &= SerialPort1.ReadExisting()
