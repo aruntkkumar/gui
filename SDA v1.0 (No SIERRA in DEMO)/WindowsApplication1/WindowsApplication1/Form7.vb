@@ -59,4 +59,5 @@
         textBox1.Text = ""
         textBox2.Text = ""
     End Sub
+
 End Class

@@ -348,7 +348,7 @@ Partial Class Form5
         '
         'TextBox1
         '
-        Me.TextBox1.BackColor = System.Drawing.Color.Lavender
+        Me.TextBox1.BackColor = System.Drawing.SystemColors.Window
         Me.TextBox1.Location = New System.Drawing.Point(238, 152)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(105, 20)
@@ -356,7 +356,7 @@ Partial Class Form5
         '
         'TextBox2
         '
-        Me.TextBox2.BackColor = System.Drawing.Color.Lavender
+        Me.TextBox2.BackColor = System.Drawing.SystemColors.Window
         Me.TextBox2.Location = New System.Drawing.Point(238, 198)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(105, 20)
@@ -364,7 +364,7 @@ Partial Class Form5
         '
         'TextBox3
         '
-        Me.TextBox3.BackColor = System.Drawing.Color.Lavender
+        Me.TextBox3.BackColor = System.Drawing.SystemColors.Window
         Me.TextBox3.Location = New System.Drawing.Point(238, 244)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(105, 20)

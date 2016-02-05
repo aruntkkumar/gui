@@ -87,6 +87,8 @@ Partial Class Form4
         Me.Label17 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.RadioButton3 = New System.Windows.Forms.RadioButton()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -138,7 +140,7 @@ Partial Class Form4
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.Items.AddRange(New Object() {"256000", "128000", "115200", "57600", "38400", "28800", "19200", "14400", "9600", "4800", "2400", "1200", "600"})
-        Me.ComboBox2.Location = New System.Drawing.Point(238, 110)
+        Me.ComboBox2.Location = New System.Drawing.Point(259, 110)
         Me.ComboBox2.MaxDropDownItems = 16
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(259, 21)
@@ -172,7 +174,7 @@ Partial Class Form4
         Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox6.FormattingEnabled = True
         Me.ComboBox6.Items.AddRange(New Object() {"IDLE mode", "TX ON", "RX ON", "TX and RX ON"})
-        Me.ComboBox6.Location = New System.Drawing.Point(238, 340)
+        Me.ComboBox6.Location = New System.Drawing.Point(259, 340)
         Me.ComboBox6.Name = "ComboBox6"
         Me.ComboBox6.Size = New System.Drawing.Size(259, 21)
         Me.ComboBox6.TabIndex = 6
@@ -194,7 +196,7 @@ Partial Class Form4
         Me.ComboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox7.FormattingEnabled = True
         Me.ComboBox7.Items.AddRange(New Object() {"Band 1: 1920-1980 MHz TX, 2110-2170 MHz RX", "Band 2: 1850-1910 MHz TX, 1930-1990 MHz RX", "Band 3: 1710-1785 MHz TX, 1805-1880 MHz RX", "Band 4: 1710-1785 MHz TX, 2110-2155 MHz RX", "Band 5: 824-849 MHz TX, 869-894 MHz RX", "Band 7: 2500-2570 MHz TX, 2620-2690 MHz RX", "Band 8: 880-915 MHz TX, 925-960 MHz RX", "Band 12: 699-716 MHz TX, 729-746 MHz RX", "Band 13: 777-787 MHz TX, 746-756 MHz RX", "Band 20: 832-862 MHz TX, 791-821 MHz RX", "Band 25: 1850-1915 MHz TX, 1930-1995 MHz RX", "Band 26: 814-849 MHz TX, 859-894 MHz RX", "Band 29: 717-728 MHz RX", "Band 30: 2305-2315 MHz TX, 2350-2360 MHz RX", "Band 41: 2496-2690 MHz TDD"})
-        Me.ComboBox7.Location = New System.Drawing.Point(238, 386)
+        Me.ComboBox7.Location = New System.Drawing.Point(259, 386)
         Me.ComboBox7.Name = "ComboBox7"
         Me.ComboBox7.Size = New System.Drawing.Size(259, 21)
         Me.ComboBox7.TabIndex = 8
@@ -216,7 +218,7 @@ Partial Class Form4
         Me.ComboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox8.FormattingEnabled = True
         Me.ComboBox8.Items.AddRange(New Object() {"None selected", "Band 1+8: 2110-2170 MHz RX, 925-960 MHz RX", "Band 2+5: 1930-1990 MHz RX, 869-894 MHz RX", "Band 2+12: 1930-1990 MHz RX, 729-746 MHz RX", "Band 2+13: 1930-1990 MHz RX, 746-756 MHz RX", "Band 2+29: 1930-1990 MHz RX, 717-728 MHz RX", "Band 3+7: 1805-1880 MHz RX, 2620-2690 MHz RX", "Band 3+20: 1805-1880 MHz RX, 791-821 MHz RX", "Band 4+5: 2110-2155 MHz RX, 869-894 MHz RX", "Band 4+12: 2110-2155 MHz RX, 729-746 MHz RX", "Band 4+13: 2110-2155 MHz RX, 746-756 MHz RX", "Band 4+29: 2110-2155 MHz RX, 717-728 MHz RX", "Band 5+30: 869-894 MHz RX, 2350-2360 MHz RX", "Band 7+20: 2620-2690 MHz RX, 791-821 MHz RX", "Band 12+30: 729-746 MHz RX, 2350-2360 MHz RX", "Band 41+41: 2496-2690 MHz RX"})
-        Me.ComboBox8.Location = New System.Drawing.Point(238, 432)
+        Me.ComboBox8.Location = New System.Drawing.Point(259, 432)
         Me.ComboBox8.Name = "ComboBox8"
         Me.ComboBox8.Size = New System.Drawing.Size(259, 21)
         Me.ComboBox8.TabIndex = 10
@@ -238,7 +240,7 @@ Partial Class Form4
         Me.ComboBox9.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox9.FormattingEnabled = True
         Me.ComboBox9.Items.AddRange(New Object() {"Low power (below 5 dBm)", "Low to medium power (5 to 15 dBm)", "Medium to high power (15 to 20 dBm)", "High power (20 to 30 dBm)"})
-        Me.ComboBox9.Location = New System.Drawing.Point(238, 478)
+        Me.ComboBox9.Location = New System.Drawing.Point(259, 478)
         Me.ComboBox9.Name = "ComboBox9"
         Me.ComboBox9.Size = New System.Drawing.Size(259, 21)
         Me.ComboBox9.TabIndex = 12
@@ -260,7 +262,7 @@ Partial Class Form4
         Me.ComboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox4.FormattingEnabled = True
         Me.ComboBox4.Items.AddRange(New Object() {"OFF/External", "1.2", "1.8"})
-        Me.ComboBox4.Location = New System.Drawing.Point(238, 248)
+        Me.ComboBox4.Location = New System.Drawing.Point(259, 248)
         Me.ComboBox4.Name = "ComboBox4"
         Me.ComboBox4.Size = New System.Drawing.Size(259, 21)
         Me.ComboBox4.TabIndex = 14
@@ -292,7 +294,7 @@ Partial Class Form4
         Me.Label12.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label12.AutoSize = True
         Me.Label12.BackColor = System.Drawing.Color.Transparent
-        Me.Label12.Location = New System.Drawing.Point(244, 159)
+        Me.Label12.Location = New System.Drawing.Point(259, 159)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(39, 13)
         Me.Label12.TabIndex = 18
@@ -303,7 +305,7 @@ Partial Class Form4
         Me.Label13.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label13.AutoSize = True
         Me.Label13.BackColor = System.Drawing.Color.Transparent
-        Me.Label13.Location = New System.Drawing.Point(308, 159)
+        Me.Label13.Location = New System.Drawing.Point(361, 159)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(34, 13)
         Me.Label13.TabIndex = 19
@@ -314,7 +316,7 @@ Partial Class Form4
         Me.RadioButton1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton1.AutoSize = True
         Me.RadioButton1.BackColor = System.Drawing.Color.Transparent
-        Me.RadioButton1.Location = New System.Drawing.Point(288, 159)
+        Me.RadioButton1.Location = New System.Drawing.Point(304, 159)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(14, 13)
         Me.RadioButton1.TabIndex = 20
@@ -326,7 +328,7 @@ Partial Class Form4
         Me.RadioButton2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton2.AutoSize = True
         Me.RadioButton2.BackColor = System.Drawing.Color.Transparent
-        Me.RadioButton2.Location = New System.Drawing.Point(348, 159)
+        Me.RadioButton2.Location = New System.Drawing.Point(401, 159)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(14, 13)
         Me.RadioButton2.TabIndex = 21
@@ -336,7 +338,7 @@ Partial Class Form4
         'Button1
         '
         Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button1.Location = New System.Drawing.Point(89, 551)
+        Me.Button1.Location = New System.Drawing.Point(91, 551)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(119, 38)
         Me.Button1.TabIndex = 22
@@ -359,9 +361,9 @@ Partial Class Form4
         Me.RichTextBox1.BackColor = System.Drawing.SystemColors.InfoText
         Me.RichTextBox1.Font = New System.Drawing.Font("Consolas", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RichTextBox1.ForeColor = System.Drawing.SystemColors.Window
-        Me.RichTextBox1.Location = New System.Drawing.Point(537, 256)
+        Me.RichTextBox1.Location = New System.Drawing.Point(558, 234)
         Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.Size = New System.Drawing.Size(287, 244)
+        Me.RichTextBox1.Size = New System.Drawing.Size(287, 265)
         Me.RichTextBox1.TabIndex = 24
         Me.RichTextBox1.Text = ""
         '
@@ -370,7 +372,7 @@ Partial Class Form4
         Me.Label14.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label14.AutoSize = True
         Me.Label14.BackColor = System.Drawing.Color.Transparent
-        Me.Label14.Location = New System.Drawing.Point(535, 218)
+        Me.Label14.Location = New System.Drawing.Point(558, 205)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(77, 13)
         Me.Label14.TabIndex = 25
@@ -392,7 +394,7 @@ Partial Class Form4
         Me.ComboBox1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(238, 64)
+        Me.ComboBox1.Location = New System.Drawing.Point(259, 64)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(259, 21)
         Me.ComboBox1.TabIndex = 27
@@ -400,7 +402,7 @@ Partial Class Form4
         'Button3
         '
         Me.Button3.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button3.Location = New System.Drawing.Point(537, 50)
+        Me.Button3.Location = New System.Drawing.Point(558, 64)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(119, 38)
         Me.Button3.TabIndex = 28
@@ -410,7 +412,7 @@ Partial Class Form4
         'Button4
         '
         Me.Button4.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button4.Location = New System.Drawing.Point(704, 50)
+        Me.Button4.Location = New System.Drawing.Point(726, 64)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(119, 38)
         Me.Button4.TabIndex = 29
@@ -426,7 +428,7 @@ Partial Class Form4
         Me.ComboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox5.FormattingEnabled = True
         Me.ComboBox5.Items.AddRange(New Object() {"MCM Sleep Mode", "Main Antenna", "Aux Antenna", "Both Antennas"})
-        Me.ComboBox5.Location = New System.Drawing.Point(238, 294)
+        Me.ComboBox5.Location = New System.Drawing.Point(259, 294)
         Me.ComboBox5.Name = "ComboBox5"
         Me.ComboBox5.Size = New System.Drawing.Size(259, 21)
         Me.ComboBox5.TabIndex = 31
@@ -448,7 +450,7 @@ Partial Class Form4
         Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox3.FormattingEnabled = True
         Me.ComboBox3.Items.AddRange(New Object() {"1 (ADR = Low)", "9 (ADR = High)"})
-        Me.ComboBox3.Location = New System.Drawing.Point(238, 202)
+        Me.ComboBox3.Location = New System.Drawing.Point(259, 202)
         Me.ComboBox3.Name = "ComboBox3"
         Me.ComboBox3.Size = New System.Drawing.Size(259, 21)
         Me.ComboBox3.TabIndex = 32
@@ -456,7 +458,7 @@ Partial Class Form4
         'Button5
         '
         Me.Button5.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button5.Location = New System.Drawing.Point(537, 146)
+        Me.Button5.Location = New System.Drawing.Point(558, 146)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(119, 38)
         Me.Button5.TabIndex = 35
@@ -612,7 +614,7 @@ Partial Class Form4
         'Button6
         '
         Me.Button6.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Button6.Location = New System.Drawing.Point(538, 551)
+        Me.Button6.Location = New System.Drawing.Point(558, 551)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(119, 38)
         Me.Button6.TabIndex = 37
@@ -669,12 +671,37 @@ Partial Class Form4
         Me.Label19.TabIndex = 41
         Me.Label19.Text = "TM"
         '
+        'Label20
+        '
+        Me.Label20.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label20.AutoSize = True
+        Me.Label20.BackColor = System.Drawing.Color.Transparent
+        Me.Label20.Location = New System.Drawing.Point(459, 159)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(39, 13)
+        Me.Label20.TabIndex = 42
+        Me.Label20.Text = "GPIO4"
+        '
+        'RadioButton3
+        '
+        Me.RadioButton3.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.RadioButton3.AutoSize = True
+        Me.RadioButton3.BackColor = System.Drawing.Color.Transparent
+        Me.RadioButton3.Location = New System.Drawing.Point(504, 159)
+        Me.RadioButton3.Name = "RadioButton3"
+        Me.RadioButton3.Size = New System.Drawing.Size(14, 13)
+        Me.RadioButton3.TabIndex = 43
+        Me.RadioButton3.TabStop = True
+        Me.RadioButton3.UseVisualStyleBackColor = False
+        '
         'Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Lavender
         Me.ClientSize = New System.Drawing.Size(956, 678)
+        Me.Controls.Add(Me.RadioButton3)
+        Me.Controls.Add(Me.Label20)
         Me.Controls.Add(Me.Label19)
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.Label17)
@@ -792,4 +819,6 @@ Partial Class Form4
     Friend WithEvents Label17 As Label
     Friend WithEvents Label18 As Label
     Friend WithEvents Label19 As Label
+    Friend WithEvents Label20 As Label
+    Friend WithEvents RadioButton3 As RadioButton
 End Class
