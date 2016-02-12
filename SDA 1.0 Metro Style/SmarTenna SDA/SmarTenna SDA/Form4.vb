@@ -492,9 +492,9 @@ Public Class Form4
         End If
     End Sub
 
-    Private Sub RichTextBox1_TextChanged(sender As Object, e As EventArgs)
+    Private Sub RichTextBox1_TextChanged(sender As Object, e As EventArgs) Handles RichTextBox1.TextChanged
         RichTextBox1.SelectionStart = RichTextBox1.Text.Length
-        'RichTextBox1.ScrollToCaret()
+        RichTextBox1.ScrollToCaret()
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
