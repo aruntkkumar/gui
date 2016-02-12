@@ -22,7 +22,10 @@ Public Class ComPortFinder
                     For Each s2 As String In rk4.GetSubKeyNames()
                         Dim rk5 As RegistryKey = rk4.OpenSubKey(s2)
                         Dim rk6 As RegistryKey = rk5.OpenSubKey("Device Parameters")
-                        comports.Add(DirectCast(rk6.GetValue("PortName"), String))
+                        Try
+                            comports.Add(DirectCast(rk6.GetValue("PortName"), String))
+                        Catch ex As Exception
+                        End Try
                     Next
                 End If
             Next
