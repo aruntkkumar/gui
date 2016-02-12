@@ -432,8 +432,15 @@ Public Class Form4
                                 RichTextBox1.Text &= myserialPort.ReadExisting()
                             Else
                                 myserialPort.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & bandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & cabandsel.ToString("X") & vbCrLf)
-                                RichTextBox1.Text &= myserialPort.ReadExisting()
-                                RichTextBox1.Text &= myserialPort.ReadExisting()
+                                RichTextBox1.Text &= myserialPort.ReadLine()
+                                RichTextBox1.Text &= myserialPort.ReadLine()
+                                RichTextBox1.Text &= myserialPort.ReadLine()
+                                RichTextBox1.Text &= myserialPort.ReadLine()
+                                RichTextBox1.Text &= myserialPort.ReadLine()
+                                RichTextBox1.Text &= myserialPort.ReadLine()
+                                RichTextBox1.Text &= myserialPort.ReadLine()
+                                'RichTextBox1.Text &= myserialPort.ReadExisting()
+                                'RichTextBox1.Text &= myserialPort.ReadExisting()
                                 'SerialPort1.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & bandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & cabandsel.ToString("X") & vbCrLf)
                                 'RichTextBox1.Text &= SerialPort1.ReadExisting()
                             End If
@@ -522,8 +529,13 @@ Public Class Form4
                         End If
                         Try
                             myserialPort.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
-                            RichTextBox1.Text &= myserialPort.ReadExisting()
-                            RichTextBox1.Text &= myserialPort.ReadExisting()
+                            RichTextBox1.Text &= myserialPort.ReadLine()
+                            RichTextBox1.Text &= myserialPort.ReadLine()
+                            RichTextBox1.Text &= myserialPort.ReadLine()
+                            RichTextBox1.Text &= myserialPort.ReadLine()
+                            RichTextBox1.Text &= myserialPort.ReadLine()
+                            'RichTextBox1.Text &= myserialPort.ReadExisting()
+                            'RichTextBox1.Text &= myserialPort.ReadExisting()
                             'SerialPort1.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
                             'RichTextBox1.Text &= SerialPort1.ReadExisting()
                         Catch ex As Exception
