@@ -351,7 +351,7 @@ Partial Class Form4
         Me.ComboBox9.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox9.FormattingEnabled = True
         Me.ComboBox9.ItemHeight = 19
-        Me.ComboBox9.Items.AddRange(New Object() {"Low power (below 5 dBm)", "Low to medium power (5 to 15 dBm)", "Medium to high power (15 to 20 dBm)", "High power (20 to 30 dBm)"})
+        Me.ComboBox9.Items.AddRange(New Object() {"None selected", "Low power (below 5 dBm)", "Low to medium power (5 to 15 dBm)", "Medium to high power (15 to 20 dBm)", "High power (20 to 30 dBm)"})
         Me.ComboBox9.Location = New System.Drawing.Point(273, 579)
         Me.ComboBox9.MaxDropDownItems = 20
         Me.ComboBox9.Name = "ComboBox9"
