@@ -60,4 +60,13 @@
         textBox2.Text = ""
     End Sub
 
+    Private Sub Form7_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If Not Me.IsDisposed() Then
+            Try
+                Me.Dispose()
+            Catch ex As Exception
+            End Try
+        End If
+    End Sub
+
 End Class

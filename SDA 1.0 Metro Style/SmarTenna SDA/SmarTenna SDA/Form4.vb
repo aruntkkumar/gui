@@ -228,7 +228,7 @@ Public Class Form4
                 If (ComboBox7.Text = "" Or ComboBox8.Text = "" Or (ComboBox7.SelectedIndex = 0 And ComboBox8.SelectedIndex = 0)) Then
                     MetroFramework.MetroMessageBox.Show(Me, "Please select a supported E-UTRA band or Carrier Aggregation Band", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    If (ComboBox7.SelectedIndex = 2 Or ComboBox7.SelectedIndex = 5 Or ComboBox7.SelectedIndex = 8 Or ComboBox7.SelectedIndex = 9 Or ComboBox7.SelectedIndex = 13 Or ComboBox8.SelectedIndex = 2 Or ComboBox8.SelectedIndex = 8) Then
+                    If (ComboBox7.SelectedIndex = 2 Or ComboBox7.SelectedIndex = 8 Or ComboBox7.SelectedIndex = 9 Or ComboBox7.SelectedIndex = 10 Or ComboBox7.SelectedIndex = 13 Or ComboBox8.SelectedIndex = 3 Or ComboBox8.SelectedIndex = 9 Or ComboBox8.SelectedIndex = 10) Then
                         If ComboBox9.Text = "" Then
                             MetroFramework.MetroMessageBox.Show(Me, "Please select the TX power level", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
