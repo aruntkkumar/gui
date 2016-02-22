@@ -11,8 +11,8 @@
 
     Private Sub button2_Click(sender As Object, e As EventArgs) Handles button2.Click
         Form1.Show()
-        Me.Hide()
-        'Me.Close()
+        'Me.Hide()
+        Me.Close()
     End Sub
 
     Private Sub textBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles textBox1.KeyDown
