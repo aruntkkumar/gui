@@ -388,40 +388,52 @@ Public Class Form5
             Exit Sub
         End Try
         test = CInt(TextBox1.Text)
-        If test > 4 Then
-            MetroFramework.MetroMessageBox.Show(Me, "RFFE Bus value above 4. Please enter a value between 0-4 (Use 3 for external tuner)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Else
-            test = CInt(TextBox2.Text)
-            If test > 15 Then
-                MetroFramework.MetroMessageBox.Show(Me, "Slave ID value above 15. Please enter a value between 0-15 (LM8335 slave ID is 1)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        If (test >= 0) Then
+            If test > 4 Then
+                MetroFramework.MetroMessageBox.Show(Me, "RFFE Bus value above 4. Please enter a value between 0-4 (Use 3 for external tuner)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                test = CInt(TextBox3.Text)
-                If test > 31 Then
-                    MetroFramework.MetroMessageBox.Show(Me, "MIPI Register value above 31. Please enter a value between 0-31 (Default value is 5)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                test = CInt(TextBox2.Text)
+                If (test >= 0) Then
+                    If test > 15 Then
+                        MetroFramework.MetroMessageBox.Show(Me, "Slave ID value above 15. Please enter a value between 0-15 (LM8335 slave ID is 1)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        test = CInt(TextBox3.Text)
+                        If (test >= 0) Then
+                            If test > 31 Then
+                                MetroFramework.MetroMessageBox.Show(Me, "MIPI Register value above 31. Please enter a value between 0-31 (Default value is 5)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Else
+                                Try
+                                    'SerialPort1.WriteLine("AT+CFUN=" & TextBox3.Text & vbCrLf)
+                                    'SerialPort1.WriteLine("AT+CFUN=5" & vbCrLf)
+                                    'RichTextBox1.Text &= SerialPort1.ReadExisting()
+                                    myserialPort1.WriteLine("AT+CFUN=5" & vbCrLf)
+                                    RichTextBox1.Text &= myserialPort1.ReadLine()
+                                    RichTextBox1.Text &= myserialPort1.ReadLine()
+                                    'RichTextBox1.Text &= myserialPort1.ReadExisting()
+                                    'RichTextBox1.Text &= myserialPort1.ReadExisting()
+                                    'RichTextBox1.Text &= myserialPort1.ReadExisting()
+                                Catch ex As Exception
+                                    MetroFramework.MetroMessageBox.Show(Me, ComboBox1.Text & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                    'MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
+                                    SerialReset()
+                                    Exit Sub
+                                End Try
+                                Button5.Enabled = False
+                                Button2.Enabled = True
+                                TextBox1.Enabled = False
+                                TextBox2.Enabled = False
+                                TextBox3.Enabled = False
+                            End If
+                        Else
+                            MetroFramework.MetroMessageBox.Show(Me, "Please enter an integer between 0-31 as MIPI Register value. (Default value is 5)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    End If
                 Else
-                    Try
-                        'SerialPort1.WriteLine("AT+CFUN=" & TextBox3.Text & vbCrLf)
-                        'SerialPort1.WriteLine("AT+CFUN=5" & vbCrLf)
-                        'RichTextBox1.Text &= SerialPort1.ReadExisting()
-                        myserialPort1.WriteLine("AT+CFUN=5" & vbCrLf)
-                        RichTextBox1.Text &= myserialPort1.ReadLine()
-                        RichTextBox1.Text &= myserialPort1.ReadLine()
-                        'RichTextBox1.Text &= myserialPort1.ReadExisting()
-                        'RichTextBox1.Text &= myserialPort1.ReadExisting()
-                        'RichTextBox1.Text &= myserialPort1.ReadExisting()
-                    Catch ex As Exception
-                        MetroFramework.MetroMessageBox.Show(Me, ComboBox1.Text & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        'MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
-                        SerialReset()
-                        Exit Sub
-                    End Try
-                    Button5.Enabled = False
-                    Button2.Enabled = True
-                    TextBox1.Enabled = False
-                    TextBox2.Enabled = False
-                    TextBox3.Enabled = False
+                    MetroFramework.MetroMessageBox.Show(Me, "Please enter an integer between 0-15 as Slave ID value. (LM8335 slave ID is 1)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
             End If
+                Else
+            MetroFramework.MetroMessageBox.Show(Me, "Please enter an integer between 0-4 as RFFE Bus value. (Use 3 for external tuner)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 

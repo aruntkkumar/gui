@@ -2,7 +2,7 @@
     Private Sub button1_Click(sender As Object, e As EventArgs) Handles button1.Click
         If textBox1.Text = "admin2" And textBox2.Text = "admin2" Then
             MetroFramework.MetroMessageBox.Show(Me, "Logged into Engineering Mode", "Login", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Form4.Show()
+            Form9.Show()
             Me.Close()
         Else
             MetroFramework.MetroMessageBox.Show(Me, "Wrong Username and/or Password combination", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -18,7 +18,7 @@
         If e.KeyCode = Keys.Enter Then
             If textBox1.Text = "admin2" And textBox2.Text = "admin2" Then
                 MetroFramework.MetroMessageBox.Show(Me, "Logged into Engineering Mode", "Login", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Form4.Show()
+                Form9.Show()
                 Me.Close()
             Else
                 MetroFramework.MetroMessageBox.Show(Me, "Wrong Username and/or Password combination", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -30,7 +30,7 @@
         If e.KeyCode = Keys.Enter Then
             If textBox1.Text = "admin2" And textBox2.Text = "admin2" Then
                 MetroFramework.MetroMessageBox.Show(Me, "Logged into Engineering Mode", "Login", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Form4.Show()
+                Form9.Show()
                 Me.Close()
             Else
                 MetroFramework.MetroMessageBox.Show(Me, "Wrong Username and/or Password combination", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)

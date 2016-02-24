@@ -433,6 +433,7 @@ Public Class Form4
                                         myserialPort.Write("gpio writeall " & cabandsel.ToString("X") & vbCr)
                                         RichTextBox1.Text &= myserialPort.ReadExisting()
                                         RichTextBox1.Text &= myserialPort.ReadExisting()
+                                        RichTextBox1.Text &= myserialPort.ReadExisting()
                                     Else
                                         myserialPort.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & bandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & cabandsel.ToString("X") & vbCrLf)
                                         RichTextBox1.Text &= myserialPort.ReadLine()
