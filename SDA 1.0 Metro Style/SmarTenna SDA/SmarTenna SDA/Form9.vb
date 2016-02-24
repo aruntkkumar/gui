@@ -916,6 +916,9 @@ Public Class Form9
                 ListBox1.Items.Add(TextBox1.Text)
                 ListBox1.TopIndex = ListBox1.Items.Count - 1
                 TextBox1.Text = ""
+                TextBox1.SelectionStart = 0
+                TextBox1.SelectionLength = 0
+                TextBox1.Focus()
             End If
         Else
             MetroFramework.MetroMessageBox.Show(Me, "Invalid state. Please enter an integer between 0-64 for the corresponding state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -928,6 +931,9 @@ Public Class Form9
             ListBox1.Items.RemoveAt(ListBox1.Items.Count - 1)
             ListBox1.TopIndex = ListBox1.Items.Count - 1
         End If
+        TextBox1.SelectionStart = 0
+        TextBox1.SelectionLength = 0
+        TextBox1.Focus()
     End Sub
 
 End Class
