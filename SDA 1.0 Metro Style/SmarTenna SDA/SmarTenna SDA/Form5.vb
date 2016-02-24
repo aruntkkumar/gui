@@ -444,7 +444,8 @@ Public Class Form5
             myserialPort1.Write(RichTextBox2.Text & vbCr)
             RichTextBox1.Text &= myserialPort1.ReadLine()
             RichTextBox1.Text &= myserialPort1.ReadLine()
-            'RichTextBox1.Text &= myserialPort1.ReadExisting()
+            'RichTextBox1.Text &= myserialPort1.ReadLine()
+            RichTextBox1.Text &= myserialPort1.ReadExisting()
             'RichTextBox1.Text &= myserialPort1.ReadExisting()
             'RichTextBox1.Text &= myserialPort1.ReadExisting()
         Catch ex As Exception
@@ -495,6 +496,22 @@ Public Class Form5
             Exit Sub
         Else
             ComboBox7.SelectedIndex = 0
+        End If
+    End Sub
+
+    Private Sub RichTextBox2_KeyDown(sender As Object, e As KeyEventArgs) Handles RichTextBox2.KeyDown
+        If e.Modifiers = Keys.Control AndAlso e.KeyCode = Keys.V Then
+            Using box As New RichTextBox
+                box.SelectAll()
+                box.SelectedRtf = Clipboard.GetText(TextDataFormat.Rtf)
+                box.SelectAll()
+                box.SelectionFont = New Font("Consolas", 8, FontStyle.Regular)
+                box.SelectionBackColor = Color.Black
+                box.SelectionColor = Color.White
+                RichTextBox2.SelectedRtf = box.SelectedRtf
+            End Using
+
+            e.Handled = True
         End If
     End Sub
 End Class
