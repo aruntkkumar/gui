@@ -913,8 +913,16 @@ Public Class Form9
             If (test > 64) Then
                 MetroFramework.MetroMessageBox.Show(Me, "Invalid state. Please enter an integer between 0-64 for the corresponding state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                ListBox1.Items.Add(TextBox1.Text)
-                ListBox1.TopIndex = ListBox1.Items.Count - 1
+                If ListBox1.Text = "" Then
+                    ListBox1.Items.Add(TextBox1.Text)
+                    ListBox1.TopIndex = ListBox1.Items.Count - 1
+                Else
+                    test = ListBox1.SelectedIndex
+                    ListBox1.Items.Remove(ListBox1.SelectedItem.ToString)
+                    ListBox1.Items.Insert(test, TextBox1.Text)
+                    ListBox1.TopIndex = ListBox1.Items.Count - 1
+                End If
+
                 TextBox1.Text = ""
                 TextBox1.SelectionStart = 0
                 TextBox1.SelectionLength = 0
@@ -926,10 +934,14 @@ Public Class Form9
     End Sub
 
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
-        If (ListBox1.Items.Count - 1) = -1 Then
+        If ListBox1.Text = "" Then
+            If (ListBox1.Items.Count - 1) = -1 Then
+            Else
+                ListBox1.Items.RemoveAt(ListBox1.Items.Count - 1)
+                ListBox1.TopIndex = ListBox1.Items.Count - 1
+            End If
         Else
-            ListBox1.Items.RemoveAt(ListBox1.Items.Count - 1)
-            ListBox1.TopIndex = ListBox1.Items.Count - 1
+            ListBox1.Items.Remove(ListBox1.SelectedItem.ToString)
         End If
         TextBox1.SelectionStart = 0
         TextBox1.SelectionLength = 0
