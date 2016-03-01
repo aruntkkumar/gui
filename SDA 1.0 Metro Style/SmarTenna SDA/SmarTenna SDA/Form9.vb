@@ -403,7 +403,7 @@ Public Class Form9
                     End If
                 End If
             End If
-        Loop Until Toggle3.Checked = True
+        Loop Until Toggle3.Checked = False
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
