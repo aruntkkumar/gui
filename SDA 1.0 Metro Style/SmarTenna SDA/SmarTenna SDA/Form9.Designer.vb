@@ -90,6 +90,8 @@ Partial Class Form9
         Me.Button8 = New MetroFramework.Controls.MetroButton()
         Me.Toggle1 = New MetroFramework.Controls.MetroToggle()
         Me.Toggle2 = New MetroFramework.Controls.MetroToggle()
+        Me.Toggle3 = New MetroFramework.Controls.MetroToggle()
+        Me.Label22 = New MetroFramework.Controls.MetroLabel()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -730,11 +732,32 @@ Partial Class Form9
         Me.Toggle2.Text = "Off"
         Me.Toggle2.UseSelectable = True
         '
+        'Toggle3
+        '
+        Me.Toggle3.AutoSize = True
+        Me.Toggle3.Location = New System.Drawing.Point(458, 643)
+        Me.Toggle3.Name = "Toggle3"
+        Me.Toggle3.Size = New System.Drawing.Size(80, 17)
+        Me.Toggle3.TabIndex = 127
+        Me.Toggle3.Text = "Off"
+        Me.Toggle3.UseSelectable = True
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(403, 641)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(53, 19)
+        Me.Label22.TabIndex = 128
+        Me.Label22.Text = "Repeat:"
+        '
         'Form9
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(976, 727)
+        Me.Controls.Add(Me.Label22)
+        Me.Controls.Add(Me.Toggle3)
         Me.Controls.Add(Me.Toggle2)
         Me.Controls.Add(Me.Toggle1)
         Me.Controls.Add(Me.Button8)
@@ -862,4 +885,6 @@ Partial Class Form9
     Friend WithEvents Button8 As MetroFramework.Controls.MetroButton
     Friend WithEvents Toggle1 As MetroFramework.Controls.MetroToggle
     Friend WithEvents Toggle2 As MetroFramework.Controls.MetroToggle
+    Friend WithEvents Toggle3 As MetroFramework.Controls.MetroToggle
+    Friend WithEvents Label22 As MetroFramework.Controls.MetroLabel
 End Class

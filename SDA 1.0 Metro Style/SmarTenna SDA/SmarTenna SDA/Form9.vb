@@ -218,190 +218,192 @@ Public Class Form9
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        If ComboBox5.Text = "" Then
-            MetroFramework.MetroMessageBox.Show(Me, "Please select the status for RF Switch 1", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Else
-            If ComboBox6.Text = "" Then
-                MetroFramework.MetroMessageBox.Show(Me, "Please select the status for RF Switch 2", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Do
+            If ComboBox5.Text = "" Then
+                MetroFramework.MetroMessageBox.Show(Me, "Please select the status for RF Switch 1", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                If ComboBox7.Text = "" Then
-                    MetroFramework.MetroMessageBox.Show(Me, "Please select the status for RF Switch 3", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If ComboBox6.Text = "" Then
+                    MetroFramework.MetroMessageBox.Show(Me, "Please select the status for RF Switch 2", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    If ComboBox8.Text = "" Then
-                        MetroFramework.MetroMessageBox.Show(Me, "Please select the status for RF Switch 4", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    If ComboBox7.Text = "" Then
+                        MetroFramework.MetroMessageBox.Show(Me, "Please select the status for RF Switch 3", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Else
-                        If ComboBox9.Text = "" Then
-                            MetroFramework.MetroMessageBox.Show(Me, "Please select the state of the DAC Output", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        If ComboBox8.Text = "" Then
+                            MetroFramework.MetroMessageBox.Show(Me, "Please select the status for RF Switch 4", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
-                            If ListBox1.Items.Count = 0 Then
-                                MetroFramework.MetroMessageBox.Show(Me, "Please enter the SSC states using integers between 0 to 64, starting from SSC1. (The SSC states ranges from State0 to State64)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            If ComboBox9.Text = "" Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please select the state of the DAC Output", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Else
-                                byte1 = &HC0
-                                byte2 = &H40
-                                byte3 = &H80
-                                If ComboBox5.Text = "Isolation" Then
-                                    byte1 = byte1 Or &H08
+                                If ListBox1.Items.Count = 0 Then
+                                    MetroFramework.MetroMessageBox.Show(Me, "Please enter the SSC states using integers between 0 to 64, starting from SSC1. (The SSC states ranges from State0 to State64)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Else
-                                    If ComboBox5.Text = "ANT-RF1" Then
-                                        byte1 = byte1 Or &H00
+                                    byte1 = &HC0
+                                    byte2 = &H40
+                                    byte3 = &H80
+                                    If ComboBox5.Text = "Isolation" Then
+                                        byte1 = byte1 Or &H08
                                     Else
-                                        If ComboBox5.Text = "ANT-RF2" Then
-                                            byte1 = byte1 Or &H20
+                                        If ComboBox5.Text = "ANT-RF1" Then
+                                            byte1 = byte1 Or &H00
                                         Else
-                                            If ComboBox5.Text = "ANT-RF3" Then
-                                                byte1 = byte1 Or &H10
+                                            If ComboBox5.Text = "ANT-RF2" Then
+                                                byte1 = byte1 Or &H20
                                             Else
-                                                If ComboBox5.Text = "ANT-RF4" Then
-                                                    byte1 = byte1 Or &H30
+                                                If ComboBox5.Text = "ANT-RF3" Then
+                                                    byte1 = byte1 Or &H10
+                                                Else
+                                                    If ComboBox5.Text = "ANT-RF4" Then
+                                                        byte1 = byte1 Or &H30
+                                                    End If
                                                 End If
                                             End If
                                         End If
                                     End If
-                                End If
-                                If ComboBox6.Text = "Isolation" Then
-                                    byte1 = byte1 Or &H01
-                                Else
-                                    If ComboBox6.Text = "ANT-RF1" Then
-                                        byte1 = byte1 Or &H00
+                                    If ComboBox6.Text = "Isolation" Then
+                                        byte1 = byte1 Or &H01
                                     Else
-                                        If ComboBox6.Text = "ANT-RF2" Then
-                                            byte1 = byte1 Or &H04
+                                        If ComboBox6.Text = "ANT-RF1" Then
+                                            byte1 = byte1 Or &H00
                                         Else
-                                            If ComboBox6.Text = "ANT-RF3" Then
-                                                byte1 = byte1 Or &H02
+                                            If ComboBox6.Text = "ANT-RF2" Then
+                                                byte1 = byte1 Or &H04
                                             Else
-                                                If ComboBox6.Text = "ANT-RF4" Then
-                                                    byte1 = byte1 Or &H06
+                                                If ComboBox6.Text = "ANT-RF3" Then
+                                                    byte1 = byte1 Or &H02
+                                                Else
+                                                    If ComboBox6.Text = "ANT-RF4" Then
+                                                        byte1 = byte1 Or &H06
+                                                    End If
                                                 End If
                                             End If
                                         End If
                                     End If
-                                End If
-                                If ComboBox7.Text = "Isolation" Then
-                                    byte2 = byte2 Or &H08
-                                Else
-                                    If ComboBox7.Text = "ANT-RF1" Then
-                                        byte2 = byte2 Or &H00
+                                    If ComboBox7.Text = "Isolation" Then
+                                        byte2 = byte2 Or &H08
                                     Else
-                                        If ComboBox7.Text = "ANT-RF2" Then
-                                            byte2 = byte2 Or &H20
+                                        If ComboBox7.Text = "ANT-RF1" Then
+                                            byte2 = byte2 Or &H00
                                         Else
-                                            If ComboBox7.Text = "ANT-RF3" Then
-                                                byte2 = byte2 Or &H10
+                                            If ComboBox7.Text = "ANT-RF2" Then
+                                                byte2 = byte2 Or &H20
                                             Else
-                                                If ComboBox7.Text = "ANT-RF4" Then
-                                                    byte2 = byte2 Or &H30
+                                                If ComboBox7.Text = "ANT-RF3" Then
+                                                    byte2 = byte2 Or &H10
+                                                Else
+                                                    If ComboBox7.Text = "ANT-RF4" Then
+                                                        byte2 = byte2 Or &H30
+                                                    End If
                                                 End If
                                             End If
                                         End If
                                     End If
-                                End If
-                                If ComboBox8.Text = "Isolation" Then
-                                    byte2 = byte2 Or &H01
-                                Else
-                                    If ComboBox8.Text = "ANT-RF1" Then
-                                        byte2 = byte2 Or &H00
+                                    If ComboBox8.Text = "Isolation" Then
+                                        byte2 = byte2 Or &H01
                                     Else
-                                        If ComboBox8.Text = "ANT-RF2" Then
-                                            byte2 = byte2 Or &H04
+                                        If ComboBox8.Text = "ANT-RF1" Then
+                                            byte2 = byte2 Or &H00
                                         Else
-                                            If ComboBox8.Text = "ANT-RF3" Then
-                                                byte2 = byte2 Or &H02
+                                            If ComboBox8.Text = "ANT-RF2" Then
+                                                byte2 = byte2 Or &H04
                                             Else
-                                                If ComboBox8.Text = "ANT-RF4" Then
-                                                    byte2 = byte2 Or &H06
+                                                If ComboBox8.Text = "ANT-RF3" Then
+                                                    byte2 = byte2 Or &H02
+                                                Else
+                                                    If ComboBox8.Text = "ANT-RF4" Then
+                                                        byte2 = byte2 Or &H06
+                                                    End If
                                                 End If
                                             End If
                                         End If
                                     End If
-                                End If
-                                If ComboBox9.Text = "OFF" Then
-                                    byte3 = byte3 Or &H08
-                                Else
-                                    If ComboBox9.Text = "0.3V" Then
-                                        byte3 = byte3 Or &H00
+                                    If ComboBox9.Text = "OFF" Then
+                                        byte3 = byte3 Or &H08
                                     Else
-                                        If ComboBox9.Text = "0.5V" Then
-                                            byte3 = byte3 Or &H20
+                                        If ComboBox9.Text = "0.3V" Then
+                                            byte3 = byte3 Or &H00
                                         Else
-                                            If ComboBox9.Text = "0.6V" Then
-                                                byte3 = byte3 Or &H10
+                                            If ComboBox9.Text = "0.5V" Then
+                                                byte3 = byte3 Or &H20
                                             Else
-                                                If ComboBox9.Text = "0.7V" Then
-                                                    byte3 = byte3 Or &H30
+                                                If ComboBox9.Text = "0.6V" Then
+                                                    byte3 = byte3 Or &H10
+                                                Else
+                                                    If ComboBox9.Text = "0.7V" Then
+                                                        byte3 = byte3 Or &H30
+                                                    End If
                                                 End If
                                             End If
                                         End If
                                     End If
-                                End If
-                                If Toggle1.Checked = True Then
-                                    byte3 = byte3 Or &H02
-                                End If
-                                If Toggle2.Checked = True Then
-                                    byte3 = byte3 Or &H01
-                                End If
-                                Try
-                                    If device = 3 Then
-                                        myserialPort2.Write("gpio writeall " & byte1.ToString("X") & vbCr)
-                                        RichTextBox1.Text &= myserialPort2.ReadExisting()
-                                        RichTextBox1.Text &= myserialPort2.ReadExisting()
-                                        Thread.Sleep(25)
-                                        myserialPort2.Write("gpio writeall " & byte2.ToString("X") & vbCr)
-                                        RichTextBox1.Text &= myserialPort2.ReadExisting()
-                                        RichTextBox1.Text &= myserialPort2.ReadExisting()
-                                        Thread.Sleep(25)
-                                        myserialPort2.Write("gpio writeall " & byte3.ToString("X") & vbCr)
-                                        RichTextBox1.Text &= myserialPort2.ReadExisting()
-                                        RichTextBox1.Text &= myserialPort2.ReadExisting()
-                                        RichTextBox1.Text &= myserialPort2.ReadExisting()
-                                        Thread.Sleep(25)
-                                        For i = 0 To ListBox1.Items.Count - 1
-                                            If i Mod 2 = 0 Then
-                                                test = &H40
-                                            Else
-                                                test = &H80
-                                            End If
-                                            test = test Or ListBox1.Items.Item(i)
-                                            myserialPort2.Write("gpio writeall " & test.ToString("X") & vbCr)
+                                    If Toggle1.Checked = True Then
+                                        byte3 = byte3 Or &H02
+                                    End If
+                                    If Toggle2.Checked = True Then
+                                        byte3 = byte3 Or &H01
+                                    End If
+                                    Try
+                                        If device = 3 Then
+                                            myserialPort2.Write("gpio writeall " & byte1.ToString("X") & vbCr)
                                             RichTextBox1.Text &= myserialPort2.ReadExisting()
                                             RichTextBox1.Text &= myserialPort2.ReadExisting()
                                             Thread.Sleep(25)
-                                        Next
-                                        RichTextBox1.Text &= myserialPort2.ReadExisting()
-                                    Else
-                                        myserialPort2.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte2.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte3.ToString("X") & vbCrLf)
-                                        RichTextBox1.Text &= myserialPort2.ReadLine()
-                                        RichTextBox1.Text &= myserialPort2.ReadLine()
-                                        RichTextBox1.Text &= myserialPort2.ReadLine()
-                                        RichTextBox1.Text &= myserialPort2.ReadLine()
-                                        RichTextBox1.Text &= myserialPort2.ReadLine()
-                                        RichTextBox1.Text &= myserialPort2.ReadLine()
-                                        RichTextBox1.Text &= myserialPort2.ReadLine()
-                                        For i = 0 To ListBox1.Items.Count - 1
-                                            If i Mod 2 = 0 Then
-                                                test = &H40
-                                            Else
-                                                test = &H80
-                                            End If
-                                            test = test Or ListBox1.Items.Item(i)
-                                            myserialPort2.Write("rw 1 0x05 0x" & test.ToString("X") & vbCrLf)
+                                            myserialPort2.Write("gpio writeall " & byte2.ToString("X") & vbCr)
+                                            RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                            RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                            Thread.Sleep(25)
+                                            myserialPort2.Write("gpio writeall " & byte3.ToString("X") & vbCr)
                                             RichTextBox1.Text &= myserialPort2.ReadExisting()
                                             RichTextBox1.Text &= myserialPort2.ReadExisting()
                                             RichTextBox1.Text &= myserialPort2.ReadExisting()
-                                        Next
-                                    End If
-                                Catch ex As Exception
-                                    MetroFramework.MetroMessageBox.Show(Me, ComboBox1.Text & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                    'MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
-                                    SerialReset()
-                                    Exit Sub
-                                End Try
+                                            Thread.Sleep(25)
+                                            For i = 0 To ListBox1.Items.Count - 1
+                                                If i Mod 2 = 0 Then
+                                                    test = &H40
+                                                Else
+                                                    test = &H80
+                                                End If
+                                                test = test Or ListBox1.Items.Item(i)
+                                                myserialPort2.Write("gpio writeall " & test.ToString("X") & vbCr)
+                                                RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                                RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                                Thread.Sleep(25)
+                                            Next
+                                            RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                        Else
+                                            myserialPort2.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte2.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte3.ToString("X") & vbCrLf)
+                                            RichTextBox1.Text &= myserialPort2.ReadLine()
+                                            RichTextBox1.Text &= myserialPort2.ReadLine()
+                                            RichTextBox1.Text &= myserialPort2.ReadLine()
+                                            RichTextBox1.Text &= myserialPort2.ReadLine()
+                                            RichTextBox1.Text &= myserialPort2.ReadLine()
+                                            RichTextBox1.Text &= myserialPort2.ReadLine()
+                                            RichTextBox1.Text &= myserialPort2.ReadLine()
+                                            For i = 0 To ListBox1.Items.Count - 1
+                                                If i Mod 2 = 0 Then
+                                                    test = &H40
+                                                Else
+                                                    test = &H80
+                                                End If
+                                                test = test Or ListBox1.Items.Item(i)
+                                                myserialPort2.Write("rw 1 0x05 0x" & test.ToString("X") & vbCrLf)
+                                                RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                                RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                                RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                            Next
+                                        End If
+                                    Catch ex As Exception
+                                        MetroFramework.MetroMessageBox.Show(Me, ComboBox1.Text & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                        'MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
+                                        SerialReset()
+                                        Exit Sub
+                                    End Try
+                                End If
                             End If
                         End If
                     End If
                 End If
             End If
-        End If
+        Loop Until Toggle3.Checked = True
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
@@ -775,6 +777,8 @@ Public Class Form9
             Toggle1.Location = New Point(x:=(intX / 3.5), y:=(intY * 8.7346 / 13))
             Toggle2.Location = New Point(x:=(intX / 3.5), y:=(intY * 9.3923 / 13))
             ComboBox9.Location = New Point(x:=(intX / 3.5), y:=(intY * 10.05 / 13))
+            Label22.Location = New Point(x:=((intX / 3.5) + 130), y:=((intY * 11 / 13) + 9))
+            Toggle3.Location = New Point(x:=((intX / 3.5) + 185), y:=((intY * 11 / 13) + 11))
             Button3.Location = New Point(x:=(intX / 1.9), y:=(intY * 1.5 / 13))
             Button4.Location = New Point(x:=(intX / 1.29), y:=(intY * 1.5 / 13))
             Button5.Location = New Point(x:=(intX / 1.9), y:=(intY * 2.8154 / 13))
@@ -820,6 +824,8 @@ Public Class Form9
             Toggle1.Location = New Point(x:=273, y:=511)
             Toggle2.Location = New Point(x:=273, y:=548)
             ComboBox9.Location = New Point(x:=273, y:=583)
+            Label22.Location = New Point(x:=403, y:=641)
+            Toggle3.Location = New Point(x:=458, y:=643)
             Button3.Location = New Point(x:=591, y:=102)
             Button4.Location = New Point(x:=745, y:=102)
             Button5.Location = New Point(x:=591, y:=176)
