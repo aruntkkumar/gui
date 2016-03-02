@@ -203,10 +203,9 @@ Public Class Form4
                             SCOUTSC4410ToolStripMenuItem.Checked = False
                             'SierraWirelessToolStripMenuItem.Checked = False
                             PINGPIOToolStripMenuItem.Checked = True
-                            myserialPort.Write("gpio iodir 00" & vbCr)
+                            myserialPort.Write("gpio iodir 00" & vbCrLf)
+                            RichTextBox1.Text &= myserialPort.ReadLine()
                             RichTextBox1.Text &= myserialPort.ReadExisting()
-                            RichTextBox1.Text &= myserialPort.ReadExisting()
-                            'RichTextBox1.Text &= myserialPort.ReadExisting()
                         End If
                     Next
                 End If
@@ -423,30 +422,20 @@ Public Class Form4
                                 Try
                                     If device = 3 Then
                                         myserialPort.Write("gpio writeall " & byte1.ToString("X") & vbCr)
-                                        RichTextBox1.Text &= myserialPort.ReadExisting()
+                                        RichTextBox1.Text &= myserialPort.ReadLine()
                                         RichTextBox1.Text &= myserialPort.ReadExisting()
                                         Thread.Sleep(25)
                                         myserialPort.Write("gpio writeall " & bandsel.ToString("X") & vbCr)
-                                        RichTextBox1.Text &= myserialPort.ReadExisting()
+                                        RichTextBox1.Text &= myserialPort.ReadLine()
                                         RichTextBox1.Text &= myserialPort.ReadExisting()
                                         Thread.Sleep(25)
-                                        myserialPort.Write("gpio writeall " & cabandsel.ToString("X") & vbCr)
-                                        RichTextBox1.Text &= myserialPort.ReadExisting()
-                                        RichTextBox1.Text &= myserialPort.ReadExisting()
+                                        myserialPort.Write("gpio writeall " & cabandsel.ToString("X") & vbCrLf)
+                                        RichTextBox1.Text &= myserialPort.ReadLine()
                                         RichTextBox1.Text &= myserialPort.ReadExisting()
                                     Else
                                         myserialPort.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & bandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & cabandsel.ToString("X") & vbCrLf)
                                         RichTextBox1.Text &= myserialPort.ReadLine()
-                                        RichTextBox1.Text &= myserialPort.ReadLine()
-                                        RichTextBox1.Text &= myserialPort.ReadLine()
-                                        RichTextBox1.Text &= myserialPort.ReadLine()
-                                        RichTextBox1.Text &= myserialPort.ReadLine()
-                                        RichTextBox1.Text &= myserialPort.ReadLine()
-                                        RichTextBox1.Text &= myserialPort.ReadLine()
-                                        'RichTextBox1.Text &= myserialPort.ReadExisting()
-                                        'RichTextBox1.Text &= myserialPort.ReadExisting()
-                                        'SerialPort1.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & bandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & cabandsel.ToString("X") & vbCrLf)
-                                        'RichTextBox1.Text &= SerialPort1.ReadExisting()
+                                        RichTextBox1.Text &= myserialPort.ReadExisting()
                                     End If
                                 Catch ex As Exception
                                     MetroFramework.MetroMessageBox.Show(Me, ComboBox1.Text & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -541,12 +530,7 @@ Public Class Form4
                         Try
                             myserialPort.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
                             RichTextBox1.Text &= myserialPort.ReadLine()
-                            RichTextBox1.Text &= myserialPort.ReadLine()
-                            RichTextBox1.Text &= myserialPort.ReadLine()
-                            RichTextBox1.Text &= myserialPort.ReadLine()
-                            RichTextBox1.Text &= myserialPort.ReadLine()
-                            'RichTextBox1.Text &= myserialPort.ReadExisting()
-                            'RichTextBox1.Text &= myserialPort.ReadExisting()
+                            RichTextBox1.Text &= myserialPort.ReadExisting()
                             'SerialPort1.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
                             'RichTextBox1.Text &= SerialPort1.ReadExisting()
                         Catch ex As Exception
@@ -846,8 +830,8 @@ Public Class Form4
         'RadioButton3.Checked = False
         device = 3
         RichTextBox1.Text &= "Active device selected as GPIO" & vbCrLf & "Port Name: " & readvalue1 & "; Baud Rate: 9600" & vbCrLf & vbCrLf
-        myserialPort.Write("gpio iodir 00" & vbCr)
-        RichTextBox1.Text &= myserialPort.ReadExisting()
+        myserialPort.Write("gpio iodir 00" & vbCrLf)
+        RichTextBox1.Text &= myserialPort.ReadLine()
         RichTextBox1.Text &= myserialPort.ReadExisting()
         Return 0
     End Function

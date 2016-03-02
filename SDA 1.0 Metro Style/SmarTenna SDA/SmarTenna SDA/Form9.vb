@@ -202,10 +202,9 @@ Public Class Form9
                             SCOUTSC4410ToolStripMenuItem.Checked = False
                             'SierraWirelessToolStripMenuItem.Checked = False
                             PINGPIOToolStripMenuItem.Checked = True
-                            myserialPort2.Write("gpio iodir 00" & vbCr)
+                            myserialPort2.Write("gpio iodir 00" & vbCrLf)
+                            RichTextBox1.Text &= myserialPort2.ReadLine()
                             RichTextBox1.Text &= myserialPort2.ReadExisting()
-                            RichTextBox1.Text &= myserialPort2.ReadExisting()
-                            'RichTextBox1.Text &= myserialPort2.ReadExisting()
                         End If
                     Next
                 End If
@@ -344,16 +343,15 @@ Public Class Form9
                                     Try
                                         If device = 3 Then
                                             myserialPort2.Write("gpio writeall " & byte1.ToString("X") & vbCr)
-                                            RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                            RichTextBox1.Text &= myserialPort2.ReadLine()
                                             RichTextBox1.Text &= myserialPort2.ReadExisting()
                                             Thread.Sleep(25)
                                             myserialPort2.Write("gpio writeall " & byte2.ToString("X") & vbCr)
-                                            RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                            RichTextBox1.Text &= myserialPort2.ReadLine()
                                             RichTextBox1.Text &= myserialPort2.ReadExisting()
                                             Thread.Sleep(25)
                                             myserialPort2.Write("gpio writeall " & byte3.ToString("X") & vbCr)
-                                            RichTextBox1.Text &= myserialPort2.ReadExisting()
-                                            RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                            RichTextBox1.Text &= myserialPort2.ReadLine()
                                             RichTextBox1.Text &= myserialPort2.ReadExisting()
                                             Thread.Sleep(25)
                                             For i = 0 To ListBox1.Items.Count - 1
@@ -364,20 +362,17 @@ Public Class Form9
                                                 End If
                                                 test = test Or ListBox1.Items.Item(i)
                                                 myserialPort2.Write("gpio writeall " & test.ToString("X") & vbCr)
-                                                RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                                RichTextBox1.Text &= myserialPort2.ReadLine()
                                                 RichTextBox1.Text &= myserialPort2.ReadExisting()
                                                 Thread.Sleep(25)
                                             Next
+                                            myserialPort2.Write(vbCr)
+                                            RichTextBox1.Text &= myserialPort2.ReadLine()
                                             RichTextBox1.Text &= myserialPort2.ReadExisting()
                                         Else
                                             myserialPort2.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte2.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte3.ToString("X") & vbCrLf)
                                             RichTextBox1.Text &= myserialPort2.ReadLine()
-                                            RichTextBox1.Text &= myserialPort2.ReadLine()
-                                            RichTextBox1.Text &= myserialPort2.ReadLine()
-                                            RichTextBox1.Text &= myserialPort2.ReadLine()
-                                            RichTextBox1.Text &= myserialPort2.ReadLine()
-                                            RichTextBox1.Text &= myserialPort2.ReadLine()
-                                            RichTextBox1.Text &= myserialPort2.ReadLine()
+                                            RichTextBox1.Text &= myserialPort2.ReadExisting()
                                             For i = 0 To ListBox1.Items.Count - 1
                                                 If i Mod 2 = 0 Then
                                                     test = &H40
@@ -385,9 +380,8 @@ Public Class Form9
                                                     test = &H80
                                                 End If
                                                 test = test Or ListBox1.Items.Item(i)
-                                                myserialPort2.Write("rw 1 0x05 0x" & test.ToString("X") & vbCrLf)
-                                                RichTextBox1.Text &= myserialPort2.ReadExisting()
-                                                RichTextBox1.Text &= myserialPort2.ReadExisting()
+                                                myserialPort2.WriteLine("rw 1 0x05 0x" & test.ToString("X") & vbCrLf)
+                                                RichTextBox1.Text &= myserialPort2.ReadLine()
                                                 RichTextBox1.Text &= myserialPort2.ReadExisting()
                                             Next
                                         End If
@@ -485,12 +479,7 @@ Public Class Form9
                         Try
                             myserialPort2.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
                             RichTextBox1.Text &= myserialPort2.ReadLine()
-                            RichTextBox1.Text &= myserialPort2.ReadLine()
-                            RichTextBox1.Text &= myserialPort2.ReadLine()
-                            RichTextBox1.Text &= myserialPort2.ReadLine()
-                            RichTextBox1.Text &= myserialPort2.ReadLine()
-                            'RichTextBox1.Text &= myserialPort.ReadExisting()
-                            'RichTextBox1.Text &= myserialPort.ReadExisting()
+                            RichTextBox1.Text &= myserialPort2.ReadExisting()
                             'SerialPort1.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
                             'RichTextBox1.Text &= SerialPort1.ReadExisting()
                         Catch ex As Exception
@@ -719,8 +708,8 @@ Public Class Form9
         'RadioButton3.Checked = False
         device = 3
         RichTextBox1.Text &= "Active device selected as GPIO" & vbCrLf & "Port Name: " & readvalue1 & "; Baud Rate: 9600" & vbCrLf & vbCrLf
-        myserialPort2.Write("gpio iodir 00" & vbCr)
-        RichTextBox1.Text &= myserialPort2.ReadExisting()
+        myserialPort2.Write("gpio iodir 00" & vbCrLf)
+        RichTextBox1.Text &= myserialPort2.ReadLine()
         RichTextBox1.Text &= myserialPort2.ReadExisting()
         Return 0
     End Function
