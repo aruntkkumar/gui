@@ -12,6 +12,9 @@ Public Class Form5
     Dim bandsel As Integer
     Dim cabandsel As Integer
     Dim test As Integer
+    Dim fullscreen As Boolean = False
+    Dim intX As Integer = Screen.PrimaryScreen.Bounds.Width
+    Dim intY As Integer = Screen.PrimaryScreen.Bounds.Height
     Dim myserialPort1 As New ExSerialPort
     Delegate Sub SetTextCallBack(ByVal [text] As String)
 
@@ -514,4 +517,89 @@ Public Class Form5
             e.Handled = True
         End If
     End Sub
+
+    Private Sub Form5_SizeChanged(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.SizeChanged
+        If Me.WindowState = FormWindowState.Normal Then
+            'FullScreenToolStripMenuItem.Checked = False
+            fullscreen = False
+        Else
+            'FullScreenToolStripMenuItem.Checked = True
+            fullscreen = True
+        End If
+        SizeAdjust()
+    End Sub
+
+    Function SizeAdjust()
+        If Me.WindowState = FormWindowState.Maximized Then
+            Label15.Location = New Point(x:=(intX / 8), y:=(intY * 1.5 / 13))
+            Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2.45 / 13))
+            Label11.Location = New Point(x:=(intX / 8), y:=(intY * 3.4 / 13))
+            Label10.Location = New Point(x:=(intX / 8), y:=(intY * 4.35 / 13))
+            Label9.Location = New Point(x:=(intX / 8), y:=(intY * 5.3 / 13))
+            Label16.Location = New Point(x:=(intX / 8), y:=(intY * 6.25 / 13))
+            Label5.Location = New Point(x:=(intX / 8), y:=(intY * 7.2 / 13))
+            Label6.Location = New Point(x:=(intX / 8), y:=(intY * 8.15 / 13))
+            Label7.Location = New Point(x:=(intX / 8), y:=(intY * 9.1 / 13))
+            Label8.Location = New Point(x:=(intX / 8), y:=(intY * 10.05 / 13))
+            Button1.Location = New Point(x:=(intX / 8), y:=(intY * 11 / 13))
+            Button2.Location = New Point(x:=(intX / 3.5), y:=(intY * 11 / 13))
+            ComboBox1.Location = New Point(x:=(intX / 3.5), y:=(intY * 1.5 / 13))
+            ComboBox2.Location = New Point(x:=(intX / 3.5), y:=(intY * 2.45 / 13))
+            TextBox1.Location = New Point(x:=((intX / 3.5)), y:=(intY * 3.4 / 13))
+            TextBox2.Location = New Point(x:=(intX / 3.5), y:=(intY * 4.35 / 13))
+            TextBox3.Location = New Point(x:=(intX / 3.5), y:=(intY * 5.3 / 13))
+            Button5.Location = New Point(x:=((intX / 3.5) + 146), y:=((intY * 4.35 / 13) - 7))
+            ComboBox5.Location = New Point(x:=(intX / 3.5), y:=(intY * 6.25 / 13))
+            ComboBox6.Location = New Point(x:=(intX / 3.5), y:=(intY * 7.2 / 13))
+            ComboBox7.Location = New Point(x:=(intX / 3.5), y:=(intY * 8.15 / 13))
+            ComboBox8.Location = New Point(x:=(intX / 3.5), y:=(intY * 9.1 / 13))
+            ComboBox9.Location = New Point(x:=(intX / 3.5), y:=(intY * 10.05 / 13))
+            Button3.Location = New Point(x:=(intX / 1.9), y:=(intY * 1.5 / 13))
+            Button4.Location = New Point(x:=(intX / 1.29), y:=(intY * 1.5 / 13))
+            Label12.Location = New Point(x:=(intX / 1.9), y:=((intY * 2.45 / 13) + 6))
+            RichTextBox2.Location = New Point(x:=(intX / 1.9), y:=((intY * 2.45 / 13) + 34))
+            RichTextBox2.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 10.05 / 13) - (intY * 7.2 / 13) + 25 - 16))
+            Button6.Location = New Point(x:=(intX / 1.9), y:=((intY * 6.22 / 13) - 8))
+            Label14.Location = New Point(x:=(intX / 1.9), y:=((intY * 7.2 / 13) - 12))
+            RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=((intY * 7.2 / 13) + 16))
+            RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 10.05 / 13) - (intY * 7.2 / 13) + 25 - 16))
+            Button7.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 13))
+        Else
+            Label15.Location = New Point(x:=95, y:=102)
+            Label4.Location = New Point(x:=95, y:=155)
+            Label11.Location = New Point(x:=95, y:=208)
+            Label10.Location = New Point(x:=95, y:=261)
+            Label9.Location = New Point(x:=95, y:=314)
+            Label16.Location = New Point(x:=95, y:=367)
+            Label5.Location = New Point(x:=95, y:=420)
+            Label6.Location = New Point(x:=95, y:=473)
+            Label7.Location = New Point(x:=95, y:=526)
+            Label8.Location = New Point(x:=95, y:=579)
+            Button1.Location = New Point(x:=95, y:=632)
+            Button2.Location = New Point(x:=273, y:=632)
+            ComboBox1.Location = New Point(x:=273, y:=102)
+            ComboBox2.Location = New Point(x:=273, y:=155)
+            TextBox1.Location = New Point(x:=273, y:=208)
+            TextBox2.Location = New Point(x:=273, y:=261)
+            TextBox3.Location = New Point(x:=273, y:=314)
+            Button5.Location = New Point(x:=419, y:=254)
+            ComboBox5.Location = New Point(x:=273, y:=367)
+            ComboBox6.Location = New Point(x:=273, y:=420)
+            ComboBox7.Location = New Point(x:=273, y:=473)
+            ComboBox8.Location = New Point(x:=273, y:=526)
+            ComboBox9.Location = New Point(x:=273, y:=579)
+            Button3.Location = New Point(x:=591, y:=102)
+            Button4.Location = New Point(x:=745, y:=102)
+            Label12.Location = New Point(x:=591, y:=161)
+            RichTextBox2.Location = New Point(x:=591, y:=189)
+            RichTextBox2.Size = New Size(width:=273, height:=144)
+            Button6.Location = New Point(x:=591, y:=359)
+            Label14.Location = New Point(x:=591, y:=408)
+            RichTextBox1.Location = New Point(x:=591, y:=436)
+            RichTextBox1.Size = New Size(width:=273, height:=170)
+            Button7.Location = New Point(x:=591, y:=632)
+        End If
+        Return 0
+    End Function
+
 End Class
