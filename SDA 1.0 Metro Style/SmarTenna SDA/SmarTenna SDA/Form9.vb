@@ -397,6 +397,7 @@ Public Class Form9
                     End If
                 End If
             End If
+            Application.DoEvents()
         Loop Until Toggle3.Checked = False
     End Sub
 
