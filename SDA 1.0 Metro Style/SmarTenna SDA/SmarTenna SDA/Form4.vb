@@ -10,6 +10,8 @@ Public Class Form4
     Public Shared pword As Integer = 0
     Dim Line As String
     Dim myPort As Array
+    Dim testPort As Array
+    Dim test As Integer
     Dim vio As Integer
     Dim byte1 As Integer
     Dim bandsel As Integer
@@ -29,6 +31,7 @@ Public Class Form4
     End Sub
 
     Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AddHandler System.Windows.Forms.Application.Idle, AddressOf Application_Idle
         Timer1.Enabled = True
         OptionsToolStripMenuItem.Enabled = False
         NewToolStripMenuItem.Enabled = False
@@ -52,6 +55,12 @@ Public Class Form4
         'ComboBox1.Items.Clear()
         myPort = IO.Ports.SerialPort.GetPortNames()
         ComboBox1.Items.AddRange(myPort)
+        If ComboBox1.Items.Count = 0 Then
+            ComboBox1.Items.Add("                   No ComPorts detected")
+            ComboBox1.SelectedIndex = 0
+        Else
+            ComboBox1.SelectedIndex = -1
+        End If
         SCOUTSC4410ToolStripMenuItem.Checked = False
         SCOUTSC4410ToolStripMenuItem.Enabled = False
         SierraWirelessToolStripMenuItem.Checked = False
@@ -86,13 +95,13 @@ Public Class Form4
         Dim list As List(Of String)
         'Try
         list = x.ComPortNames("173C", "0002")
-            For Each item As String In list
-                For Each Str As String In myPort
-                    If Str.Contains(item) Then
-                        SCOUTSC4410ToolStripMenuItem.Enabled = True
-                    End If
-                Next
+        For Each item As String In list
+            For Each Str As String In myPort
+                If Str.Contains(item) Then
+                    SCOUTSC4410ToolStripMenuItem.Enabled = True
+                End If
             Next
+        Next
         'Catch ex As Exception
         'MessageBox.Show(ex.Message)
         'End Try
@@ -151,63 +160,67 @@ Public Class Form4
             If ComboBox1.Text = "" Then
                 MetroFramework.MetroMessageBox.Show(Me, "Please select a Comm Port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                If ComboBox2.Text = "" Then
-                    MetroFramework.MetroMessageBox.Show(Me, "Please select a Baud Rate", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If ComboBox1.Text = "                   No ComPorts detected" Then
+                    MetroFramework.MetroMessageBox.Show(Me, "No active devices detected. Please connect a supported device", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    'SerialPort1.PortName = ComboBox1.Text
-                    'SerialPort1.BaudRate = ComboBox2.Text
-                    'SerialPort1.Parity = Parity.None
-                    'SerialPort1.DataBits = 8
-                    'SerialPort1.StopBits = StopBits.One
-                    'SerialPort1.Open()
-                    myserialPort.PortName = ComboBox1.Text
-                    myserialPort.BaudRate = ComboBox2.Text
-                    myserialPort.Parity = Parity.None
-                    myserialPort.DataBits = 8
-                    myserialPort.StopBits = StopBits.One
-                    myserialPort.Open()
-                    'Button2.Enabled = True
-                    Button3.Enabled = False
-                    Button4.Enabled = True
-                    Button5.Enabled = True
-                    ComboBox1.Enabled = False
-                    ComboBox2.Enabled = False
-                    ComboBox3.Enabled = True
-                    ComboBox4.Enabled = True
-                    'RadioButton1.Enabled = True
-                    'RadioButton2.Enabled = True
-                    RichTextBox1.Text &= "Port Name: " & ComboBox1.Text & "; Baud Rate: " & ComboBox2.Text & vbCrLf & vbCrLf
-                    Dim x As New ComPortFinder
-                    Dim list As List(Of String)
-                    list = x.ComPortNames("173C", "0002")
-                    For Each item As String In list
-                        If (item = ComboBox1.Text) Then
-                            RadioButton1.Checked = False
-                            RadioButton2.Checked = True
-                            device = 1
-                            SCOUTSC4410ToolStripMenuItem.Checked = True
-                            'SierraWirelessToolStripMenuItem.Checked = False
-                            PINGPIOToolStripMenuItem.Checked = False
-                        End If
-                    Next
-                    list = x.ComPortNames("2A19", "0800")
-                    For Each item As String In list
-                        If (item = ComboBox1.Text) Then
-                            RadioButton1.Checked = True
-                            RadioButton2.Checked = False
-                            Button5.Enabled = False
-                            ComboBox3.Enabled = False
-                            ComboBox4.Enabled = False
-                            Button2.Enabled = True
-                            device = 3
-                            SCOUTSC4410ToolStripMenuItem.Checked = False
-                            'SierraWirelessToolStripMenuItem.Checked = False
-                            PINGPIOToolStripMenuItem.Checked = True
-                            myserialPort.Write("gpio iodir 00" & vbCrLf)
-                            RichTextBox1.Text &= myserialPort.ReadLine()
-                            RichTextBox1.Text &= myserialPort.ReadExisting()
-                        End If
-                    Next
+                    If ComboBox2.Text = "" Then
+                        MetroFramework.MetroMessageBox.Show(Me, "Please select a Baud Rate", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        'SerialPort1.PortName = ComboBox1.Text
+                        'SerialPort1.BaudRate = ComboBox2.Text
+                        'SerialPort1.Parity = Parity.None
+                        'SerialPort1.DataBits = 8
+                        'SerialPort1.StopBits = StopBits.One
+                        'SerialPort1.Open()
+                        myserialPort.PortName = ComboBox1.Text
+                        myserialPort.BaudRate = ComboBox2.Text
+                        myserialPort.Parity = Parity.None
+                        myserialPort.DataBits = 8
+                        myserialPort.StopBits = StopBits.One
+                        myserialPort.Open()
+                        'Button2.Enabled = True
+                        Button3.Enabled = False
+                        Button4.Enabled = True
+                        Button5.Enabled = True
+                        ComboBox1.Enabled = False
+                        ComboBox2.Enabled = False
+                        ComboBox3.Enabled = True
+                        ComboBox4.Enabled = True
+                        'RadioButton1.Enabled = True
+                        'RadioButton2.Enabled = True
+                        RichTextBox1.Text &= "Port Name: " & ComboBox1.Text & "; Baud Rate: " & ComboBox2.Text & vbCrLf & vbCrLf
+                        Dim x As New ComPortFinder
+                        Dim list As List(Of String)
+                        list = x.ComPortNames("173C", "0002")
+                        For Each item As String In list
+                            If (item = ComboBox1.Text) Then
+                                RadioButton1.Checked = False
+                                RadioButton2.Checked = True
+                                device = 1
+                                SCOUTSC4410ToolStripMenuItem.Checked = True
+                                'SierraWirelessToolStripMenuItem.Checked = False
+                                PINGPIOToolStripMenuItem.Checked = False
+                            End If
+                        Next
+                        list = x.ComPortNames("2A19", "0800")
+                        For Each item As String In list
+                            If (item = ComboBox1.Text) Then
+                                RadioButton1.Checked = True
+                                RadioButton2.Checked = False
+                                Button5.Enabled = False
+                                ComboBox3.Enabled = False
+                                ComboBox4.Enabled = False
+                                Button2.Enabled = True
+                                device = 3
+                                SCOUTSC4410ToolStripMenuItem.Checked = False
+                                'SierraWirelessToolStripMenuItem.Checked = False
+                                PINGPIOToolStripMenuItem.Checked = True
+                                myserialPort.Write("gpio iodir 00" & vbCrLf)
+                                RichTextBox1.Text &= myserialPort.ReadLine()
+                                RichTextBox1.Text &= myserialPort.ReadExisting()
+                            End If
+                        Next
+                    End If
                 End If
             End If
         Catch ex As Exception
@@ -1162,6 +1175,13 @@ Public Class Form4
         ComboBox1.Items.Clear()
         myPort = IO.Ports.SerialPort.GetPortNames()
         ComboBox1.Items.AddRange(myPort)
+        If ComboBox1.Items.Count = 0 Then
+            ComboBox1.Items.Add("                   No ComPorts detected")
+            ComboBox1.SelectedIndex = 0
+        Else
+            ComboBox1.SelectedIndex = -1
+        End If
+        ComboBox1.DroppedDown = False
         SCOUTSC4410ToolStripMenuItem.Checked = False
         'SierraWirelessToolStripMenuItem.Checked = False
         PINGPIOToolStripMenuItem.Checked = False
@@ -1251,6 +1271,29 @@ Public Class Form4
             ComboBox8.SelectedIndex = 0
         End If
     End Sub
+
+    Private Sub Application_Idle(ByVal sender As Object, ByVal e As EventArgs)
+        If Button3.Enabled = True Then
+            testPort = IO.Ports.SerialPort.GetPortNames()
+            If Not testPort.Length = myPort.Length Then
+                SerialReset()
+                Exit Sub
+            End If
+            test = 0
+            For Each item1 As String In testPort
+                For Each item2 As String In myPort
+                    Dim res As Int16 = String.Compare(item1, item2) ' compare items
+                    If res = 0 Then 'the items are equal
+                        test += 1
+                    End If
+                Next
+            Next
+            If Not test = myPort.Length Then
+                SerialReset()
+            End If
+        End If
+    End Sub
+
 End Class
 
 Public Class ExSerialPort

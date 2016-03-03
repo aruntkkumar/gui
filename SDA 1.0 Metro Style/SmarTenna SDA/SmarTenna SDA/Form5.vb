@@ -7,6 +7,7 @@ Public Class Form5
 
     Dim Line As String
     Dim myPort As Array
+    Dim testPort As Array
     Dim vio As Integer
     Dim byte1 As Integer
     Dim bandsel As Integer
@@ -23,9 +24,16 @@ Public Class Form5
     End Sub
 
     Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AddHandler System.Windows.Forms.Application.Idle, AddressOf Application_Idle
         Timer1.Enabled = True
         myPort = IO.Ports.SerialPort.GetPortNames()
         ComboBox1.Items.AddRange(myPort)
+        If ComboBox1.Items.Count = 0 Then
+            ComboBox1.Items.Add("                   No ComPorts detected")
+            ComboBox1.SelectedIndex = 0
+        Else
+            ComboBox1.SelectedIndex = -1
+        End If
         Button2.Enabled = False
         Button4.Enabled = False
         Button6.Enabled = False
@@ -37,39 +45,43 @@ Public Class Form5
             If ComboBox1.Text = "" Then
                 MetroFramework.MetroMessageBox.Show(Me, "Please select a Comm Port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                If ComboBox2.Text = "" Then
-                    MetroFramework.MetroMessageBox.Show(Me, "Please select a Baud Rate", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If ComboBox1.Text = "                   No ComPorts detected" Then
+                    MetroFramework.MetroMessageBox.Show(Me, "No active devices detected. Please connect a supported device", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    'Dim x As New ComPortFinder
-                    'Dim List As List(Of String)
-                    'List = x.ComPortNames("413C", "81B6", "03")
-                    'For Each item As String In List
-                    '    If (item = ComboBox1.Text) Then
-                    'SerialPort1.PortName = ComboBox1.Text
-                    'SerialPort1.BaudRate = ComboBox2.Text
-                    'SerialPort1.Parity = Parity.None
-                    'SerialPort1.DataBits = 8
-                    'SerialPort1.StopBits = StopBits.One
-                    'SerialPort1.Open()
-                    myserialPort1.PortName = ComboBox1.Text
-                    myserialPort1.BaudRate = ComboBox2.Text
-                    myserialPort1.Parity = Parity.None
-                    myserialPort1.DataBits = 8
-                    myserialPort1.StopBits = StopBits.One
-                    myserialPort1.Open()
-                    'Button2.Enabled = True
-                    Button3.Enabled = False
-                    Button4.Enabled = True
-                    Button5.Enabled = True
-                    Button6.Enabled = True
-                    ComboBox1.Enabled = False
-                    ComboBox2.Enabled = False
-                    RichTextBox1.Text &= "Port Name: " & ComboBox1.Text & "; Baud Rate: " & ComboBox2.Text & vbCrLf & vbCrLf
-                    '    End If
-                    'Next
-                    'If Not SerialPort1.IsOpen Then
-                    'MetroFramework.MetroMessageBox.Show(Me, "The Selected Port is not valid for System Mode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    'End If
+                    If ComboBox2.Text = "" Then
+                        MetroFramework.MetroMessageBox.Show(Me, "Please select a Baud Rate", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        'Dim x As New ComPortFinder
+                        'Dim List As List(Of String)
+                        'List = x.ComPortNames("413C", "81B6", "03")
+                        'For Each item As String In List
+                        '    If (item = ComboBox1.Text) Then
+                        'SerialPort1.PortName = ComboBox1.Text
+                        'SerialPort1.BaudRate = ComboBox2.Text
+                        'SerialPort1.Parity = Parity.None
+                        'SerialPort1.DataBits = 8
+                        'SerialPort1.StopBits = StopBits.One
+                        'SerialPort1.Open()
+                        myserialPort1.PortName = ComboBox1.Text
+                        myserialPort1.BaudRate = ComboBox2.Text
+                        myserialPort1.Parity = Parity.None
+                        myserialPort1.DataBits = 8
+                        myserialPort1.StopBits = StopBits.One
+                        myserialPort1.Open()
+                        'Button2.Enabled = True
+                        Button3.Enabled = False
+                        Button4.Enabled = True
+                        Button5.Enabled = True
+                        Button6.Enabled = True
+                        ComboBox1.Enabled = False
+                        ComboBox2.Enabled = False
+                        RichTextBox1.Text &= "Port Name: " & ComboBox1.Text & "; Baud Rate: " & ComboBox2.Text & vbCrLf & vbCrLf
+                        '    End If
+                        'Next
+                        'If Not SerialPort1.IsOpen Then
+                        'MetroFramework.MetroMessageBox.Show(Me, "The Selected Port is not valid for System Mode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        'End If
+                    End If
                 End If
             End If
         Catch ex As Exception
@@ -326,6 +338,13 @@ Public Class Form5
         ComboBox1.Items.Clear()
         myPort = IO.Ports.SerialPort.GetPortNames()
         ComboBox1.Items.AddRange(myPort)
+        If ComboBox1.Items.Count = 0 Then
+            ComboBox1.Items.Add("                   No ComPorts detected")
+            ComboBox1.SelectedIndex = 0
+        Else
+            ComboBox1.SelectedIndex = -1
+        End If
+        ComboBox1.DroppedDown = False
         Return 0
     End Function
 
@@ -591,5 +610,27 @@ Public Class Form5
         End If
         Return 0
     End Function
+
+    Private Sub Application_Idle(ByVal sender As Object, ByVal e As EventArgs)
+        If Button3.Enabled = True Then
+            testPort = IO.Ports.SerialPort.GetPortNames()
+            If Not testPort.Length = myPort.Length Then
+                SerialReset()
+                Exit Sub
+            End If
+            test = 0
+            For Each item1 As String In testPort
+                For Each item2 As String In myPort
+                    Dim res As Int16 = String.Compare(item1, item2) ' compare items
+                    If res = 0 Then 'the items are equal
+                        test += 1
+                    End If
+                Next
+            Next
+            If Not test = myPort.Length Then
+                SerialReset()
+            End If
+        End If
+    End Sub
 
 End Class
