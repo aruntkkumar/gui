@@ -51,36 +51,36 @@ Public Class Form5
                     If ComboBox2.Text = "" Then
                         MetroFramework.MetroMessageBox.Show(Me, "Please select a Baud Rate", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Else
-                        'Dim x As New ComPortFinder
-                        'Dim List As List(Of String)
-                        'List = x.ComPortNames("413C", "81B6", "03")
-                        'For Each item As String In List
-                        '    If (item = ComboBox1.Text) Then
-                        'SerialPort1.PortName = ComboBox1.Text
-                        'SerialPort1.BaudRate = ComboBox2.Text
-                        'SerialPort1.Parity = Parity.None
-                        'SerialPort1.DataBits = 8
-                        'SerialPort1.StopBits = StopBits.One
-                        'SerialPort1.Open()
-                        myserialPort1.PortName = ComboBox1.Text
-                        myserialPort1.BaudRate = ComboBox2.Text
-                        myserialPort1.Parity = Parity.None
-                        myserialPort1.DataBits = 8
-                        myserialPort1.StopBits = StopBits.One
-                        myserialPort1.Open()
-                        'Button2.Enabled = True
-                        Button3.Enabled = False
-                        Button4.Enabled = True
-                        Button5.Enabled = True
-                        Button6.Enabled = True
-                        ComboBox1.Enabled = False
-                        ComboBox2.Enabled = False
-                        RichTextBox1.Text &= "Port Name: " & ComboBox1.Text & "; Baud Rate: " & ComboBox2.Text & vbCrLf & vbCrLf
-                        '    End If
-                        'Next
-                        'If Not SerialPort1.IsOpen Then
-                        'MetroFramework.MetroMessageBox.Show(Me, "The Selected Port is not valid for System Mode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        'End If
+                        Dim x As New ComPortFinder
+                        Dim List As List(Of String)
+                        List = x.ComPortNames("413C", "81B6", "03")
+                        For Each item As String In List
+                            If (item = ComboBox1.Text) Then
+                                'SerialPort1.PortName = ComboBox1.Text
+                                'SerialPort1.BaudRate = ComboBox2.Text
+                                'SerialPort1.Parity = Parity.None
+                                'SerialPort1.DataBits = 8
+                                'SerialPort1.StopBits = StopBits.One
+                                'SerialPort1.Open()
+                                myserialPort1.PortName = ComboBox1.Text
+                                myserialPort1.BaudRate = ComboBox2.Text
+                                myserialPort1.Parity = Parity.None
+                                myserialPort1.DataBits = 8
+                                myserialPort1.StopBits = StopBits.One
+                                myserialPort1.Open()
+                                'Button2.Enabled = True
+                                Button3.Enabled = False
+                                Button4.Enabled = True
+                                Button5.Enabled = True
+                                Button6.Enabled = True
+                                ComboBox1.Enabled = False
+                                ComboBox2.Enabled = False
+                                RichTextBox1.Text &= "Port Name: " & ComboBox1.Text & "; Baud Rate: " & ComboBox2.Text & vbCrLf & vbCrLf
+                            End If
+                        Next
+                        If Button3.Enabled = True Then
+                            MetroFramework.MetroMessageBox.Show(Me, "The selected ComPort is not suitable for System Mode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        End If
                     End If
                 End If
             End If
