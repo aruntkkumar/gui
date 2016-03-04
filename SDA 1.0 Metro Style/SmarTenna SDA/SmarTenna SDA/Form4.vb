@@ -451,7 +451,7 @@ Public Class Form4
                                         RichTextBox1.Text &= myserialPort.ReadExisting()
                                     End If
                                 Catch ex As Exception
-                                    MetroFramework.MetroMessageBox.Show(Me, ComboBox1.Text & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                    MetroFramework.MetroMessageBox.Show(Me, myserialPort.PortName & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                     'MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
                                     SerialReset()
                                     Exit Sub
@@ -547,7 +547,7 @@ Public Class Form4
                             'SerialPort1.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
                             'RichTextBox1.Text &= SerialPort1.ReadExisting()
                         Catch ex As Exception
-                            MetroFramework.MetroMessageBox.Show(Me, ComboBox1.Text & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            MetroFramework.MetroMessageBox.Show(Me, myserialPort.PortName & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             'MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
                             SerialReset()
                             Exit Sub
