@@ -566,7 +566,7 @@ Partial Class Form5
         Me.Name = "Form5"
         Me.Resizable = False
         Me.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow
-        Me.Text = "SmarTenna SDA: System Mode"
+        Me.Text = "SmarTenna (TM) SDA: System Mode"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
