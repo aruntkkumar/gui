@@ -70,13 +70,13 @@ Partial Class Form1
         '
         Me.label2.AutoSize = True
         Me.label2.BackColor = System.Drawing.Color.Transparent
-        Me.label2.Font = New System.Drawing.Font("Calibri", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.label2.Font = New System.Drawing.Font("Calibri", 36.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.label2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
-        Me.label2.Location = New System.Drawing.Point(385, 74)
+        Me.label2.Location = New System.Drawing.Point(382, 71)
         Me.label2.Name = "label2"
-        Me.label2.Size = New System.Drawing.Size(51, 33)
+        Me.label2.Size = New System.Drawing.Size(49, 59)
         Me.label2.TabIndex = 14
-        Me.label2.Text = "TM"
+        Me.label2.Text = "®"
         '
         'label1
         '
@@ -85,9 +85,9 @@ Partial Class Form1
         Me.label1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
         Me.label1.Location = New System.Drawing.Point(84, 63)
         Me.label1.Name = "label1"
-        Me.label1.Size = New System.Drawing.Size(482, 78)
+        Me.label1.Size = New System.Drawing.Size(468, 78)
         Me.label1.TabIndex = 13
-        Me.label1.Text = "SmarTenna    SDA"
+        Me.label1.Text = "SmarTenna   SDA"
         '
         'pictureBox1
         '

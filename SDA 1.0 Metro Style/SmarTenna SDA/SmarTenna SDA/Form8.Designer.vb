@@ -100,8 +100,8 @@ Partial Class Form8
         Me.MetroLabel1.Name = "MetroLabel1"
         Me.MetroLabel1.Size = New System.Drawing.Size(676, 95)
         Me.MetroLabel1.TabIndex = 12
-        Me.MetroLabel1.Text = "SmarTenna SDA (Trade Mark) Version 1.0" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Copyright © 2013-2016 SMART ANTENNA TECHN" &
-    "OLOGIES LIMITED, Company No: 8482911. All Rights Reserved." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Follow us on:"
+        Me.MetroLabel1.Text = "SmarTenna ® SDA Version 1.0" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Copyright © 2013-2016 SMART ANTENNA TECHNOLOGIES LIM" &
+    "ITED, Company No: 8482911. All Rights Reserved." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Follow us on:"
         '
         'Form8
         '
@@ -119,7 +119,7 @@ Partial Class Form8
         Me.Name = "Form8"
         Me.Resizable = False
         Me.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow
-        Me.Text = "About SmarTenna (TM) SDA"
+        Me.Text = "About SmarTenna ® SDA"
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit()

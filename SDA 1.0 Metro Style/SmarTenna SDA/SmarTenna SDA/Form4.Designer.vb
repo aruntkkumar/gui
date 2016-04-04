@@ -704,7 +704,7 @@ Partial Class Form4
         Me.Name = "Form4"
         Me.Resizable = False
         Me.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow
-        Me.Text = "SmarTenna (TM) SDA: Demo Mode"
+        Me.Text = "SmarTenna ® SDA: Demo Mode"
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()

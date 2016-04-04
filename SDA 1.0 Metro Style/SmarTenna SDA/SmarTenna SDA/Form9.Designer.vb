@@ -810,7 +810,7 @@ Partial Class Form9
         Me.Name = "Form9"
         Me.Resizable = False
         Me.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow
-        Me.Text = "SmarTenna (TM) SDA: Engineering Mode"
+        Me.Text = "SmarTenna ® SDA: Engineering Mode"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
