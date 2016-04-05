@@ -203,27 +203,27 @@ Partial Class Form5
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(95, 314)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(128, 19)
+        Me.Label9.Size = New System.Drawing.Size(89, 19)
         Me.Label9.TabIndex = 90
-        Me.Label9.Text = "MIPI Register (0-31):"
+        Me.Label9.Text = "MIPI Register:"
         '
         'Label10
         '
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(95, 261)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(97, 19)
+        Me.Label10.Size = New System.Drawing.Size(58, 19)
         Me.Label10.TabIndex = 89
-        Me.Label10.Text = "Slave ID (0-15):"
+        Me.Label10.Text = "Slave ID:"
         '
         'Label11
         '
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(95, 208)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(97, 19)
+        Me.Label11.Size = New System.Drawing.Size(65, 19)
         Me.Label11.TabIndex = 88
-        Me.Label11.Text = "RFFE Bus (0-4):"
+        Me.Label11.Text = "RFFE Bus:"
         '
         'Label4
         '
@@ -460,6 +460,7 @@ Partial Class Form5
         Me.TextBox1.Size = New System.Drawing.Size(119, 25)
         Me.TextBox1.TabIndex = 118
         Me.TextBox1.UseSelectable = True
+        Me.TextBox1.WaterMark = "0 to 4"
         Me.TextBox1.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.TextBox1.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
@@ -489,6 +490,7 @@ Partial Class Form5
         Me.TextBox2.Size = New System.Drawing.Size(119, 25)
         Me.TextBox2.TabIndex = 119
         Me.TextBox2.UseSelectable = True
+        Me.TextBox2.WaterMark = "0 to 15"
         Me.TextBox2.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.TextBox2.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
@@ -518,6 +520,7 @@ Partial Class Form5
         Me.TextBox3.Size = New System.Drawing.Size(119, 25)
         Me.TextBox3.TabIndex = 120
         Me.TextBox3.UseSelectable = True
+        Me.TextBox3.WaterMark = "0 to 31"
         Me.TextBox3.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.TextBox3.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '

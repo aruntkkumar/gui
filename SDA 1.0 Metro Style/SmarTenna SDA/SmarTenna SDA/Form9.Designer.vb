@@ -53,7 +53,6 @@ Partial Class Form9
         Me.Label11 = New MetroFramework.Controls.MetroLabel()
         Me.Label4 = New MetroFramework.Controls.MetroLabel()
         Me.Label15 = New MetroFramework.Controls.MetroLabel()
-        Me.ComboBox9 = New MetroFramework.Controls.MetroComboBox()
         Me.ComboBox8 = New MetroFramework.Controls.MetroComboBox()
         Me.ComboBox7 = New MetroFramework.Controls.MetroComboBox()
         Me.ComboBox6 = New MetroFramework.Controls.MetroComboBox()
@@ -92,6 +91,7 @@ Partial Class Form9
         Me.Toggle2 = New MetroFramework.Controls.MetroToggle()
         Me.Toggle3 = New MetroFramework.Controls.MetroToggle()
         Me.Label22 = New MetroFramework.Controls.MetroLabel()
+        Me.TextBox2 = New MetroFramework.Controls.MetroTextBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -393,19 +393,6 @@ Partial Class Form9
         Me.Label15.TabIndex = 87
         Me.Label15.Text = "Comm Port:"
         '
-        'ComboBox9
-        '
-        Me.ComboBox9.FontSize = MetroFramework.MetroComboBoxSize.Small
-        Me.ComboBox9.FormattingEnabled = True
-        Me.ComboBox9.ItemHeight = 19
-        Me.ComboBox9.Items.AddRange(New Object() {"OFF", "0.3V", "0.5V", "0.6V", "0.7V"})
-        Me.ComboBox9.Location = New System.Drawing.Point(273, 583)
-        Me.ComboBox9.MaxDropDownItems = 20
-        Me.ComboBox9.Name = "ComboBox9"
-        Me.ComboBox9.Size = New System.Drawing.Size(265, 25)
-        Me.ComboBox9.TabIndex = 86
-        Me.ComboBox9.UseSelectable = True
-        '
         'ComboBox8
         '
         Me.ComboBox8.FontSize = MetroFramework.MetroComboBoxSize.Small
@@ -662,6 +649,7 @@ Partial Class Form9
         Me.TextBox1.Size = New System.Drawing.Size(47, 25)
         Me.TextBox1.TabIndex = 118
         Me.TextBox1.UseSelectable = True
+        Me.TextBox1.WaterMark = "0 to 64"
         Me.TextBox1.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.TextBox1.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
@@ -751,11 +739,42 @@ Partial Class Form9
         Me.Label22.TabIndex = 128
         Me.Label22.Text = "Repeat:"
         '
+        'TextBox2
+        '
+        '
+        '
+        '
+        Me.TextBox2.CustomButton.Image = Nothing
+        Me.TextBox2.CustomButton.Location = New System.Drawing.Point(23, 1)
+        Me.TextBox2.CustomButton.Name = ""
+        Me.TextBox2.CustomButton.Size = New System.Drawing.Size(23, 23)
+        Me.TextBox2.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+        Me.TextBox2.CustomButton.TabIndex = 1
+        Me.TextBox2.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+        Me.TextBox2.CustomButton.UseSelectable = True
+        Me.TextBox2.CustomButton.Visible = False
+        Me.TextBox2.Lines = New String(-1) {}
+        Me.TextBox2.Location = New System.Drawing.Point(273, 583)
+        Me.TextBox2.MaxLength = 32767
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextBox2.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.TextBox2.SelectedText = ""
+        Me.TextBox2.SelectionLength = 0
+        Me.TextBox2.SelectionStart = 0
+        Me.TextBox2.Size = New System.Drawing.Size(265, 25)
+        Me.TextBox2.TabIndex = 129
+        Me.TextBox2.UseSelectable = True
+        Me.TextBox2.WaterMark = "Enter a voltage value between 0 to 1.0V"
+        Me.TextBox2.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+        Me.TextBox2.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+        '
         'Form9
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(976, 727)
+        Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.Label22)
         Me.Controls.Add(Me.Toggle3)
         Me.Controls.Add(Me.Toggle2)
@@ -796,7 +815,6 @@ Partial Class Form9
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label15)
-        Me.Controls.Add(Me.ComboBox9)
         Me.Controls.Add(Me.ComboBox8)
         Me.Controls.Add(Me.ComboBox7)
         Me.Controls.Add(Me.MenuStrip1)
@@ -848,7 +866,6 @@ Partial Class Form9
     Friend WithEvents Label11 As MetroFramework.Controls.MetroLabel
     Friend WithEvents Label4 As MetroFramework.Controls.MetroLabel
     Friend WithEvents Label15 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents ComboBox9 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents ComboBox8 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents ComboBox7 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents ComboBox6 As MetroFramework.Controls.MetroComboBox
@@ -887,4 +904,5 @@ Partial Class Form9
     Friend WithEvents Toggle2 As MetroFramework.Controls.MetroToggle
     Friend WithEvents Toggle3 As MetroFramework.Controls.MetroToggle
     Friend WithEvents Label22 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents TextBox2 As MetroFramework.Controls.MetroTextBox
 End Class
