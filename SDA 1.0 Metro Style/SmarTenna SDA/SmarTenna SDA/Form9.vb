@@ -348,7 +348,7 @@ Public Class Form9
                                     End If
                                 End If
                                 test1 = CDbl(TextBox2.Text)
-                                test = CInt(test1 / 0.0070588235294117641)  'Equivalent DAC step value
+                                test = CInt((test1 * 255.0) / 1.8)  'Equivalent DAC step value
 
                                 test2 = test >> 4
                                 test2 = test2 And &H0C
