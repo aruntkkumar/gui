@@ -258,8 +258,8 @@ Public Class Form9
                             MetroFramework.MetroMessageBox.Show(Me, "Please enter a voltage value between 0 to 1.0V", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         End Try
-                        test1 = CInt(TextBox2.Text)
-                        test = CInt(TextBox2.Text)
+                        'test1 = CInt(TextBox2.Text)
+                        'test = CInt(TextBox2.Text)
                         If (test >= 0) Then
                             If (test1 > 1.0) Then
                                 MetroFramework.MetroMessageBox.Show(Me, "Invalid value. Please enter a voltage value between 0 to 1.0V", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
