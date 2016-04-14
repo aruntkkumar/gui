@@ -745,7 +745,7 @@ Partial Class Form9
         '
         '
         Me.TextBox2.CustomButton.Image = Nothing
-        Me.TextBox2.CustomButton.Location = New System.Drawing.Point(23, 1)
+        Me.TextBox2.CustomButton.Location = New System.Drawing.Point(241, 1)
         Me.TextBox2.CustomButton.Name = ""
         Me.TextBox2.CustomButton.Size = New System.Drawing.Size(23, 23)
         Me.TextBox2.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
@@ -765,7 +765,7 @@ Partial Class Form9
         Me.TextBox2.Size = New System.Drawing.Size(265, 25)
         Me.TextBox2.TabIndex = 129
         Me.TextBox2.UseSelectable = True
-        Me.TextBox2.WaterMark = "Enter a voltage value between 0 to 1.0V"
+        Me.TextBox2.WaterMark = "Enter a voltage value between 0 to 1.8V"
         Me.TextBox2.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.TextBox2.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '

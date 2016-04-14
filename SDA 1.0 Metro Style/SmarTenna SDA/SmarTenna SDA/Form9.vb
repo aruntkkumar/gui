@@ -249,20 +249,20 @@ Public Class Form9
                     'Else
                     'If ComboBox9.Text = "" Then
                     If TextBox2.Text = "" Then
-                        MetroFramework.MetroMessageBox.Show(Me, "Please enter a voltage value between 0 to 1.0V", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MetroFramework.MetroMessageBox.Show(Me, "Please enter a voltage value between 0 to 1.8V", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Else
                         Try
                             test1 = CDbl(TextBox2.Text)
                             test = CInt(TextBox2.Text)
                         Catch ex As Exception
-                            MetroFramework.MetroMessageBox.Show(Me, "Please enter a voltage value between 0 to 1.0V", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MetroFramework.MetroMessageBox.Show(Me, "Please enter a voltage value between 0 to 1.8V", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         End Try
                         'test1 = CInt(TextBox2.Text)
                         'test = CInt(TextBox2.Text)
                         If (test1 >= 0.0) Then
-                            If (test1 > 1.0) Then
-                                MetroFramework.MetroMessageBox.Show(Me, "Invalid value. Please enter a voltage value between 0 to 1.0V", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            If (test1 > 1.8) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Invalid value. Please enter a voltage value between 0 to 1.8V", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Else
                                 'If ListBox1.Items.Count = 0 Then
                                 'MetroFramework.MetroMessageBox.Show(Me, "Please enter the SSC states using integers between 0 to 64, starting from SSC1. (The SSC states ranges from State0 to State64)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -444,7 +444,7 @@ Public Class Form9
                                 'End If
                             End If
                         Else
-                            MetroFramework.MetroMessageBox.Show(Me, "Invalid value. Please enter a voltage value between 0 to 1.0V", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MetroFramework.MetroMessageBox.Show(Me, "Invalid value. Please enter a voltage value between 0 to 1.8V", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                     End If
                     'End If
