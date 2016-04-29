@@ -53,16 +53,16 @@ Partial Class Form9
         Me.Label11 = New MetroFramework.Controls.MetroLabel()
         Me.Label4 = New MetroFramework.Controls.MetroLabel()
         Me.Label15 = New MetroFramework.Controls.MetroLabel()
-        Me.ComboBox8 = New MetroFramework.Controls.MetroComboBox()
-        Me.ComboBox7 = New MetroFramework.Controls.MetroComboBox()
-        Me.ComboBox6 = New MetroFramework.Controls.MetroComboBox()
+        Me.ComboBox12 = New MetroFramework.Controls.MetroComboBox()
+        Me.ComboBox11 = New MetroFramework.Controls.MetroComboBox()
+        Me.ComboBox10 = New MetroFramework.Controls.MetroComboBox()
         Me.SerialPort1 = New System.IO.Ports.SerialPort(Me.components)
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.ComboBox4 = New MetroFramework.Controls.MetroComboBox()
         Me.ComboBox3 = New MetroFramework.Controls.MetroComboBox()
         Me.ComboBox2 = New MetroFramework.Controls.MetroComboBox()
         Me.ComboBox1 = New MetroFramework.Controls.MetroComboBox()
-        Me.ComboBox5 = New MetroFramework.Controls.MetroComboBox()
+        Me.ComboBox9 = New MetroFramework.Controls.MetroComboBox()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -92,6 +92,11 @@ Partial Class Form9
         Me.Toggle3 = New MetroFramework.Controls.MetroToggle()
         Me.Label22 = New MetroFramework.Controls.MetroLabel()
         Me.TextBox2 = New MetroFramework.Controls.MetroTextBox()
+        Me.ComboBox5 = New MetroFramework.Controls.MetroComboBox()
+        Me.ComboBox6 = New MetroFramework.Controls.MetroComboBox()
+        Me.ComboBox7 = New MetroFramework.Controls.MetroComboBox()
+        Me.ComboBox8 = New MetroFramework.Controls.MetroComboBox()
+        Me.TextBox3 = New MetroFramework.Controls.MetroTextBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -393,44 +398,47 @@ Partial Class Form9
         Me.Label15.TabIndex = 87
         Me.Label15.Text = "Comm Port:"
         '
-        'ComboBox8
+        'ComboBox12
         '
-        Me.ComboBox8.FontSize = MetroFramework.MetroComboBoxSize.Small
-        Me.ComboBox8.FormattingEnabled = True
-        Me.ComboBox8.ItemHeight = 19
-        Me.ComboBox8.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
-        Me.ComboBox8.Location = New System.Drawing.Point(273, 398)
-        Me.ComboBox8.MaxDropDownItems = 20
-        Me.ComboBox8.Name = "ComboBox8"
-        Me.ComboBox8.Size = New System.Drawing.Size(265, 25)
-        Me.ComboBox8.TabIndex = 85
-        Me.ComboBox8.UseSelectable = True
+        Me.ComboBox12.FontSize = MetroFramework.MetroComboBoxSize.Small
+        Me.ComboBox12.FormattingEnabled = True
+        Me.ComboBox12.ItemHeight = 19
+        Me.ComboBox12.Items.AddRange(New Object() {"SP2T", "SP3T", "SP4T", "SP5T", "SP6T", "SP7T", "SP8T"})
+        Me.ComboBox12.Location = New System.Drawing.Point(273, 398)
+        Me.ComboBox12.MaxDropDownItems = 20
+        Me.ComboBox12.Name = "ComboBox12"
+        Me.ComboBox12.PromptText = "Switch Type"
+        Me.ComboBox12.Size = New System.Drawing.Size(130, 25)
+        Me.ComboBox12.TabIndex = 85
+        Me.ComboBox12.UseSelectable = True
         '
-        'ComboBox7
+        'ComboBox11
         '
-        Me.ComboBox7.FontSize = MetroFramework.MetroComboBoxSize.Small
-        Me.ComboBox7.FormattingEnabled = True
-        Me.ComboBox7.ItemHeight = 19
-        Me.ComboBox7.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
-        Me.ComboBox7.Location = New System.Drawing.Point(273, 361)
-        Me.ComboBox7.MaxDropDownItems = 20
-        Me.ComboBox7.Name = "ComboBox7"
-        Me.ComboBox7.Size = New System.Drawing.Size(265, 25)
-        Me.ComboBox7.TabIndex = 84
-        Me.ComboBox7.UseSelectable = True
+        Me.ComboBox11.FontSize = MetroFramework.MetroComboBoxSize.Small
+        Me.ComboBox11.FormattingEnabled = True
+        Me.ComboBox11.ItemHeight = 19
+        Me.ComboBox11.Items.AddRange(New Object() {"SP2T", "SP3T", "SP4T", "SP5T", "SP6T", "SP7T", "SP8T"})
+        Me.ComboBox11.Location = New System.Drawing.Point(273, 361)
+        Me.ComboBox11.MaxDropDownItems = 20
+        Me.ComboBox11.Name = "ComboBox11"
+        Me.ComboBox11.PromptText = "Switch Type"
+        Me.ComboBox11.Size = New System.Drawing.Size(130, 25)
+        Me.ComboBox11.TabIndex = 84
+        Me.ComboBox11.UseSelectable = True
         '
-        'ComboBox6
+        'ComboBox10
         '
-        Me.ComboBox6.FontSize = MetroFramework.MetroComboBoxSize.Small
-        Me.ComboBox6.FormattingEnabled = True
-        Me.ComboBox6.ItemHeight = 19
-        Me.ComboBox6.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
-        Me.ComboBox6.Location = New System.Drawing.Point(273, 324)
-        Me.ComboBox6.MaxDropDownItems = 20
-        Me.ComboBox6.Name = "ComboBox6"
-        Me.ComboBox6.Size = New System.Drawing.Size(265, 25)
-        Me.ComboBox6.TabIndex = 83
-        Me.ComboBox6.UseSelectable = True
+        Me.ComboBox10.FontSize = MetroFramework.MetroComboBoxSize.Small
+        Me.ComboBox10.FormattingEnabled = True
+        Me.ComboBox10.ItemHeight = 19
+        Me.ComboBox10.Items.AddRange(New Object() {"SP2T", "SP3T", "SP4T", "SP5T", "SP6T", "SP7T", "SP8T"})
+        Me.ComboBox10.Location = New System.Drawing.Point(273, 324)
+        Me.ComboBox10.MaxDropDownItems = 20
+        Me.ComboBox10.Name = "ComboBox10"
+        Me.ComboBox10.PromptText = "Switch Type"
+        Me.ComboBox10.Size = New System.Drawing.Size(130, 25)
+        Me.ComboBox10.TabIndex = 83
+        Me.ComboBox10.UseSelectable = True
         '
         'SerialPort1
         '
@@ -489,18 +497,19 @@ Partial Class Form9
         Me.ComboBox1.TabIndex = 78
         Me.ComboBox1.UseSelectable = True
         '
-        'ComboBox5
+        'ComboBox9
         '
-        Me.ComboBox5.FontSize = MetroFramework.MetroComboBoxSize.Small
-        Me.ComboBox5.FormattingEnabled = True
-        Me.ComboBox5.ItemHeight = 19
-        Me.ComboBox5.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
-        Me.ComboBox5.Location = New System.Drawing.Point(273, 287)
-        Me.ComboBox5.MaxDropDownItems = 20
-        Me.ComboBox5.Name = "ComboBox5"
-        Me.ComboBox5.Size = New System.Drawing.Size(265, 25)
-        Me.ComboBox5.TabIndex = 82
-        Me.ComboBox5.UseSelectable = True
+        Me.ComboBox9.FontSize = MetroFramework.MetroComboBoxSize.Small
+        Me.ComboBox9.FormattingEnabled = True
+        Me.ComboBox9.ItemHeight = 19
+        Me.ComboBox9.Items.AddRange(New Object() {"SP2T", "SP3T", "SP4T", "SP5T", "SP6T", "SP7T", "SP8T"})
+        Me.ComboBox9.Location = New System.Drawing.Point(273, 287)
+        Me.ComboBox9.MaxDropDownItems = 20
+        Me.ComboBox9.Name = "ComboBox9"
+        Me.ComboBox9.PromptText = "Switch Type"
+        Me.ComboBox9.Size = New System.Drawing.Size(130, 25)
+        Me.ComboBox9.TabIndex = 82
+        Me.ComboBox9.UseSelectable = True
         '
         'FileToolStripMenuItem
         '
@@ -769,11 +778,102 @@ Partial Class Form9
         Me.TextBox2.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.TextBox2.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
+        'ComboBox5
+        '
+        Me.ComboBox5.FontSize = MetroFramework.MetroComboBoxSize.Small
+        Me.ComboBox5.FormattingEnabled = True
+        Me.ComboBox5.ItemHeight = 19
+        Me.ComboBox5.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
+        Me.ComboBox5.Location = New System.Drawing.Point(409, 287)
+        Me.ComboBox5.MaxDropDownItems = 20
+        Me.ComboBox5.Name = "ComboBox5"
+        Me.ComboBox5.PromptText = "Switch Value"
+        Me.ComboBox5.Size = New System.Drawing.Size(130, 25)
+        Me.ComboBox5.TabIndex = 130
+        Me.ComboBox5.UseSelectable = True
+        '
+        'ComboBox6
+        '
+        Me.ComboBox6.FontSize = MetroFramework.MetroComboBoxSize.Small
+        Me.ComboBox6.FormattingEnabled = True
+        Me.ComboBox6.ItemHeight = 19
+        Me.ComboBox6.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
+        Me.ComboBox6.Location = New System.Drawing.Point(409, 324)
+        Me.ComboBox6.MaxDropDownItems = 20
+        Me.ComboBox6.Name = "ComboBox6"
+        Me.ComboBox6.PromptText = "Switch Value"
+        Me.ComboBox6.Size = New System.Drawing.Size(130, 25)
+        Me.ComboBox6.TabIndex = 131
+        Me.ComboBox6.UseSelectable = True
+        '
+        'ComboBox7
+        '
+        Me.ComboBox7.FontSize = MetroFramework.MetroComboBoxSize.Small
+        Me.ComboBox7.FormattingEnabled = True
+        Me.ComboBox7.ItemHeight = 19
+        Me.ComboBox7.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
+        Me.ComboBox7.Location = New System.Drawing.Point(409, 361)
+        Me.ComboBox7.MaxDropDownItems = 20
+        Me.ComboBox7.Name = "ComboBox7"
+        Me.ComboBox7.PromptText = "Switch Value"
+        Me.ComboBox7.Size = New System.Drawing.Size(130, 25)
+        Me.ComboBox7.TabIndex = 132
+        Me.ComboBox7.UseSelectable = True
+        '
+        'ComboBox8
+        '
+        Me.ComboBox8.FontSize = MetroFramework.MetroComboBoxSize.Small
+        Me.ComboBox8.FormattingEnabled = True
+        Me.ComboBox8.ItemHeight = 19
+        Me.ComboBox8.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
+        Me.ComboBox8.Location = New System.Drawing.Point(409, 398)
+        Me.ComboBox8.MaxDropDownItems = 20
+        Me.ComboBox8.Name = "ComboBox8"
+        Me.ComboBox8.PromptText = "Switch Value"
+        Me.ComboBox8.Size = New System.Drawing.Size(130, 25)
+        Me.ComboBox8.TabIndex = 133
+        Me.ComboBox8.UseSelectable = True
+        '
+        'TextBox3
+        '
+        '
+        '
+        '
+        Me.TextBox3.CustomButton.Image = Nothing
+        Me.TextBox3.CustomButton.Location = New System.Drawing.Point(23, 1)
+        Me.TextBox3.CustomButton.Name = ""
+        Me.TextBox3.CustomButton.Size = New System.Drawing.Size(23, 23)
+        Me.TextBox3.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+        Me.TextBox3.CustomButton.TabIndex = 1
+        Me.TextBox3.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+        Me.TextBox3.CustomButton.UseSelectable = True
+        Me.TextBox3.CustomButton.Visible = False
+        Me.TextBox3.Lines = New String(-1) {}
+        Me.TextBox3.Location = New System.Drawing.Point(273, 466)
+        Me.TextBox3.MaxLength = 32767
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextBox3.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.TextBox3.SelectedText = ""
+        Me.TextBox3.SelectionLength = 0
+        Me.TextBox3.SelectionStart = 0
+        Me.TextBox3.Size = New System.Drawing.Size(47, 25)
+        Me.TextBox3.TabIndex = 134
+        Me.TextBox3.UseSelectable = True
+        Me.TextBox3.WaterMark = "Units"
+        Me.TextBox3.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+        Me.TextBox3.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+        '
         'Form9
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(976, 727)
+        Me.Controls.Add(Me.TextBox3)
+        Me.Controls.Add(Me.ComboBox8)
+        Me.Controls.Add(Me.ComboBox7)
+        Me.Controls.Add(Me.ComboBox6)
+        Me.Controls.Add(Me.ComboBox5)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.Label22)
         Me.Controls.Add(Me.Toggle3)
@@ -815,15 +915,15 @@ Partial Class Form9
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label15)
-        Me.Controls.Add(Me.ComboBox8)
-        Me.Controls.Add(Me.ComboBox7)
+        Me.Controls.Add(Me.ComboBox12)
+        Me.Controls.Add(Me.ComboBox11)
         Me.Controls.Add(Me.MenuStrip1)
-        Me.Controls.Add(Me.ComboBox6)
+        Me.Controls.Add(Me.ComboBox10)
         Me.Controls.Add(Me.ComboBox4)
         Me.Controls.Add(Me.ComboBox3)
         Me.Controls.Add(Me.ComboBox2)
         Me.Controls.Add(Me.ComboBox1)
-        Me.Controls.Add(Me.ComboBox5)
+        Me.Controls.Add(Me.ComboBox9)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form9"
         Me.Resizable = False
@@ -866,16 +966,16 @@ Partial Class Form9
     Friend WithEvents Label11 As MetroFramework.Controls.MetroLabel
     Friend WithEvents Label4 As MetroFramework.Controls.MetroLabel
     Friend WithEvents Label15 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents ComboBox8 As MetroFramework.Controls.MetroComboBox
-    Friend WithEvents ComboBox7 As MetroFramework.Controls.MetroComboBox
-    Friend WithEvents ComboBox6 As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents ComboBox12 As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents ComboBox11 As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents ComboBox10 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents SerialPort1 As IO.Ports.SerialPort
     Friend WithEvents Timer1 As Timer
     Friend WithEvents ComboBox4 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents ComboBox3 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents ComboBox2 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents ComboBox1 As MetroFramework.Controls.MetroComboBox
-    Friend WithEvents ComboBox5 As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents ComboBox9 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents NewToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenToolStripMenuItem As ToolStripMenuItem
@@ -905,4 +1005,9 @@ Partial Class Form9
     Friend WithEvents Toggle3 As MetroFramework.Controls.MetroToggle
     Friend WithEvents Label22 As MetroFramework.Controls.MetroLabel
     Friend WithEvents TextBox2 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents ComboBox5 As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents ComboBox6 As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents ComboBox7 As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents ComboBox8 As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents TextBox3 As MetroFramework.Controls.MetroTextBox
 End Class
