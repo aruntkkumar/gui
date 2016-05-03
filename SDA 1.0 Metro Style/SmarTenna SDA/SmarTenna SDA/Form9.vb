@@ -274,6 +274,11 @@ Public Class Form9
                                     MetroFramework.MetroMessageBox.Show(Me, "Invalid value. Please enter a number to denote the number of SSCs", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     Exit Sub
                                 End If
+                                test2 = CInt(TextBox3.Text)
+                                If (test2 <> ListBox1.Items.Count) Then
+                                    MetroFramework.MetroMessageBox.Show(Me, "Please enter all the SSC values", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                    Exit Sub
+                                End If
                                 If TextBox2.Text = "" Then
                                     MetroFramework.MetroMessageBox.Show(Me, "Please enter a voltage value between 0 to 1.8V", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Else
