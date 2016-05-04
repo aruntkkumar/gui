@@ -1100,7 +1100,12 @@ Public Class Form9
                     MetroFramework.MetroMessageBox.Show(Me, "Please enter the number of SSCs to be programmed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
                 End If
-                test2 = CInt(TextBox3.Text)
+                Try
+                    test2 = CInt(TextBox3.Text)
+                Catch ex As Exception
+                    MetroFramework.MetroMessageBox.Show(Me, "Please enter a number to denote the number of SSCs", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End Try
                 If (test2 <= ListBox1.Items.Count) Then
                     MetroFramework.MetroMessageBox.Show(Me, "The number of SSC values have exceeded the quantity provided. Please reconfirm the number of SSCs", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     TextBox1.Text = ""
