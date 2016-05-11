@@ -21,8 +21,6 @@ Public Class Form9
     Dim portname As String
     Dim readValue As String
     Dim fullscreen As Boolean = False
-    Dim intX As Integer = Screen.PrimaryScreen.Bounds.Width
-    Dim intY As Integer = Screen.PrimaryScreen.Bounds.Height
     Dim myserialPort2 As New ExSerialPort
     Dim test As Integer
     Dim test1 As Double
@@ -897,6 +895,9 @@ Public Class Form9
     End Sub
 
     Function SizeAdjust()
+        Dim screen As Screen = Screen.FromControl(Me)
+        Dim intX As Integer = screen.WorkingArea.Width
+        Dim intY As Integer = screen.WorkingArea.Height
         If Me.WindowState = FormWindowState.Maximized Then
             Label15.Location = New Point(x:=(intX / 8), y:=(intY * 1.5 / 13))
             Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2.1577 / 13))
@@ -946,9 +947,9 @@ Public Class Form9
             Button3.Location = New Point(x:=(intX / 1.9), y:=(intY * 1.5 / 13))
             Button4.Location = New Point(x:=(intX / 1.29), y:=(intY * 1.5 / 13))
             Button5.Location = New Point(x:=(intX / 1.9), y:=(intY * 2.8154 / 13))
-            Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 4.35 / 13))
-            RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 4.85 / 13))
-            RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 10.05 / 13) - (intY * 4.85 / 13) + 25))
+            Label14.Location = New Point(x:=(intX / 1.9), y:=((intY * 4.1308 / 13) - 12))
+            RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=((intY * 4.7885 / 13) - 14))
+            RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 10.05 / 13) - (intY * 4.7885 / 13) + 25 + 14))
             Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 13))
         Else
             Label15.Location = New Point(x:=95, y:=102)
@@ -999,9 +1000,9 @@ Public Class Form9
             Button3.Location = New Point(x:=591, y:=102)
             Button4.Location = New Point(x:=745, y:=102)
             Button5.Location = New Point(x:=591, y:=176)
-            Label14.Location = New Point(x:=591, y:=261)
-            RichTextBox1.Location = New Point(x:=591, y:=296)
-            RichTextBox1.Size = New Size(width:=273, height:=312)
+            Label14.Location = New Point(x:=591, y:=238)
+            RichTextBox1.Location = New Point(x:=591, y:=273)
+            RichTextBox1.Size = New Size(width:=273, height:=335)
             Button6.Location = New Point(x:=591, y:=632)
         End If
         Return 0

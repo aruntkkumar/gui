@@ -108,14 +108,15 @@ Partial Class Form9
         Me.RichTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.RichTextBox1.Font = New System.Drawing.Font("Consolas", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RichTextBox1.ForeColor = System.Drawing.SystemColors.Window
-        Me.RichTextBox1.Location = New System.Drawing.Point(591, 296)
+        Me.RichTextBox1.Location = New System.Drawing.Point(591, 273)
         Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.Size = New System.Drawing.Size(273, 312)
+        Me.RichTextBox1.Size = New System.Drawing.Size(273, 335)
         Me.RichTextBox1.TabIndex = 115
         Me.RichTextBox1.Text = ""
         '
         'RadioButton3
         '
+        Me.RadioButton3.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton3.AutoSize = True
         Me.RadioButton3.Location = New System.Drawing.Point(523, 179)
         Me.RadioButton3.Name = "RadioButton3"
@@ -126,6 +127,7 @@ Partial Class Form9
         '
         'Label18
         '
+        Me.Label18.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label18.AutoSize = True
         Me.Label18.Location = New System.Drawing.Point(470, 176)
         Me.Label18.Name = "Label18"
@@ -135,8 +137,9 @@ Partial Class Form9
         '
         'Label14
         '
+        Me.Label14.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(591, 261)
+        Me.Label14.Location = New System.Drawing.Point(591, 238)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(99, 19)
         Me.Label14.TabIndex = 112
@@ -144,6 +147,7 @@ Partial Class Form9
         '
         'RadioButton2
         '
+        Me.RadioButton2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton2.AutoSize = True
         Me.RadioButton2.Location = New System.Drawing.Point(420, 179)
         Me.RadioButton2.Name = "RadioButton2"
@@ -154,6 +158,7 @@ Partial Class Form9
         '
         'RadioButton1
         '
+        Me.RadioButton1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton1.AutoSize = True
         Me.RadioButton1.Location = New System.Drawing.Point(326, 179)
         Me.RadioButton1.Name = "RadioButton1"
@@ -164,6 +169,7 @@ Partial Class Form9
         '
         'Label13
         '
+        Me.Label13.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(376, 176)
         Me.Label13.Name = "Label13"
@@ -173,6 +179,7 @@ Partial Class Form9
         '
         'Label12
         '
+        Me.Label12.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(273, 176)
         Me.Label12.Name = "Label12"
@@ -244,6 +251,7 @@ Partial Class Form9
         '
         'Button6
         '
+        Me.Button6.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button6.DisplayFocus = True
         Me.Button6.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button6.Location = New System.Drawing.Point(591, 632)
@@ -255,6 +263,7 @@ Partial Class Form9
         '
         'Button5
         '
+        Me.Button5.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button5.DisplayFocus = True
         Me.Button5.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button5.Location = New System.Drawing.Point(591, 176)
@@ -266,6 +275,7 @@ Partial Class Form9
         '
         'Button4
         '
+        Me.Button4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button4.DisplayFocus = True
         Me.Button4.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button4.Location = New System.Drawing.Point(745, 102)
@@ -277,6 +287,7 @@ Partial Class Form9
         '
         'Button3
         '
+        Me.Button3.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button3.DisplayFocus = True
         Me.Button3.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button3.Location = New System.Drawing.Point(591, 102)
@@ -288,6 +299,7 @@ Partial Class Form9
         '
         'Button2
         '
+        Me.Button2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button2.DisplayFocus = True
         Me.Button2.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button2.Location = New System.Drawing.Point(273, 632)
@@ -299,6 +311,7 @@ Partial Class Form9
         '
         'Button1
         '
+        Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button1.DisplayFocus = True
         Me.Button1.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button1.Location = New System.Drawing.Point(95, 632)
@@ -310,6 +323,7 @@ Partial Class Form9
         '
         'Label8
         '
+        Me.Label8.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(95, 583)
         Me.Label8.Name = "Label8"
@@ -319,6 +333,7 @@ Partial Class Form9
         '
         'Label7
         '
+        Me.Label7.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(95, 398)
         Me.Label7.Name = "Label7"
@@ -328,6 +343,7 @@ Partial Class Form9
         '
         'Label6
         '
+        Me.Label6.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(95, 361)
         Me.Label6.Name = "Label6"
@@ -337,6 +353,7 @@ Partial Class Form9
         '
         'Label5
         '
+        Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(95, 324)
         Me.Label5.Name = "Label5"
@@ -346,6 +363,7 @@ Partial Class Form9
         '
         'Label16
         '
+        Me.Label16.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label16.AutoSize = True
         Me.Label16.Location = New System.Drawing.Point(95, 287)
         Me.Label16.Name = "Label16"
@@ -355,6 +373,7 @@ Partial Class Form9
         '
         'Label9
         '
+        Me.Label9.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(95, 250)
         Me.Label9.Name = "Label9"
@@ -364,6 +383,7 @@ Partial Class Form9
         '
         'Label10
         '
+        Me.Label10.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(95, 213)
         Me.Label10.Name = "Label10"
@@ -373,6 +393,7 @@ Partial Class Form9
         '
         'Label11
         '
+        Me.Label11.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(95, 176)
         Me.Label11.Name = "Label11"
@@ -382,6 +403,7 @@ Partial Class Form9
         '
         'Label4
         '
+        Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(95, 139)
         Me.Label4.Name = "Label4"
@@ -391,6 +413,7 @@ Partial Class Form9
         '
         'Label15
         '
+        Me.Label15.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(95, 102)
         Me.Label15.Name = "Label15"
@@ -400,6 +423,7 @@ Partial Class Form9
         '
         'ComboBox12
         '
+        Me.ComboBox12.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox12.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox12.FormattingEnabled = True
         Me.ComboBox12.ItemHeight = 19
@@ -414,6 +438,7 @@ Partial Class Form9
         '
         'ComboBox11
         '
+        Me.ComboBox11.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox11.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox11.FormattingEnabled = True
         Me.ComboBox11.ItemHeight = 19
@@ -428,6 +453,7 @@ Partial Class Form9
         '
         'ComboBox10
         '
+        Me.ComboBox10.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox10.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox10.FormattingEnabled = True
         Me.ComboBox10.ItemHeight = 19
@@ -448,6 +474,7 @@ Partial Class Form9
         '
         'ComboBox4
         '
+        Me.ComboBox4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox4.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox4.FormattingEnabled = True
         Me.ComboBox4.ItemHeight = 19
@@ -461,6 +488,7 @@ Partial Class Form9
         '
         'ComboBox3
         '
+        Me.ComboBox3.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox3.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox3.FormattingEnabled = True
         Me.ComboBox3.ItemHeight = 19
@@ -474,6 +502,7 @@ Partial Class Form9
         '
         'ComboBox2
         '
+        Me.ComboBox2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox2.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.ItemHeight = 19
@@ -487,6 +516,7 @@ Partial Class Form9
         '
         'ComboBox1
         '
+        Me.ComboBox1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox1.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.ItemHeight = 19
@@ -499,6 +529,7 @@ Partial Class Form9
         '
         'ComboBox9
         '
+        Me.ComboBox9.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox9.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox9.FormattingEnabled = True
         Me.ComboBox9.ItemHeight = 19
@@ -623,6 +654,7 @@ Partial Class Form9
         '
         'Button7
         '
+        Me.Button7.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button7.DisplayFocus = True
         Me.Button7.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button7.Location = New System.Drawing.Point(334, 435)
@@ -634,6 +666,7 @@ Partial Class Form9
         '
         'TextBox1
         '
+        Me.TextBox1.Anchor = System.Windows.Forms.AnchorStyles.None
         '
         '
         '
@@ -664,6 +697,7 @@ Partial Class Form9
         '
         'ListBox1
         '
+        Me.ListBox1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ListBox1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ListBox1.FormattingEnabled = True
         Me.ListBox1.Location = New System.Drawing.Point(419, 435)
@@ -673,6 +707,7 @@ Partial Class Form9
         '
         'Label19
         '
+        Me.Label19.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label19.AutoSize = True
         Me.Label19.Location = New System.Drawing.Point(95, 435)
         Me.Label19.Name = "Label19"
@@ -682,6 +717,7 @@ Partial Class Form9
         '
         'Label20
         '
+        Me.Label20.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label20.AutoSize = True
         Me.Label20.Location = New System.Drawing.Point(95, 509)
         Me.Label20.Name = "Label20"
@@ -691,6 +727,7 @@ Partial Class Form9
         '
         'Label21
         '
+        Me.Label21.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label21.AutoSize = True
         Me.Label21.Location = New System.Drawing.Point(95, 546)
         Me.Label21.Name = "Label21"
@@ -700,6 +737,7 @@ Partial Class Form9
         '
         'Button8
         '
+        Me.Button8.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button8.DisplayFocus = True
         Me.Button8.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button8.Location = New System.Drawing.Point(334, 466)
@@ -711,6 +749,7 @@ Partial Class Form9
         '
         'Toggle1
         '
+        Me.Toggle1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Toggle1.AutoSize = True
         Me.Toggle1.Location = New System.Drawing.Point(273, 511)
         Me.Toggle1.Name = "Toggle1"
@@ -721,6 +760,7 @@ Partial Class Form9
         '
         'Toggle2
         '
+        Me.Toggle2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Toggle2.AutoSize = True
         Me.Toggle2.Location = New System.Drawing.Point(273, 548)
         Me.Toggle2.Name = "Toggle2"
@@ -731,6 +771,7 @@ Partial Class Form9
         '
         'Toggle3
         '
+        Me.Toggle3.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Toggle3.AutoSize = True
         Me.Toggle3.Location = New System.Drawing.Point(458, 643)
         Me.Toggle3.Name = "Toggle3"
@@ -741,6 +782,7 @@ Partial Class Form9
         '
         'Label22
         '
+        Me.Label22.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label22.AutoSize = True
         Me.Label22.Location = New System.Drawing.Point(403, 641)
         Me.Label22.Name = "Label22"
@@ -750,6 +792,7 @@ Partial Class Form9
         '
         'TextBox2
         '
+        Me.TextBox2.Anchor = System.Windows.Forms.AnchorStyles.None
         '
         '
         '
@@ -780,6 +823,7 @@ Partial Class Form9
         '
         'ComboBox5
         '
+        Me.ComboBox5.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox5.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox5.FormattingEnabled = True
         Me.ComboBox5.ItemHeight = 19
@@ -794,6 +838,7 @@ Partial Class Form9
         '
         'ComboBox6
         '
+        Me.ComboBox6.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox6.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox6.FormattingEnabled = True
         Me.ComboBox6.ItemHeight = 19
@@ -808,6 +853,7 @@ Partial Class Form9
         '
         'ComboBox7
         '
+        Me.ComboBox7.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox7.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox7.FormattingEnabled = True
         Me.ComboBox7.ItemHeight = 19
@@ -822,6 +868,7 @@ Partial Class Form9
         '
         'ComboBox8
         '
+        Me.ComboBox8.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ComboBox8.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox8.FormattingEnabled = True
         Me.ComboBox8.ItemHeight = 19
@@ -836,6 +883,7 @@ Partial Class Form9
         '
         'TextBox3
         '
+        Me.TextBox3.Anchor = System.Windows.Forms.AnchorStyles.None
         '
         '
         '

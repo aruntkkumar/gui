@@ -21,8 +21,6 @@ Public Class Form4
     Dim portname As String
     Dim readValue As String
     Dim fullscreen As Boolean = False
-    Dim intX As Integer = Screen.PrimaryScreen.Bounds.Width
-    Dim intY As Integer = Screen.PrimaryScreen.Bounds.Height
     Dim myserialPort As New ExSerialPort
     Delegate Sub SetTextCallBack(ByVal [text] As String)
 
@@ -932,6 +930,9 @@ Public Class Form4
     End Sub
 
     Function SizeAdjust()
+        Dim screen As Screen = Screen.FromControl(Me)
+        Dim intX As Integer = screen.WorkingArea.Width
+        Dim intY As Integer = screen.WorkingArea.Height
         If Me.WindowState = FormWindowState.Maximized Then
             If CommPortSelectToolStripMenuItem.Checked = True Then
                 If VIOSelectToolStripMenuItem.Checked = True Then
@@ -1043,11 +1044,11 @@ Public Class Form4
         Else
             If CommPortSelectToolStripMenuItem.Checked = True Then
                 If VIOSelectToolStripMenuItem.Checked = True Then
-                    Label16.Location = New Point(x:=95, y:=102)
-                    Label5.Location = New Point(x:=95, y:=208)
-                    Label6.Location = New Point(x:=95, y:=314)
-                    Label7.Location = New Point(x:=95, y:=420)
-                    Label8.Location = New Point(x:=95, y:=526)
+                    Label16.Location = New Point(x:=92, y:=102)
+                    Label5.Location = New Point(x:=92, y:=208)
+                    Label6.Location = New Point(x:=92, y:=314)
+                    Label7.Location = New Point(x:=92, y:=420)
+                    Label8.Location = New Point(x:=92, y:=526)
                     Button2.Location = New Point(x:=273, y:=632)
                     ComboBox5.Location = New Point(x:=273, y:=102)
                     ComboBox6.Location = New Point(x:=273, y:=208)
@@ -1059,15 +1060,15 @@ Public Class Form4
                     RichTextBox1.Size = New Size(width:=287, height:=414)
                     Button6.Location = New Point(x:=591, y:=632)
                 Else
-                    Label11.Location = New Point(x:=95, y:=102)
-                    Label10.Location = New Point(x:=95, y:=168.25)
-                    Label9.Location = New Point(x:=95, y:=234.5)
-                    Label16.Location = New Point(x:=95, y:=300.75)
-                    Label5.Location = New Point(x:=95, y:=367)
-                    Label6.Location = New Point(x:=95, y:=433.25)
-                    Label7.Location = New Point(x:=95, y:=499.5)
-                    Label8.Location = New Point(x:=95, y:=565.75)
-                    Button1.Location = New Point(x:=95, y:=632)
+                    Label11.Location = New Point(x:=92, y:=102)
+                    Label10.Location = New Point(x:=92, y:=168.25)
+                    Label9.Location = New Point(x:=92, y:=234.5)
+                    Label16.Location = New Point(x:=92, y:=300.75)
+                    Label5.Location = New Point(x:=92, y:=367)
+                    Label6.Location = New Point(x:=92, y:=433.25)
+                    Label7.Location = New Point(x:=92, y:=499.5)
+                    Label8.Location = New Point(x:=92, y:=565.75)
+                    Button1.Location = New Point(x:=92, y:=632)
                     Button2.Location = New Point(x:=273, y:=632)
                     Label12.Location = New Point(x:=273, y:=102)
                     Label13.Location = New Point(x:=376, y:=102)
@@ -1090,13 +1091,13 @@ Public Class Form4
                 End If
             Else
                 If VIOSelectToolStripMenuItem.Checked = True Then
-                    Label15.Location = New Point(x:=95, y:=102)
-                    Label4.Location = New Point(x:=95, y:=177.71)
-                    Label16.Location = New Point(x:=95, y:=253.43)
-                    Label5.Location = New Point(x:=95, y:=329.14)
-                    Label6.Location = New Point(x:=95, y:=404.86)
-                    Label7.Location = New Point(x:=95, y:=480.57)
-                    Label8.Location = New Point(x:=95, y:=556.29)
+                    Label15.Location = New Point(x:=92, y:=102)
+                    Label4.Location = New Point(x:=92, y:=177.71)
+                    Label16.Location = New Point(x:=92, y:=253.43)
+                    Label5.Location = New Point(x:=92, y:=329.14)
+                    Label6.Location = New Point(x:=92, y:=404.86)
+                    Label7.Location = New Point(x:=92, y:=480.57)
+                    Label8.Location = New Point(x:=92, y:=556.29)
                     Button2.Location = New Point(x:=273, y:=632)
                     ComboBox1.Location = New Point(x:=273, y:=102)
                     ComboBox2.Location = New Point(x:=273, y:=177.71)
@@ -1112,17 +1113,17 @@ Public Class Form4
                     RichTextBox1.Size = New Size(width:=273, height:=368.58)
                     Button6.Location = New Point(x:=591, y:=632)
                 Else
-                    Label15.Location = New Point(x:=95, y:=102)
-                    Label4.Location = New Point(x:=95, y:=155)
-                    Label11.Location = New Point(x:=95, y:=208)
-                    Label10.Location = New Point(x:=95, y:=261)
-                    Label9.Location = New Point(x:=95, y:=314)
-                    Label16.Location = New Point(x:=95, y:=367)
-                    Label5.Location = New Point(x:=95, y:=420)
-                    Label6.Location = New Point(x:=95, y:=473)
-                    Label7.Location = New Point(x:=95, y:=526)
-                    Label8.Location = New Point(x:=95, y:=579)
-                    Button1.Location = New Point(x:=95, y:=632)
+                    Label15.Location = New Point(x:=92, y:=102)
+                    Label4.Location = New Point(x:=92, y:=155)
+                    Label11.Location = New Point(x:=92, y:=208)
+                    Label10.Location = New Point(x:=92, y:=261)
+                    Label9.Location = New Point(x:=92, y:=314)
+                    Label16.Location = New Point(x:=92, y:=367)
+                    Label5.Location = New Point(x:=92, y:=420)
+                    Label6.Location = New Point(x:=92, y:=473)
+                    Label7.Location = New Point(x:=92, y:=526)
+                    Label8.Location = New Point(x:=92, y:=579)
+                    Button1.Location = New Point(x:=92, y:=632)
                     Button2.Location = New Point(x:=273, y:=632)
                     ComboBox1.Location = New Point(x:=273, y:=102)
                     ComboBox2.Location = New Point(x:=273, y:=155)
