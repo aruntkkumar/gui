@@ -15,7 +15,7 @@ Public Class Form5
     Dim bandsel As Integer
     Dim cabandsel As Integer
     Dim test As Integer
-    Dim uplink As Integer
+    Dim uplink As Double
     Dim fullscreen As Boolean = False
     Dim myserialPort1 As New ExSerialPort
     Delegate Sub SetTextCallBack(ByVal [text] As String)
@@ -114,75 +114,149 @@ Public Class Form5
                             byte4 = &H40
                             byte5 = &H80
                             Try
-                                uplink = CInt(TextBox4.Text)
+                                uplink = CDbl(TextBox4.Text)
                             Catch ex As Exception
                                 MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number for the selected band coverage.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Exit Sub
                             End Try
-                            If uplink < 18000 Or uplink > 27759 Then
-                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number for the selected band coverage.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            'If uplink < 18000 Or uplink > 27759 Then
+                            '    MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number for the selected band coverage.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            '    Exit Sub
+                            'End If
+                            If (TextBox4.WaterMark = "18000 to 18599" And (uplink < 18000 Or uplink > 18599)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 18000 and 18599", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "18600 to 19199" And (uplink < 18600 Or uplink > 19199)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 18600 and 19199", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "19200 to 19949" And (uplink < 19200 Or uplink > 19949)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 19200 and 19949", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "19950 to 20399" And (uplink < 19950 Or uplink > 20399)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 19950 and 20399", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "20400 to 20649" And (uplink < 20400 Or uplink > 20649)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 20400 and 20649", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "20750 to 21499" And (uplink < 20750 Or uplink > 21499)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 20750 and 21499", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "21450 to 21799" And (uplink < 21450 Or uplink > 21799)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 21450 and 21799", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "23010 to 23179" And (uplink < 23010 Or uplink > 23179)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 23010 and 23179", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "23180 to 23279" And (uplink < 23180 Or uplink > 23279)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 23180 and 23279", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "24150 to 24449" And (uplink < 24150 Or uplink > 24449)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 24150 and 24449", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "26040 to 26689" And (uplink < 26040 Or uplink > 26689)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 26040 and 26689", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "26690 to 27039" And (uplink < 26690 Or uplink > 27039)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 26690 and 27039", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "27660 to 27759" And (uplink < 27660 Or uplink > 27759)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 27660 and 27759", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox4.WaterMark = "39650 to 41589" And (uplink < 39650 Or uplink > 41589)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 39650 and 41589", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Exit Sub
                             End If
+                            test = 0
+                            If ComboBox7.SelectedIndex = 1 Or ComboBox8.SelectedIndex = 1 Then
+                                test = Math.Truncate((uplink - 18000) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 2 Or ComboBox8.SelectedIndex = 2 Or ComboBox8.SelectedIndex = 3 Or ComboBox8.SelectedIndex = 4 Or ComboBox8.SelectedIndex = 5 Then
+                                test = Math.Truncate((uplink - 18600) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 3 Or ComboBox8.SelectedIndex = 6 Or ComboBox8.SelectedIndex = 7 Then
+                                test = Math.Truncate((uplink - 19200) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 4 Or ComboBox8.SelectedIndex = 8 Or ComboBox8.SelectedIndex = 9 Or ComboBox8.SelectedIndex = 10 Or ComboBox8.SelectedIndex = 11 Then
+                                test = Math.Truncate((uplink - 19950) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 5 Or ComboBox8.SelectedIndex = 12 Then
+                                test = Math.Truncate((uplink - 20400) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 6 Or ComboBox8.SelectedIndex = 13 Then
+                                test = Math.Truncate((uplink - 20750) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 7 Then
+                                test = Math.Truncate((uplink - 21450) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 8 Or ComboBox8.SelectedIndex = 14 Then
+                                test = Math.Truncate((uplink - 23010) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 9 Then
+                                test = Math.Truncate((uplink - 23180) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 10 Then
+                                test = Math.Truncate((uplink - 24150) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 11 Then
+                                test = Math.Truncate((uplink - 26040) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 12 Then
+                                test = Math.Truncate((uplink - 26690) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 14 Then
+                                test = Math.Truncate((uplink - 27660) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 15 Or ComboBox8.SelectedIndex = 15 Then
+                                test = Math.Truncate((uplink - 39650) / 10)
+                            End If
+                            byte5 = byte5 Or (test >> 6)
+                            byte4 = byte4 Or (test And &H3F)
                             If ComboBox7.SelectedIndex = 1 Then
-                                    bandsel = &H41
+                                bandsel = &H41
+                                cabandsel = &H80
+                            Else
+                                If ComboBox7.SelectedIndex = 2 Then
+                                    bandsel = &H42
                                     cabandsel = &H80
                                 Else
-                                    If ComboBox7.SelectedIndex = 2 Then
-                                        bandsel = &H42
+                                    If ComboBox7.SelectedIndex = 3 Then
+                                        bandsel = &H43
                                         cabandsel = &H80
                                     Else
-                                        If ComboBox7.SelectedIndex = 3 Then
-                                            bandsel = &H43
+                                        If ComboBox7.SelectedIndex = 4 Then
+                                            bandsel = &H44
                                             cabandsel = &H80
                                         Else
-                                            If ComboBox7.SelectedIndex = 4 Then
-                                                bandsel = &H44
+                                            If ComboBox7.SelectedIndex = 5 Then
+                                                bandsel = &H45
                                                 cabandsel = &H80
                                             Else
-                                                If ComboBox7.SelectedIndex = 5 Then
-                                                    bandsel = &H45
+                                                If ComboBox7.SelectedIndex = 6 Then
+                                                    bandsel = &H47
                                                     cabandsel = &H80
                                                 Else
-                                                    If ComboBox7.SelectedIndex = 6 Then
-                                                        bandsel = &H47
+                                                    If ComboBox7.SelectedIndex = 7 Then
+                                                        bandsel = &H48
                                                         cabandsel = &H80
                                                     Else
-                                                        If ComboBox7.SelectedIndex = 7 Then
-                                                            bandsel = &H48
+                                                        If ComboBox7.SelectedIndex = 8 Then
+                                                            bandsel = &H4C
                                                             cabandsel = &H80
                                                         Else
-                                                            If ComboBox7.SelectedIndex = 8 Then
-                                                                bandsel = &H4C
+                                                            If ComboBox7.SelectedIndex = 9 Then
+                                                                bandsel = &H4D
                                                                 cabandsel = &H80
                                                             Else
-                                                                If ComboBox7.SelectedIndex = 9 Then
-                                                                    bandsel = &H4D
+                                                                If ComboBox7.SelectedIndex = 10 Then
+                                                                    bandsel = &H54
                                                                     cabandsel = &H80
                                                                 Else
-                                                                    If ComboBox7.SelectedIndex = 10 Then
-                                                                        bandsel = &H54
+                                                                    If ComboBox7.SelectedIndex = 11 Then
+                                                                        bandsel = &H59
                                                                         cabandsel = &H80
                                                                     Else
-                                                                        If ComboBox7.SelectedIndex = 11 Then
-                                                                            bandsel = &H59
+                                                                        If ComboBox7.SelectedIndex = 12 Then
+                                                                            bandsel = &H5A
                                                                             cabandsel = &H80
                                                                         Else
-                                                                            If ComboBox7.SelectedIndex = 12 Then
-                                                                                bandsel = &H5A
+                                                                            If ComboBox7.SelectedIndex = 13 Then
+                                                                                bandsel = &H5D
                                                                                 cabandsel = &H80
                                                                             Else
-                                                                                If ComboBox7.SelectedIndex = 13 Then
-                                                                                    bandsel = &H5D
+                                                                                If ComboBox7.SelectedIndex = 14 Then
+                                                                                    bandsel = &H5E
                                                                                     cabandsel = &H80
                                                                                 Else
-                                                                                    If ComboBox7.SelectedIndex = 14 Then
-                                                                                        bandsel = &H5E
+                                                                                    If ComboBox7.SelectedIndex = 15 Then
+                                                                                        bandsel = &H69
                                                                                         cabandsel = &H80
-                                                                                    Else
-                                                                                        If ComboBox7.SelectedIndex = 15 Then
-                                                                                            bandsel = &H69
-                                                                                            cabandsel = &H80
-                                                                                        End If
                                                                                     End If
                                                                                 End If
                                                                             End If
@@ -197,133 +271,134 @@ Public Class Form5
                                         End If
                                     End If
                                 End If
-                                If ComboBox8.SelectedIndex = 1 Then
-                                    bandsel = &H41
-                                    cabandsel = &H88
-                                Else
-                                    If ComboBox8.SelectedIndex = 2 Then
-                                        bandsel = &H42
-                                        cabandsel = &H85
-                                    Else
-                                        If ComboBox8.SelectedIndex = 3 Then
-                                            bandsel = &H42
-                                            cabandsel = &H8C
-                                        Else
-                                            If ComboBox8.SelectedIndex = 4 Then
-                                                bandsel = &H42
-                                                cabandsel = &H8D
-                                            Else
-                                                If ComboBox8.SelectedIndex = 5 Then
-                                                    bandsel = &H42
-                                                    cabandsel = &H9D
-                                                Else
-                                                    If ComboBox8.SelectedIndex = 6 Then
-                                                        bandsel = &H43
-                                                        cabandsel = &H87
-                                                    Else
-                                                        If ComboBox8.SelectedIndex = 7 Then
-                                                            bandsel = &H43
-                                                            cabandsel = &H94
-                                                        Else
-                                                            If ComboBox8.SelectedIndex = 8 Then
-                                                                bandsel = &H44
-                                                                cabandsel = &H85
-                                                            Else
-                                                                If ComboBox8.SelectedIndex = 9 Then
-                                                                    bandsel = &H44
-                                                                    cabandsel = &H8C
-                                                                Else
-                                                                    If ComboBox8.SelectedIndex = 10 Then
-                                                                        bandsel = &H44
-                                                                        cabandsel = &H8D
-                                                                    Else
-                                                                        If ComboBox8.SelectedIndex = 11 Then
-                                                                            bandsel = &H44
-                                                                            cabandsel = &H9D
-                                                                        Else
-                                                                            If ComboBox8.SelectedIndex = 12 Then
-                                                                                bandsel = &H45
-                                                                                cabandsel = &H9E
-                                                                            Else
-                                                                                If ComboBox8.SelectedIndex = 13 Then
-                                                                                    bandsel = &H47
-                                                                                    cabandsel = &H94
-                                                                                Else
-                                                                                    If ComboBox8.SelectedIndex = 14 Then
-                                                                                        bandsel = &H4C
-                                                                                        cabandsel = &H9E
-                                                                                    Else
-                                                                                        If ComboBox8.SelectedIndex = 15 Then
-                                                                                            bandsel = &H69
-                                                                                            cabandsel = &HA9
-                                                                                        End If
-                                                                                    End If
-                                                                                End If
-                                                                            End If
-                                                                        End If
-                                                                    End If
-                                                                End If
-                                                            End If
-                                                        End If
-                                                    End If
-                                                End If
-                                            End If
-                                        End If
-                                    End If
-                                End If
-                                'bandsel = CInt(ComboBox7.Text)
-                                'bandsel = bandsel Or &H40
-                                'cabandsel = CInt(ComboBox8.Text)
-                                'cabandsel = cabandsel Or &H80
-                                byte1 = &HC0
-                                If ComboBox5.Text = "Both Antennas" Then
-                                    byte1 = byte1 Or &H30
-                                Else
-                                    If ComboBox5.Text = "Aux Antenna" Then
-                                        byte1 = byte1 Or &H20
-                                    Else
-                                        If ComboBox5.Text = "Main Antenna" Then
-                                            byte1 = byte1 Or &H10
-                                        End If
-                                    End If
-                                End If
-                                If ComboBox6.Text = "TX and RX ON" Then
-                                    byte1 = byte1 Or &H0C
-                                Else
-                                    If ComboBox6.Text = "RX ON" Then
-                                        byte1 = byte1 Or &H08
-                                    Else
-                                        If ComboBox6.Text = "TX ON" Then
-                                            byte1 = byte1 Or &H04
-                                        End If
-                                    End If
-                                End If
-                                If ComboBox9.Text = "High power (20 to 30 dBm)" Then
-                                    byte1 = byte1 Or &H03
-                                Else
-                                    If ComboBox9.Text = "Medium to high power (15 to 20 dBm)" Then
-                                        byte1 = byte1 Or &H02
-                                    Else
-                                        If ComboBox9.Text = "Low to medium power (5 to 15 dBm)" Then
-                                            byte1 = byte1 Or &H01
-                                        End If
-                                    End If
-                                End If
-                                'SerialPort1.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & bandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & cabandsel.ToString("X") & vbCrLf)
-                                Try
-                                    'SerialPort1.WriteLine("AT!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & byte1.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & bandsel.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & cabandsel.ToString("X") & vbCrLf)
-                                    'RichTextBox1.Text &= SerialPort1.ReadExisting()
-                                    myserialPort1.WriteLine("AT!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & byte1.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & bandsel.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & cabandsel.ToString("X") & vbCrLf)
-                                    RichTextBox1.Text &= myserialPort1.ReadLine()
-                                    RichTextBox1.Text &= myserialPort1.ReadExisting()
-                                Catch ex As Exception
-                                    MetroFramework.MetroMessageBox.Show(Me, myserialPort1.PortName & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                    'MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
-                                    SerialReset()
-                                    Exit Sub
-                                End Try
                             End If
+                            If ComboBox8.SelectedIndex = 1 Then
+                                bandsel = &H41
+                                cabandsel = &H88
+                            Else
+                                If ComboBox8.SelectedIndex = 2 Then
+                                    bandsel = &H42
+                                    cabandsel = &H85
+                                Else
+                                    If ComboBox8.SelectedIndex = 3 Then
+                                        bandsel = &H42
+                                        cabandsel = &H8C
+                                    Else
+                                        If ComboBox8.SelectedIndex = 4 Then
+                                            bandsel = &H42
+                                            cabandsel = &H8D
+                                        Else
+                                            If ComboBox8.SelectedIndex = 5 Then
+                                                bandsel = &H42
+                                                cabandsel = &H9D
+                                            Else
+                                                If ComboBox8.SelectedIndex = 6 Then
+                                                    bandsel = &H43
+                                                    cabandsel = &H87
+                                                Else
+                                                    If ComboBox8.SelectedIndex = 7 Then
+                                                        bandsel = &H43
+                                                        cabandsel = &H94
+                                                    Else
+                                                        If ComboBox8.SelectedIndex = 8 Then
+                                                            bandsel = &H44
+                                                            cabandsel = &H85
+                                                        Else
+                                                            If ComboBox8.SelectedIndex = 9 Then
+                                                                bandsel = &H44
+                                                                cabandsel = &H8C
+                                                            Else
+                                                                If ComboBox8.SelectedIndex = 10 Then
+                                                                    bandsel = &H44
+                                                                    cabandsel = &H8D
+                                                                Else
+                                                                    If ComboBox8.SelectedIndex = 11 Then
+                                                                        bandsel = &H44
+                                                                        cabandsel = &H9D
+                                                                    Else
+                                                                        If ComboBox8.SelectedIndex = 12 Then
+                                                                            bandsel = &H45
+                                                                            cabandsel = &H9E
+                                                                        Else
+                                                                            If ComboBox8.SelectedIndex = 13 Then
+                                                                                bandsel = &H47
+                                                                                cabandsel = &H94
+                                                                            Else
+                                                                                If ComboBox8.SelectedIndex = 14 Then
+                                                                                    bandsel = &H4C
+                                                                                    cabandsel = &H9E
+                                                                                Else
+                                                                                    If ComboBox8.SelectedIndex = 15 Then
+                                                                                        bandsel = &H69
+                                                                                        cabandsel = &HA9
+                                                                                    End If
+                                                                                End If
+                                                                            End If
+                                                                        End If
+                                                                    End If
+                                                                End If
+                                                            End If
+                                                        End If
+                                                    End If
+                                                End If
+                                            End If
+                                        End If
+                                    End If
+                                End If
+                            End If
+                            'bandsel = CInt(ComboBox7.Text)
+                            'bandsel = bandsel Or &H40
+                            'cabandsel = CInt(ComboBox8.Text)
+                            'cabandsel = cabandsel Or &H80
+                            byte1 = &HC0
+                            If ComboBox5.Text = "Both Antennas" Then
+                                byte1 = byte1 Or &H30
+                            Else
+                                If ComboBox5.Text = "Aux Antenna" Then
+                                    byte1 = byte1 Or &H20
+                                Else
+                                    If ComboBox5.Text = "Main Antenna" Then
+                                        byte1 = byte1 Or &H10
+                                    End If
+                                End If
+                            End If
+                            If ComboBox6.Text = "TX and RX ON" Then
+                                byte1 = byte1 Or &H0C
+                            Else
+                                If ComboBox6.Text = "RX ON" Then
+                                    byte1 = byte1 Or &H08
+                                Else
+                                    If ComboBox6.Text = "TX ON" Then
+                                        byte1 = byte1 Or &H04
+                                    End If
+                                End If
+                            End If
+                            If ComboBox9.Text = "High power (20 to 30 dBm)" Then
+                                byte1 = byte1 Or &H03
+                            Else
+                                If ComboBox9.Text = "Medium to high power (15 to 20 dBm)" Then
+                                    byte1 = byte1 Or &H02
+                                Else
+                                    If ComboBox9.Text = "Low to medium power (5 to 15 dBm)" Then
+                                        byte1 = byte1 Or &H01
+                                    End If
+                                End If
+                            End If
+                            'SerialPort1.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & bandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & cabandsel.ToString("X") & vbCrLf)
+                            Try
+                                'SerialPort1.WriteLine("AT!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & byte1.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & bandsel.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & cabandsel.ToString("X") & vbCrLf)
+                                'RichTextBox1.Text &= SerialPort1.ReadExisting()
+                                myserialPort1.WriteLine("AT!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & byte1.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & bandsel.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & cabandsel.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & byte4.ToString("X") & ";!RFMIPI=" & TextBox1.Text & "," & TextBox2.Text & "," & TextBox3.Text & "," & "0x" & byte5.ToString("X") & vbCrLf)
+                                RichTextBox1.Text &= myserialPort1.ReadLine()
+                                RichTextBox1.Text &= myserialPort1.ReadExisting()
+                            Catch ex As Exception
+                                MetroFramework.MetroMessageBox.Show(Me, myserialPort1.PortName & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                'MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
+                                SerialReset()
+                                Exit Sub
+                            End Try
                         End If
+                    End If
                 End If
             End If
         End If
@@ -690,8 +765,8 @@ Public Class Form5
             TextBox4.Enabled = True
             TextBox4.WaterMark = "23010 to 23179"
         ElseIf ComboBox8.SelectedIndex = 15 Then
-            TextBox4.Enabled = False
-            TextBox4.WaterMark = "Channel number not available"
+            TextBox4.Enabled = True
+            TextBox4.WaterMark = "39650 to 41589"
         End If
         Return 0
     End Function
@@ -736,12 +811,15 @@ Public Class Form5
         ElseIf ComboBox7.SelectedIndex = 12 Then
             TextBox4.Enabled = True
             TextBox4.WaterMark = "26690 to 27039"
-        ElseIf ComboBox7.SelectedIndex = 13 Or ComboBox7.SelectedIndex = 15 Then
+        ElseIf ComboBox7.SelectedIndex = 13 Then
             TextBox4.Enabled = False
             TextBox4.WaterMark = "Channel number not available"
         ElseIf ComboBox7.SelectedIndex = 14 Then
             TextBox4.Enabled = True
             TextBox4.WaterMark = "27660 to 27759"
+        ElseIf ComboBox7.SelectedIndex = 15 Then
+            TextBox4.Enabled = True
+            TextBox4.WaterMark = "39650 to 41589"
         End If
         Return 0
     End Function
