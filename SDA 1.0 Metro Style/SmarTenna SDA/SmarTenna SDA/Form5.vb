@@ -196,8 +196,8 @@ Public Class Form5
                             ElseIf ComboBox7.SelectedIndex = 15 Or ComboBox8.SelectedIndex = 15 Then
                                 test = Math.Truncate((uplink - 39650) / 10)
                             End If
-                            byte5 = byte5 Or (test >> 6)
-                            byte4 = byte4 Or (test And &H3F)
+                            byte4 = byte4 Or (test >> 6)
+                            byte5 = byte5 Or (test And &H3F)
                             If ComboBox7.SelectedIndex = 1 Then
                                 bandsel = &H41
                                 cabandsel = &H80
