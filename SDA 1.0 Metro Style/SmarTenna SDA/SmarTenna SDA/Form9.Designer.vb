@@ -552,35 +552,35 @@ Partial Class Form9
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(116, 30)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.NewToolStripMenuItem.Text = "New"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(116, 30)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.OpenToolStripMenuItem.Text = "Open"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(113, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(100, 6)
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(116, 30)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(113, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(100, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(116, 30)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'ViewToolStripMenuItem
@@ -593,7 +593,7 @@ Partial Class Form9
         'FullScreenToolStripMenuItem
         '
         Me.FullScreenToolStripMenuItem.Name = "FullScreenToolStripMenuItem"
-        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(144, 30)
+        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.FullScreenToolStripMenuItem.Text = "Full Screen"
         '
         'ToolsToolStripMenuItem
@@ -607,26 +607,26 @@ Partial Class Form9
         '
         Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MyDevicesToolStripMenuItem})
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(129, 30)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
         'MyDevicesToolStripMenuItem
         '
         Me.MyDevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PINGPIOToolStripMenuItem, Me.SCOUTSC4410ToolStripMenuItem})
         Me.MyDevicesToolStripMenuItem.Name = "MyDevicesToolStripMenuItem"
-        Me.MyDevicesToolStripMenuItem.Size = New System.Drawing.Size(147, 30)
+        Me.MyDevicesToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.MyDevicesToolStripMenuItem.Text = "My Devices"
         '
         'PINGPIOToolStripMenuItem
         '
         Me.PINGPIOToolStripMenuItem.Name = "PINGPIOToolStripMenuItem"
-        Me.PINGPIOToolStripMenuItem.Size = New System.Drawing.Size(202, 30)
+        Me.PINGPIOToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
         Me.PINGPIOToolStripMenuItem.Text = "NUMATO USB GPIO 8"
         '
         'SCOUTSC4410ToolStripMenuItem
         '
         Me.SCOUTSC4410ToolStripMenuItem.Name = "SCOUTSC4410ToolStripMenuItem"
-        Me.SCOUTSC4410ToolStripMenuItem.Size = New System.Drawing.Size(202, 30)
+        Me.SCOUTSC4410ToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
         Me.SCOUTSC4410ToolStripMenuItem.Text = "SCOUT SC4410"
         '
         'HelpToolStripMenuItem
@@ -639,7 +639,7 @@ Partial Class Form9
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(208, 30)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(195, 22)
         Me.AboutToolStripMenuItem.Text = "About SmarTenna SDA"
         '
         'MenuStrip1
@@ -695,17 +695,16 @@ Partial Class Form9
         Me.TextBox1.UseSelectable = True
         Me.TextBox1.WaterMark = "0 to 64"
         Me.TextBox1.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-        Me.TextBox1.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextBox1.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
         '
         'ListBox1
         '
         Me.ListBox1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ListBox1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ListBox1.FormattingEnabled = True
-        Me.ListBox1.ItemHeight = 23
         Me.ListBox1.Location = New System.Drawing.Point(419, 435)
         Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(119, 50)
+        Me.ListBox1.Size = New System.Drawing.Size(119, 43)
         Me.ListBox1.TabIndex = 119
         '
         'Label19
@@ -756,7 +755,7 @@ Partial Class Form9
         Me.Toggle1.AutoSize = True
         Me.Toggle1.Location = New System.Drawing.Point(273, 511)
         Me.Toggle1.Name = "Toggle1"
-        Me.Toggle1.Size = New System.Drawing.Size(80, 24)
+        Me.Toggle1.Size = New System.Drawing.Size(80, 17)
         Me.Toggle1.TabIndex = 124
         Me.Toggle1.Text = "Off"
         Me.Toggle1.UseSelectable = True
@@ -767,7 +766,7 @@ Partial Class Form9
         Me.Toggle2.AutoSize = True
         Me.Toggle2.Location = New System.Drawing.Point(273, 548)
         Me.Toggle2.Name = "Toggle2"
-        Me.Toggle2.Size = New System.Drawing.Size(80, 24)
+        Me.Toggle2.Size = New System.Drawing.Size(80, 17)
         Me.Toggle2.TabIndex = 125
         Me.Toggle2.Text = "Off"
         Me.Toggle2.UseSelectable = True
@@ -778,7 +777,7 @@ Partial Class Form9
         Me.Toggle3.AutoSize = True
         Me.Toggle3.Location = New System.Drawing.Point(458, 643)
         Me.Toggle3.Name = "Toggle3"
-        Me.Toggle3.Size = New System.Drawing.Size(80, 24)
+        Me.Toggle3.Size = New System.Drawing.Size(80, 17)
         Me.Toggle3.TabIndex = 127
         Me.Toggle3.Text = "Off"
         Me.Toggle3.UseSelectable = True
@@ -822,7 +821,7 @@ Partial Class Form9
         Me.TextBox2.UseSelectable = True
         Me.TextBox2.WaterMark = "Enter a voltage value between 0 to 1.8V"
         Me.TextBox2.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-        Me.TextBox2.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextBox2.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
         '
         'ComboBox5
         '
@@ -913,7 +912,7 @@ Partial Class Form9
         Me.TextBox3.UseSelectable = True
         Me.TextBox3.WaterMark = "Units"
         Me.TextBox3.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-        Me.TextBox3.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextBox3.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
         '
         'Form9
         '
