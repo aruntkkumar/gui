@@ -94,6 +94,8 @@ Partial Class Form4
         'MenuStrip1
         '
         Me.MenuStrip1.BackColor = System.Drawing.SystemColors.Window
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
+        Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ViewToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(20, 60)
         Me.MenuStrip1.Name = "MenuStrip1"
@@ -372,7 +374,7 @@ Partial Class Form4
         '
         Me.Label15.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(92, 102)
+        Me.Label15.Location = New System.Drawing.Point(89, 102)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(82, 19)
         Me.Label15.TabIndex = 47
@@ -382,7 +384,7 @@ Partial Class Form4
         '
         Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(92, 155)
+        Me.Label4.Location = New System.Drawing.Point(89, 155)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(72, 19)
         Me.Label4.TabIndex = 48
@@ -392,7 +394,7 @@ Partial Class Form4
         '
         Me.Label11.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(92, 208)
+        Me.Label11.Location = New System.Drawing.Point(89, 208)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(85, 19)
         Me.Label11.TabIndex = 49
@@ -402,7 +404,7 @@ Partial Class Form4
         '
         Me.Label10.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(92, 261)
+        Me.Label10.Location = New System.Drawing.Point(89, 261)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(107, 19)
         Me.Label10.TabIndex = 50
@@ -412,7 +414,7 @@ Partial Class Form4
         '
         Me.Label9.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(92, 314)
+        Me.Label9.Location = New System.Drawing.Point(89, 314)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(81, 19)
         Me.Label9.TabIndex = 51
@@ -422,7 +424,7 @@ Partial Class Form4
         '
         Me.Label16.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(92, 367)
+        Me.Label16.Location = New System.Drawing.Point(89, 367)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(96, 19)
         Me.Label16.TabIndex = 52
@@ -432,7 +434,7 @@ Partial Class Form4
         '
         Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(92, 420)
+        Me.Label5.Location = New System.Drawing.Point(89, 420)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(71, 19)
         Me.Label5.TabIndex = 53
@@ -442,7 +444,7 @@ Partial Class Form4
         '
         Me.Label6.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(92, 473)
+        Me.Label6.Location = New System.Drawing.Point(89, 473)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(163, 19)
         Me.Label6.TabIndex = 54
@@ -452,7 +454,7 @@ Partial Class Form4
         '
         Me.Label7.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(92, 526)
+        Me.Label7.Location = New System.Drawing.Point(89, 526)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(178, 19)
         Me.Label7.TabIndex = 55
@@ -462,7 +464,7 @@ Partial Class Form4
         '
         Me.Label8.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(92, 579)
+        Me.Label8.Location = New System.Drawing.Point(89, 579)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(98, 19)
         Me.Label8.TabIndex = 56
@@ -473,7 +475,7 @@ Partial Class Form4
         Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button1.DisplayFocus = True
         Me.Button1.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button1.Location = New System.Drawing.Point(92, 632)
+        Me.Button1.Location = New System.Drawing.Point(89, 632)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(119, 38)
         Me.Button1.TabIndex = 57
@@ -544,7 +546,7 @@ Partial Class Form4
         '
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
         Me.Label3.Location = New System.Drawing.Point(891, 63)
         Me.Label3.Name = "Label3"
@@ -556,7 +558,7 @@ Partial Class Form4
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
         Me.Label2.BackColor = System.Drawing.Color.Transparent
-        Me.Label2.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
         Me.Label2.Location = New System.Drawing.Point(858, 63)
         Me.Label2.Name = "Label2"
@@ -569,7 +571,7 @@ Partial Class Form4
         Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
         Me.Label1.BackColor = System.Drawing.Color.Transparent
-        Me.Label1.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
         Me.Label1.Location = New System.Drawing.Point(858, 38)
         Me.Label1.Name = "Label1"
@@ -583,9 +585,9 @@ Partial Class Form4
         Me.Label17.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label17.AutoSize = True
         Me.Label17.BackColor = System.Drawing.Color.Transparent
-        Me.Label17.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label17.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label17.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
-        Me.Label17.Location = New System.Drawing.Point(497, 693)
+        Me.Label17.Location = New System.Drawing.Point(494, 693)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(459, 14)
         Me.Label17.TabIndex = 68
@@ -690,8 +692,7 @@ Partial Class Form4
         '
         'Form4
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(976, 727)
         Me.Controls.Add(Me.RichTextBox1)
         Me.Controls.Add(Me.RadioButton3)

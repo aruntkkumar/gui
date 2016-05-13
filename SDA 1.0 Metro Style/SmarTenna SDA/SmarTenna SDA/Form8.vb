@@ -24,6 +24,10 @@ Public Class Form8
         End If
     End Sub
 
+    Private Sub Form8_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Size = New Size(770, 273)
+    End Sub
+
     'Private Sub PictureBox4_Click(sender As Object, e As EventArgs)
     '    Process.Start("https://plus.google.com/103011616596456540984/posts")
 

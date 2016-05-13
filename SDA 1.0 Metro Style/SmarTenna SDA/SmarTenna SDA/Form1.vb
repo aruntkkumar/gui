@@ -21,4 +21,8 @@ Public Class Form1
     Private Sub pictureBox1_Click(sender As Object, e As EventArgs) Handles pictureBox1.Click
         Process.Start("http://www.smartantennatech.com/")
     End Sub
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Size = New Size(650, 425)
+    End Sub
 End Class

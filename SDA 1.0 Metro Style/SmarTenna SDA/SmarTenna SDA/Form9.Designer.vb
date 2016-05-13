@@ -192,9 +192,9 @@ Partial Class Form9
         Me.Label17.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label17.AutoSize = True
         Me.Label17.BackColor = System.Drawing.Color.Transparent
-        Me.Label17.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label17.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label17.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
-        Me.Label17.Location = New System.Drawing.Point(497, 693)
+        Me.Label17.Location = New System.Drawing.Point(494, 693)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(459, 14)
         Me.Label17.TabIndex = 107
@@ -215,7 +215,7 @@ Partial Class Form9
         '
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
         Me.Label3.Location = New System.Drawing.Point(891, 63)
         Me.Label3.Name = "Label3"
@@ -227,7 +227,7 @@ Partial Class Form9
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
         Me.Label2.BackColor = System.Drawing.Color.Transparent
-        Me.Label2.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
         Me.Label2.Location = New System.Drawing.Point(858, 63)
         Me.Label2.Name = "Label2"
@@ -240,7 +240,7 @@ Partial Class Form9
         Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
         Me.Label1.BackColor = System.Drawing.Color.Transparent
-        Me.Label1.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
         Me.Label1.Location = New System.Drawing.Point(858, 38)
         Me.Label1.Name = "Label1"
@@ -552,35 +552,35 @@ Partial Class Form9
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(116, 30)
         Me.NewToolStripMenuItem.Text = "New"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(116, 30)
         Me.OpenToolStripMenuItem.Text = "Open"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(100, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(113, 6)
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(116, 30)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(100, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(113, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(103, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(116, 30)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'ViewToolStripMenuItem
@@ -593,7 +593,7 @@ Partial Class Form9
         'FullScreenToolStripMenuItem
         '
         Me.FullScreenToolStripMenuItem.Name = "FullScreenToolStripMenuItem"
-        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
+        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(144, 30)
         Me.FullScreenToolStripMenuItem.Text = "Full Screen"
         '
         'ToolsToolStripMenuItem
@@ -607,26 +607,26 @@ Partial Class Form9
         '
         Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MyDevicesToolStripMenuItem})
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(129, 30)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
         'MyDevicesToolStripMenuItem
         '
         Me.MyDevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PINGPIOToolStripMenuItem, Me.SCOUTSC4410ToolStripMenuItem})
         Me.MyDevicesToolStripMenuItem.Name = "MyDevicesToolStripMenuItem"
-        Me.MyDevicesToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.MyDevicesToolStripMenuItem.Size = New System.Drawing.Size(147, 30)
         Me.MyDevicesToolStripMenuItem.Text = "My Devices"
         '
         'PINGPIOToolStripMenuItem
         '
         Me.PINGPIOToolStripMenuItem.Name = "PINGPIOToolStripMenuItem"
-        Me.PINGPIOToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+        Me.PINGPIOToolStripMenuItem.Size = New System.Drawing.Size(202, 30)
         Me.PINGPIOToolStripMenuItem.Text = "NUMATO USB GPIO 8"
         '
         'SCOUTSC4410ToolStripMenuItem
         '
         Me.SCOUTSC4410ToolStripMenuItem.Name = "SCOUTSC4410ToolStripMenuItem"
-        Me.SCOUTSC4410ToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+        Me.SCOUTSC4410ToolStripMenuItem.Size = New System.Drawing.Size(202, 30)
         Me.SCOUTSC4410ToolStripMenuItem.Text = "SCOUT SC4410"
         '
         'HelpToolStripMenuItem
@@ -639,12 +639,14 @@ Partial Class Form9
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(195, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(208, 30)
         Me.AboutToolStripMenuItem.Text = "About SmarTenna SDA"
         '
         'MenuStrip1
         '
         Me.MenuStrip1.BackColor = System.Drawing.SystemColors.Window
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
+        Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ViewToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(20, 60)
         Me.MenuStrip1.Name = "MenuStrip1"
@@ -700,9 +702,10 @@ Partial Class Form9
         Me.ListBox1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ListBox1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ListBox1.FormattingEnabled = True
+        Me.ListBox1.ItemHeight = 23
         Me.ListBox1.Location = New System.Drawing.Point(419, 435)
         Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(119, 56)
+        Me.ListBox1.Size = New System.Drawing.Size(119, 50)
         Me.ListBox1.TabIndex = 119
         '
         'Label19
@@ -753,7 +756,7 @@ Partial Class Form9
         Me.Toggle1.AutoSize = True
         Me.Toggle1.Location = New System.Drawing.Point(273, 511)
         Me.Toggle1.Name = "Toggle1"
-        Me.Toggle1.Size = New System.Drawing.Size(80, 17)
+        Me.Toggle1.Size = New System.Drawing.Size(80, 24)
         Me.Toggle1.TabIndex = 124
         Me.Toggle1.Text = "Off"
         Me.Toggle1.UseSelectable = True
@@ -764,7 +767,7 @@ Partial Class Form9
         Me.Toggle2.AutoSize = True
         Me.Toggle2.Location = New System.Drawing.Point(273, 548)
         Me.Toggle2.Name = "Toggle2"
-        Me.Toggle2.Size = New System.Drawing.Size(80, 17)
+        Me.Toggle2.Size = New System.Drawing.Size(80, 24)
         Me.Toggle2.TabIndex = 125
         Me.Toggle2.Text = "Off"
         Me.Toggle2.UseSelectable = True
@@ -775,7 +778,7 @@ Partial Class Form9
         Me.Toggle3.AutoSize = True
         Me.Toggle3.Location = New System.Drawing.Point(458, 643)
         Me.Toggle3.Name = "Toggle3"
-        Me.Toggle3.Size = New System.Drawing.Size(80, 17)
+        Me.Toggle3.Size = New System.Drawing.Size(80, 24)
         Me.Toggle3.TabIndex = 127
         Me.Toggle3.Text = "Off"
         Me.Toggle3.UseSelectable = True
@@ -914,8 +917,7 @@ Partial Class Form9
         '
         'Form9
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(976, 727)
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.ComboBox8)

@@ -39,4 +39,7 @@
         End If
     End Sub
 
+    Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Size = New Size(406, 205)
+    End Sub
 End Class

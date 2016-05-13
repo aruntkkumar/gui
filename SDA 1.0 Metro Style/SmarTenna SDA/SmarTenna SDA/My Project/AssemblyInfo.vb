@@ -13,7 +13,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyCompany("Smart Antenna Technologies Ltd")>
 <Assembly: AssemblyProduct("SmarTenna® SDA")>
 <Assembly: AssemblyCopyright("Copyright © Smart Antenna Technologies Limited 2016")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTrademark("SmarTenna®")>
 
 <Assembly: ComVisible(False)>
 

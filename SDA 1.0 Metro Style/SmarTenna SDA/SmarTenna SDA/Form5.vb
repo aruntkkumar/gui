@@ -25,6 +25,7 @@ Public Class Form5
     End Sub
 
     Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Size = New Size(976, 727)
         AddHandler System.Windows.Forms.Application.Idle, AddressOf Application_Idle
         Timer1.Enabled = True
         myPort = IO.Ports.SerialPort.GetPortNames()
@@ -678,18 +679,19 @@ Public Class Form5
             RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 10.1363 / 13) - (intY * 4.9545 / 13) + 25 - (31 - 7)))
             Button7.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 13))
         Else
-            Label15.Location = New Point(x:=92, y:=102)
-            Label4.Location = New Point(x:=92, y:=150)
-            Label11.Location = New Point(x:=92, y:=198)
-            Label10.Location = New Point(x:=92, y:=246)
-            Label9.Location = New Point(x:=92, y:=294)
-            Label16.Location = New Point(x:=92, y:=342)
-            Label5.Location = New Point(x:=92, y:=390)
-            Label6.Location = New Point(x:=92, y:=438)
-            Label7.Location = New Point(x:=92, y:=486)
-            Label8.Location = New Point(x:=92, y:=534)
-            Label13.Location = New Point(x:=92, y:=582)
-            Button1.Location = New Point(x:=92, y:=632)
+            Me.Size = New Size(976, 727)
+            Label15.Location = New Point(x:=89, y:=102)
+            Label4.Location = New Point(x:=89, y:=150)
+            Label11.Location = New Point(x:=89, y:=198)
+            Label10.Location = New Point(x:=89, y:=246)
+            Label9.Location = New Point(x:=89, y:=294)
+            Label16.Location = New Point(x:=89, y:=342)
+            Label5.Location = New Point(x:=89, y:=390)
+            Label6.Location = New Point(x:=89, y:=438)
+            Label7.Location = New Point(x:=89, y:=486)
+            Label8.Location = New Point(x:=89, y:=534)
+            Label13.Location = New Point(x:=89, y:=582)
+            Button1.Location = New Point(x:=89, y:=632)
             Button2.Location = New Point(x:=273, y:=632)
             ComboBox1.Location = New Point(x:=273, y:=102)
             ComboBox2.Location = New Point(x:=273, y:=150)
