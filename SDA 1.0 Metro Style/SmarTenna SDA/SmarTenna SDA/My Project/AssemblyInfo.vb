@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("SmarTenna SDA")>
+<Assembly: AssemblyTitle("SmarTenna® SDA")>
 <Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("Microsoft")>
-<Assembly: AssemblyProduct("SmarTenna SDA")>
-<Assembly: AssemblyCopyright("Copyright © Microsoft 2016")>
+<Assembly: AssemblyCompany("Smart Antenna Technologies Ltd")>
+<Assembly: AssemblyProduct("SmarTenna® SDA")>
+<Assembly: AssemblyCopyright("Copyright © Smart Antenna Technologies Limited 2016")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
