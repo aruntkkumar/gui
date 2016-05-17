@@ -139,8 +139,8 @@ Public Class Form5
                             ElseIf (TextBox4.WaterMark = "20400 to 20649" And (uplink < 20400 Or uplink > 20649)) Then
                                 MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 20400 and 20649", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Exit Sub
-                            ElseIf (TextBox4.WaterMark = "20750 to 21499" And (uplink < 20750 Or uplink > 21499)) Then
-                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 20750 and 21499", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            ElseIf (TextBox4.WaterMark = "20750 to 21449" And (uplink < 20750 Or uplink > 21449)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 20750 and 21449", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Exit Sub
                             ElseIf (TextBox4.WaterMark = "21450 to 21799" And (uplink < 21450 Or uplink > 21799)) Then
                                 MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 21450 and 21799", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -762,7 +762,7 @@ Public Class Form5
             TextBox4.WaterMark = "20400 to 20649"
         ElseIf ComboBox8.SelectedIndex = 13 Then
             TextBox4.Enabled = True
-            TextBox4.WaterMark = "20750 to 21499"
+            TextBox4.WaterMark = "20750 to 21449"
         ElseIf ComboBox8.SelectedIndex = 14 Then
             TextBox4.Enabled = True
             TextBox4.WaterMark = "23010 to 23179"
@@ -794,7 +794,7 @@ Public Class Form5
             TextBox4.WaterMark = "20400 to 20649"
         ElseIf ComboBox7.SelectedIndex = 6 Then
             TextBox4.Enabled = True
-            TextBox4.WaterMark = "20750 to 21499"
+            TextBox4.WaterMark = "20750 to 21449"
         ElseIf ComboBox7.SelectedIndex = 7 Then
             TextBox4.Enabled = True
             TextBox4.WaterMark = "21450 to 21799"
