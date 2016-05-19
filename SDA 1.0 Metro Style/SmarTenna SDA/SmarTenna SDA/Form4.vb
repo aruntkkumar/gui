@@ -16,6 +16,9 @@ Public Class Form4
     Dim byte1 As Integer
     Dim bandsel As Integer
     Dim cabandsel As Integer
+    Dim byte4 As Integer
+    Dim byte5 As Integer
+    Dim uplink As Double
     Dim Reg1 As RegistryKey
     Dim Reg2 As RegistryKey
     Dim portname As String
@@ -239,71 +242,156 @@ Public Class Form4
                 If (ComboBox7.Text = "" Or ComboBox8.Text = "" Or (ComboBox7.SelectedIndex = 0 And ComboBox8.SelectedIndex = 0)) Then
                     MetroFramework.MetroMessageBox.Show(Me, "Please select a supported E-UTRA band or Carrier Aggregation Band", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    If (ComboBox7.SelectedIndex = 2 Or ComboBox7.SelectedIndex = 8 Or ComboBox7.SelectedIndex = 9 Or ComboBox7.SelectedIndex = 10 Or ComboBox7.SelectedIndex = 13 Or ComboBox8.SelectedIndex = 3 Or ComboBox8.SelectedIndex = 9 Or ComboBox8.SelectedIndex = 10) Then
-                        If ComboBox9.Text = "" Then
-                            MetroFramework.MetroMessageBox.Show(Me, "Please select the TX power level", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    'If (ComboBox7.SelectedIndex = 2 Or ComboBox7.SelectedIndex = 8 Or ComboBox7.SelectedIndex = 9 Or ComboBox7.SelectedIndex = 10 Or ComboBox7.SelectedIndex = 13 Or ComboBox8.SelectedIndex = 3 Or ComboBox8.SelectedIndex = 9 Or ComboBox8.SelectedIndex = 10) Then
+                    If ComboBox9.Text = "" Then
+                        MetroFramework.MetroMessageBox.Show(Me, "Please select the TX power level", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        'If ComboBox9.SelectedIndex = 0 Then
+                        If (TextBox1.Enabled = True And TextBox1.Text = "") Then
+                            MetroFramework.MetroMessageBox.Show(Me, "Please provide the uplink channel number for the selected band coverage", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
-                            If ComboBox9.SelectedIndex = 0 Then
-                                If ComboBox7.SelectedIndex = 1 Then
-                                    bandsel = &H41
+                            byte4 = &H40
+                            byte5 = &H80
+                            Try
+                                uplink = CDbl(TextBox1.Text)
+                            Catch ex As Exception
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number for the selected band coverage.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            End Try
+                            If (TextBox1.WaterMark = "18000 to 18599" And (uplink < 18000 Or uplink > 18599)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 18000 and 18599", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "18600 to 19199" And (uplink < 18600 Or uplink > 19199)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 18600 and 19199", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "19200 to 19949" And (uplink < 19200 Or uplink > 19949)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 19200 and 19949", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "19950 to 20399" And (uplink < 19950 Or uplink > 20399)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 19950 and 20399", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "20400 to 20649" And (uplink < 20400 Or uplink > 20649)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 20400 and 20649", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "20750 to 21449" And (uplink < 20750 Or uplink > 21449)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 20750 and 21449", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "21450 to 21799" And (uplink < 21450 Or uplink > 21799)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 21450 and 21799", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "23010 to 23179" And (uplink < 23010 Or uplink > 23179)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 23010 and 23179", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "23180 to 23279" And (uplink < 23180 Or uplink > 23279)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 23180 and 23279", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "24150 to 24449" And (uplink < 24150 Or uplink > 24449)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 24150 and 24449", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "26040 to 26689" And (uplink < 26040 Or uplink > 26689)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 26040 and 26689", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "26690 to 27039" And (uplink < 26690 Or uplink > 27039)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 26690 and 27039", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "27660 to 27759" And (uplink < 27660 Or uplink > 27759)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 27660 and 27759", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            ElseIf (TextBox1.WaterMark = "39650 to 41589" And (uplink < 39650 Or uplink > 41589)) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number between 39650 and 41589", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            End If
+                            test = 0
+                            If ComboBox7.SelectedIndex = 1 Or ComboBox8.SelectedIndex = 1 Then
+                                test = Math.Truncate((uplink - 18000) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 2 Or ComboBox8.SelectedIndex = 2 Or ComboBox8.SelectedIndex = 3 Or ComboBox8.SelectedIndex = 4 Or ComboBox8.SelectedIndex = 5 Then
+                                test = Math.Truncate((uplink - 18600) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 3 Or ComboBox8.SelectedIndex = 6 Or ComboBox8.SelectedIndex = 7 Then
+                                test = Math.Truncate((uplink - 19200) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 4 Or ComboBox8.SelectedIndex = 8 Or ComboBox8.SelectedIndex = 9 Or ComboBox8.SelectedIndex = 10 Or ComboBox8.SelectedIndex = 11 Then
+                                test = Math.Truncate((uplink - 19950) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 5 Or ComboBox8.SelectedIndex = 12 Then
+                                test = Math.Truncate((uplink - 20400) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 6 Or ComboBox8.SelectedIndex = 13 Then
+                                test = Math.Truncate((uplink - 20750) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 7 Then
+                                test = Math.Truncate((uplink - 21450) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 8 Or ComboBox8.SelectedIndex = 14 Then
+                                test = Math.Truncate((uplink - 23010) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 9 Then
+                                test = Math.Truncate((uplink - 23180) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 10 Then
+                                test = Math.Truncate((uplink - 24150) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 11 Then
+                                test = Math.Truncate((uplink - 26040) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 12 Then
+                                test = Math.Truncate((uplink - 26690) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 14 Then
+                                test = Math.Truncate((uplink - 27660) / 10)
+                            ElseIf ComboBox7.SelectedIndex = 15 Or ComboBox8.SelectedIndex = 15 Then
+                                test = Math.Truncate((uplink - 39650) / 10)
+                            End If
+                            byte4 = byte4 Or (test >> 6)
+                            byte5 = byte5 Or (test And &H3F)
+                            If ComboBox7.SelectedIndex = 1 Then
+                                bandsel = &H41
+                                cabandsel = &H80
+                            Else
+                                If ComboBox7.SelectedIndex = 2 Then
+                                    bandsel = &H42
                                     cabandsel = &H80
                                 Else
-                                    If ComboBox7.SelectedIndex = 2 Then
-                                        bandsel = &H42
+                                    If ComboBox7.SelectedIndex = 3 Then
+                                        bandsel = &H43
                                         cabandsel = &H80
                                     Else
-                                        If ComboBox7.SelectedIndex = 3 Then
-                                            bandsel = &H43
+                                        If ComboBox7.SelectedIndex = 4 Then
+                                            bandsel = &H44
                                             cabandsel = &H80
                                         Else
-                                            If ComboBox7.SelectedIndex = 4 Then
-                                                bandsel = &H44
+                                            If ComboBox7.SelectedIndex = 5 Then
+                                                bandsel = &H45
                                                 cabandsel = &H80
                                             Else
-                                                If ComboBox7.SelectedIndex = 5 Then
-                                                    bandsel = &H45
+                                                If ComboBox7.SelectedIndex = 6 Then
+                                                    bandsel = &H47
                                                     cabandsel = &H80
                                                 Else
-                                                    If ComboBox7.SelectedIndex = 6 Then
-                                                        bandsel = &H47
+                                                    If ComboBox7.SelectedIndex = 7 Then
+                                                        bandsel = &H48
                                                         cabandsel = &H80
                                                     Else
-                                                        If ComboBox7.SelectedIndex = 7 Then
-                                                            bandsel = &H48
+                                                        If ComboBox7.SelectedIndex = 8 Then
+                                                            bandsel = &H4C
                                                             cabandsel = &H80
                                                         Else
-                                                            If ComboBox7.SelectedIndex = 8 Then
-                                                                bandsel = &H4C
+                                                            If ComboBox7.SelectedIndex = 9 Then
+                                                                bandsel = &H4D
                                                                 cabandsel = &H80
                                                             Else
-                                                                If ComboBox7.SelectedIndex = 9 Then
-                                                                    bandsel = &H4D
+                                                                If ComboBox7.SelectedIndex = 10 Then
+                                                                    bandsel = &H54
                                                                     cabandsel = &H80
                                                                 Else
-                                                                    If ComboBox7.SelectedIndex = 10 Then
-                                                                        bandsel = &H54
+                                                                    If ComboBox7.SelectedIndex = 11 Then
+                                                                        bandsel = &H59
                                                                         cabandsel = &H80
                                                                     Else
-                                                                        If ComboBox7.SelectedIndex = 11 Then
-                                                                            bandsel = &H59
+                                                                        If ComboBox7.SelectedIndex = 12 Then
+                                                                            bandsel = &H5A
                                                                             cabandsel = &H80
                                                                         Else
-                                                                            If ComboBox7.SelectedIndex = 12 Then
-                                                                                bandsel = &H5A
+                                                                            If ComboBox7.SelectedIndex = 13 Then
+                                                                                bandsel = &H5D
                                                                                 cabandsel = &H80
                                                                             Else
-                                                                                If ComboBox7.SelectedIndex = 13 Then
-                                                                                    bandsel = &H5D
+                                                                                If ComboBox7.SelectedIndex = 14 Then
+                                                                                    bandsel = &H5E
                                                                                     cabandsel = &H80
                                                                                 Else
-                                                                                    If ComboBox7.SelectedIndex = 14 Then
-                                                                                        bandsel = &H5E
+                                                                                    If ComboBox7.SelectedIndex = 15 Then
+                                                                                        bandsel = &H69
                                                                                         cabandsel = &H80
-                                                                                    Else
-                                                                                        If ComboBox7.SelectedIndex = 15 Then
-                                                                                            bandsel = &H69
-                                                                                            cabandsel = &H80
-                                                                                        End If
                                                                                     End If
                                                                                 End If
                                                                             End If
@@ -318,150 +406,160 @@ Public Class Form4
                                         End If
                                     End If
                                 End If
-                                If ComboBox8.SelectedIndex = 1 Then
-                                    bandsel = &H41
-                                    cabandsel = &H88
-                                Else
-                                    If ComboBox8.SelectedIndex = 2 Then
-                                        bandsel = &H42
-                                        cabandsel = &H85
-                                    Else
-                                        If ComboBox8.SelectedIndex = 3 Then
-                                            bandsel = &H42
-                                            cabandsel = &H8C
-                                        Else
-                                            If ComboBox8.SelectedIndex = 4 Then
-                                                bandsel = &H42
-                                                cabandsel = &H8D
-                                            Else
-                                                If ComboBox8.SelectedIndex = 5 Then
-                                                    bandsel = &H42
-                                                    cabandsel = &H9D
-                                                Else
-                                                    If ComboBox8.SelectedIndex = 6 Then
-                                                        bandsel = &H43
-                                                        cabandsel = &H87
-                                                    Else
-                                                        If ComboBox8.SelectedIndex = 7 Then
-                                                            bandsel = &H43
-                                                            cabandsel = &H94
-                                                        Else
-                                                            If ComboBox8.SelectedIndex = 8 Then
-                                                                bandsel = &H44
-                                                                cabandsel = &H85
-                                                            Else
-                                                                If ComboBox8.SelectedIndex = 9 Then
-                                                                    bandsel = &H44
-                                                                    cabandsel = &H8C
-                                                                Else
-                                                                    If ComboBox8.SelectedIndex = 10 Then
-                                                                        bandsel = &H44
-                                                                        cabandsel = &H8D
-                                                                    Else
-                                                                        If ComboBox8.SelectedIndex = 11 Then
-                                                                            bandsel = &H44
-                                                                            cabandsel = &H9D
-                                                                        Else
-                                                                            If ComboBox8.SelectedIndex = 12 Then
-                                                                                bandsel = &H45
-                                                                                cabandsel = &H9E
-                                                                            Else
-                                                                                If ComboBox8.SelectedIndex = 13 Then
-                                                                                    bandsel = &H47
-                                                                                    cabandsel = &H94
-                                                                                Else
-                                                                                    If ComboBox8.SelectedIndex = 14 Then
-                                                                                        bandsel = &H4C
-                                                                                        cabandsel = &H9E
-                                                                                    Else
-                                                                                        If ComboBox8.SelectedIndex = 15 Then
-                                                                                            bandsel = &H69
-                                                                                            cabandsel = &HA9
-                                                                                        End If
-                                                                                    End If
-                                                                                End If
-                                                                            End If
-                                                                        End If
-                                                                    End If
-                                                                End If
-                                                            End If
-                                                        End If
-                                                    End If
-                                                End If
-                                            End If
-                                        End If
-                                    End If
-                                End If
-                                'bandsel = CInt(ComboBox7.Text)
-                                'bandsel = bandsel Or &H40
-                                'cabandsel = CInt(ComboBox8.Text)
-                                'cabandsel = cabandsel Or &H80
-                                byte1 = &HC0
-                                If ComboBox5.Text = "Both Antennas" Then
-                                    byte1 = byte1 Or &H30
-                                Else
-                                    If ComboBox5.Text = "Aux Antenna" Then
-                                        byte1 = byte1 Or &H20
-                                    Else
-                                        If ComboBox5.Text = "Main Antenna" Then
-                                            byte1 = byte1 Or &H10
-                                        End If
-                                    End If
-                                End If
-                                If ComboBox6.Text = "TX and RX ON" Then
-                                    byte1 = byte1 Or &H0C
-                                Else
-                                    If ComboBox6.Text = "RX ON" Then
-                                        byte1 = byte1 Or &H08
-                                    Else
-                                        If ComboBox6.Text = "TX ON" Then
-                                            byte1 = byte1 Or &H04
-                                        End If
-                                    End If
-                                End If
-                                If ComboBox9.Text = "High power (20 to 30 dBm)" Then
-                                    byte1 = byte1 Or &H03
-                                Else
-                                    If ComboBox9.Text = "Medium to high power (15 to 20 dBm)" Then
-                                        byte1 = byte1 Or &H02
-                                    Else
-                                        If ComboBox9.Text = "Low to medium power (5 to 15 dBm)" Then
-                                            byte1 = byte1 Or &H01
-                                        End If
-                                    End If
-                                End If
-                                'SerialPort1.WriteLine("rw 1 0x05 0xD7" & vbCrLf & "rw 1 0x05 0x58" & vbCrLf & "rw 1 0x05 0x97" & vbCrLf)
-                                Try
-                                    If device = 3 Then
-                                        myserialPort.Write("gpio writeall " & byte1.ToString("X") & vbCr)
-                                        RichTextBox1.Text &= myserialPort.ReadLine()
-                                        RichTextBox1.Text &= myserialPort.ReadExisting()
-                                        Thread.Sleep(25)
-                                        myserialPort.Write("gpio writeall " & bandsel.ToString("X") & vbCr)
-                                        RichTextBox1.Text &= myserialPort.ReadLine()
-                                        RichTextBox1.Text &= myserialPort.ReadExisting()
-                                        Thread.Sleep(25)
-                                        myserialPort.Write("gpio writeall " & cabandsel.ToString("X") & vbCrLf)
-                                        RichTextBox1.Text &= myserialPort.ReadLine()
-                                        RichTextBox1.Text &= myserialPort.ReadExisting()
-                                    Else
-                                        myserialPort.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & bandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & cabandsel.ToString("X") & vbCrLf)
-                                        RichTextBox1.Text &= myserialPort.ReadLine()
-                                        RichTextBox1.Text &= myserialPort.ReadExisting()
-                                    End If
-                                Catch ex As Exception
-                                    MetroFramework.MetroMessageBox.Show(Me, myserialPort.PortName & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                    'MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
-                                    SerialReset()
-                                    Exit Sub
-                                End Try
-                            Else
-                                MetroFramework.MetroMessageBox.Show(Me, "TX power level selection is not available in Demo Mode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             End If
+                            If ComboBox8.SelectedIndex = 1 Then
+                                bandsel = &H41
+                                cabandsel = &H88
+                            Else
+                                If ComboBox8.SelectedIndex = 2 Then
+                                    bandsel = &H42
+                                    cabandsel = &H85
+                                Else
+                                    If ComboBox8.SelectedIndex = 3 Then
+                                        bandsel = &H42
+                                        cabandsel = &H8C
+                                    Else
+                                        If ComboBox8.SelectedIndex = 4 Then
+                                            bandsel = &H42
+                                            cabandsel = &H8D
+                                        Else
+                                            If ComboBox8.SelectedIndex = 5 Then
+                                                bandsel = &H42
+                                                cabandsel = &H9D
+                                            Else
+                                                If ComboBox8.SelectedIndex = 6 Then
+                                                    bandsel = &H43
+                                                    cabandsel = &H87
+                                                Else
+                                                    If ComboBox8.SelectedIndex = 7 Then
+                                                        bandsel = &H43
+                                                        cabandsel = &H94
+                                                    Else
+                                                        If ComboBox8.SelectedIndex = 8 Then
+                                                            bandsel = &H44
+                                                            cabandsel = &H85
+                                                        Else
+                                                            If ComboBox8.SelectedIndex = 9 Then
+                                                                bandsel = &H44
+                                                                cabandsel = &H8C
+                                                            Else
+                                                                If ComboBox8.SelectedIndex = 10 Then
+                                                                    bandsel = &H44
+                                                                    cabandsel = &H8D
+                                                                Else
+                                                                    If ComboBox8.SelectedIndex = 11 Then
+                                                                        bandsel = &H44
+                                                                        cabandsel = &H9D
+                                                                    Else
+                                                                        If ComboBox8.SelectedIndex = 12 Then
+                                                                            bandsel = &H45
+                                                                            cabandsel = &H9E
+                                                                        Else
+                                                                            If ComboBox8.SelectedIndex = 13 Then
+                                                                                bandsel = &H47
+                                                                                cabandsel = &H94
+                                                                            Else
+                                                                                If ComboBox8.SelectedIndex = 14 Then
+                                                                                    bandsel = &H4C
+                                                                                    cabandsel = &H9E
+                                                                                Else
+                                                                                    If ComboBox8.SelectedIndex = 15 Then
+                                                                                        bandsel = &H69
+                                                                                        cabandsel = &HA9
+                                                                                    End If
+                                                                                End If
+                                                                            End If
+                                                                        End If
+                                                                    End If
+                                                                End If
+                                                            End If
+                                                        End If
+                                                    End If
+                                                End If
+                                            End If
+                                        End If
+                                    End If
+                                End If
+                            End If
+                            'bandsel = CInt(ComboBox7.Text)
+                            'bandsel = bandsel Or &H40
+                            'cabandsel = CInt(ComboBox8.Text)
+                            'cabandsel = cabandsel Or &H80
+                            byte1 = &HC0
+                            If ComboBox5.Text = "Both Antennas" Then
+                                byte1 = byte1 Or &H30
+                            Else
+                                If ComboBox5.Text = "Aux Antenna" Then
+                                    byte1 = byte1 Or &H20
+                                Else
+                                    If ComboBox5.Text = "Main Antenna" Then
+                                        byte1 = byte1 Or &H10
+                                    End If
+                                End If
+                            End If
+                            If ComboBox6.Text = "TX and RX ON" Then
+                                byte1 = byte1 Or &H0C
+                            Else
+                                If ComboBox6.Text = "RX ON" Then
+                                    byte1 = byte1 Or &H08
+                                Else
+                                    If ComboBox6.Text = "TX ON" Then
+                                        byte1 = byte1 Or &H04
+                                    End If
+                                End If
+                            End If
+                            If ComboBox9.Text = "High power (20 to 30 dBm)" Then
+                                byte1 = byte1 Or &H03
+                            Else
+                                If ComboBox9.Text = "Medium to high power (15 to 20 dBm)" Then
+                                    byte1 = byte1 Or &H02
+                                Else
+                                    If ComboBox9.Text = "Low to medium power (5 to 15 dBm)" Then
+                                        byte1 = byte1 Or &H01
+                                    End If
+                                End If
+                            End If
+                            'SerialPort1.WriteLine("rw 1 0x05 0xD7" & vbCrLf & "rw 1 0x05 0x58" & vbCrLf & "rw 1 0x05 0x97" & vbCrLf)
+                            Try
+                                If device = 3 Then
+                                    myserialPort.Write("gpio writeall " & byte1.ToString("X") & vbCr)
+                                    RichTextBox1.Text &= myserialPort.ReadLine()
+                                    RichTextBox1.Text &= myserialPort.ReadExisting()
+                                    Thread.Sleep(25)
+                                    myserialPort.Write("gpio writeall " & bandsel.ToString("X") & vbCr)
+                                    RichTextBox1.Text &= myserialPort.ReadLine()
+                                    RichTextBox1.Text &= myserialPort.ReadExisting()
+                                    Thread.Sleep(25)
+                                    myserialPort.Write("gpio writeall " & cabandsel.ToString("X") & vbCr)
+                                    RichTextBox1.Text &= myserialPort.ReadLine()
+                                    RichTextBox1.Text &= myserialPort.ReadExisting()
+                                    Thread.Sleep(25)
+                                    myserialPort.Write("gpio writeall " & byte4.ToString("X") & vbCr)
+                                    RichTextBox1.Text &= myserialPort.ReadLine()
+                                    RichTextBox1.Text &= myserialPort.ReadExisting()
+                                    Thread.Sleep(25)
+                                    myserialPort.Write("gpio writeall " & byte5.ToString("X") & vbCrLf)
+                                    RichTextBox1.Text &= myserialPort.ReadLine()
+                                    RichTextBox1.Text &= myserialPort.ReadExisting()
+                                Else
+                                    myserialPort.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & bandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & cabandsel.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte4.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte5.ToString("X") & vbCrLf)
+                                    RichTextBox1.Text &= myserialPort.ReadLine()
+                                    RichTextBox1.Text &= myserialPort.ReadExisting()
+                                End If
+                            Catch ex As Exception
+                                MetroFramework.MetroMessageBox.Show(Me, myserialPort.PortName & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                'MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
+                                SerialReset()
+                                Exit Sub
+                            End Try
                         End If
-                    Else
-                        MetroFramework.MetroMessageBox.Show(Me, "The selected E-UTRA band or Carrier Aggregation Band is not available in Demo Mode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        'Else
+                        '    MetroFramework.MetroMessageBox.Show(Me, "TX power level selection is not available in Demo Mode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        'End If
                     End If
+                    'Else
+                    '    MetroFramework.MetroMessageBox.Show(Me, "The selected E-UTRA band or Carrier Aggregation Band is not available in Demo Mode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    'End If
                 End If
             End If
         End If
@@ -493,6 +591,9 @@ Public Class Form4
         ComboBox7.SelectedIndex = -1
         ComboBox8.SelectedIndex = -1
         ComboBox9.SelectedIndex = -1
+        TextBox1.Text = ""
+        TextBox1.Enabled = True
+        TextBox1.WaterMark = "Select an appropriate band coverage"
     End Sub
 
     Private Sub myserialPort_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
@@ -938,29 +1039,32 @@ Public Class Form4
             If CommPortSelectToolStripMenuItem.Checked = True Then
                 If VIOSelectToolStripMenuItem.Checked = True Then
                     Label16.Location = New Point(x:=(intX / 8), y:=(intY * 1.5 / 13))
-                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 3.4 / 13))
-                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 5.3 / 13))
-                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 7.2 / 13))
-                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 9.1 / 13))
+                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 3.0833 / 13))
+                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 4.6667 / 13))
+                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 6.25 / 13))
+                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 7.8333 / 13))
+                    Label19.Location = New Point(x:=(intX / 8), y:=(intY * 9.4167 / 13))
                     Button2.Location = New Point(x:=(intX / 3.5), y:=(intY * 11 / 13))
                     ComboBox5.Location = New Point(x:=(intX / 3.5), y:=(intY * 1.5 / 13))
-                    ComboBox6.Location = New Point(x:=(intX / 3.5), y:=(intY * 3.4 / 13))
-                    ComboBox7.Location = New Point(x:=(intX / 3.5), y:=(intY * 5.3 / 13))
-                    ComboBox8.Location = New Point(x:=(intX / 3.5), y:=(intY * 7.2 / 13))
-                    ComboBox9.Location = New Point(x:=(intX / 3.5), y:=(intY * 9.1 / 13))
+                    ComboBox6.Location = New Point(x:=(intX / 3.5), y:=(intY * 3.0833 / 13))
+                    ComboBox7.Location = New Point(x:=(intX / 3.5), y:=(intY * 4.6667 / 13))
+                    ComboBox8.Location = New Point(x:=(intX / 3.5), y:=(intY * 6.25 / 13))
+                    ComboBox9.Location = New Point(x:=(intX / 3.5), y:=(intY * 7.8333 / 13))
+                    TextBox1.Location = New Point(x:=(intX / 3.5), y:=(intY * 9.4167 / 13))
                     Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 1.5 / 13))
                     RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 2 / 13))
-                    RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 9.1 / 13) - (intY * 2 / 13) + 25))
+                    RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 9.4167 / 13) - (intY * 2 / 13) + 25))
                     Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 13))
                 Else
                     Label11.Location = New Point(x:=(intX / 8), y:=(intY * 1.5 / 13))
-                    Label10.Location = New Point(x:=(intX / 8), y:=(intY * 2.6875 / 13))
-                    Label9.Location = New Point(x:=(intX / 8), y:=(intY * 3.875 / 13))
-                    Label16.Location = New Point(x:=(intX / 8), y:=(intY * 5.0625 / 13))
-                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 6.25 / 13))
-                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 7.4375 / 13))
-                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 8.625 / 13))
-                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 9.8125 / 13))
+                    Label10.Location = New Point(x:=(intX / 8), y:=(intY * 2.5555 / 13))
+                    Label9.Location = New Point(x:=(intX / 8), y:=(intY * 3.6111 / 13))
+                    Label16.Location = New Point(x:=(intX / 8), y:=(intY * 4.6667 / 13))
+                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 5.7222 / 13))
+                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 6.7778 / 13))
+                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 7.8333 / 13))
+                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 8.8889 / 13))
+                    Label19.Location = New Point(x:=(intX / 8), y:=(intY * 9.9444 / 13))
                     Button1.Location = New Point(x:=(intX / 8), y:=(intY * 11 / 13))
                     Button2.Location = New Point(x:=(intX / 3.5), y:=(intY * 11 / 13))
                     Label12.Location = New Point(x:=((intX / 3.5)), y:=(intY * 1.5 / 13))
@@ -969,76 +1073,81 @@ Public Class Form4
                     RadioButton1.Location = New Point(x:=((intX / 3.5) + 53), y:=((intY * 1.5 / 13) + 3))
                     RadioButton2.Location = New Point(x:=((intX / 3.5) + 147), y:=((intY * 1.5 / 13) + 3))
                     RadioButton3.Location = New Point(x:=((intX / 3.5) + 250), y:=((intY * 1.5 / 13) + 3))
-                    ComboBox3.Location = New Point(x:=(intX / 3.5), y:=(intY * 2.6875 / 13))
-                    ComboBox4.Location = New Point(x:=(intX / 3.5), y:=(intY * 3.875 / 13))
-                    ComboBox5.Location = New Point(x:=(intX / 3.5), y:=(intY * 5.0625 / 13))
-                    ComboBox6.Location = New Point(x:=(intX / 3.5), y:=(intY * 6.25 / 13))
-                    ComboBox7.Location = New Point(x:=(intX / 3.5), y:=(intY * 7.4375 / 13))
-                    ComboBox8.Location = New Point(x:=(intX / 3.5), y:=(intY * 8.625 / 13))
-                    ComboBox9.Location = New Point(x:=(intX / 3.5), y:=(intY * 9.8125 / 13))
+                    ComboBox3.Location = New Point(x:=(intX / 3.5), y:=(intY * 2.5555 / 13))
+                    ComboBox4.Location = New Point(x:=(intX / 3.5), y:=(intY * 3.6111 / 13))
+                    ComboBox5.Location = New Point(x:=(intX / 3.5), y:=(intY * 4.6667 / 13))
+                    ComboBox6.Location = New Point(x:=(intX / 3.5), y:=(intY * 5.7222 / 13))
+                    ComboBox7.Location = New Point(x:=(intX / 3.5), y:=(intY * 6.7778 / 13))
+                    ComboBox8.Location = New Point(x:=(intX / 3.5), y:=(intY * 7.8333 / 13))
+                    ComboBox9.Location = New Point(x:=(intX / 3.5), y:=(intY * 8.8889 / 13))
+                    TextBox1.Location = New Point(x:=(intX / 3.5), y:=(intY * 9.9444 / 13))
                     Button5.Location = New Point(x:=(intX / 1.9), y:=(intY * 1.5 / 13))
-                    Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 2.6878 / 13))
-                    RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 3.1875 / 13))
-                    RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 9.8125 / 13) - (intY * 3.1875 / 13) + 25))
+                    Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 2.5555 / 13))
+                    RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 3.0555 / 13))
+                    RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 9.9444 / 13) - (intY * 3.0555 / 13) + 25))
                     Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 13))
                 End If
             Else
                 If VIOSelectToolStripMenuItem.Checked = True Then
                     Label15.Location = New Point(x:=(intX / 8), y:=(intY * 1.5 / 13))
-                    Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2.86 / 13))
-                    Label16.Location = New Point(x:=(intX / 8), y:=(intY * 4.21 / 13))
-                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 5.57 / 13))
-                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 6.93 / 13))
-                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 8.29 / 13))
-                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 9.64 / 13))
+                    Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2.6875 / 13))
+                    Label16.Location = New Point(x:=(intX / 8), y:=(intY * 3.875 / 13))
+                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 5.0625 / 13))
+                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 6.25 / 13))
+                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 7.4375 / 13))
+                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 8.625 / 13))
+                    Label19.Location = New Point(x:=(intX / 8), y:=(intY * 9.8125 / 13))
                     Button2.Location = New Point(x:=(intX / 3.5), y:=(intY * 11 / 13))
                     ComboBox1.Location = New Point(x:=(intX / 3.5), y:=(intY * 1.5 / 13))
-                    ComboBox2.Location = New Point(x:=(intX / 3.5), y:=(intY * 2.86 / 13))
-                    ComboBox5.Location = New Point(x:=(intX / 3.5), y:=(intY * 4.21 / 13))
-                    ComboBox6.Location = New Point(x:=(intX / 3.5), y:=(intY * 5.57 / 13))
-                    ComboBox7.Location = New Point(x:=(intX / 3.5), y:=(intY * 6.93 / 13))
-                    ComboBox8.Location = New Point(x:=(intX / 3.5), y:=(intY * 8.29 / 13))
-                    ComboBox9.Location = New Point(x:=(intX / 3.5), y:=(intY * 9.64 / 13))
+                    ComboBox2.Location = New Point(x:=(intX / 3.5), y:=(intY * 2.6875 / 13))
+                    ComboBox5.Location = New Point(x:=(intX / 3.5), y:=(intY * 3.875 / 13))
+                    ComboBox6.Location = New Point(x:=(intX / 3.5), y:=(intY * 5.0625 / 13))
+                    ComboBox7.Location = New Point(x:=(intX / 3.5), y:=(intY * 6.25 / 13))
+                    ComboBox8.Location = New Point(x:=(intX / 3.5), y:=(intY * 7.4375 / 13))
+                    ComboBox9.Location = New Point(x:=(intX / 3.5), y:=(intY * 8.625 / 13))
+                    TextBox1.Location = New Point(x:=(intX / 3.5), y:=(intY * 9.8125 / 13))
                     Button3.Location = New Point(x:=(intX / 1.9), y:=(intY * 1.5 / 13))
                     Button4.Location = New Point(x:=(intX / 1.29), y:=(intY * 1.5 / 13))
-                    Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 2.86 / 13))
-                    RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 3.36 / 13))
-                    RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 9.64 / 13) - (intY * 3.36 / 13) + 25))
+                    Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 2.6875 / 13))
+                    RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 3.1875 / 13))
+                    RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 9.8125 / 13) - (intY * 3.1875 / 13) + 25))
                     Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 13))
                 Else
                     Label15.Location = New Point(x:=(intX / 8), y:=(intY * 1.5 / 13))
-                    Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2.45 / 13))
-                    Label11.Location = New Point(x:=(intX / 8), y:=(intY * 3.4 / 13))
-                    Label10.Location = New Point(x:=(intX / 8), y:=(intY * 4.35 / 13))
-                    Label9.Location = New Point(x:=(intX / 8), y:=(intY * 5.3 / 13))
-                    Label16.Location = New Point(x:=(intX / 8), y:=(intY * 6.25 / 13))
-                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 7.2 / 13))
-                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 8.15 / 13))
-                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 9.1 / 13))
-                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 10.05 / 13))
+                    Label4.Location = New Point(x:=(intX / 8), y:=(intY * 2.3636 / 13))
+                    Label11.Location = New Point(x:=(intX / 8), y:=(intY * 3.227 / 13))
+                    Label10.Location = New Point(x:=(intX / 8), y:=(intY * 4.0909 / 13))
+                    Label9.Location = New Point(x:=(intX / 8), y:=(intY * 4.9545 / 13))
+                    Label16.Location = New Point(x:=(intX / 8), y:=(intY * 5.8181 / 13))
+                    Label5.Location = New Point(x:=(intX / 8), y:=(intY * 6.6818 / 13))
+                    Label6.Location = New Point(x:=(intX / 8), y:=(intY * 7.5454 / 13))
+                    Label7.Location = New Point(x:=(intX / 8), y:=(intY * 8.409 / 13))
+                    Label8.Location = New Point(x:=(intX / 8), y:=(intY * 9.2727 / 13))
+                    Label19.Location = New Point(x:=(intX / 8), y:=(intY * 10.1363 / 13))
                     Button1.Location = New Point(x:=(intX / 8), y:=(intY * 11 / 13))
                     Button2.Location = New Point(x:=(intX / 3.5), y:=(intY * 11 / 13))
                     ComboBox1.Location = New Point(x:=(intX / 3.5), y:=(intY * 1.5 / 13))
-                    ComboBox2.Location = New Point(x:=(intX / 3.5), y:=(intY * 2.45 / 13))
-                    Label12.Location = New Point(x:=((intX / 3.5)), y:=(intY * 3.4 / 13))
-                    Label13.Location = New Point(x:=((intX / 3.5) + 103), y:=(intY * 3.4 / 13))
-                    Label18.Location = New Point(x:=((intX / 3.5) + 197), y:=(intY * 3.4 / 13))
-                    RadioButton1.Location = New Point(x:=((intX / 3.5) + 53), y:=((intY * 3.4 / 13) + 3))
-                    RadioButton2.Location = New Point(x:=((intX / 3.5) + 147), y:=((intY * 3.4 / 13) + 3))
-                    RadioButton3.Location = New Point(x:=((intX / 3.5) + 250), y:=((intY * 3.4 / 13) + 3))
-                    ComboBox3.Location = New Point(x:=(intX / 3.5), y:=(intY * 4.35 / 13))
-                    ComboBox4.Location = New Point(x:=(intX / 3.5), y:=(intY * 5.3 / 13))
-                    ComboBox5.Location = New Point(x:=(intX / 3.5), y:=(intY * 6.25 / 13))
-                    ComboBox6.Location = New Point(x:=(intX / 3.5), y:=(intY * 7.2 / 13))
-                    ComboBox7.Location = New Point(x:=(intX / 3.5), y:=(intY * 8.15 / 13))
-                    ComboBox8.Location = New Point(x:=(intX / 3.5), y:=(intY * 9.1 / 13))
-                    ComboBox9.Location = New Point(x:=(intX / 3.5), y:=(intY * 10.05 / 13))
+                    ComboBox2.Location = New Point(x:=(intX / 3.5), y:=(intY * 2.3636 / 13))
+                    Label12.Location = New Point(x:=((intX / 3.5)), y:=(intY * 3.227 / 13))
+                    Label13.Location = New Point(x:=((intX / 3.5) + 103), y:=(intY * 3.227 / 13))
+                    Label18.Location = New Point(x:=((intX / 3.5) + 197), y:=(intY * 3.227 / 13))
+                    RadioButton1.Location = New Point(x:=((intX / 3.5) + 53), y:=((intY * 3.227 / 13) + 3))
+                    RadioButton2.Location = New Point(x:=((intX / 3.5) + 147), y:=((intY * 3.227 / 13) + 3))
+                    RadioButton3.Location = New Point(x:=((intX / 3.5) + 250), y:=((intY * 3.227 / 13) + 3))
+                    ComboBox3.Location = New Point(x:=(intX / 3.5), y:=(intY * 4.0909 / 13))
+                    ComboBox4.Location = New Point(x:=(intX / 3.5), y:=(intY * 4.9545 / 13))
+                    ComboBox5.Location = New Point(x:=(intX / 3.5), y:=(intY * 5.8181 / 13))
+                    ComboBox6.Location = New Point(x:=(intX / 3.5), y:=(intY * 6.6818 / 13))
+                    ComboBox7.Location = New Point(x:=(intX / 3.5), y:=(intY * 7.5454 / 13))
+                    ComboBox8.Location = New Point(x:=(intX / 3.5), y:=(intY * 8.409 / 13))
+                    ComboBox9.Location = New Point(x:=(intX / 3.5), y:=(intY * 9.2727 / 13))
+                    TextBox1.Location = New Point(x:=(intX / 3.5), y:=(intY * 10.1363 / 13))
                     Button3.Location = New Point(x:=(intX / 1.9), y:=(intY * 1.5 / 13))
                     Button4.Location = New Point(x:=(intX / 1.29), y:=(intY * 1.5 / 13))
-                    Button5.Location = New Point(x:=(intX / 1.9), y:=(intY * 3.4 / 13))
-                    Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 4.35 / 13))
-                    RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 4.85 / 13))
-                    RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 10.05 / 13) - (intY * 4.85 / 13) + 25))
+                    Button5.Location = New Point(x:=(intX / 1.9), y:=(intY * 3.227 / 13))
+                    Label14.Location = New Point(x:=(intX / 1.9), y:=(intY * 4.0909 / 13))
+                    RichTextBox1.Location = New Point(x:=(intX / 1.9), y:=(intY * 4.5909 / 13))
+                    RichTextBox1.Size = New Size(width:=((intX / 1.29) - (intX / 1.9) + 119), height:=((intY * 10.1363 / 13) - (intY * 4.5909 / 13) + 25))
                     Button6.Location = New Point(x:=(intX / 1.9), y:=(intY * 11 / 13))
                 End If
             End If
@@ -1047,29 +1156,32 @@ Public Class Form4
             If CommPortSelectToolStripMenuItem.Checked = True Then
                 If VIOSelectToolStripMenuItem.Checked = True Then
                     Label16.Location = New Point(x:=89, y:=102)
-                    Label5.Location = New Point(x:=89, y:=208)
-                    Label6.Location = New Point(x:=89, y:=314)
-                    Label7.Location = New Point(x:=89, y:=420)
-                    Label8.Location = New Point(x:=89, y:=526)
+                    Label5.Location = New Point(x:=89, y:=190.33)
+                    Label6.Location = New Point(x:=89, y:=278.67)
+                    Label7.Location = New Point(x:=89, y:=367)
+                    Label8.Location = New Point(x:=89, y:=455.33)
+                    Label19.Location = New Point(x:=89, y:=543.67)
                     Button2.Location = New Point(x:=273, y:=632)
                     ComboBox5.Location = New Point(x:=273, y:=102)
-                    ComboBox6.Location = New Point(x:=273, y:=208)
-                    ComboBox7.Location = New Point(x:=273, y:=314)
-                    ComboBox8.Location = New Point(x:=273, y:=420)
-                    ComboBox9.Location = New Point(x:=273, y:=526)
+                    ComboBox6.Location = New Point(x:=273, y:=190.33)
+                    ComboBox7.Location = New Point(x:=273, y:=278.67)
+                    ComboBox8.Location = New Point(x:=273, y:=367)
+                    ComboBox9.Location = New Point(x:=273, y:=455.33)
+                    TextBox1.Location = New Point(x:=273, y:=543.67)
                     Label14.Location = New Point(x:=591, y:=102)
                     RichTextBox1.Location = New Point(x:=591, y:=137)
-                    RichTextBox1.Size = New Size(width:=287, height:=414)
+                    RichTextBox1.Size = New Size(width:=287, height:=431.67)
                     Button6.Location = New Point(x:=591, y:=632)
                 Else
                     Label11.Location = New Point(x:=89, y:=102)
-                    Label10.Location = New Point(x:=89, y:=168.25)
-                    Label9.Location = New Point(x:=89, y:=234.5)
-                    Label16.Location = New Point(x:=89, y:=300.75)
-                    Label5.Location = New Point(x:=89, y:=367)
-                    Label6.Location = New Point(x:=89, y:=433.25)
-                    Label7.Location = New Point(x:=89, y:=499.5)
-                    Label8.Location = New Point(x:=89, y:=565.75)
+                    Label10.Location = New Point(x:=89, y:=159.96)
+                    Label9.Location = New Point(x:=89, y:=217.94)
+                    Label16.Location = New Point(x:=89, y:=275.91)
+                    Label5.Location = New Point(x:=89, y:=333.88)
+                    Label6.Location = New Point(x:=89, y:=391.84)
+                    Label7.Location = New Point(x:=89, y:=449.81)
+                    Label8.Location = New Point(x:=89, y:=507.78)
+                    Label19.Location = New Point(x:=89, y:=565.75)
                     Button1.Location = New Point(x:=89, y:=632)
                     Button2.Location = New Point(x:=273, y:=632)
                     Label12.Location = New Point(x:=273, y:=102)
@@ -1078,76 +1190,81 @@ Public Class Form4
                     RadioButton1.Location = New Point(x:=326, y:=105)
                     RadioButton2.Location = New Point(x:=420, y:=105)
                     RadioButton3.Location = New Point(x:=523, y:=105)
-                    ComboBox3.Location = New Point(x:=273, y:=168.25)
-                    ComboBox4.Location = New Point(x:=273, y:=234.5)
-                    ComboBox5.Location = New Point(x:=273, y:=300.75)
-                    ComboBox6.Location = New Point(x:=273, y:=367)
-                    ComboBox7.Location = New Point(x:=273, y:=433.25)
-                    ComboBox8.Location = New Point(x:=273, y:=499.5)
-                    ComboBox9.Location = New Point(x:=273, y:=565.75)
+                    ComboBox3.Location = New Point(x:=273, y:=159.96)
+                    ComboBox4.Location = New Point(x:=273, y:=217.94)
+                    ComboBox5.Location = New Point(x:=273, y:=275.91)
+                    ComboBox6.Location = New Point(x:=273, y:=333.88)
+                    ComboBox7.Location = New Point(x:=273, y:=391.84)
+                    ComboBox8.Location = New Point(x:=273, y:=449.81)
+                    ComboBox9.Location = New Point(x:=273, y:=507.78)
+                    TextBox1.Location = New Point(x:=273, y:=565.75)
                     Button5.Location = New Point(x:=591, y:=102)
-                    Label14.Location = New Point(x:=591, y:=168.25)
-                    RichTextBox1.Location = New Point(x:=591, y:=203.25)
-                    RichTextBox1.Size = New Size(width:=273, height:=387.5)
+                    Label14.Location = New Point(x:=591, y:=159.96)
+                    RichTextBox1.Location = New Point(x:=591, y:=194.96)
+                    RichTextBox1.Size = New Size(width:=273, height:=395.79)
                     Button6.Location = New Point(x:=591, y:=632)
                 End If
             Else
                 If VIOSelectToolStripMenuItem.Checked = True Then
                     Label15.Location = New Point(x:=89, y:=102)
-                    Label4.Location = New Point(x:=89, y:=177.71)
-                    Label16.Location = New Point(x:=89, y:=253.43)
-                    Label5.Location = New Point(x:=89, y:=329.14)
-                    Label6.Location = New Point(x:=89, y:=404.86)
-                    Label7.Location = New Point(x:=89, y:=480.57)
-                    Label8.Location = New Point(x:=89, y:=556.29)
+                    Label4.Location = New Point(x:=89, y:=166.89)
+                    Label16.Location = New Point(x:=89, y:=231.79)
+                    Label5.Location = New Point(x:=89, y:=296.69)
+                    Label6.Location = New Point(x:=89, y:=361.59)
+                    Label7.Location = New Point(x:=89, y:=426.49)
+                    Label8.Location = New Point(x:=89, y:=491.39)
+                    Label19.Location = New Point(x:=89, y:=556.29)
                     Button2.Location = New Point(x:=273, y:=632)
                     ComboBox1.Location = New Point(x:=273, y:=102)
-                    ComboBox2.Location = New Point(x:=273, y:=177.71)
-                    ComboBox5.Location = New Point(x:=273, y:=253.43)
-                    ComboBox6.Location = New Point(x:=273, y:=329.14)
-                    ComboBox7.Location = New Point(x:=273, y:=404.86)
-                    ComboBox8.Location = New Point(x:=273, y:=480.57)
-                    ComboBox9.Location = New Point(x:=273, y:=556.29)
+                    ComboBox2.Location = New Point(x:=273, y:=166.89)
+                    ComboBox5.Location = New Point(x:=273, y:=231.79)
+                    ComboBox6.Location = New Point(x:=273, y:=296.69)
+                    ComboBox7.Location = New Point(x:=273, y:=361.59)
+                    ComboBox8.Location = New Point(x:=273, y:=426.49)
+                    ComboBox9.Location = New Point(x:=273, y:=491.39)
+                    TextBox1.Location = New Point(x:=273, y:=556.29)
                     Button3.Location = New Point(x:=591, y:=102)
                     Button4.Location = New Point(x:=745, y:=102)
-                    Label14.Location = New Point(x:=591, y:=177.71)
-                    RichTextBox1.Location = New Point(x:=591, y:=212.71)
-                    RichTextBox1.Size = New Size(width:=273, height:=368.58)
+                    Label14.Location = New Point(x:=591, y:=166.89)
+                    RichTextBox1.Location = New Point(x:=591, y:=201.89)
+                    RichTextBox1.Size = New Size(width:=273, height:=379.4)
                     Button6.Location = New Point(x:=591, y:=632)
                 Else
                     Label15.Location = New Point(x:=89, y:=102)
-                    Label4.Location = New Point(x:=89, y:=155)
-                    Label11.Location = New Point(x:=89, y:=208)
-                    Label10.Location = New Point(x:=89, y:=261)
-                    Label9.Location = New Point(x:=89, y:=314)
-                    Label16.Location = New Point(x:=89, y:=367)
-                    Label5.Location = New Point(x:=89, y:=420)
-                    Label6.Location = New Point(x:=89, y:=473)
-                    Label7.Location = New Point(x:=89, y:=526)
-                    Label8.Location = New Point(x:=89, y:=579)
+                    Label4.Location = New Point(x:=89, y:=149)
+                    Label11.Location = New Point(x:=89, y:=196)
+                    Label10.Location = New Point(x:=89, y:=243)
+                    Label9.Location = New Point(x:=89, y:=290)
+                    Label16.Location = New Point(x:=89, y:=337)
+                    Label5.Location = New Point(x:=89, y:=384)
+                    Label6.Location = New Point(x:=89, y:=431)
+                    Label7.Location = New Point(x:=89, y:=478)
+                    Label8.Location = New Point(x:=89, y:=525)
+                    Label19.Location = New Point(x:=89, y:=572)
                     Button1.Location = New Point(x:=89, y:=632)
                     Button2.Location = New Point(x:=273, y:=632)
                     ComboBox1.Location = New Point(x:=273, y:=102)
-                    ComboBox2.Location = New Point(x:=273, y:=155)
-                    Label12.Location = New Point(x:=273, y:=208)
-                    Label13.Location = New Point(x:=376, y:=208)
-                    Label18.Location = New Point(x:=470, y:=208)
-                    RadioButton1.Location = New Point(x:=326, y:=211)
-                    RadioButton2.Location = New Point(x:=420, y:=211)
-                    RadioButton3.Location = New Point(x:=523, y:=211)
-                    ComboBox3.Location = New Point(x:=273, y:=261)
-                    ComboBox4.Location = New Point(x:=273, y:=314)
-                    ComboBox5.Location = New Point(x:=273, y:=367)
-                    ComboBox6.Location = New Point(x:=273, y:=420)
-                    ComboBox7.Location = New Point(x:=273, y:=473)
-                    ComboBox8.Location = New Point(x:=273, y:=526)
-                    ComboBox9.Location = New Point(x:=273, y:=579)
+                    ComboBox2.Location = New Point(x:=273, y:=149)
+                    Label12.Location = New Point(x:=273, y:=196)
+                    Label13.Location = New Point(x:=376, y:=196)
+                    Label18.Location = New Point(x:=470, y:=196)
+                    RadioButton1.Location = New Point(x:=326, y:=199)
+                    RadioButton2.Location = New Point(x:=420, y:=199)
+                    RadioButton3.Location = New Point(x:=523, y:=199)
+                    ComboBox3.Location = New Point(x:=273, y:=243)
+                    ComboBox4.Location = New Point(x:=273, y:=290)
+                    ComboBox5.Location = New Point(x:=273, y:=337)
+                    ComboBox6.Location = New Point(x:=273, y:=384)
+                    ComboBox7.Location = New Point(x:=273, y:=431)
+                    ComboBox8.Location = New Point(x:=273, y:=478)
+                    ComboBox9.Location = New Point(x:=273, y:=525)
+                    TextBox1.Location = New Point(x:=273, y:=572)
                     Button3.Location = New Point(x:=591, y:=102)
                     Button4.Location = New Point(x:=745, y:=102)
-                    Button5.Location = New Point(x:=591, y:=199)
-                    Label14.Location = New Point(x:=591, y:=261)
-                    RichTextBox1.Location = New Point(x:=591, y:=296)
-                    RichTextBox1.Size = New Size(width:=273, height:=310)
+                    Button5.Location = New Point(x:=591, y:=187)
+                    Label14.Location = New Point(x:=591, y:=243)
+                    RichTextBox1.Location = New Point(x:=591, y:=278)
+                    RichTextBox1.Size = New Size(width:=273, height:=319)
                     Button6.Location = New Point(x:=591, y:=632)
                 End If
             End If
@@ -1258,9 +1375,11 @@ Public Class Form4
             Exit Sub
         End If
         If ComboBox8.SelectedIndex = 0 Then
+            Single_Band()
             Exit Sub
         Else
             ComboBox7.SelectedIndex = 0
+            Carrier_Aggregation()
         End If
     End Sub
 
@@ -1269,9 +1388,11 @@ Public Class Form4
             Exit Sub
         End If
         If ComboBox7.SelectedIndex = 0 Then
+            Carrier_Aggregation()
             Exit Sub
         Else
             ComboBox8.SelectedIndex = 0
+            Single_Band()
         End If
     End Sub
 
@@ -1296,6 +1417,91 @@ Public Class Form4
             End If
         End If
     End Sub
+
+    Function Carrier_Aggregation()
+        If ((ComboBox7.SelectedIndex = 0 And ComboBox8.SelectedIndex = 0) Or ComboBox7.SelectedIndex = -1 Or ComboBox8.SelectedIndex = -1) Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "Select an appropriate band coverage"
+        ElseIf ComboBox8.SelectedIndex = 1 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "18000 to 18599"
+        ElseIf ComboBox8.SelectedIndex = 2 Or ComboBox8.SelectedIndex = 3 Or ComboBox8.SelectedIndex = 4 Or ComboBox8.SelectedIndex = 5 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "18600 to 19199"
+        ElseIf ComboBox8.SelectedIndex = 6 Or ComboBox8.SelectedIndex = 7 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "19200 to 19949"
+        ElseIf ComboBox8.SelectedIndex = 8 Or ComboBox8.SelectedIndex = 9 Or ComboBox8.SelectedIndex = 10 Or ComboBox8.SelectedIndex = 11 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "19950 to 20399"
+        ElseIf ComboBox8.SelectedIndex = 12 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "20400 to 20649"
+        ElseIf ComboBox8.SelectedIndex = 13 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "20750 to 21449"
+        ElseIf ComboBox8.SelectedIndex = 14 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "23010 to 23179"
+        ElseIf ComboBox8.SelectedIndex = 15 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "39650 to 41589"
+        End If
+        Return 0
+    End Function
+
+    Function Single_Band()
+        If ((ComboBox7.SelectedIndex = 0 And ComboBox8.SelectedIndex = 0) Or ComboBox7.SelectedIndex = -1 Or ComboBox8.SelectedIndex = -1) Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "Select an appropriate band coverage"
+        ElseIf ComboBox7.SelectedIndex = 1 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "18000 to 18599"
+        ElseIf ComboBox7.SelectedIndex = 2 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "18600 to 19199"
+        ElseIf ComboBox7.SelectedIndex = 3 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "19200 to 19949"
+        ElseIf ComboBox7.SelectedIndex = 4 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "19950 to 20399"
+        ElseIf ComboBox7.SelectedIndex = 5 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "20400 to 20649"
+        ElseIf ComboBox7.SelectedIndex = 6 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "20750 to 21449"
+        ElseIf ComboBox7.SelectedIndex = 7 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "21450 to 21799"
+        ElseIf ComboBox7.SelectedIndex = 8 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "23010 to 23179"
+        ElseIf ComboBox7.SelectedIndex = 9 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "23180 to 23279"
+        ElseIf ComboBox7.SelectedIndex = 10 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "24150 to 24449"
+        ElseIf ComboBox7.SelectedIndex = 11 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "26040 to 26689"
+        ElseIf ComboBox7.SelectedIndex = 12 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "26690 to 27039"
+        ElseIf ComboBox7.SelectedIndex = 13 Then
+            TextBox1.Enabled = False
+            TextBox1.WaterMark = "Channel number not available"
+        ElseIf ComboBox7.SelectedIndex = 14 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "27660 to 27759"
+        ElseIf ComboBox7.SelectedIndex = 15 Then
+            TextBox1.Enabled = True
+            TextBox1.WaterMark = "39650 to 41589"
+        End If
+        Return 0
+    End Function
 
 End Class
 
