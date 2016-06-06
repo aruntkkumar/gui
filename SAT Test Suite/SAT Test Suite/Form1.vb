@@ -9,26 +9,24 @@ Public Class Form1
     Dim range As Excel.Range
     Dim dialog As OpenFileDialog = New OpenFileDialog()
     Dim dialog1 As SaveFileDialog = New SaveFileDialog()
-    '   Dim strFileName As String
     Dim names(50) As String
-    Dim x As Integer = 0
-    Dim start As Integer
+    Dim x As Integer
+    Dim y As Integer
+    Dim z As Integer
+    Dim row As Integer = 1
+    Dim column As Integer = 1
     Dim ports As Integer
-    Dim eeName As String
+    'Dim spacelocator As String
+    'Dim numlocator As Double
+    Dim frequnit As String
+    Dim parameter As String
+    Dim format As String
     'Dim Sparameters(200, 200) As Double
     'Dim Spara(200) As Double
     'Dim freq(200) As Double
     Dim array(100) As Integer
     Dim numRow As Integer
     Dim numColumn As Integer
-    '    Dim FNameRng As Excel.Range
-    '    Dim AveRng As Excel.Range
-    '    Dim AveCLRng As Excel.Range
-    '    Dim AveUCLRng As Excel.Range
-    '    Dim FNameArry As New ArrayList()
-    '    Dim AveArry As New ArrayList()
-    '    Dim AveCLArry As New ArrayList()
-    '    Dim AveUCLArry As New ArrayList()
 
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -91,8 +89,8 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = -10
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "dB"
-            'Try
-            xlApp.Workbooks.OpenText(Filename:=dialog.FileName, StartRow:=1, DataType:=Excel.XlTextParsingType.xlDelimited, ConsecutiveDelimiter:=True, Space:=True)
+            Try
+                xlApp.Workbooks.OpenText(Filename:=dialog.FileName, StartRow:=1, DataType:=Excel.XlTextParsingType.xlDelimited, ConsecutiveDelimiter:=True, Space:=True)
                 xlWorkBook = xlApp.ActiveWorkbook
                 xlApp.Visible = True
                 xlWorkSheet = xlWorkBook.Sheets(1)
@@ -140,63 +138,201 @@ Public Class Form1
                 '        'Chart1.Series("S22 Im").Points.AddXY(xlWorkSheet.Cells(i, 1).value, xlWorkSheet.Cells(i, 9).value)
                 '    Next
                 'Next
-                Dim Spara(numRow - 6) As Double
-                Dim freq(numRow - 6) As Double
-                ports = Math.Sqrt((numColumn - 2) / 2)
 
+                row = 1
+                column = 1
                 For m As Integer = 1 To numRow
                     If xlWorkSheet.Cells(m, 1).value.ToString = "#" Then
-                        Select Case xlWorkSheet.Cells(m, 2).value.ToString
+                        frequnit = xlWorkSheet.Cells(m, 2).value.ToString
+                        parameter = xlWorkSheet.Cells(m, 3).value.ToString
+                        format = xlWorkSheet.Cells(m, 4).value.ToString
+                        Select Case frequnit
                             Case "hz", "Hz", "HZ", "hZ"
-                                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000000000
-                                Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000000
+                                'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000000000
+                                'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000000
                                 Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.#}"
-                                GoTo End_Of_For
+                                GoTo Freq_Format_Check_Exit
                             Case "khz", "kHz", "khZ", "kHZ", "Khz", "KHz", "KhZ", "KHZ"
-                                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000000
-                                Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000
+                                'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000000
+                                'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000
                                 Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.#}"
-                                GoTo End_Of_For
+                                GoTo Freq_Format_Check_Exit
                             Case "mhz", "mHz", "mhZ", "mHZ", "Mhz", "MHz", "MhZ", "MHZ"
-                                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000
-                                Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500
+                                'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000
+                                'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500
                                 Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.#}"
-                                GoTo End_Of_For
+                                GoTo Freq_Format_Check_Exit
                             Case "ghz", "gHz", "ghZ", "gHZ", "Ghz", "GHz", "GhZ", "GHZ"
-                                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6
-                                Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.5
+                                'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6
+                                'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.5
                                 Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.#}"
-                                GoTo End_Of_For
+                                GoTo Freq_Format_Check_Exit
                         End Select
                     End If
                 Next
-End_Of_For:
-            For k As Integer = 1 To numRow      'To find the row location of starting data
-                eeName = CStr(xlWorkSheet.Cells(k, 1).value)
-                If (String.IsNullOrEmpty(eeName)) Then
-                    start = k
-                    GoTo End_Of_For2
-                End If
-            Next
-End_Of_For2:
-                For k As Integer = start To numRow
-                    freq(k - start) = xlWorkSheet.Cells(k, 2).value
+Freq_Format_Check_Exit:
+                For k As Integer = 1 To numRow      'To find the row location of starting data
+                    If (String.IsNullOrEmpty(CStr(xlWorkSheet.Cells(k, 1).value))) Then
+                        row = k
+                        column = 2
+                        ports = Math.Sqrt((numColumn - 2) / 2)
+                        GoTo Space_Locator_Exit
+                    End If
                 Next
-                x = 0
-                For i As Integer = 1 To ports
-                    For j As Integer = 1 To ports
-                        Chart1.Series.Add("S" & i & j)
-                        Chart1.Series("S" & i & j).ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-                        Chart1.Series("S" & i & j).BorderWidth = 3
-                        For k As Integer = start To numRow
-                            Spara(k - start) = (10 * Math.Log10((Math.Pow(xlWorkSheet.Cells(k, ((x * 2) + 3)).value, 2) + Math.Pow(xlWorkSheet.Cells(k, ((x * 2) + 4)).value, 2))))
-                        Next
-                        Chart1.Series("S" & i & j).Points.DataBindXY(freq, Spara)
-                        x += 1
+Space_Locator_Exit:
+                If row = 1 Then
+                    For k As Integer = 1 To numRow
+                        If IsNumeric(xlWorkSheet.Cells(k, 1).value) Then
+                            row = k
+                            column = 1
+                            ports = Math.Sqrt((numColumn - 1) / 2)
+                            GoTo Num_Locator_Exit
+                        End If
                     Next
-                Next
+                End If
+Num_Locator_Exit:
+                y = row
+                z = 0
+                While (y < numRow)          'To find out the number of Rows to display and use this to declare the Spara and freq arrays
+                    y = y + ((numRow - row) / 200)
+                    z += 1
+                End While
+                Dim Spara(z) As Double
+                Dim freq(z) As Double
+                'For k As Integer = row To numRow
+                '    freq(k - row) = xlWorkSheet.Cells(k, column).value
+                'Next
+                'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = freq(numRow - row)
+                y = row
+                z = 0
+                While (y < numRow)          'To add the frequency values to freq array
+                    freq(z) = xlWorkSheet.Cells(y, column).value
+                    y = y + ((numRow - row) / 200)
+                    z += 1
+                End While
+                freq(z) = xlWorkSheet.Cells(y, column).value        'Add the last value in case of an uneven number division
+                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xlWorkSheet.Cells(numRow, column).value
 
-
+                Select Case frequnit
+                    Case "hz", "Hz", "HZ", "hZ"
+                        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000000
+                        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                            Chart1.ChartAreas("ChartArea1").AxisX.Interval += 500000000
+                        End While
+                        GoTo Freq_Format_Check_Exit2
+                    Case "khz", "kHz", "khZ", "kHZ", "Khz", "KHz", "KhZ", "KHZ"
+                        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000
+                        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                            Chart1.ChartAreas("ChartArea1").AxisX.Interval += 500000
+                        End While
+                        GoTo Freq_Format_Check_Exit2
+                    Case "mhz", "mHz", "mhZ", "mHZ", "Mhz", "MHz", "MhZ", "MHZ"
+                        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500
+                        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                            Chart1.ChartAreas("ChartArea1").AxisX.Interval += 500
+                        End While
+                        GoTo Freq_Format_Check_Exit2
+                    Case "ghz", "gHz", "ghZ", "gHZ", "Ghz", "GHz", "GhZ", "GHZ"
+                        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.5
+                        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                            Chart1.ChartAreas("ChartArea1").AxisX.Interval += 0.5
+                        End While
+                        GoTo Freq_Format_Check_Exit2
+                End Select
+Freq_Format_Check_Exit2:
+                'Chart1.ChartAreas("ChartArea1").AxisX.Interval = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 20
+                x = column
+                Select Case parameter
+                    Case "S", "s"
+                        For i As Integer = 1 To ports
+                            For j As Integer = 1 To ports
+                                Chart1.Series.Add("S" & i & j)
+                                Chart1.Series("S" & i & j).ChartType = DataVisualization.Charting.SeriesChartType.FastLine
+                                Chart1.Series("S" & i & j).BorderWidth = 3
+                                Select Case format
+                                    Case "RI", "ri", "Ri", "rI"
+                                        If column = 1 Then
+                                            'For k As Integer = row To numRow
+                                            '    Spara(k - row) = (10 * Math.Log10((Math.Pow(xlWorkSheet.Cells(k, ((x * 2))).value, 2) + Math.Pow(xlWorkSheet.Cells(k, ((x * 2) + 1)).value, 2))))
+                                            'Next
+                                            y = row
+                                            z = 0
+                                            While (y < numRow)
+                                                Spara(z) = (10 * Math.Log10((Math.Pow(xlWorkSheet.Cells(y, ((x * 2))).value, 2) + Math.Pow(xlWorkSheet.Cells(y, ((x * 2) + 1)).value, 2))))
+                                                y = y + ((numRow - row) / 200)
+                                                z += 1
+                                            End While
+                                            Spara(z) = (10 * Math.Log10((Math.Pow(xlWorkSheet.Cells(y, ((x * 2))).value, 2) + Math.Pow(xlWorkSheet.Cells(y, ((x * 2) + 1)).value, 2))))
+                                        ElseIf column = 2 Then
+                                            y = row
+                                            z = 0
+                                            While (y < numRow)
+                                                Spara(z) = (10 * Math.Log10((Math.Pow(xlWorkSheet.Cells(y, ((x * 2) - 1)).value, 2) + Math.Pow(xlWorkSheet.Cells(y, ((x * 2))).value, 2))))
+                                                y = y + ((numRow - row) / 200)
+                                                z += 1
+                                            End While
+                                            Spara(z) = (10 * Math.Log10((Math.Pow(xlWorkSheet.Cells(y, ((x * 2) - 1)).value, 2) + Math.Pow(xlWorkSheet.Cells(y, ((x * 2))).value, 2))))
+                                        End If
+                                        GoTo S_Format_Exit
+                                    Case "DB", "db", "Db", "dB"
+                                        If column = 1 Then
+                                            y = row
+                                            z = 0
+                                            While (y < numRow)
+                                                Spara(z) = xlWorkSheet.Cells(y, ((x * 2))).value
+                                                y = y + ((numRow - row) / 200)
+                                                z += 1
+                                            End While
+                                            Spara(z) = xlWorkSheet.Cells(y, ((x * 2))).value
+                                        ElseIf column = 2 Then
+                                            y = row
+                                            z = 0
+                                            While (y < numRow)
+                                                Spara(z) = xlWorkSheet.Cells(y, ((x * 2) - 1)).value
+                                                y = y + ((numRow - row) / 200)
+                                                z += 1
+                                            End While
+                                            Spara(z) = xlWorkSheet.Cells(y, ((x * 2) - 1)).value
+                                        End If
+                                        GoTo S_Format_Exit
+                                    Case "MA", "ma", "Ma", "mA"
+                                        If column = 1 Then
+                                            y = row
+                                            z = 0
+                                            While (y < numRow)
+                                                Spara(z) = (20 * Math.Log10(xlWorkSheet.Cells(y, ((x * 2))).value))
+                                                y = y + ((numRow - row) / 200)
+                                                z += 1
+                                            End While
+                                            Spara(z) = (20 * Math.Log10(xlWorkSheet.Cells(y, ((x * 2))).value))
+                                        ElseIf column = 2 Then
+                                            y = row
+                                            z = 0
+                                            While (y < numRow)
+                                                Spara(z) = (20 * Math.Log10(xlWorkSheet.Cells(y, ((x * 2) - 1)).value))
+                                                y = y + ((numRow - row) / 200)
+                                                z += 1
+                                            End While
+                                            Spara(z) = (20 * Math.Log10(xlWorkSheet.Cells(y, ((x * 2) - 1)).value))
+                                        End If
+                                        GoTo S_Format_Exit
+                                End Select
+S_Format_Exit:
+                                Chart1.Series("S" & i & j).Points.DataBindXY(freq, Spara)
+                                x += 1
+                            Next
+                        Next
+                        GoTo Parameter_Exit
+                    Case "Y", "y"
+                        GoTo Parameter_Exit
+                    Case "Z", "z"
+                        GoTo Parameter_Exit
+                    Case "H", "h"
+                        GoTo Parameter_Exit
+                    Case "G", "g"
+                        GoTo Parameter_Exit
+                End Select
+Parameter_Exit:
                 'names = {"S11", "S12", "S21", "S22"}
                 'Chart1.Series.Add("S11")
                 'Chart1.Series("S11").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
@@ -252,9 +388,9 @@ End_Of_For2:
                 xlWorkBook.Close()
                 xlApp.Quit()
 
-            'Catch Ex As Exception
-            '    MetroFramework.MetroMessageBox.Show(Me, Ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            'End Try
+            Catch Ex As Exception
+                MetroFramework.MetroMessageBox.Show(Me, Ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
     End Sub
 
