@@ -21,6 +21,7 @@ Public Class Form1
     Dim frequnit As String
     Dim parameter As String
     Dim format As String
+    Dim extension As String
     'Dim Sparameters(200, 200) As Double
     'Dim Spara(200) As Double
     'Dim freq(200) As Double
@@ -38,10 +39,6 @@ Public Class Form1
         Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000000
         Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.#}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
-        'Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1
-        'Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1
-        'Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.2
-        'Chart1.ChartAreas("ChartArea1").AxisY.Title = ""
         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -50
         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
         Chart1.ChartAreas("ChartArea1").AxisY.Interval = -5
@@ -73,9 +70,9 @@ Public Class Form1
     Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
         dialog.Title = "Open File"
         dialog.InitialDirectory = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Save")
-        dialog.Filter = "Excel Workbook (*.xlsx)|*.xlsx|Excel 97-2003 Workbook (*.xls)|*.xls|CSV (Comma delimited) (*.csv)|*.csv|All files (*.*)|*.*"
+        dialog.Filter = "Excel Workbook (*.xlsx)|*.xlsx|Excel 97-2003 Workbook (*.xls)|*.xls|CSV (Comma delimited) (*.csv)|*.csv|Touchstone files (*.snp)|*.s*p|All files (*.*)|*.*"
         'dialog.Filter = "All files (*.*)|*.*"
-        dialog.FilterIndex = 1
+        dialog.FilterIndex = 4
         dialog.RestoreDirectory = True
         If dialog.ShowDialog() = DialogResult.OK Then
             Chart1.Series.Clear()
@@ -89,56 +86,19 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = -10
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "dB"
+            extension = System.IO.Path.GetExtension(dialog.FileName)
             Try
+                xlApp.DisplayAlerts = False     'Overwriting the ReadOnly File Error
                 xlApp.Workbooks.OpenText(Filename:=dialog.FileName, StartRow:=1, DataType:=Excel.XlTextParsingType.xlDelimited, ConsecutiveDelimiter:=True, Space:=True)
+                xlApp.DisplayAlerts = True
                 xlWorkBook = xlApp.ActiveWorkbook
-                xlApp.Visible = True
+                'xlApp.Visible = True
                 xlWorkSheet = xlWorkBook.Sheets(1)
                 'range = xlWorkSheet.UsedRange
                 numRow = xlWorkSheet.UsedRange.Rows.Count
                 numColumn = xlWorkSheet.UsedRange.Columns.Count
-                'If numColumn = 8-1 Then
-                '    names = {"S11 Re", "S11 Im", "S12 Re", "S12 Im", "S21 Re", "S21 Im", "S22 Re", "S22 Im"}
-                '    Chart1.Series.Add("S11 Re")
-                '    Chart1.Series("S11 Re").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-                '    Chart1.Series("S11 Re").BorderWidth = 3
-                '    Chart1.Series.Add("S11 Im")
-                '    Chart1.Series("S11 Im").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-                '    Chart1.Series("S11 Im").BorderWidth = 3
-                '    Chart1.Series.Add("S12 Re")
-                '    Chart1.Series("S12 Re").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-                '    Chart1.Series("S12 Re").BorderWidth = 3
-                '    Chart1.Series.Add("S12 Im")
-                '    Chart1.Series("S12 Im").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-                '    Chart1.Series("S12 Im").BorderWidth = 3
-                '    Chart1.Series.Add("S21 Re")
-                '    Chart1.Series("S21 Re").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-                '    Chart1.Series("S21 Re").BorderWidth = 3
-                '    Chart1.Series.Add("S21 Im")
-                '    Chart1.Series("S21 Im").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-                '    Chart1.Series("S21 Im").BorderWidth = 3
-                '    Chart1.Series.Add("S22 Re")
-                '    Chart1.Series("S22 Re").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-                '    Chart1.Series("S22 Re").BorderWidth = 3
-                '    Chart1.Series.Add("S22 Im")
-                '    Chart1.Series("S22 Im").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-                '    Chart1.Series("S22 Im").BorderWidth = 3
-                'End If
 
-                'For j As Integer = 2 To numColumn
-                '    For i As Integer = 1 To numRow
-                '        Chart1.Series(names(j - 2)).Points.AddXY(xlWorkSheet.Cells(i, 1).value, xlWorkSheet.Cells(i, j).value)
-                '        'Chart1.Series("S11 Re").Points.AddXY(xlWorkSheet.Cells(i, 1).value, xlWorkSheet.Cells(i, 2).value)
-                '        'Chart1.Series("S11 Im").Points.AddXY(xlWorkSheet.Cells(i, 1).value, xlWorkSheet.Cells(i, 3).value)
-                '        'Chart1.Series("S12 Re").Points.AddXY(xlWorkSheet.Cells(i, 1).value, xlWorkSheet.Cells(i, 4).value)
-                '        'Chart1.Series("S12 Im").Points.AddXY(xlWorkSheet.Cells(i, 1).value, xlWorkSheet.Cells(i, 5).value)
-                '        'Chart1.Series("S21 Re").Points.AddXY(xlWorkSheet.Cells(i, 1).value, xlWorkSheet.Cells(i, 6).value)
-                '        'Chart1.Series("S21 Im").Points.AddXY(xlWorkSheet.Cells(i, 1).value, xlWorkSheet.Cells(i, 7).value)
-                '        'Chart1.Series("S22 Re").Points.AddXY(xlWorkSheet.Cells(i, 1).value, xlWorkSheet.Cells(i, 8).value)
-                '        'Chart1.Series("S22 Im").Points.AddXY(xlWorkSheet.Cells(i, 1).value, xlWorkSheet.Cells(i, 9).value)
-                '    Next
-                'Next
-
+                ports = System.Text.RegularExpressions.Regex.Replace(extension, "[^\d]", "")    'Remove Characters from a Numeric String
                 row = 1
                 column = 1
                 For m As Integer = 1 To numRow
@@ -175,7 +135,7 @@ Freq_Format_Check_Exit:
                     If (String.IsNullOrEmpty(CStr(xlWorkSheet.Cells(k, 1).value))) Then
                         row = k
                         column = 2
-                        ports = Math.Sqrt((numColumn - 2) / 2)
+                        'ports = Math.Sqrt((numColumn - 2) / 2)
                         GoTo Space_Locator_Exit
                     End If
                 Next
@@ -185,7 +145,7 @@ Space_Locator_Exit:
                         If IsNumeric(xlWorkSheet.Cells(k, 1).value) Then
                             row = k
                             column = 1
-                            ports = Math.Sqrt((numColumn - 1) / 2)
+                            'ports = Math.Sqrt((numColumn - 1) / 2)
                             GoTo Num_Locator_Exit
                         End If
                     Next
@@ -396,6 +356,7 @@ Parameter_Exit:
 
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
         dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp"
+        dialog1.FilterIndex = 3
         If (dialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK) Then
             Chart1.SaveImage(dialog1.FileName, System.Drawing.Imaging.ImageFormat.Png)
         End If
