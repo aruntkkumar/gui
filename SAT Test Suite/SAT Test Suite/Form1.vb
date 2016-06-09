@@ -1,5 +1,7 @@
 ﻿Imports Excel = Microsoft.Office.Interop.Excel
 Imports System.Drawing.Imaging
+Imports System
+Imports System.IO
 
 Public Class Form1
     'Define your Excel Objects
@@ -21,13 +23,19 @@ Public Class Form1
     Dim frequnit As String
     Dim parameter As String
     Dim format As String
+    Dim matrix As String
     Dim extension As String
+    Dim fullstring As String
+    Dim line As String
+    Dim value As String()
     'Dim Sparameters(200, 200) As Double
     'Dim Spara(200) As Double
     'Dim freq(200) As Double
     Dim array(100) As Integer
     Dim numRow As Integer
     Dim numColumn As Integer
+    Declare Function AllocConsole Lib "kernel32" () As Int32
+    Declare Function FreeConsole Lib "kernel32" () As Int32
 
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -87,7 +95,84 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "dB"
             extension = System.IO.Path.GetExtension(dialog.FileName)
-            Try
+            ports = System.Text.RegularExpressions.Regex.Replace(extension, "[^\d]", "")    'Remove Characters from a Numeric String
+            column = ((Math.Pow(ports, 2) * 2) + 1)
+            'Try
+            matrix = "full"
+            Using sr As New StreamReader(dialog.FileName)
+
+                While Not sr.EndOfStream
+                    line = sr.ReadLine()
+                    If line.Contains("#") Then
+                        If line.ToLower.Contains("khz") Then
+                            frequnit = "khz"
+                        ElseIf line.ToLower.Contains("mhz") Then
+                            frequnit = "mhz"
+                        ElseIf line.ToLower.Contains("ghz") Then
+                            frequnit = "ghz"
+                        ElseIf line.ToLower.Contains("hz") Then
+                            frequnit = "hz"
+                        End If
+
+                        If line.ToLower.Contains("s") Then
+                            parameter = "s"
+                        ElseIf line.ToLower.Contains("y") Then
+                            parameter = "y"
+                        ElseIf line.ToLower.Contains("z") Then
+                            parameter = "z"
+                        ElseIf line.ToLower.Contains("h") Then
+                            parameter = "h"
+                        ElseIf line.ToLower.Contains("g") Then
+                            parameter = "g"
+                        End If
+
+                        If line.ToLower.Contains("ri") Then
+                            format = "ri"
+                        ElseIf line.ToLower.Contains("ma") Then
+                            format = "ma"
+                        ElseIf line.ToLower.Contains("db") Then
+                            format = "db"
+                        End If
+
+                    ElseIf line.ToLower.Contains("matrix format") Then
+                        If line.ToLower.Contains("lower") Then
+                            matrix = "lower"
+                        ElseIf line.ToLower.Contains("upper") Then
+                            matrix = "upper"
+                            'Else
+                            'matrix = "full"
+                        End If
+                    ElseIf line.Contains("!") Then
+                    Else
+                        Exit While
+                    End If
+                End While
+                fullstring = sr.ReadToEnd()
+            End Using
+
+            fullstring = line & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
+            fullstring = System.Text.RegularExpressions.Regex.Replace(fullstring, " {2,}", " ") ' Replace multiple spaces with single space
+            'GC.Collect()
+            'GC.WaitForPendingFinalizers()
+            fullstring = System.Text.RegularExpressions.Regex.Replace(fullstring, " ", ",")
+            'fullstring = fullstring.Replace(" ", ",")   'Replace spaces with a coma (Using this causing Out of Memory Error)
+
+            'x = fullstring.IndexOf("#")
+            'line = fullstring.Substring(x)
+            MetroFramework.MetroMessageBox.Show(Me, "The frequency unit is " & frequnit & ", parameter is " & parameter & ", format is " & format & ", the matrix is " & matrix & " and the columns are " & column, "Header Values", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            AllocConsole() 'show console
+
+            'value = fullstring.Split(" ")
+            'For Each s As String In value
+            '    Console.WriteLine(s)
+
+            'Next
+
+            Console.WriteLine(fullstring)    'the "Console" object works here, just like it does in a "console application"
+            FreeConsole() 'hide console 
+
+            Exit Sub
+
                 xlApp.DisplayAlerts = False     'Overwriting the ReadOnly File Error
                 xlApp.Workbooks.OpenText(Filename:=dialog.FileName, StartRow:=1, DataType:=Excel.XlTextParsingType.xlDelimited, ConsecutiveDelimiter:=True, Space:=True)
                 xlApp.DisplayAlerts = True
@@ -98,8 +183,8 @@ Public Class Form1
                 numRow = xlWorkSheet.UsedRange.Rows.Count
                 numColumn = xlWorkSheet.UsedRange.Columns.Count
 
-                ports = System.Text.RegularExpressions.Regex.Replace(extension, "[^\d]", "")    'Remove Characters from a Numeric String
-                row = 1
+
+            row = 1
                 column = 1
                 For m As Integer = 1 To numRow
                     If xlWorkSheet.Cells(m, 1).value.ToString = "#" Then
@@ -107,10 +192,10 @@ Public Class Form1
                         parameter = xlWorkSheet.Cells(m, 3).value.ToString
                         format = xlWorkSheet.Cells(m, 4).value.ToString
                         Select Case frequnit
-                            Case "hz", "Hz", "HZ", "hZ"
-                                'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000000000
-                                'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000000
-                                Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.#}"
+                        Case "hz", "Hz", "HZ", "hZ"
+                            'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000000000
+                            'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000000
+                            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0: 0,,,.#}"
                                 GoTo Freq_Format_Check_Exit
                             Case "khz", "kHz", "khZ", "kHZ", "Khz", "KHz", "KhZ", "KHZ"
                                 'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000000
@@ -348,9 +433,9 @@ Parameter_Exit:
                 xlWorkBook.Close()
                 xlApp.Quit()
 
-            Catch Ex As Exception
-                MetroFramework.MetroMessageBox.Show(Me, Ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
+            'Catch Ex As Exception
+            '    MetroFramework.MetroMessageBox.Show(Me, Ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'End Try
         End If
     End Sub
 
