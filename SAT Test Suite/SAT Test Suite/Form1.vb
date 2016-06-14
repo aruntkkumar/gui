@@ -53,9 +53,11 @@ Public Class Form1
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -50
         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-        Chart1.ChartAreas("ChartArea1").AxisY.Interval = -5
+        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
         Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
         Chart1.ChartAreas("ChartArea1").AxisY.Title = "dB"
+        Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
+        Chart1.ChartAreas("ChartArea1").AxisY.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.Series(" ").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
         For i As Integer = 0 To 100
             array(i) = 0
@@ -96,7 +98,7 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -50
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-            Chart1.ChartAreas("ChartArea1").AxisY.Interval = -10
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "dB"
             extension = System.IO.Path.GetExtension(dialog.FileName)
@@ -226,22 +228,29 @@ Public Class Form1
                 freq1(i) = table(i, 0)
                 'Console.WriteLine(freq1(i))
             Next
+            If matrix = "lower" Then
+                GlobalVariables.series = New Integer(ports * (ports + 1) / 2) {}
+            ElseIf matrix = "upper" Then
+                GlobalVariables.series = New Integer(ports * (ports + 1) / 2) {}
+            Else
+                GlobalVariables.series = New Integer(ports * ports) {}
+            End If
             x = 1
+            y = 0
             For a As Integer = 1 To ports
                 For b As Integer = 1 To ports
                     If matrix = "lower" Then
                         If a < b Then
                             Exit For
                         End If
-                    End If
-                    If matrix = "upper" Then
+                    ElseIf matrix = "upper" Then
                         While a > b
                             b += 1
                         End While
                     End If
                     Chart1.Series.Add("S(" & a & "," & b & ")")
                     Chart1.Series("S(" & a & "," & b & ")").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-                    Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 3
+                    Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 2
                     Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
                     For j As Integer = 0 To row - 1
                         Select Case parameter
@@ -265,14 +274,20 @@ Public Class Form1
                         While para1(j) > Chart1.ChartAreas("ChartArea1").AxisY.Maximum
                             Chart1.ChartAreas("ChartArea1").AxisY.Maximum += 5
                         End While
-                        While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 5) Mod 5 <> 0)
-                            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = Chart1.ChartAreas("ChartArea1").AxisY.Minimum - 5
+                        'While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 5) Mod 5 <> 0)
+                        '    Chart1.ChartAreas("ChartArea1").AxisY.Minimum = Chart1.ChartAreas("ChartArea1").AxisY.Minimum - 5
+                        'End While   'Loop to keep the interval a multiple of 5
+                        While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / Chart1.ChartAreas("ChartArea1").AxisY.Interval) > 10)
+                            Chart1.ChartAreas("ChartArea1").AxisY.Interval += 5
                         End While   'Loop to keep the interval a multiple of 5
                     Next
                     x += 2
                     Chart1.Series("S(" & a & "," & b & ")").Points.DataBindXY(freq1, para1)
+                    GlobalVariables.series(y) = 1
+                    y += 1
                 Next
             Next
+            'Chart1.Series("S(1,1)").Enabled = False
             'Catch Ex As Exception
             '    MetroFramework.MetroMessageBox.Show(Me, Ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             'End Try
@@ -290,36 +305,78 @@ Public Class Form1
     Private Sub OptionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OptionsToolStripMenuItem.Click
         GlobalVariables.yaxismax = Chart1.ChartAreas("ChartArea1").AxisY.Maximum
         GlobalVariables.yaxismin = Chart1.ChartAreas("ChartArea1").AxisY.Minimum
+        GlobalVariables.yaxisint = Chart1.ChartAreas("ChartArea1").AxisY.Interval
         If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
             GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 1000000000
             GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum / 1000000000
+            GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval / 1000000000
         ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
             GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 1000000
             GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum / 1000000
+            GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval / 1000000
         ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
             GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 1000
             GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum / 1000
+            GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval / 1000
         Else
             GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum
             GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum
+            GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval
+        End If
+        If matrix = "upper" Then
+            GlobalVariables.matrix = "upper"
+        ElseIf matrix = "lower" Then
+            GlobalVariables.matrix = "lower"
+        Else
+            GlobalVariables.matrix = "full"
+        End If
+        If (ports = 0) Or (ports = vbNull) Then
+            GlobalVariables.ports = 0
+        Else
+            GlobalVariables.ports = ports
         End If
         Form2.ShowDialog()
         If GlobalVariables.button = "ok" Then
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
             If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
                 Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000000000
                 Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000000000
+                Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000000000
             ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
                 Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000000
                 Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000000
+                Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000000
             ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
                 Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000
                 Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000
+                Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000
             Else
                 Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
                 Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+                Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
             End If
+            y = 0
+            For a As Integer = 1 To ports
+                For b As Integer = 1 To ports
+                    If matrix = "lower" Then
+                        If a < b Then
+                            Exit For
+                        End If
+                    ElseIf matrix = "upper" Then
+                        While a > b
+                            b += 1
+                        End While
+                    End If
+                    If GlobalVariables.series(y) = 1 Then
+                        Chart1.Series("S(" & a & "," & b & ")").Enabled = True
+                    Else
+                        Chart1.Series("S(" & a & "," & b & ")").Enabled = False
+                    End If
+                    y += 1
+                Next
+            Next
         End If
     End Sub
 End Class
@@ -327,9 +384,14 @@ End Class
 Public Class GlobalVariables
     Public Shared xaxismin As Double = 0
     Public Shared xaxismax As Double = 6
+    Public Shared xaxisint As Double = 0.5
     Public Shared yaxismin As Double = -50
     Public Shared yaxismax As Double = 0
+    Public Shared yaxisint As Double = 5
     Public Shared button As String
+    Public Shared matrix As String
+    Public Shared ports As Integer
+    Public Shared series() As Integer
 End Class
 
 'Previously used code
