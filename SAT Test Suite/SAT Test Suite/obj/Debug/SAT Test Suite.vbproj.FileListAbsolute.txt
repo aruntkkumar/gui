@@ -22,3 +22,4 @@ C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\obj\Debug
 C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\obj\Debug\SAT_Test_Suite.Form1.resources
 C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\obj\Debug\SAT_Test_Suite.Resources.resources
 C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\obj\Debug\SAT Test Suite.vbproj.GenerateResource.Cache
+C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\obj\Debug\SAT_Test_Suite.Form2.resources
