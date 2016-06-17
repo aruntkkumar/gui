@@ -526,12 +526,14 @@ Public Class Form1
         dialog.RestoreDirectory = True
         If dialog.ShowDialog() = DialogResult.OK Then
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
-            Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Maximum) / 10))
-            Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 10))
-            'Chart1.ChartAreas("ChartArea1").AxisY2.
-            'Chart1.ChartAreas("ChartArea1").AxisY2.IsLogarithmic = True
+            'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Maximum) / 10))
+            'Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 10))
+            Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
+            Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
+            Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
             Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
-            Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Percentage %"         '.# to provide one decimal part; For 2 decimal part it is .##
+            Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Percentage %"           '.# to provide one decimal part; For 2 decimal part it is .##
+            Chart1.ChartAreas("ChartArea1").AxisY2.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dot
             Try
                 Using sr As New StreamReader(dialog.FileName)
                     While Not sr.EndOfStream
