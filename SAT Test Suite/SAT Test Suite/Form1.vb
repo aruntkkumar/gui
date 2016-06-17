@@ -399,6 +399,12 @@ Public Class Form1
     Private Sub Chart1_MouseClick(sender As Object, e As MouseEventArgs) Handles Chart1.MouseClick
         Dim result As HitTestResult = Chart1.HitTest(e.X, e.Y)
         Dim selectedDataPoint As DataPoint = Nothing
+        Try
+            If result.ChartArea.AxisX.PixelPositionToValue(e.X) = vbNull Or result.ChartArea.AxisY.PixelPositionToValue(e.Y) = vbNull Then
+            End If
+        Catch ex As Exception
+            Exit Sub
+        End Try
         Dim xval = result.ChartArea.AxisX.PixelPositionToValue(e.X)
         Dim yval = result.ChartArea.AxisY.PixelPositionToValue(e.Y)
         If result.ChartElementType = ChartElementType.DataPoint AndAlso xval <> prevxval AndAlso yval <> prevyval Then
