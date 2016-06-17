@@ -399,39 +399,35 @@ Public Class Form1
     Private Sub Chart1_MouseClick(sender As Object, e As MouseEventArgs) Handles Chart1.MouseClick
         Dim result As HitTestResult = Chart1.HitTest(e.X, e.Y)
         Dim selectedDataPoint As DataPoint = Nothing
-        Try
-            If result.ChartArea.AxisX.PixelPositionToValue(e.X) = vbNull Or result.ChartArea.AxisY.PixelPositionToValue(e.Y) = vbNull Then
+        If result.ChartElementType = ChartElementType.DataPoint Then
+            Dim xval = result.ChartArea.AxisX.PixelPositionToValue(e.X)
+            Dim yval = result.ChartArea.AxisY.PixelPositionToValue(e.Y)
+            If xval <> prevxval AndAlso yval <> prevyval Then
+                _selectedPointIndex = result.PointIndex
+                _selectedSeries = result.Series
+                '_selectedPoint = result.Series.Points(_selectedPointIndex)
+                selectedDataPoint = CType(result.Object, DataPoint)
+                If checkboxnum > 20 Then
+                    checkboxnum = 1
+                    CheckedListBox1.Items.Clear()
+                End If
+                If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
+                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000000000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
+                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
+                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
+                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
+                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
+                Else
+                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
+                End If
+                checkboxnum += 1
+                Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).Label = checkboxnum - 1
+                Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).MarkerStyle = MarkerStyle.Triangle
+                Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).MarkerSize = 10
+                Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).MarkerColor = Chart1.Series(_selectedSeries.Name).Color
+                prevxval = xval
+                prevyval = yval
             End If
-        Catch ex As Exception
-            Exit Sub
-        End Try
-        Dim xval = result.ChartArea.AxisX.PixelPositionToValue(e.X)
-        Dim yval = result.ChartArea.AxisY.PixelPositionToValue(e.Y)
-        If result.ChartElementType = ChartElementType.DataPoint AndAlso xval <> prevxval AndAlso yval <> prevyval Then
-            _selectedPointIndex = result.PointIndex
-            _selectedSeries = result.Series
-            '_selectedPoint = result.Series.Points(_selectedPointIndex)
-            selectedDataPoint = CType(result.Object, DataPoint)
-            If checkboxnum > 20 Then
-                checkboxnum = 1
-                CheckedListBox1.Items.Clear()
-            End If
-            If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
-                CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000000000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
-            ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
-                CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
-            ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
-                CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
-            Else
-                CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
-            End If
-            checkboxnum += 1
-            Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).Label = checkboxnum - 1
-            Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).MarkerStyle = MarkerStyle.Triangle
-            Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).MarkerSize = 10
-            Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).MarkerColor = Chart1.Series(_selectedSeries.Name).Color
-            prevxval = xval
-            prevyval = yval
         End If
         result = Nothing
         selectedDataPoint = Nothing
@@ -593,6 +589,9 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CheckedListBox1.ItemCheck
+
+    End Sub
 End Class
 
 Public Class GlobalVariables
