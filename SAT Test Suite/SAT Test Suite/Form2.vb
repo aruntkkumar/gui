@@ -1,6 +1,8 @@
 ﻿Public Class Form2
 
     Dim test As Double
+    Dim checked As Double
+    Dim unchecked As Double
 
     Private Sub Form2_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         If Not Me.IsDisposed() Then
@@ -37,11 +39,13 @@
                             b += 1
                         End While
                     End If
+                    RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
                     If GlobalVariables.series(test) = 1 Then
                         CheckedListBox1.Items.Add("S(" & a & "," & b & ")", isChecked:=True)
                     Else
                         CheckedListBox1.Items.Add("S(" & a & "," & b & ")", isChecked:=False)
                     End If
+                    AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
                     test += 1
                 Next
             Next
@@ -184,60 +188,97 @@
     End Sub
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
-        If CheckBox1.Checked = True Then
-            test = 0
-            For a As Integer = 1 To GlobalVariables.ports
-                For b As Integer = 1 To GlobalVariables.ports
-                    If GlobalVariables.matrix = "lower" Then
-                        If a < b Then
-                            Exit For
-                        End If
+        test = 0
+        For a As Integer = 1 To GlobalVariables.ports
+            For b As Integer = 1 To GlobalVariables.ports
+                If GlobalVariables.matrix = "lower" Then
+                    If a < b Then
+                        Exit For
                     End If
-                    If GlobalVariables.matrix = "upper" Then
-                        While a > b
-                            b += 1
-                        End While
-                    End If
-                    CheckedListBox1.SetItemCheckState(test, CheckState.Checked)
-                    test += 1
-                    'CheckedListBox1.Items.Add("S(" & a & "," & b & ")", isChecked:=True)
-                Next
+                End If
+                If GlobalVariables.matrix = "upper" Then
+                    While a > b
+                        b += 1
+                    End While
+                End If
+                RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                CheckedListBox1.SetItemCheckState(test, CheckState.Checked)
+                AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                test += 1
             Next
-            CheckBox2.Checked = False
-        End If
+        Next
+        RemoveHandler CheckBox1.CheckedChanged, AddressOf CheckBox1_CheckedChanged
+        CheckBox1.Checked = True
+        AddHandler CheckBox1.CheckedChanged, AddressOf CheckBox1_CheckedChanged
+
+        RemoveHandler CheckBox2.CheckedChanged, AddressOf CheckBox2_CheckedChanged
+        CheckBox2.Checked = False
+        AddHandler CheckBox2.CheckedChanged, AddressOf CheckBox2_CheckedChanged
     End Sub
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
-        If CheckBox2.Checked = True Then
-            test = 0
-            For a As Integer = 1 To GlobalVariables.ports
-                For b As Integer = 1 To GlobalVariables.ports
-                    If GlobalVariables.matrix = "lower" Then
-                        If a < b Then
-                            Exit For
-                        End If
+        test = 0
+        For a As Integer = 1 To GlobalVariables.ports
+            For b As Integer = 1 To GlobalVariables.ports
+                If GlobalVariables.matrix = "lower" Then
+                    If a < b Then
+                        Exit For
                     End If
-                    If GlobalVariables.matrix = "upper" Then
-                        While a > b
-                            b += 1
-                        End While
-                    End If
-                    CheckedListBox1.SetItemCheckState(test, CheckState.Unchecked)
-                    test += 1
-                    'CheckedListBox1.Items.Add("S(" & a & "," & b & ")", isChecked:=False)
-                Next
+                End If
+                If GlobalVariables.matrix = "upper" Then
+                    While a > b
+                        b += 1
+                    End While
+                End If
+                RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                CheckedListBox1.SetItemCheckState(test, CheckState.Unchecked)
+                AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                test += 1
             Next
+        Next
+        RemoveHandler CheckBox2.CheckedChanged, AddressOf CheckBox2_CheckedChanged
+        CheckBox2.Checked = True
+        AddHandler CheckBox2.CheckedChanged, AddressOf CheckBox2_CheckedChanged
+
+        RemoveHandler CheckBox1.CheckedChanged, AddressOf CheckBox1_CheckedChanged
+        CheckBox1.Checked = False
+        AddHandler CheckBox1.CheckedChanged, AddressOf CheckBox1_CheckedChanged
+    End Sub
+
+    Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CheckedListBox1.ItemCheck
+        checked = 0
+        unchecked = 0
+        test = 0
+        For a As Integer = 1 To GlobalVariables.ports
+            For b As Integer = 1 To GlobalVariables.ports
+                If GlobalVariables.matrix = "lower" Then
+                    If a < b Then
+                        Exit For
+                    End If
+                End If
+                If GlobalVariables.matrix = "upper" Then
+                    While a > b
+                        b += 1
+                    End While
+                End If
+                If CheckedListBox1.GetItemChecked(test) Then
+                    checked += 1
+                Else
+                    unchecked += 1
+                End If
+                test += 1
+            Next
+        Next
+        If checked <> CheckedListBox1.Items.Count - 1 Then
+            RemoveHandler CheckBox1.CheckedChanged, AddressOf CheckBox1_CheckedChanged
             CheckBox1.Checked = False
+            AddHandler CheckBox1.CheckedChanged, AddressOf CheckBox1_CheckedChanged
+        End If
+        If unchecked <> CheckedListBox1.Items.Count - 1 Then
+            RemoveHandler CheckBox2.CheckedChanged, AddressOf CheckBox2_CheckedChanged
+            CheckBox2.Checked = False
+            AddHandler CheckBox2.CheckedChanged, AddressOf CheckBox2_CheckedChanged
         End If
     End Sub
 
-    'Private Sub CheckedListBox1_MouseClick(sender As Object, e As MouseEventArgs) Handles CheckedListBox1.MouseClick
-    '    CheckBox1.Checked = False
-    '    CheckBox2.Checked = False
-    'End Sub
-
-    'Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CheckedListBox1.ItemCheck
-    '    CheckBox1.Checked = False
-    '    CheckBox2.Checked = False
-    'End Sub
 End Class

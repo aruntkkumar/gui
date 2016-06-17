@@ -24,6 +24,10 @@ Partial Class Form2
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form2))
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.TextBox6 = New MetroFramework.Controls.MetroTextBox()
+        Me.TextBox5 = New MetroFramework.Controls.MetroTextBox()
+        Me.MetroLabel1 = New MetroFramework.Controls.MetroLabel()
+        Me.MetroLabel2 = New MetroFramework.Controls.MetroLabel()
         Me.TextBox4 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox3 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox2 = New MetroFramework.Controls.MetroTextBox()
@@ -40,10 +44,6 @@ Partial Class Form2
         Me.CheckBox1 = New MetroFramework.Controls.MetroCheckBox()
         Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
         Me.Label8 = New MetroFramework.Controls.MetroLabel()
-        Me.TextBox6 = New MetroFramework.Controls.MetroTextBox()
-        Me.TextBox5 = New MetroFramework.Controls.MetroTextBox()
-        Me.MetroLabel1 = New MetroFramework.Controls.MetroLabel()
-        Me.MetroLabel2 = New MetroFramework.Controls.MetroLabel()
         Me.Panel1.SuspendLayout()
         Me.MetroPanel1.SuspendLayout()
         Me.SuspendLayout()
@@ -70,6 +70,84 @@ Partial Class Form2
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(498, 169)
         Me.Panel1.TabIndex = 0
+        '
+        'TextBox6
+        '
+        Me.TextBox6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        '
+        '
+        '
+        Me.TextBox6.CustomButton.Image = Nothing
+        Me.TextBox6.CustomButton.Location = New System.Drawing.Point(42, 2)
+        Me.TextBox6.CustomButton.Name = ""
+        Me.TextBox6.CustomButton.Size = New System.Drawing.Size(15, 15)
+        Me.TextBox6.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+        Me.TextBox6.CustomButton.TabIndex = 1
+        Me.TextBox6.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+        Me.TextBox6.CustomButton.UseSelectable = True
+        Me.TextBox6.CustomButton.Visible = False
+        Me.TextBox6.Lines = New String(-1) {}
+        Me.TextBox6.Location = New System.Drawing.Point(412, 120)
+        Me.TextBox6.MaxLength = 32767
+        Me.TextBox6.Name = "TextBox6"
+        Me.TextBox6.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextBox6.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.TextBox6.SelectedText = ""
+        Me.TextBox6.SelectionLength = 0
+        Me.TextBox6.SelectionStart = 0
+        Me.TextBox6.Size = New System.Drawing.Size(60, 20)
+        Me.TextBox6.TabIndex = 13
+        Me.TextBox6.UseSelectable = True
+        Me.TextBox6.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+        Me.TextBox6.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
+        '
+        'TextBox5
+        '
+        '
+        '
+        '
+        Me.TextBox5.CustomButton.Image = Nothing
+        Me.TextBox5.CustomButton.Location = New System.Drawing.Point(42, 2)
+        Me.TextBox5.CustomButton.Name = ""
+        Me.TextBox5.CustomButton.Size = New System.Drawing.Size(15, 15)
+        Me.TextBox5.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+        Me.TextBox5.CustomButton.TabIndex = 1
+        Me.TextBox5.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+        Me.TextBox5.CustomButton.UseSelectable = True
+        Me.TextBox5.CustomButton.Visible = False
+        Me.TextBox5.Lines = New String(-1) {}
+        Me.TextBox5.Location = New System.Drawing.Point(166, 120)
+        Me.TextBox5.MaxLength = 32767
+        Me.TextBox5.Name = "TextBox5"
+        Me.TextBox5.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextBox5.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.TextBox5.SelectedText = ""
+        Me.TextBox5.SelectionLength = 0
+        Me.TextBox5.SelectionStart = 0
+        Me.TextBox5.Size = New System.Drawing.Size(60, 20)
+        Me.TextBox5.TabIndex = 12
+        Me.TextBox5.UseSelectable = True
+        Me.TextBox5.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+        Me.TextBox5.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
+        '
+        'MetroLabel1
+        '
+        Me.MetroLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MetroLabel1.AutoSize = True
+        Me.MetroLabel1.Location = New System.Drawing.Point(272, 119)
+        Me.MetroLabel1.Name = "MetroLabel1"
+        Me.MetroLabel1.Size = New System.Drawing.Size(121, 19)
+        Me.MetroLabel1.TabIndex = 11
+        Me.MetroLabel1.Text = "Y-axis interval (dB):"
+        '
+        'MetroLabel2
+        '
+        Me.MetroLabel2.AutoSize = True
+        Me.MetroLabel2.Location = New System.Drawing.Point(18, 119)
+        Me.MetroLabel2.Name = "MetroLabel2"
+        Me.MetroLabel2.Size = New System.Drawing.Size(129, 19)
+        Me.MetroLabel2.TabIndex = 10
+        Me.MetroLabel2.Text = "X-axis interval (GHz):"
         '
         'TextBox4
         '
@@ -327,84 +405,6 @@ Partial Class Form2
         Me.Label8.Size = New System.Drawing.Size(111, 19)
         Me.Label8.TabIndex = 10
         Me.Label8.Text = "S PARAMETERS"
-        '
-        'TextBox6
-        '
-        Me.TextBox6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        '
-        '
-        '
-        Me.TextBox6.CustomButton.Image = Nothing
-        Me.TextBox6.CustomButton.Location = New System.Drawing.Point(42, 2)
-        Me.TextBox6.CustomButton.Name = ""
-        Me.TextBox6.CustomButton.Size = New System.Drawing.Size(15, 15)
-        Me.TextBox6.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-        Me.TextBox6.CustomButton.TabIndex = 1
-        Me.TextBox6.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-        Me.TextBox6.CustomButton.UseSelectable = True
-        Me.TextBox6.CustomButton.Visible = False
-        Me.TextBox6.Lines = New String(-1) {}
-        Me.TextBox6.Location = New System.Drawing.Point(412, 120)
-        Me.TextBox6.MaxLength = 32767
-        Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.TextBox6.ScrollBars = System.Windows.Forms.ScrollBars.None
-        Me.TextBox6.SelectedText = ""
-        Me.TextBox6.SelectionLength = 0
-        Me.TextBox6.SelectionStart = 0
-        Me.TextBox6.Size = New System.Drawing.Size(60, 20)
-        Me.TextBox6.TabIndex = 13
-        Me.TextBox6.UseSelectable = True
-        Me.TextBox6.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-        Me.TextBox6.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
-        '
-        'TextBox5
-        '
-        '
-        '
-        '
-        Me.TextBox5.CustomButton.Image = Nothing
-        Me.TextBox5.CustomButton.Location = New System.Drawing.Point(42, 2)
-        Me.TextBox5.CustomButton.Name = ""
-        Me.TextBox5.CustomButton.Size = New System.Drawing.Size(15, 15)
-        Me.TextBox5.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-        Me.TextBox5.CustomButton.TabIndex = 1
-        Me.TextBox5.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-        Me.TextBox5.CustomButton.UseSelectable = True
-        Me.TextBox5.CustomButton.Visible = False
-        Me.TextBox5.Lines = New String(-1) {}
-        Me.TextBox5.Location = New System.Drawing.Point(166, 120)
-        Me.TextBox5.MaxLength = 32767
-        Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.TextBox5.ScrollBars = System.Windows.Forms.ScrollBars.None
-        Me.TextBox5.SelectedText = ""
-        Me.TextBox5.SelectionLength = 0
-        Me.TextBox5.SelectionStart = 0
-        Me.TextBox5.Size = New System.Drawing.Size(60, 20)
-        Me.TextBox5.TabIndex = 12
-        Me.TextBox5.UseSelectable = True
-        Me.TextBox5.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-        Me.TextBox5.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
-        '
-        'MetroLabel1
-        '
-        Me.MetroLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.MetroLabel1.AutoSize = True
-        Me.MetroLabel1.Location = New System.Drawing.Point(272, 119)
-        Me.MetroLabel1.Name = "MetroLabel1"
-        Me.MetroLabel1.Size = New System.Drawing.Size(121, 19)
-        Me.MetroLabel1.TabIndex = 11
-        Me.MetroLabel1.Text = "Y-axis interval (dB):"
-        '
-        'MetroLabel2
-        '
-        Me.MetroLabel2.AutoSize = True
-        Me.MetroLabel2.Location = New System.Drawing.Point(18, 119)
-        Me.MetroLabel2.Name = "MetroLabel2"
-        Me.MetroLabel2.Size = New System.Drawing.Size(129, 19)
-        Me.MetroLabel2.TabIndex = 10
-        Me.MetroLabel2.Text = "X-axis interval (GHz):"
         '
         'Form2
         '
