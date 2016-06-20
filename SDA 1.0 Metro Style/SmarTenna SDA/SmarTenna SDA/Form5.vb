@@ -114,12 +114,14 @@ Public Class Form5
                         Else
                             byte4 = &H40
                             byte5 = &H80
-                            Try
-                                uplink = CDbl(TextBox4.Text)
-                            Catch ex As Exception
-                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number for the selected band coverage.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                Exit Sub
-                            End Try
+                            If TextBox4.Enabled = True Then
+                                Try
+                                    uplink = CDbl(TextBox4.Text)
+                                Catch ex As Exception
+                                    MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number for the selected band coverage.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                    Exit Sub
+                                End Try
+                            End If
                             'If uplink < 18000 Or uplink > 27759 Then
                             '    MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid uplink channel number for the selected band coverage.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             '    Exit Sub
