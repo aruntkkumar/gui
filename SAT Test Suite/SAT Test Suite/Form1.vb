@@ -5,11 +5,6 @@ Imports System.IO
 Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Form1
-    'Define your Excel Objects
-    'Dim xlApp As New Excel.Application
-    'Dim xlWorkBook As Excel.Workbook
-    'Dim xlWorkSheet As Excel.Worksheet
-    'Dim range As Excel.Range
     Dim dialog As OpenFileDialog = New OpenFileDialog()
     Dim dialog1 As SaveFileDialog = New SaveFileDialog()
     Dim names(50) As String
@@ -44,11 +39,18 @@ Public Class Form1
     Dim tooltip As New ToolTip()
     Dim prevPosition As Point? = Nothing
     Dim checkboxnum As Integer
-    Private _selectedPoint As DataPoint
-    Private _selectedPointIndex As Integer
-    Private _selectedSeries As Series
+    Private selectedPoint As DataPoint
+    Private selectedPointIndex As Integer
+    Private selectedSeries As Series
     Dim prevxval As Double = 0
     Dim prevyval As Double = 0
+    Dim seriesname(20) As String
+    Dim seriespointindex(20) As Integer
+    Dim line1 As String
+    Dim line2 As String
+    Dim eff1(1) As Double
+    Dim string1(1) As String
+    Dim string2(1) As String
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         dialog.InitialDirectory = "C:\"
@@ -63,7 +65,7 @@ Public Class Form1
         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
         Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
         Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
-        Chart1.ChartAreas("ChartArea1").AxisY.Title = "dB"
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
         Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.ChartAreas("ChartArea1").AxisY.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.Series(" ").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
@@ -72,6 +74,7 @@ Public Class Form1
             Chart1.Series(" ").Points.AddXY(i, array(i))
         Next
         AddToolStripMenuItem.Enabled = False
+        ClearAllMarkersToolStripMenuItem.Enabled = False
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
@@ -110,7 +113,7 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
-            Chart1.ChartAreas("ChartArea1").AxisY.Title = "dB"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             extension = System.IO.Path.GetExtension(dialog.FileName)
             ports = System.Text.RegularExpressions.Regex.Replace(extension, "[^\d]", "")    'Remove Characters from a Numeric String
             column = ((Math.Pow(ports, 2) * 2) + 1)
@@ -299,9 +302,9 @@ Public Class Form1
                     y += 1
                 Next
             Next
-            Erase freq1         '   Releasing memory
-            Erase para1
-            Erase table
+            'Erase freq1         '   Releasing memory
+            'Erase para1
+            'Erase table
             'Chart1.Series("S(1,1)").Enabled = False
             'Catch Ex As Exception
             '    MetroFramework.MetroMessageBox.Show(Me, Ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -403,14 +406,27 @@ Public Class Form1
             Dim xval = result.ChartArea.AxisX.PixelPositionToValue(e.X)
             Dim yval = result.ChartArea.AxisY.PixelPositionToValue(e.Y)
             If xval <> prevxval AndAlso yval <> prevyval Then
-                _selectedPointIndex = result.PointIndex
-                _selectedSeries = result.Series
-                '_selectedPoint = result.Series.Points(_selectedPointIndex)
+                selectedPointIndex = result.PointIndex
+                selectedSeries = result.Series
+                'selectedPoint = result.Series.Points(selectedPointIndex)
                 selectedDataPoint = CType(result.Object, DataPoint)
+                For i As Integer = 0 To checkboxnum - 1
+                    If seriesname(i) = selectedSeries.Name AndAlso seriespointindex(i) = selectedPointIndex Then
+                        Exit Sub
+                    End If
+                Next
                 If checkboxnum > 20 Then
                     checkboxnum = 1
                     CheckedListBox1.Items.Clear()
+                    For i As Integer = 0 To 19
+                        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
+                        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
+                    Next
+                    ClearAllMarkersToolStripMenuItem.Enabled = False
+                    'seriesname = Nothing
+                    'seriespointindex = Nothing
                 End If
+                RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
                 If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
                     CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000000000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
                 ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
@@ -420,11 +436,15 @@ Public Class Form1
                 Else
                     CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
                 End If
+                AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                Chart1.Series(selectedSeries.Name).Points.Item(selectedPointIndex).Label = checkboxnum
+                Chart1.Series(selectedSeries.Name).Points.Item(selectedPointIndex).MarkerStyle = MarkerStyle.Triangle
+                Chart1.Series(selectedSeries.Name).Points.Item(selectedPointIndex).MarkerSize = 10
+                Chart1.Series(selectedSeries.Name).Points.Item(selectedPointIndex).MarkerColor = Chart1.Series(selectedSeries.Name).Color
+                seriesname(checkboxnum - 1) = selectedSeries.Name
+                seriespointindex(checkboxnum - 1) = selectedPointIndex
+                ClearAllMarkersToolStripMenuItem.Enabled = True
                 checkboxnum += 1
-                Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).Label = checkboxnum - 1
-                Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).MarkerStyle = MarkerStyle.Triangle
-                Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).MarkerSize = 10
-                Chart1.Series(_selectedSeries.Name).Points.Item(_selectedPointIndex).MarkerColor = Chart1.Series(_selectedSeries.Name).Color
                 prevxval = xval
                 prevyval = yval
             End If
@@ -432,91 +452,6 @@ Public Class Form1
         result = Nothing
         selectedDataPoint = Nothing
     End Sub
-
-    'Private Sub Chart1_MouseClick(sender As Object, e As MouseEventArgs) Handles Chart1.MouseClick
-    '    Dim pos As Point = e.Location
-    '    If prevPosition.HasValue AndAlso pos = prevPosition.Value Then
-    '        Exit Sub
-    '    End If
-    '    'ToolTip.RemoveAll()
-    '    prevPosition = pos
-    '    'Dim results = Chart1.HitTest(pos.X, pos.Y, False, ChartElementType.DataPoint)
-    '    Dim results As HitTestResult = Chart1.HitTest(e.X, e.Y)
-    '    'Dim prevxval As Double
-    '    'Dim prevyval As Double
-    '    'For Each result As HitTestResult In results
-    '    If results.ChartElementType = ChartElementType.DataPoint Then
-
-    '        Dim prop As DataPoint = results.Object
-    '        If prop IsNot Nothing Then
-    '            Dim xpixel = results.ChartArea.AxisX.ValueToPixelPosition(prop.XValue)
-    '            Dim ypixel = results.ChartArea.AxisY.ValueToPixelPosition(prop.YValues(0))
-    '            If (Math.Abs(pos.X - xpixel) < 100) AndAlso (Math.Abs(pos.Y - ypixel) < 100) Then
-    '                If checkboxnum > 20 Then
-    '                    checkboxnum = 1
-    '                    CheckedListBox1.Items.Clear()
-    '                End If
-    '                If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
-    '                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(prop.XValue / 1000000000, 3) & ", Y=" & Math.Round(prop.YValues(0), 3), isChecked:=True)
-    '                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
-    '                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(prop.XValue / 1000000, 3) & ", Y=" & Math.Round(prop.YValues(0), 3), isChecked:=True)
-    '                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
-    '                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(prop.XValue / 1000, 3) & ", Y=" & Math.Round(prop.YValues(0), 3), isChecked:=True)
-    '                Else
-    '                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(prop.XValue, 3) & ", Y=" & Math.Round(prop.YValues(0), 3), isChecked:=True)
-    '                End If
-    '                'ToolTip.Show("X=" & xpixel & ", Y=" & yval, Me.Chart1, pos.X, (pos.Y - 15))
-    '                checkboxnum += 1
-    '                Dim myBrush As New System.Drawing.SolidBrush(System.Drawing.Color.Red)
-    '                Dim formGraphics As System.Drawing.Graphics
-    '                formGraphics = sender.CreateGraphics()
-    '                formGraphics.FillEllipse(myBrush, New Rectangle(xpixel, ypixel, 15, 15))
-    '                myBrush.Dispose()
-    '                formGraphics.Dispose()
-    '            End If
-    '        End If
-
-
-    '        'Dim xval = results.ChartArea.AxisX.PixelPositionToValue(pos.X)
-    '        '    Dim yval = results.ChartArea.AxisY.PixelPositionToValue(pos.Y)
-    '        '    'If result.ChartElementType = ChartElementType.DataPoint Then
-    '        '    '    Dim xval = result.ChartArea.AxisX.PixelPositionToValue(pos.X)
-    '        '    '    Dim yval = result.ChartArea.AxisY.PixelPositionToValue(pos.Y)
-    '        '    'tooltip.Show("X=" & xval & ", Y=" & yval, Me.Chart1, pos.X, (pos.Y - 15))
-    '        '    'If xval <> prevxval AndAlso yval <> prevyval Then
-    '        '    If checkboxnum > 20 Then
-    '        '        checkboxnum = 1
-    '        '        CheckedListBox1.Items.Clear()
-    '        '    End If
-    '        'If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
-    '        '    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(xval / 1000000000, 3) & ", Y=" & Math.Round(yval, 3), isChecked:=True)
-    '        'ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
-    '        '    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(xval / 1000000, 3) & ", Y=" & Math.Round(yval, 3), isChecked:=True)
-    '        'ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
-    '        '    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(xval / 1000, 3) & ", Y=" & Math.Round(yval, 3), isChecked:=True)
-    '        'Else
-    '        '    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(xval, 3) & ", Y=" & Math.Round(yval, 3), isChecked:=True)
-    '        'End If
-
-    '        'Dim pt As DataPoint = Chart1.Series(0).Points(CInt(Math.Max(xval - 1), 0)
-    '        'Dim pt As DataPoint = DirectCast(sender, Chart).Series(0).Points(CInt(xval) - 1).XValues()
-    '        'pt.MarkerStyle = MarkerStyle.Square
-    '        'Dim myBrush As New System.Drawing.SolidBrush(System.Drawing.Color.Red)
-    '        '    Dim formGraphics As System.Drawing.Graphics
-    '        '    formGraphics = sender.CreateGraphics()
-    '        '    'formGraphics.FillEllipse(myBrush, New Rectangle(result.ChartArea.AxisX.ValueToPixelPosition(xval), result.ChartArea.AxisY.ValueToPixelPosition(yval), 15, 15))
-    '        '    formGraphics.FillEllipse(myBrush, New Rectangle(results.ChartArea.AxisX.ValueToPixelPosition(xval), results.ChartArea.AxisY.ValueToPixelPosition(yval), 15, 15))
-    '        '    myBrush.Dispose()
-    '        '    formGraphics.Dispose()
-    '        '    checkboxnum += 1
-    '        '    'prevxval = xval
-    '        '    'prevyval = yval
-    '        '    'End If
-
-
-    '    End If
-    '    'Next
-    'End Sub
 
     Private Sub AddToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToolStripMenuItem.Click
         dialog.Title = "Open File"
@@ -528,71 +463,170 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
             'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Maximum) / 10))
             'Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 10))
+            Chart1.ChartAreas("ChartArea1").AxisY2.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dot
+            'Try
+            'Define your Excel Objects
+            Dim xlApp As New Excel.Application
+            Dim xlWorkBook As Excel.Workbook
+            Dim xlWorkSheet As Excel.Worksheet
+            'Dim range As Excel.Range
+            xlApp.DisplayAlerts = False     'Overwriting the ReadOnly File Error
+            xlApp.Workbooks.OpenText(Filename:=dialog.FileName, StartRow:=1, DataType:=Excel.XlTextParsingType.xlDelimited, ConsecutiveDelimiter:=True, Space:=True)
+            xlApp.DisplayAlerts = True
+            xlWorkBook = xlApp.ActiveWorkbook
+            'xlApp.Visible = True
+            xlWorkSheet = xlWorkBook.Sheets(1)
+            numRow = xlWorkSheet.UsedRange.Rows.Count
+            numColumn = xlWorkSheet.UsedRange.Columns.Count
+            freq1 = New Double(numRow - 3) {}
+            eff1 = New Double(numRow - 3) {}
+            If frequnit = "hz" Then
+                If xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000000000
+                    Next
+                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000000
+                    Next
+                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000
+                    Next
+                Else
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value
+                    Next
+                End If
+            ElseIf frequnit = "khz" Then
+                If xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000000
+                    Next
+                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000
+                    Next
+                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value
+                    Next
+                Else
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000
+                    Next
+                End If
+            ElseIf frequnit = "mhz" Then
+                If xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000
+                    Next
+                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value
+                    Next
+                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000
+                    Next
+                Else
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000000
+                    Next
+                End If
+            ElseIf frequnit = "ghz" Then
+                If xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value
+                    Next
+                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000
+                    Next
+                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000000
+                    Next
+                Else
+                    For i As Integer = 3 To numRow
+                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000000000
+                    Next
+                End If
+            End If
             Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
             Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
             Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
             Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
-            Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Percentage %"           '.# to provide one decimal part; For 2 decimal part it is .##
-            Chart1.ChartAreas("ChartArea1").AxisY2.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dot
-            Try
-                Using sr As New StreamReader(dialog.FileName)
-                    While Not sr.EndOfStream
-                        line = sr.ReadLine()
-                        If line.Contains("#") Then
-                            '    If line.ToLower.Contains("khz") Then
-                            '        frequnit = "khz"
-                            '    ElseIf line.ToLower.Contains("mhz") Then
-                            '        frequnit = "mhz"
-                            '    ElseIf line.ToLower.Contains("ghz") Then
-                            '        frequnit = "ghz"
-                            '    ElseIf line.ToLower.Contains("hz") Then
-                            '        frequnit = "hz"
-                            '    End If
-
-                            '    If line.ToLower.Contains("s") Then
-                            '        parameter = "s"
-                            '    ElseIf line.ToLower.Contains("y") Then
-                            '        parameter = "y"
-                            '    ElseIf line.ToLower.Contains("z") Then
-                            '        parameter = "z"
-                            '    ElseIf line.ToLower.Contains("h") Then
-                            '        parameter = "h"
-                            '    ElseIf line.ToLower.Contains("g") Then
-                            '        parameter = "g"
-                            '    End If
-
-                            '    If line.ToLower.Contains("ri") Then
-                            '        format = "ri"
-                            '    ElseIf line.ToLower.Contains("ma") Then
-                            '        format = "ma"
-                            '    ElseIf line.ToLower.Contains("db") Then
-                            '        format = "db"
-                            '    End If
-
-                            'ElseIf line.ToLower.Contains("matrix format") Then
-                            '    If line.ToLower.Contains("lower") Then
-                            '        matrix = "lower"
-                            '    ElseIf line.ToLower.Contains("upper") Then
-                            '        matrix = "upper"
-                            '        'Else
-                            '        'matrix = "full"
-                            '    End If
-                        ElseIf line.Contains("!") Then
-                        Else
-                            Exit While
-                        End If
-                    End While
-                    fullstring = sr.ReadToEnd()
-                    sr.Dispose()
-                End Using
-            Catch ex As Exception
-
-            End Try
+            Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in %"        '.# to provide one decimal part; For 2 decimal part it is .##
+            If xlWorkSheet.Cells(2, 2).value.ToString.ToLower.Contains("db") Then
+                format = "db"
+                'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 0
+                'Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = -15
+                'Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 2
+                'Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+                'Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in dB"        '.# to provide one decimal part; For 2 decimal part it is .##
+            Else
+                format = "percentage"
+            End If
+            For i As Integer = 2 To numColumn
+                Chart1.Series.Add(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString)
+                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).XAxisType = AxisType.Primary
+                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).YAxisType = AxisType.Secondary
+                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).ChartType = DataVisualization.Charting.SeriesChartType.Line
+                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).BorderWidth = 2
+                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                For j As Integer = 3 To numRow
+                    If format = "db" Then
+                        eff1(j - 3) = 100 * (Math.Pow(10, (xlWorkSheet.Cells(j, i).value / 10)))
+                    Else
+                        eff1(j - 3) = xlWorkSheet.Cells(j, i).value
+                    End If
+                Next
+                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).Points.DataBindXY(freq1, eff1)
+            Next
+            xlApp.Quit()
+            releaseObject(xlApp)
+            'Catch ex As Exception
+            'MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'End Try
         End If
     End Sub
 
     Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CheckedListBox1.ItemCheck
+        Me.BeginInvoke(DirectCast(Sub() ItemChecker(), MethodInvoker))
+    End Sub
 
+    Sub ItemChecker()
+        For i As Integer = 0 To CheckedListBox1.Items.Count - 1
+            If CheckedListBox1.GetItemChecked(i) = True Then
+                Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = i + 1
+                Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.Triangle
+            Else
+                Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
+                Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
+            End If
+        Next
+    End Sub
+
+    Private Sub ClearAllMarkersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearAllMarkersToolStripMenuItem.Click
+        CheckedListBox1.Items.Clear()
+        For i As Integer = 0 To checkboxnum - 2
+            Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
+            Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
+        Next
+        checkboxnum = 1
+        ClearAllMarkersToolStripMenuItem.Enabled = False
+    End Sub
+
+    Private Sub releaseObject(ByVal obj As Object)
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
+            obj = Nothing
+        Catch ex As Exception
+            obj = Nothing
+        Finally
+            GC.Collect()
+        End Try
     End Sub
 End Class
 
@@ -608,6 +642,92 @@ Public Class GlobalVariables
     Public Shared ports As Integer
     Public Shared series() As Integer
 End Class
+
+
+'Private Sub Chart1_MouseClick(sender As Object, e As MouseEventArgs) Handles Chart1.MouseClick
+'    Dim pos As Point = e.Location
+'    If prevPosition.HasValue AndAlso pos = prevPosition.Value Then
+'        Exit Sub
+'    End If
+'    'ToolTip.RemoveAll()
+'    prevPosition = pos
+'    'Dim results = Chart1.HitTest(pos.X, pos.Y, False, ChartElementType.DataPoint)
+'    Dim results As HitTestResult = Chart1.HitTest(e.X, e.Y)
+'    'Dim prevxval As Double
+'    'Dim prevyval As Double
+'    'For Each result As HitTestResult In results
+'    If results.ChartElementType = ChartElementType.DataPoint Then
+
+'        Dim prop As DataPoint = results.Object
+'        If prop IsNot Nothing Then
+'            Dim xpixel = results.ChartArea.AxisX.ValueToPixelPosition(prop.XValue)
+'            Dim ypixel = results.ChartArea.AxisY.ValueToPixelPosition(prop.YValues(0))
+'            If (Math.Abs(pos.X - xpixel) < 100) AndAlso (Math.Abs(pos.Y - ypixel) < 100) Then
+'                If checkboxnum > 20 Then
+'                    checkboxnum = 1
+'                    CheckedListBox1.Items.Clear()
+'                End If
+'                If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
+'                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(prop.XValue / 1000000000, 3) & ", Y=" & Math.Round(prop.YValues(0), 3), isChecked:=True)
+'                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
+'                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(prop.XValue / 1000000, 3) & ", Y=" & Math.Round(prop.YValues(0), 3), isChecked:=True)
+'                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
+'                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(prop.XValue / 1000, 3) & ", Y=" & Math.Round(prop.YValues(0), 3), isChecked:=True)
+'                Else
+'                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(prop.XValue, 3) & ", Y=" & Math.Round(prop.YValues(0), 3), isChecked:=True)
+'                End If
+'                'ToolTip.Show("X=" & xpixel & ", Y=" & yval, Me.Chart1, pos.X, (pos.Y - 15))
+'                checkboxnum += 1
+'                Dim myBrush As New System.Drawing.SolidBrush(System.Drawing.Color.Red)
+'                Dim formGraphics As System.Drawing.Graphics
+'                formGraphics = sender.CreateGraphics()
+'                formGraphics.FillEllipse(myBrush, New Rectangle(xpixel, ypixel, 15, 15))
+'                myBrush.Dispose()
+'                formGraphics.Dispose()
+'            End If
+'        End If
+
+
+'        'Dim xval = results.ChartArea.AxisX.PixelPositionToValue(pos.X)
+'        '    Dim yval = results.ChartArea.AxisY.PixelPositionToValue(pos.Y)
+'        '    'If result.ChartElementType = ChartElementType.DataPoint Then
+'        '    '    Dim xval = result.ChartArea.AxisX.PixelPositionToValue(pos.X)
+'        '    '    Dim yval = result.ChartArea.AxisY.PixelPositionToValue(pos.Y)
+'        '    'tooltip.Show("X=" & xval & ", Y=" & yval, Me.Chart1, pos.X, (pos.Y - 15))
+'        '    'If xval <> prevxval AndAlso yval <> prevyval Then
+'        '    If checkboxnum > 20 Then
+'        '        checkboxnum = 1
+'        '        CheckedListBox1.Items.Clear()
+'        '    End If
+'        'If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
+'        '    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(xval / 1000000000, 3) & ", Y=" & Math.Round(yval, 3), isChecked:=True)
+'        'ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
+'        '    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(xval / 1000000, 3) & ", Y=" & Math.Round(yval, 3), isChecked:=True)
+'        'ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
+'        '    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(xval / 1000, 3) & ", Y=" & Math.Round(yval, 3), isChecked:=True)
+'        'Else
+'        '    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(xval, 3) & ", Y=" & Math.Round(yval, 3), isChecked:=True)
+'        'End If
+
+'        'Dim pt As DataPoint = Chart1.Series(0).Points(CInt(Math.Max(xval - 1), 0)
+'        'Dim pt As DataPoint = DirectCast(sender, Chart).Series(0).Points(CInt(xval) - 1).XValues()
+'        'pt.MarkerStyle = MarkerStyle.Square
+'        'Dim myBrush As New System.Drawing.SolidBrush(System.Drawing.Color.Red)
+'        '    Dim formGraphics As System.Drawing.Graphics
+'        '    formGraphics = sender.CreateGraphics()
+'        '    'formGraphics.FillEllipse(myBrush, New Rectangle(result.ChartArea.AxisX.ValueToPixelPosition(xval), result.ChartArea.AxisY.ValueToPixelPosition(yval), 15, 15))
+'        '    formGraphics.FillEllipse(myBrush, New Rectangle(results.ChartArea.AxisX.ValueToPixelPosition(xval), results.ChartArea.AxisY.ValueToPixelPosition(yval), 15, 15))
+'        '    myBrush.Dispose()
+'        '    formGraphics.Dispose()
+'        '    checkboxnum += 1
+'        '    'prevxval = xval
+'        '    'prevyval = yval
+'        '    'End If
+
+
+'    End If
+'    'Next
+'End Sub
 
 'Previously used code
 '            Exit Sub

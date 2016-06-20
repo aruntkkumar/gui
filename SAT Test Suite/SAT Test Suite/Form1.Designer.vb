@@ -41,6 +41,7 @@ Partial Class Form1
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ClearAllMarkersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,7 +100,7 @@ Partial Class Form1
         Me.Chart1.Name = "Chart1"
         Series1.ChartArea = "ChartArea1"
         Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.66667!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
+        Series1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
         Series1.Legend = "Legend1"
         Series1.Name = "Series1"
         Me.Chart1.Series.Add(Series1)
@@ -161,7 +162,7 @@ Partial Class Form1
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.ClearAllMarkersToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
@@ -169,14 +170,21 @@ Partial Class Form1
         'OptionsToolStripMenuItem
         '
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
+        '
+        'ClearAllMarkersToolStripMenuItem
+        '
+        Me.ClearAllMarkersToolStripMenuItem.Name = "ClearAllMarkersToolStripMenuItem"
+        Me.ClearAllMarkersToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.ClearAllMarkersToolStripMenuItem.Text = "Clear All Markers"
         '
         'CheckedListBox1
         '
         Me.CheckedListBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckedListBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.CheckedListBox1.CheckOnClick = True
         Me.CheckedListBox1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.CheckedListBox1.FormattingEnabled = True
         Me.CheckedListBox1.Location = New System.Drawing.Point(802, 96)
@@ -224,4 +232,5 @@ Partial Class Form1
     Friend WithEvents ToolsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OptionsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CheckedListBox1 As CheckedListBox
+    Friend WithEvents ClearAllMarkersToolStripMenuItem As ToolStripMenuItem
 End Class
