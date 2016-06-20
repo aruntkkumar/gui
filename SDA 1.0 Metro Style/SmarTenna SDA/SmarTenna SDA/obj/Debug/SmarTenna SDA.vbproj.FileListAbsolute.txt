@@ -20,3 +20,25 @@ C:\Users\arun.kumar\Desktop\git\GUI\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna 
 C:\Users\arun.kumar\Desktop\git\GUI\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form8.resources
 C:\Users\arun.kumar\Desktop\git\GUI\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form9.resources
 C:\Users\arun.kumar\Desktop\git\GUI\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna SDA.vbprojResolveAssemblyReference.cache
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\SmarTenna SDA.exe.config
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna SDA.exe
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna SDA.xml
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna SDA.pdb
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\SmarTenna SDA.exe
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\SmarTenna SDA.pdb
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\SmarTenna SDA.xml
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\MetroFramework.Design.dll
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\MetroFramework.dll
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna SDA.vbprojResolveAssemblyReference.cache
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form1.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form2.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form3.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form4.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form5.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form6.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form7.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form8.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form9.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Resources.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna SDA.vbproj.GenerateResource.Cache

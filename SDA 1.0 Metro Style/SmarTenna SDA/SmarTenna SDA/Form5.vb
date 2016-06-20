@@ -770,6 +770,7 @@ Public Class Form5
             TextBox4.Enabled = True
             TextBox4.WaterMark = "39650 to 41589"
         End If
+        TextBox4.Text = ""
         Return 0
     End Function
 
@@ -823,6 +824,7 @@ Public Class Form5
             TextBox4.Enabled = True
             TextBox4.WaterMark = "39650 to 41589"
         End If
+        TextBox4.Text = ""
         Return 0
     End Function
 

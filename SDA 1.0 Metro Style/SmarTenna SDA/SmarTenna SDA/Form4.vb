@@ -1447,6 +1447,7 @@ Public Class Form4
             TextBox1.Enabled = True
             TextBox1.WaterMark = "39650 to 41589"
         End If
+        TextBox1.Text = ""
         Return 0
     End Function
 
@@ -1500,6 +1501,7 @@ Public Class Form4
             TextBox1.Enabled = True
             TextBox1.WaterMark = "39650 to 41589"
         End If
+        TextBox1.Text = ""
         Return 0
     End Function
 
