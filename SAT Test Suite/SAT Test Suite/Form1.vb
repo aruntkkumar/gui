@@ -1,13 +1,15 @@
-﻿Imports Excel = Microsoft.Office.Interop.Excel
+﻿Imports Microsoft.Office.Interop.Excel
 Imports System.Drawing.Imaging
 Imports System
+Imports System.Text
 Imports System.IO
 Imports System.Windows.Forms.DataVisualization.Charting
+Imports Excel
 
 Public Class Form1
     Dim dialog As OpenFileDialog = New OpenFileDialog()
     Dim dialog1 As SaveFileDialog = New SaveFileDialog()
-    Dim names(50) As String
+    'Dim names(50) As String
     Dim x As Integer
     Dim y As Integer
     Dim z As Integer
@@ -24,6 +26,7 @@ Public Class Form1
     Dim fullstring As String
     Dim line As String
     Dim value As String()
+    Dim value2 As String()
     Dim table(1, 1) As Double
     Dim rand As New Random
     'Dim Sparameters(200, 200) As Double
@@ -36,12 +39,12 @@ Public Class Form1
     Dim numColumn As Integer
     Declare Function AllocConsole Lib "kernel32" () As Int32
     Declare Function FreeConsole Lib "kernel32" () As Int32
-    Dim tooltip As New ToolTip()
-    Dim prevPosition As Point? = Nothing
+    'Dim tooltip As New ToolTip()
+    'Dim prevPosition As Point? = Nothing
     Dim checkboxnum As Integer
     Private selectedPoint As DataPoint
     Private selectedPointIndex As Integer
-    Private selectedSeries As Series
+    Private selectedSeries As DataVisualization.Charting.Series
     Dim prevxval As Double = 0
     Dim prevyval As Double = 0
     Dim seriesname(20) As String
@@ -49,8 +52,7 @@ Public Class Form1
     Dim line1 As String
     Dim line2 As String
     Dim eff1(1) As Double
-    Dim string1(1) As String
-    Dim string2(1) As String
+    Dim excelReader As IExcelDataReader
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         dialog.InitialDirectory = "C:\"
@@ -460,132 +462,198 @@ Public Class Form1
         dialog.FilterIndex = 1
         dialog.RestoreDirectory = True
         If dialog.ShowDialog() = DialogResult.OK Then
+            'Try
+            Dim stream As FileStream = File.Open(dialog.FileName, FileMode.Open, FileAccess.Read)
+            If System.IO.Path.GetExtension(dialog.FileName) = ".xls" Then       ' Reading from a binary Excel file ('97-2003 format; *.xls)
+                excelReader = ExcelReaderFactory.CreateBinaryReader(stream)
+            ElseIf System.IO.Path.GetExtension(dialog.FileName) = ".xlsx" Then  ' Reading from a OpenXml Excel file (2007 format; *.xlsx)
+                excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream)
+            End If
+            Dim result As DataSet = excelReader.AsDataSet()                     ' DataSet - The result of each spreadsheet will be created in the result.Tables
+            excelReader.Close()                                                 ' Free resources (IExcelDataReader is IDisposable)
+            fullstring = ""
+            line1 = ""
+            line2 = ""
+            numRow = 0
+            While numRow < result.Tables(0).Rows.Count
+                For i As Integer = 0 To result.Tables(0).Columns.Count - 1
+                    If numRow > 1 Then
+                        fullstring += result.Tables(0).Rows(numRow)(i).ToString() + ","
+                    ElseIf numRow = 1 Then
+                        line2 += result.Tables(0).Rows(numRow)(i).ToString() + ","
+                    Else
+                        line1 += result.Tables(0).Rows(numRow)(i).ToString() + ","
+                    End If
+                Next
+                If numRow > 1 Then
+                    fullstring += vbLf
+                End If
+                numRow += 1
+            End While
+            If line2.ToLower.Contains("ghz") Then
+            ElseIf line2.ToLower.Contains("mhz") Then
+            ElseIf line2.ToLower.Contains("khz") Then
+            ElseIf line2.ToLower.Contains("hz") Then
+            Else
+                MetroFramework.MetroMessageBox.Show(Me, "The selected spreadsheet is not supported by SAT Test Suite", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+            If line2.ToLower.Contains("db") Then
+                format = "db"
+            ElseIf line2.ToLower.Contains("percentage") Or line2.ToLower.Contains("%") Then
+                format = "percentage"
+            Else
+                MetroFramework.MetroMessageBox.Show(Me, "The selected spreadsheet is not supported by SAT Test Suite", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
             'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Maximum) / 10))
             'Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 10))
             Chart1.ChartAreas("ChartArea1").AxisY2.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dot
-            'Try
-            'Define your Excel Objects
-            Dim xlApp As New Excel.Application
-            Dim xlWorkBook As Excel.Workbook
-            Dim xlWorkSheet As Excel.Worksheet
-            'Dim range As Excel.Range
-            xlApp.DisplayAlerts = False     'Overwriting the ReadOnly File Error
-            xlApp.Workbooks.OpenText(Filename:=dialog.FileName, StartRow:=1, DataType:=Excel.XlTextParsingType.xlDelimited, ConsecutiveDelimiter:=True, Space:=True)
-            xlApp.DisplayAlerts = True
-            xlWorkBook = xlApp.ActiveWorkbook
-            'xlApp.Visible = True
-            xlWorkSheet = xlWorkBook.Sheets(1)
-            numRow = xlWorkSheet.UsedRange.Rows.Count
-            numColumn = xlWorkSheet.UsedRange.Columns.Count
-            freq1 = New Double(numRow - 3) {}
-            eff1 = New Double(numRow - 3) {}
+            numRow = result.Tables(0).Rows.Count - 2
+            numColumn = result.Tables(0).Columns.Count
+            value = System.Text.RegularExpressions.Regex.Split(line1, ",")
+            value2 = System.Text.RegularExpressions.Regex.Split(line2, ",")
+            Dim names(numColumn) As String
+            table = New Double(numRow - 1, numColumn - 1) {}
+            freq1 = New Double(numRow - 1) {}
+            eff1 = New Double(numRow - 1) {}
+            x = 0
+            For Each s As String In value
+                y = 0
+                For Each s2 As String In value2
+                    If x = y Then
+                        If x = 0 Then
+                            names(x) = s2
+                        Else
+                            names(x) = String.Concat(s + " " + s2)
+                        End If
+                    End If
+                    y += 1
+                Next
+                x += 1
+            Next
+            value = System.Text.RegularExpressions.Regex.Split(fullstring, ",")
+            x = 0
+            y = 0
+            For Each s As String In value
+                If String.IsNullOrWhiteSpace(s) Then
+                Else
+                    table(x, y) = CDbl(s)
+                    y += 1
+                    If y >= numColumn Then
+                        y = 0
+                        x += 1
+                    End If
+                End If
+            Next
             If frequnit = "hz" Then
-                If xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("ghz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000000000
+                If line2.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000000000
                     Next
-                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("mhz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000000
+                ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000000
                     Next
-                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("khz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000
+                ElseIf line2.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000
                     Next
                 Else
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0)
                     Next
                 End If
             ElseIf frequnit = "khz" Then
-                If xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("ghz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000000
+                If line2.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000000
                     Next
-                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("mhz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000
+                ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000
                     Next
-                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("khz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value
+                ElseIf line2.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0)
                     Next
                 Else
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000
                     Next
                 End If
             ElseIf frequnit = "mhz" Then
-                If xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("ghz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value * 1000
+                If line2.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000
                     Next
-                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("mhz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value
+                ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0)
                     Next
-                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("khz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000
+                ElseIf line2.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000
                     Next
                 Else
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000000
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000000
                     Next
                 End If
             ElseIf frequnit = "ghz" Then
-                If xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("ghz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value
+                If line2.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0)
                     Next
-                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("mhz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000
+                ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000
                     Next
-                ElseIf xlWorkSheet.Cells(2, 1).value.ToString.ToLower.Contains("khz") Then
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000000
+                ElseIf line2.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000000
                     Next
                 Else
-                    For i As Integer = 3 To numRow
-                        freq1(i - 3) = xlWorkSheet.Cells(i, 1).value / 1000000000
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000000000
                     Next
                 End If
             End If
+            While freq1.Max > Chart1.ChartAreas("ChartArea1").AxisX.Maximum
+                Chart1.ChartAreas("ChartArea1").AxisX.Maximum += Chart1.ChartAreas("ChartArea1").AxisX.Interval
+            End While
             Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
             Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
             Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
             Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
-            Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in %"        '.# to provide one decimal part; For 2 decimal part it is .##
-            If xlWorkSheet.Cells(2, 2).value.ToString.ToLower.Contains("db") Then
-                format = "db"
-                'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 0
-                'Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = -15
-                'Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 2
-                'Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
-                'Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in dB"        '.# to provide one decimal part; For 2 decimal part it is .##
-            Else
-                format = "percentage"
-            End If
-            For i As Integer = 2 To numColumn
-                Chart1.Series.Add(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString)
-                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).XAxisType = AxisType.Primary
-                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).YAxisType = AxisType.Secondary
-                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).ChartType = DataVisualization.Charting.SeriesChartType.Line
-                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).BorderWidth = 2
-                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
-                For j As Integer = 3 To numRow
+            Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in %"        '.# to provide one decimal part; For 2 decimal part it is .###
+            'If line2.ToLower.Contains("db") Then
+            '    format = "db"
+            '    'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 0
+            '    'Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = -15
+            '    'Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 2
+            '    'Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+            '    'Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in dB"       '.# to provide one decimal part; For 2 decimal part it is .##
+            'Else
+            '    format = "percentage"
+            'End If
+            For i As Integer = 1 To numColumn - 1
+                Chart1.Series.Add(names(i))
+                Chart1.Series(names(i)).XAxisType = AxisType.Primary
+                Chart1.Series(names(i)).YAxisType = AxisType.Secondary
+                Chart1.Series(names(i)).ChartType = DataVisualization.Charting.SeriesChartType.Line
+                Chart1.Series(names(i)).BorderWidth = 2
+                Chart1.Series(names(i)).Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                For j As Integer = 0 To numRow - 1
                     If format = "db" Then
-                        eff1(j - 3) = 100 * (Math.Pow(10, (xlWorkSheet.Cells(j, i).value / 10)))
+                        eff1(j) = 100 * (Math.Pow(10, (table(j, i) / 10)))
                     Else
-                        eff1(j - 3) = xlWorkSheet.Cells(j, i).value
+                        eff1(j) = table(j, i)
                     End If
                 Next
-                Chart1.Series(xlWorkSheet.Cells(1, i).value.ToString & " " & xlWorkSheet.Cells(2, i).value.ToString).Points.DataBindXY(freq1, eff1)
+                Chart1.Series(names(i)).Points.DataBindXY(freq1, eff1)
             Next
-            xlApp.Quit()
-            releaseObject(xlApp)
             'Catch ex As Exception
             'MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             'End Try
