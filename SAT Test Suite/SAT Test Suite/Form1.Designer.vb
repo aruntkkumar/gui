@@ -41,6 +41,7 @@ Partial Class Form1
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator()
         Me.ClearAllMarkersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -162,7 +163,7 @@ Partial Class Form1
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.ClearAllMarkersToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.ToolStripMenuItem4, Me.ClearAllMarkersToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
@@ -172,6 +173,11 @@ Partial Class Form1
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
+        '
+        'ToolStripMenuItem4
+        '
+        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(160, 6)
         '
         'ClearAllMarkersToolStripMenuItem
         '
@@ -233,4 +239,5 @@ Partial Class Form1
     Friend WithEvents OptionsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CheckedListBox1 As CheckedListBox
     Friend WithEvents ClearAllMarkersToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem4 As ToolStripSeparator
 End Class

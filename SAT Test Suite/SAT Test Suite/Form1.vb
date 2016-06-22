@@ -58,6 +58,8 @@ Public Class Form1
         dialog.InitialDirectory = "C:\"
         Chart1.Series.Clear()
         Chart1.Series.Add(" ")
+        Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
+        Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
         Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0
         Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000000000
         Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000000
@@ -77,6 +79,7 @@ Public Class Form1
         Next
         AddToolStripMenuItem.Enabled = False
         ClearAllMarkersToolStripMenuItem.Enabled = False
+        'ClearSelectedMarkerToolStripMenuItem.Enabled = False
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
@@ -248,10 +251,13 @@ Public Class Form1
                     'Console.WriteLine(freq1(i))
                 Next
                 If matrix = "lower" Then
+                    GlobalVariables.seriesnames = New String(ports * (ports + 1) / 2) {}
                     GlobalVariables.series = New Integer(ports * (ports + 1) / 2) {}
                 ElseIf matrix = "upper" Then
+                    GlobalVariables.seriesnames = New String(ports * (ports + 1) / 2) {}
                     GlobalVariables.series = New Integer(ports * (ports + 1) / 2) {}
                 Else
+                    GlobalVariables.seriesnames = New String(ports * ports) {}
                     GlobalVariables.series = New Integer(ports * ports) {}
                 End If
                 x = 1
@@ -302,6 +308,7 @@ Public Class Form1
                         Next
                         x += 2
                         Chart1.Series("S(" & a & "," & b & ")").Points.DataBindXY(freq1, para1)
+                        GlobalVariables.seriesnames(y) = "S(" & a & "," & b & ")"
                         GlobalVariables.series(y) = 1
                         y += 1
                     Next
@@ -329,6 +336,14 @@ Public Class Form1
         GlobalVariables.yaxismax = Chart1.ChartAreas("ChartArea1").AxisY.Maximum
         GlobalVariables.yaxismin = Chart1.ChartAreas("ChartArea1").AxisY.Minimum
         GlobalVariables.yaxisint = Chart1.ChartAreas("ChartArea1").AxisY.Interval
+        If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
+            GlobalVariables.y2axis = True
+            GlobalVariables.y2axismax = Chart1.ChartAreas("ChartArea1").AxisY2.Maximum
+            GlobalVariables.y2axismin = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum
+            GlobalVariables.y2axisint = Chart1.ChartAreas("ChartArea1").AxisY2.Interval
+        Else
+            GlobalVariables.y2axis = False
+        End If
         If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
             GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 1000000000
             GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum / 1000000000
@@ -345,13 +360,6 @@ Public Class Form1
             GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum
             GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum
             GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval
-        End If
-        If matrix = "upper" Then
-            GlobalVariables.matrix = "upper"
-        ElseIf matrix = "lower" Then
-            GlobalVariables.matrix = "lower"
-        Else
-            GlobalVariables.matrix = "full"
         End If
         If (ports = 0) Or (ports = vbNull) Then
             GlobalVariables.ports = 0
@@ -380,25 +388,17 @@ Public Class Form1
                 Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
                 Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
             End If
-            y = 0
-            For a As Integer = 1 To ports
-                For b As Integer = 1 To ports
-                    If matrix = "lower" Then
-                        If a < b Then
-                            Exit For
-                        End If
-                    ElseIf matrix = "upper" Then
-                        While a > b
-                            b += 1
-                        End While
-                    End If
-                    If GlobalVariables.series(y) = 1 Then
-                        Chart1.Series("S(" & a & "," & b & ")").Enabled = True
-                    Else
-                        Chart1.Series("S(" & a & "," & b & ")").Enabled = False
-                    End If
-                    y += 1
-                Next
+            If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
+                Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = GlobalVariables.y2axismax
+                Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = GlobalVariables.y2axismin
+                Chart1.ChartAreas("ChartArea1").AxisY2.Interval = GlobalVariables.y2axisint
+            End If
+            For i As Integer = 0 To GlobalVariables.series.Length - 2
+                If GlobalVariables.series(i) = 1 Then
+                    Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = True
+                Else
+                    Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = False
+                End If
             Next
         End If
     End Sub
@@ -464,228 +464,234 @@ Public Class Form1
         dialog.FilterIndex = 1
         dialog.RestoreDirectory = True
         If dialog.ShowDialog() = DialogResult.OK Then
-            Try
-                Dim stream As FileStream = File.Open(dialog.FileName, FileMode.Open, FileAccess.Read)
-                If System.IO.Path.GetExtension(dialog.FileName) = ".xls" Then       ' Reading from a binary Excel file ('97-2003 format; *.xls)
-                    excelReader = ExcelReaderFactory.CreateBinaryReader(stream)
-                ElseIf System.IO.Path.GetExtension(dialog.FileName) = ".xlsx" Then  ' Reading from a OpenXml Excel file (2007 format; *.xlsx)
-                    excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream)
-                End If
-                Dim result As DataSet = excelReader.AsDataSet()                     ' DataSet - The result of each spreadsheet will be created in the result.Tables
-                excelReader.Close()                                                 ' Free resources (IExcelDataReader is IDisposable)
-                excelReader.Dispose()
-                fullstring = ""
-                line1 = ""
-                line2 = ""
-                numRow = 0
-                While numRow < result.Tables(0).Rows.Count
-                    For i As Integer = 0 To result.Tables(0).Columns.Count - 1
-                        If numRow > 1 Then
-                            fullstring += result.Tables(0).Rows(numRow)(i).ToString() + ","
-                        ElseIf numRow = 1 Then
-                            line2 += result.Tables(0).Rows(numRow)(i).ToString() + ","
-                        Else
-                            line1 += result.Tables(0).Rows(numRow)(i).ToString() + ","
-                        End If
-                    Next
+            'Try
+            Dim stream As FileStream = File.Open(dialog.FileName, FileMode.Open, FileAccess.Read)
+            If System.IO.Path.GetExtension(dialog.FileName) = ".xls" Then       ' Reading from a binary Excel file ('97-2003 format; *.xls)
+                excelReader = ExcelReaderFactory.CreateBinaryReader(stream)
+            ElseIf System.IO.Path.GetExtension(dialog.FileName) = ".xlsx" Then  ' Reading from a OpenXml Excel file (2007 format; *.xlsx)
+                excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream)
+            End If
+            Dim result As DataSet = excelReader.AsDataSet()                     ' DataSet - The result of each spreadsheet will be created in the result.Tables
+            excelReader.Close()                                                 ' Free resources (IExcelDataReader is IDisposable)
+            excelReader.Dispose()
+            fullstring = ""
+            line1 = ""
+            line2 = ""
+            numRow = 0
+            While numRow < result.Tables(0).Rows.Count
+                For i As Integer = 0 To result.Tables(0).Columns.Count - 1
                     If numRow > 1 Then
-                        fullstring += vbLf
+                        fullstring += result.Tables(0).Rows(numRow)(i).ToString() + ","
+                    ElseIf numRow = 1 Then
+                        line2 += result.Tables(0).Rows(numRow)(i).ToString() + ","
+                    Else
+                        line1 += result.Tables(0).Rows(numRow)(i).ToString() + ","
                     End If
-                    numRow += 1
-                End While
-                If line2.ToLower.Contains("ghz") Then
-                ElseIf line2.ToLower.Contains("mhz") Then
-                ElseIf line2.ToLower.Contains("khz") Then
-                ElseIf line2.ToLower.Contains("hz") Then
-                Else
-                    MetroFramework.MetroMessageBox.Show(Me, "The selected spreadsheet is not supported by SAT Test Suite", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End If
-                If line2.ToLower.Contains("db") Then
-                    format = "db"
-                ElseIf line2.ToLower.Contains("percentage") Or line2.ToLower.Contains("%") Then
-                    format = "percentage"
-                Else
-                    MetroFramework.MetroMessageBox.Show(Me, "The selected spreadsheet is not supported by SAT Test Suite", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End If
-                Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
-                'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Maximum) / 10))
-                'Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 10))
-                Chart1.ChartAreas("ChartArea1").AxisY2.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dot
-                numRow = result.Tables(0).Rows.Count - 2
-                numColumn = result.Tables(0).Columns.Count
-                value = System.Text.RegularExpressions.Regex.Split(line1, ",")
-                value2 = System.Text.RegularExpressions.Regex.Split(line2, ",")
-                'Dim names(numColumn) As String
-                column = 0
-                If names.Length - 2 = 0 Then
-                    names = New String(numColumn) {}
-                Else
-                    column = names.Length - 2
-                    ReDim Preserve names(column + numColumn)
-                End If
-                table = New Double(numRow - 1, numColumn - 1) {}
-                freq1 = New Double(numRow - 1) {}
-                eff1 = New Double(numRow - 1) {}
-                x = 0
-                For Each s As String In value
-                    y = 0
-                    For Each s2 As String In value2
-                        If x = y Then
-                            If x = 0 Then
-                                names(column + x) = s2
-                            Else
-                                For i As Integer = 0 To names.Length - 2
-                                    If names(i) = String.Concat(s + " " + s2) Then
-                                        MetroFramework.MetroMessageBox.Show(Me, "The title name '" + String.Concat(s + " " + s2) + "' is already a member of the Chart Series", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                        Exit Sub
-                                    End If
-                                Next
-                                names(column + x) = String.Concat(s + " " + s2)
-                            End If
-                        End If
-                        y += 1
-                    Next
-                    x += 1
                 Next
-                value = System.Text.RegularExpressions.Regex.Split(fullstring, ",")
-                x = 0
+                If numRow > 1 Then
+                    fullstring += vbLf
+                End If
+                numRow += 1
+            End While
+            If line2.ToLower.Contains("ghz") Then
+            ElseIf line2.ToLower.Contains("mhz") Then
+            ElseIf line2.ToLower.Contains("khz") Then
+            ElseIf line2.ToLower.Contains("hz") Then
+            Else
+                MetroFramework.MetroMessageBox.Show(Me, "The selected spreadsheet is not supported by SAT Test Suite", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+            If line2.ToLower.Contains("db") Then
+                format = "db"
+            ElseIf line2.ToLower.Contains("percentage") Or line2.ToLower.Contains("%") Then
+                format = "percentage"
+            Else
+                MetroFramework.MetroMessageBox.Show(Me, "The selected spreadsheet is not supported by SAT Test Suite", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+            Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
+            'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Maximum) / 10))
+            'Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 10))
+            Chart1.ChartAreas("ChartArea1").AxisY2.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dot
+            numRow = result.Tables(0).Rows.Count - 2
+            numColumn = result.Tables(0).Columns.Count
+            value = System.Text.RegularExpressions.Regex.Split(line1, ",")
+            value2 = System.Text.RegularExpressions.Regex.Split(line2, ",")
+            'Dim names(numColumn) As String
+            column = 0
+            If names.Length - 2 = 0 Then
+                names = New String(numColumn) {}
+            Else
+                column = names.Length - 2
+                ReDim Preserve names(column + numColumn)
+            End If
+            table = New Double(numRow - 1, numColumn - 1) {}
+            freq1 = New Double(numRow - 1) {}
+            eff1 = New Double(numRow - 1) {}
+            x = 0
+            For Each s As String In value
                 y = 0
-                For Each s As String In value
-                    If String.IsNullOrWhiteSpace(s) Then
-                    Else
-                        table(x, y) = CDbl(s)
-                        y += 1
-                        If y >= numColumn Then
-                            y = 0
-                            x += 1
+                For Each s2 As String In value2
+                    If x = y Then
+                        If x = 0 Then
+                            names(column + x) = s2
+                        Else
+                            For i As Integer = 0 To names.Length - 2
+                                If names(i) = String.Concat(s + " " + s2) Then
+                                    MetroFramework.MetroMessageBox.Show(Me, "The title name '" + String.Concat(s + " " + s2) + "' is already a member of the Chart Series", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                    Exit Sub
+                                End If
+                            Next
+                            names(column + x) = String.Concat(s + " " + s2)
                         End If
                     End If
+                    y += 1
                 Next
-                If frequnit = "hz" Then
-                    If line2.ToString.ToLower.Contains("ghz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000000000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("mhz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("khz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000
-                        Next
-                    Else
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0)
-                        Next
-                    End If
-                ElseIf frequnit = "khz" Then
-                    If line2.ToString.ToLower.Contains("ghz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("mhz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("khz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0)
-                        Next
-                    Else
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000
-                        Next
-                    End If
-                ElseIf frequnit = "mhz" Then
-                    If line2.ToString.ToLower.Contains("ghz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("mhz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0)
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("khz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000
-                        Next
-                    Else
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000000
-                        Next
-                    End If
-                ElseIf frequnit = "ghz" Then
-                    If line2.ToString.ToLower.Contains("ghz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0)
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("mhz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("khz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000000
-                        Next
-                    Else
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000000000
-                        Next
+                x += 1
+            Next
+            value = System.Text.RegularExpressions.Regex.Split(fullstring, ",")
+            x = 0
+            y = 0
+            For Each s As String In value
+                If String.IsNullOrWhiteSpace(s) Then
+                Else
+                    table(x, y) = CDbl(s)
+                    y += 1
+                    If y >= numColumn Then
+                        y = 0
+                        x += 1
                     End If
                 End If
-                While freq1.Max > Chart1.ChartAreas("ChartArea1").AxisX.Maximum
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum += Chart1.ChartAreas("ChartArea1").AxisX.Interval
-                End While
-                Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
-                Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
-                Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
-                Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
-                Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in %"        '.# to provide one decimal part; For 2 decimal part it is .###
-                'If line2.ToLower.Contains("db") Then
-                '    format = "db"
-                '    'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 0
-                '    'Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = -15
-                '    'Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 2
-                '    'Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
-                '    'Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in dB"       '.# to provide one decimal part; For 2 decimal part it is .##
-                'Else
-                '    format = "percentage"
-                'End If
-                For i As Integer = 0 To names.Length - 2
-                    Console.WriteLine(names(i))
-                Next
-
-                For i As Integer = 1 To numColumn - 1
-                    Chart1.Series.Add(names(column + i))
-                    Chart1.Series(names(column + i)).XAxisType = AxisType.Primary
-                    Chart1.Series(names(column + i)).YAxisType = AxisType.Secondary
-                    Chart1.Series(names(column + i)).ChartType = DataVisualization.Charting.SeriesChartType.Line
-                    Chart1.Series(names(column + i)).BorderWidth = 2
-                    Chart1.Series(names(column + i)).Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
-                    For j As Integer = 0 To numRow - 1
-                        If format = "db" Then
-                            eff1(j) = 100 * (Math.Pow(10, (table(j, i) / 10)))
-                        Else
-                            eff1(j) = table(j, i)
-                        End If
+            Next
+            If frequnit = "hz" Then
+                If line2.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000000000
                     Next
-                    Chart1.Series(names(column + i)).Points.DataBindXY(freq1, eff1)
+                ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000000
+                    Next
+                ElseIf line2.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000
+                    Next
+                Else
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0)
+                    Next
+                End If
+            ElseIf frequnit = "khz" Then
+                If line2.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000000
+                    Next
+                ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000
+                    Next
+                ElseIf line2.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0)
+                    Next
+                Else
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000
+                    Next
+                End If
+            ElseIf frequnit = "mhz" Then
+                If line2.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) * 1000
+                    Next
+                ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0)
+                    Next
+                ElseIf line2.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000
+                    Next
+                Else
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000000
+                    Next
+                End If
+            ElseIf frequnit = "ghz" Then
+                If line2.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0)
+                    Next
+                ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000
+                    Next
+                ElseIf line2.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000000
+                    Next
+                Else
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000000000
+                    Next
+                End If
+            End If
+            While freq1.Max > Chart1.ChartAreas("ChartArea1").AxisX.Maximum
+                Chart1.ChartAreas("ChartArea1").AxisX.Maximum += Chart1.ChartAreas("ChartArea1").AxisX.Interval
+            End While
+            Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
+            Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
+            Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
+            Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+            Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in %"        '.# to provide one decimal part; For 2 decimal part it is .###
+            'If line2.ToLower.Contains("db") Then
+            '    format = "db"
+            '    'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 0
+            '    'Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = -15
+            '    'Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 2
+            '    'Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+            '    'Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in dB"       '.# to provide one decimal part; For 2 decimal part it is .##
+            'Else
+            '    format = "percentage"
+            'End If
+            x = GlobalVariables.seriesnames.Length
+            ReDim Preserve GlobalVariables.seriesnames(x + numColumn - 2)
+            ReDim Preserve GlobalVariables.series(x + numColumn - 2)
+            For i As Integer = 1 To numColumn - 1
+                Chart1.Series.Add(names(column + i))
+                Chart1.Series(names(column + i)).XAxisType = AxisType.Primary
+                Chart1.Series(names(column + i)).YAxisType = AxisType.Secondary
+                Chart1.Series(names(column + i)).ChartType = DataVisualization.Charting.SeriesChartType.Line
+                Chart1.Series(names(column + i)).BorderWidth = 2
+                Chart1.Series(names(column + i)).BorderDashStyle = ChartDashStyle.Dash
+                Chart1.Series(names(column + i)).Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                For j As Integer = 0 To numRow - 1
+                    If format = "db" Then
+                        eff1(j) = 100 * (Math.Pow(10, (table(j, i) / 10)))
+                    Else
+                        eff1(j) = table(j, i)
+                    End If
                 Next
-                fullstring = vbNullString   ' Releasing memory by setting values as Null
-                line1 = vbNullString
-                line2 = vbNullString
-                value = Nothing
-                value2 = Nothing
-                result.Dispose()
-                Erase freq1                 '   Releasing memory
-                Erase eff1
-                Erase table
-            Catch ex As Exception
-                MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
+                Chart1.Series(names(column + i)).Points.DataBindXY(freq1, eff1)
+                GlobalVariables.seriesnames(x + i - 2) = names(column + i)
+                GlobalVariables.series(x + i - 2) = 1
+            Next
+            '    AllocConsole() 'show console
+            'For i As Integer = 0 To GlobalVariables.seriesnames.Length - 2
+            '    Console.WriteLine(GlobalVariables.seriesnames(i))
+            'Next
+            fullstring = vbNullString   ' Releasing memory by setting values as Null
+            line1 = vbNullString
+            line2 = vbNullString
+            value = Nothing
+            value2 = Nothing
+            result.Dispose()
+            Erase freq1
+            Erase eff1
+            Erase table
+            'Catch ex As Exception
+            '    MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'End Try
         End If
     End Sub
 
@@ -725,6 +731,49 @@ Public Class Form1
             GC.Collect()
         End Try
     End Sub
+
+    'Private Sub ClearSelectedMarkerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearSelectedMarkerToolStripMenuItem.Click
+    '    'For i As Integer = 0 To checkboxnum - 2
+    '    '    If i = CheckedListBox1.SelectedIndex() Then
+    '    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
+    '    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
+    '    '        CheckedListBox1.Items.RemoveAt(CheckedListBox1.SelectedIndex())
+    '    '        'For j As Integer = i To checkboxnum - 2
+    '    '        '    seriesname(i) = seriesname(i + 1)
+    '    '        '    seriespointindex(i) = seriespointindex(i + 1)
+    '    '        'Next
+    '    '        'checkboxnum -= 1
+    '    '        Exit For
+    '    '    End If
+    '    'Next
+    '    'For i As Integer = 0 To CheckedListBox1.Items.Count - 1
+    '    '    Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = i + 1
+    '    '    Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.Triangle
+    '    'Next
+    '    AllocConsole() 'show console
+    '    Console.WriteLine(CheckedListBox1.SelectedIndex())
+    '    Console.WriteLine(checkboxnum - 2)
+    '    Chart1.Series(seriesname(CheckedListBox1.SelectedIndex())).Points.Item(seriespointindex(CheckedListBox1.SelectedIndex())).Label = ""
+    '    Chart1.Series(seriesname(CheckedListBox1.SelectedIndex())).Points.Item(seriespointindex(CheckedListBox1.SelectedIndex())).MarkerStyle = MarkerStyle.None
+    '    For i As Integer = CheckedListBox1.SelectedIndex() To checkboxnum - 2
+    '        If i < checkboxnum - 2 Then
+    '            seriesname(i) = seriesname(i + 1)
+    '            seriespointindex(i) = seriespointindex(i + 1)
+    '        End If
+    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = i + 1
+    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.Triangle
+    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerSize = 10
+    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerColor = Chart1.Series(seriesname(i)).Color
+    '        Console.WriteLine(i)
+    '    Next
+    '    checkboxnum -= 1
+    '    CheckedListBox1.Items.RemoveAt(CheckedListBox1.SelectedIndex())
+    '    ClearSelectedMarkerToolStripMenuItem.Enabled = False
+    'End Sub
+
+    'Private Sub CheckedListBox1_SelectedValueChanged(sender As Object, e As EventArgs) Handles CheckedListBox1.SelectedValueChanged
+    '    ClearSelectedMarkerToolStripMenuItem.Enabled = True
+    'End Sub
 End Class
 
 Public Class GlobalVariables
@@ -734,10 +783,14 @@ Public Class GlobalVariables
     Public Shared yaxismin As Double = -50
     Public Shared yaxismax As Double = 0
     Public Shared yaxisint As Double = 5
+    Public Shared y2axismin As Double = vbNull
+    Public Shared y2axismax As Double = vbNull
+    Public Shared y2axisint As Double = vbNull
     Public Shared button As String
-    Public Shared matrix As String
     Public Shared ports As Integer
     Public Shared series() As Integer
+    Public Shared seriesnames() As String
+    Public Shared y2axis As Boolean
 End Class
 
 
