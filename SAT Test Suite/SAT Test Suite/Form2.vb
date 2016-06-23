@@ -49,6 +49,11 @@
             Next
             AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
         End If
+        If GlobalVariables.autobutton = True Then
+            CheckBox3.Checked = True
+        Else
+            CheckBox3.Checked = False
+        End If
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -218,6 +223,11 @@
             End If
         Next
         GlobalVariables.okbutton = "ok"
+        If CheckBox3.Checked = True Then
+            GlobalVariables.autobutton = True
+        Else
+            GlobalVariables.autobutton = False
+        End If
         If Not Me.IsDisposed() Then
             Try
                 Me.Dispose()

@@ -53,6 +53,14 @@ Public Class Form1
     Dim line2 As String
     Dim eff1(1) As Double
     Dim excelReader As IExcelDataReader
+    Dim a As Double
+    Dim xmax As Double
+    Dim x2max As Double
+    Dim xmin As Double
+    Dim ymax As Double = 0
+    Dim ymin As Double = 0
+    Dim y2max As Double
+    Dim y2min As Double
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         dialog.InitialDirectory = "C:\"
@@ -60,14 +68,14 @@ Public Class Form1
         Chart1.Series.Add(" ")
         Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
         Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0
-        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000000000
-        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000000
+        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
+        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
         Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
-        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -50
+        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
+        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
         Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
         Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
@@ -109,14 +117,14 @@ Public Class Form1
         If dialog.ShowDialog() = DialogResult.OK Then
             CheckedListBox1.Items.Clear()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6000000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000000
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
             Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
-            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -50
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             extension = System.IO.Path.GetExtension(dialog.FileName)
@@ -207,45 +215,55 @@ Public Class Form1
                 fullstring = vbNullString   '   Releasing memory by setting values as Null
                 line = vbNullString
                 value = Nothing
-                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = table(row - 1, 0)
+                xmax = table(row - 1, 0)
+                xmin = table(0, 0)
                 Select Case frequnit
                     Case "hz"
                         Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
-                        If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 500000000 <> 0 Then    'X axis maximum adjustment
-                            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 500000000)) + 500000000)
-                        End If
-                        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000000                  'X axis interval adjustment
-                        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
-                            Chart1.ChartAreas("ChartArea1").AxisX.Interval += 500000000
-                        End While
+                        'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000                  'X axis interval adjustment
+                        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000000 <> 0 Then    'X axis maximum adjustment
+                        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000000)) + 100000000)
+                        'End If
+                        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 100000000
+                        'End While
                     Case "khz"
                         Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
-                        If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 500000 <> 0 Then
-                            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 500000)) + 500000)
-                        End If
-                        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500000
-                        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
-                            Chart1.ChartAreas("ChartArea1").AxisX.Interval += 500000
-                        End While
+                        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
+                        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
+                        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
+                        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000 <> 0 Then
+                        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000)) + 100000)
+                        'End If
+                        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 100000
+                        'End While
                     Case "mhz"
                         Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
-                        If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 500 <> 0 Then
-                            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 500)) + 5000)
-                        End If
-                        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 500
-                        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
-                            Chart1.ChartAreas("ChartArea1").AxisX.Interval += 500
-                        End While
+                        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
+                        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
+                        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
+                        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100 <> 0 Then
+                        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100)) + 100)
+                        'End If
+                        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 100
+                        'End While
                     Case "ghz"
                         Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
-                        If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 0.5 <> 0 Then
-                            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 0.5)) + 0.5)
-                        End If
-                        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.5
-                        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
-                            Chart1.ChartAreas("ChartArea1").AxisX.Interval += 0.5
-                        End While
+                        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
+                        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
+                        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
+                        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 0.1 <> 0 Then
+                        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 0.1)) + 0.1)
+                        'End If
+                        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 0.1
+                        'End While
                 End Select
+                If GlobalVariables.autobutton = True Then
+                    xaxisadjust()
+                End If
                 For i As Integer = 0 To row - 1
                     freq1(i) = table(i, 0)
                     'Console.WriteLine(freq1(i))
@@ -293,18 +311,15 @@ Public Class Form1
                                 Case "h"
                                 Case "g"
                             End Select
-                            While para1(j) < Chart1.ChartAreas("ChartArea1").AxisY.Minimum
-                                Chart1.ChartAreas("ChartArea1").AxisY.Minimum -= 5
-                            End While
-                            While para1(j) > Chart1.ChartAreas("ChartArea1").AxisY.Maximum
-                                Chart1.ChartAreas("ChartArea1").AxisY.Maximum += 5
-                            End While
-                            'While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 5) Mod 5 <> 0)
-                            '    Chart1.ChartAreas("ChartArea1").AxisY.Minimum = Chart1.ChartAreas("ChartArea1").AxisY.Minimum - 5
-                            'End While   'Loop to keep the interval a multiple of 5
-                            While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / Chart1.ChartAreas("ChartArea1").AxisY.Interval) > 10)
-                                Chart1.ChartAreas("ChartArea1").AxisY.Interval += 5
-                            End While   'Loop to keep the interval a multiple of 5
+                            If ymax < para1(j) Then
+                                ymax = para1(j)
+                            End If
+                            If ymin > para1(j) Then
+                                ymin = para1(j)
+                            End If
+                            If GlobalVariables.autobutton = True Then
+                                yaxisadjust()
+                            End If
                         Next
                         x += 2
                         Chart1.Series("S(" & a & "," & b & ")").Points.DataBindXY(freq1, para1)
@@ -322,6 +337,42 @@ Public Class Form1
             End Try
             AddToolStripMenuItem.Enabled = True
         End If
+    End Sub
+
+    Sub xaxisadjust()
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xmax
+        If Chart1.ChartAreas("ChartArea1").AxisX.Minimum > xmin Then
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0
+        End If
+        a = Chart1.ChartAreas("ChartArea1").AxisX.Interval
+        'While Chart1.ChartAreas("ChartArea1").AxisX.Minimum >= table(0, 0)
+        '    Chart1.ChartAreas("ChartArea1").AxisX.Minimum -= a
+        'End While
+        'If table(0, 0) < Chart1.ChartAreas("ChartArea1").AxisX.Minimum Then
+        '    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = table(0, 0)
+        'End If
+        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod a <> 0 Then    'X axis maximum adjustment
+        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum + (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod a)) + a)
+        'End If
+        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 21
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval += a
+        End While
+    End Sub
+
+    Sub yaxisadjust()
+        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
+        While ymin < Chart1.ChartAreas("ChartArea1").AxisY.Minimum
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum -= 5
+        End While
+        While ymax > Chart1.ChartAreas("ChartArea1").AxisY.Maximum
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum += 5
+        End While
+        'While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 5) Mod 5 <> 0)
+        '    Chart1.ChartAreas("ChartArea1").AxisY.Minimum = Chart1.ChartAreas("ChartArea1").AxisY.Minimum - 5
+        'End While   'Loop to keep the interval a multiple of 5
+        While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / Chart1.ChartAreas("ChartArea1").AxisY.Interval) > 10)
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval += 5
+        End While   'Loop to keep the interval a multiple of 5
     End Sub
 
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
@@ -368,30 +419,32 @@ Public Class Form1
         End If
         Form2.ShowDialog()
         If GlobalVariables.okbutton = "ok" Then
-            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
-            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
-            Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-            If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
-                Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000000000
-                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000000000
-                Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000000000
-            ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
-                Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000000
-                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000000
-                Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000000
-            ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
-                Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000
-                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000
-                Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000
-            Else
-                Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
-                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
-                Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
-            End If
-            If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
-                Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = GlobalVariables.y2axismax
-                Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = GlobalVariables.y2axismin
-                Chart1.ChartAreas("ChartArea1").AxisY2.Interval = GlobalVariables.y2axisint
+            If GlobalVariables.autobutton = False Then
+                Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+                Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+                Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
+                If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000000000
+                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000000
+                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000
+                Else
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
+                End If
+                If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
+                    Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = GlobalVariables.y2axismax
+                    Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = GlobalVariables.y2axismin
+                    Chart1.ChartAreas("ChartArea1").AxisY2.Interval = GlobalVariables.y2axisint
+                End If
             End If
             If GlobalVariables.ports <> 0 Then
                 For i As Integer = 0 To GlobalVariables.series.Length - 2
@@ -401,6 +454,11 @@ Public Class Form1
                         Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = False
                     End If
                 Next
+                If GlobalVariables.autobutton = True Then
+                    xaxisadjust()
+                    yaxisadjust()
+                    x2axisadjust()
+                End If
             End If
         End If
     End Sub
@@ -638,9 +696,10 @@ Public Class Form1
                     Next
                 End If
             End If
-            While freq1.Max > Chart1.ChartAreas("ChartArea1").AxisX.Maximum
-                Chart1.ChartAreas("ChartArea1").AxisX.Maximum += Chart1.ChartAreas("ChartArea1").AxisX.Interval
-            End While
+            x2max = freq1.Max
+            If GlobalVariables.autobutton = True Then
+                x2axisadjust()
+            End If
             Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
             Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
             Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
@@ -695,6 +754,12 @@ Public Class Form1
             '    MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             'End Try
         End If
+    End Sub
+
+    Sub x2axisadjust()
+        While x2max > Chart1.ChartAreas("ChartArea1").AxisX.Maximum
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum += Chart1.ChartAreas("ChartArea1").AxisX.Interval
+        End While
     End Sub
 
     Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CheckedListBox1.ItemCheck
@@ -789,6 +854,7 @@ Public Class GlobalVariables
     Public Shared y2axismax As Double = vbNull
     Public Shared y2axisint As Double = vbNull
     Public Shared okbutton As String
+    Public Shared autobutton As Boolean = False
     Public Shared ports As Integer
     Public Shared series() As Integer
     Public Shared seriesnames() As String
