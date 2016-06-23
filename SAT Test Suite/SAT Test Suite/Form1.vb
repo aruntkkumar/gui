@@ -367,7 +367,7 @@ Public Class Form1
             GlobalVariables.ports = ports
         End If
         Form2.ShowDialog()
-        If GlobalVariables.button = "ok" Then
+        If GlobalVariables.okbutton = "ok" Then
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
@@ -393,13 +393,15 @@ Public Class Form1
                 Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = GlobalVariables.y2axismin
                 Chart1.ChartAreas("ChartArea1").AxisY2.Interval = GlobalVariables.y2axisint
             End If
-            For i As Integer = 0 To GlobalVariables.series.Length - 2
-                If GlobalVariables.series(i) = 1 Then
-                    Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = True
-                Else
-                    Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = False
-                End If
-            Next
+            If GlobalVariables.ports <> 0 Then
+                For i As Integer = 0 To GlobalVariables.series.Length - 2
+                    If GlobalVariables.series(i) = 1 Then
+                        Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = True
+                    Else
+                        Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = False
+                    End If
+                Next
+            End If
         End If
     End Sub
 
@@ -786,7 +788,7 @@ Public Class GlobalVariables
     Public Shared y2axismin As Double = vbNull
     Public Shared y2axismax As Double = vbNull
     Public Shared y2axisint As Double = vbNull
-    Public Shared button As String
+    Public Shared okbutton As String
     Public Shared ports As Integer
     Public Shared series() As Integer
     Public Shared seriesnames() As String

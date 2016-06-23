@@ -32,7 +32,7 @@
             TextBox8.Enabled = False
             TextBox9.Enabled = False
         End If
-        GlobalVariables.button = "cancel"
+        GlobalVariables.okbutton = "cancel"
         If (GlobalVariables.ports = 0) Or (GlobalVariables.ports = vbNull) Then
             CheckBox1.Enabled = False
             CheckBox2.Enabled = False
@@ -217,7 +217,7 @@
                 GlobalVariables.series(i) = 0
             End If
         Next
-        GlobalVariables.button = "ok"
+        GlobalVariables.okbutton = "ok"
         If Not Me.IsDisposed() Then
             Try
                 Me.Dispose()
@@ -227,7 +227,7 @@
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        GlobalVariables.button = "cancel"
+        GlobalVariables.okbutton = "cancel"
         If Not Me.IsDisposed() Then
             Try
                 Me.Dispose()
