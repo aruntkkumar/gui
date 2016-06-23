@@ -57,8 +57,8 @@ Public Class Form1
     Dim xmax As Double
     Dim x2max As Double
     Dim xmin As Double
-    Dim ymax As Double = 0
-    Dim ymin As Double = 0
+    Dim ymax As Double
+    Dim ymin As Double
     Dim y2max As Double
     Dim y2min As Double
 
@@ -127,6 +127,7 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+            Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
             extension = System.IO.Path.GetExtension(dialog.FileName)
             ports = System.Text.RegularExpressions.Regex.Replace(extension, "[^\d]", "")    'Remove Characters from a Numeric String
             column = ((Math.Pow(ports, 2) * 2) + 1)
@@ -278,6 +279,8 @@ Public Class Form1
                     GlobalVariables.seriesnames = New String(ports * ports) {}
                     GlobalVariables.series = New Integer(ports * ports) {}
                 End If
+                ymax = 0
+                ymin = 0
                 x = 1
                 y = 0
                 For a As Integer = 1 To ports
@@ -457,7 +460,10 @@ Public Class Form1
                 If GlobalVariables.autobutton = True Then
                     xaxisadjust()
                     yaxisadjust()
-                    x2axisadjust()
+                    If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
+                        x2axisadjust()
+                        y2axisadjust()
+                    End If
                 End If
             End If
         End If
@@ -703,6 +709,7 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
             Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
             Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
+            y2axisadjust()
             Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
             Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in %"        '.# to provide one decimal part; For 2 decimal part it is .###
             'If line2.ToLower.Contains("db") Then
@@ -760,6 +767,25 @@ Public Class Form1
         While x2max > Chart1.ChartAreas("ChartArea1").AxisX.Maximum
             Chart1.ChartAreas("ChartArea1").AxisX.Maximum += Chart1.ChartAreas("ChartArea1").AxisX.Interval
         End While
+    End Sub
+
+    Sub y2axisadjust()
+        'If Chart1.ChartAreas("ChartArea1").AxisY2.Minimum <> 0 Or Chart1.ChartAreas("ChartArea1").AxisY2.Maximum <> 100 Or Chart1.ChartAreas("ChartArea1").AxisY2.Interval <> 10 Then
+        '    For i As Double = 0 To 100 Step 10
+        '        Dim remLabel = Chart1.ChartAreas("ChartArea1").AxisX.CustomLabels.SingleOrDefault(Function(cl) cl.FromPosition = i AndAlso cl.ToPosition = i + 0.01)
+        '        Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Remove(remLabel)
+        '    Next
+        'End If
+        For i As Double = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum To Chart1.ChartAreas("ChartArea1").AxisY2.Maximum Step Chart1.ChartAreas("ChartArea1").AxisY2.Interval
+            If i = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum Then
+                If i = 0 Then
+                    Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Add(i, i + 0.01, CStr(i))
+                Else
+                    Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Add(i, i + 0.01, CStr(i) + " (" + CStr(Math.Round(10 * Math.Log10(i / 100), 1)) + " in dB)")
+                End If
+            End If
+            Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Add(i, i - 0.01, CStr(i) + " (" + CStr(Math.Round(10 * Math.Log10(i / 100), 1)) + " in dB)")
+        Next
     End Sub
 
     Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CheckedListBox1.ItemCheck
