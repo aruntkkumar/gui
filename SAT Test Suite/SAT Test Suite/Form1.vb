@@ -113,7 +113,7 @@ Public Class Form1
         dialog.InitialDirectory = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Save")
         'dialog.Filter = "Excel Workbook (*.xlsx)|*.xlsx|Excel 97-2003 Workbook (*.xls)|*.xls|CSV (Comma delimited) (*.csv)|*.csv|Touchstone files (*.snp)|*.s*p|All files (*.*)|*.*"
         'dialog.FilterIndex = 4
-        dialog.Filter = "Touchstone files (*.snp)|*.s*p|All files (*.*)|*.*"
+        dialog.Filter = "Touchstone files (*.snp)|*.s*p"
         dialog.FilterIndex = 1
         dialog.RestoreDirectory = True
         If dialog.ShowDialog() = DialogResult.OK Then
@@ -531,7 +531,7 @@ Public Class Form1
     Private Sub AddToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToolStripMenuItem.Click
         dialog.Title = "Open File"
         dialog.InitialDirectory = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Save")
-        dialog.Filter = "Excel Workbook (*.xlsx)|*.xlsx|Excel 97-2003 Workbook (*.xls)|*.xls|CSV (Comma delimited) (*.csv)|*.csv|All files (*.*)|*.*"
+        dialog.Filter = "Excel Workbook (*.xlsx)|*.xlsx|Excel 97-2003 Workbook (*.xls)|*.xls"
         dialog.FilterIndex = 1
         dialog.RestoreDirectory = True
         If dialog.ShowDialog() = DialogResult.OK Then
