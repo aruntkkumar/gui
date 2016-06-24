@@ -386,8 +386,23 @@ Public Class Form1
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
         dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp"
         dialog1.FilterIndex = 3
+
+        Dim graph As Graphics = Nothing         ' Image capture if the CheckedListBox is not empty
+        Dim frmleft As System.Drawing.Point = Me.Bounds.Location
+        Dim img As New Bitmap(Me.Bounds.Width + 0, Me.Bounds.Height + 0)
+        graph = Graphics.FromImage(img)
+        Dim screenx As Integer = frmleft.X
+        Dim screeny As Integer = frmleft.Y
+        graph.CopyFromScreen(screenx - 0, screeny - 0, 0, 0, img.Size)
+        Me.BackgroundImageLayout = ImageLayout.Stretch
+        Me.BackgroundImage = img
+
         If (dialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK) Then
-            Chart1.SaveImage(dialog1.FileName, System.Drawing.Imaging.ImageFormat.Png)
+            If CheckedListBox1.Items.Count > 0 Then
+                img.Save(dialog1.FileName, System.Drawing.Imaging.ImageFormat.Png)
+            Else
+                Chart1.SaveImage(dialog1.FileName, System.Drawing.Imaging.ImageFormat.Png)
+            End If
         End If
     End Sub
 
