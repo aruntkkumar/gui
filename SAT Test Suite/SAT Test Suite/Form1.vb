@@ -59,6 +59,8 @@ Public Class Form1
     Dim xmin As Double
     Dim ymax As Double
     Dim ymin As Double
+    Dim y2max1 As Double = 0
+    Dim y2min1 As Double = 0
     Dim y2max As Double
     Dim y2min As Double
 
@@ -132,6 +134,8 @@ Public Class Form1
             ports = System.Text.RegularExpressions.Regex.Replace(extension, "[^\d]", "")    'Remove Characters from a Numeric String
             column = ((Math.Pow(ports, 2) * 2) + 1)
             checkboxnum = 1
+            y2max1 = 0
+            y2min1 = 0
             Erase names
             names = New String(1) {}
             Try
@@ -447,6 +451,7 @@ Public Class Form1
                     Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = GlobalVariables.y2axismax
                     Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = GlobalVariables.y2axismin
                     Chart1.ChartAreas("ChartArea1").AxisY2.Interval = GlobalVariables.y2axisint
+                    y2axisadjust()
                 End If
             End If
             If GlobalVariables.ports <> 0 Then
@@ -583,6 +588,7 @@ Public Class Form1
                     Exit Sub
                 End If
                 Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
+                Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Clear()
                 'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Maximum) / 10))
                 'Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 10))
                 Chart1.ChartAreas("ChartArea1").AxisY2.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dot
@@ -711,9 +717,40 @@ Public Class Form1
                 If GlobalVariables.autobutton = True Then
                     x2axisadjust()
                 End If
-                Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
-                Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
-                Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
+                For i As Integer = 0 To numRow - 1
+                    For j As Integer = 1 To numColumn - 1
+                        If i = 0 AndAlso j = 1 Then
+                            If y2max1 = 0 AndAlso y2min1 = 0 Then
+                                y2max1 = table(0, 1)
+                                y2min1 = table(0, 1)
+                            End If
+                        End If
+                        If table(i, j) > y2max1 Then
+                            y2max1 = table(i, j)
+                        End If
+                        If table(i, j) < y2min1 Then
+                            y2min1 = table(i, j)
+                        End If
+                    Next
+                Next
+                y2max = Math.Round(100 * (Math.Pow(10, (y2max1 / 10))), 0)
+                If y2max Mod 5 <> 0 Then
+                    y2max = y2max + (5 - (y2max Mod 5))
+                End If
+                y2min = Math.Round(100 * (Math.Pow(10, (y2min1 / 10))), 0)
+                If y2min Mod 5 <> 0 Then
+                    y2min = y2min - (y2min Mod 5)
+                End If
+                If GlobalVariables.autobutton = True Then
+                    Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
+                    Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
+                    Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
+                Else
+                    Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
+                    Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
+                    Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
+                End If
+                GlobalVariables.plot = "efficiency"
                 y2axisadjust()
                 Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
                 Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in %"        '.# to provide one decimal part; For 2 decimal part it is .###
@@ -762,7 +799,6 @@ Public Class Form1
                 Erase freq1
                 Erase eff1
                 Erase table
-                GlobalVariables.plot = "efficiency"
             Catch ex As Exception
                 MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
@@ -776,6 +812,12 @@ Public Class Form1
     End Sub
 
     Sub y2axisadjust()
+        Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Clear()
+        If GlobalVariables.autobutton = True Then
+            Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
+            Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
+            Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
+        End If
         If GlobalVariables.plot = "efficiency" Then
             'If Chart1.ChartAreas("ChartArea1").AxisY2.Minimum <> 0 Or Chart1.ChartAreas("ChartArea1").AxisY2.Maximum <> 100 Or Chart1.ChartAreas("ChartArea1").AxisY2.Interval <> 10 Then
             '    For i As Double = 0 To 100 Step 10
@@ -792,6 +834,13 @@ Public Class Form1
                     End If
                 End If
                 Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Add(i, i - 0.01, CStr(i) + " (" + CStr(Math.Round(10 * Math.Log10(i / 100), 1)) + " in dB)")
+            Next
+        Else
+            For i As Double = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum To (Chart1.ChartAreas("ChartArea1").AxisY2.Maximum + Chart1.ChartAreas("ChartArea1").AxisY2.Interval) Step Chart1.ChartAreas("ChartArea1").AxisY2.Interval
+                If i = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum Then
+                    Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Add(i, i + 0.01, CStr(Math.Round(i, 2)))
+                End If
+                Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Add(i, i - 0.01, CStr(Math.Round(i, 2)))
             Next
         End If
     End Sub
@@ -922,10 +971,12 @@ Public Class Form1
         If GlobalVariables.autobutton = True Then
             x2axisadjust()
         End If
-        y2max = 0
-        y2min = 0
         For i As Integer = 0 To numRow - 1
             For j As Integer = 1 To numColumn - 1
+                If i = 0 AndAlso j = 1 Then
+                    y2max = table(0, 1)
+                    y2min = table(0, 1)
+                End If
                 If table(i, j) > y2max Then
                     y2max = table(i, j)
                 End If
@@ -937,6 +988,8 @@ Public Class Form1
         Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
         Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
         Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
+        GlobalVariables.plot = "generic"
+        y2axisadjust()
         Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisY2.Title = s1                       '.# to provide one decimal part; For 2 decimal part it is .###
         x = GlobalVariables.seriesnames.Length
@@ -964,7 +1017,6 @@ Public Class Form1
         Erase freq1
         Erase para1
         Erase table
-        GlobalVariables.plot = "generic"
         AddToolStripMenuItem.Enabled = False
     End Sub
 
