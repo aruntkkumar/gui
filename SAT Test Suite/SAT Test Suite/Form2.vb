@@ -156,6 +156,7 @@
             End If
         End If
         If TextBox7.Enabled = True Then
+            'If GlobalVariables.plot = "efficiency" Then
             If TextBox7.Text = "" Then     'Check if TextBox7 is empty
                 MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as secondary Y-axis maximum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
@@ -166,9 +167,11 @@
                     MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as secondary Y-axis maximum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
                 End Try
-                If (test < 0) Or (test > 100) Then
-                    MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value between 0 And +100 As secondary Y-axis maximum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Exit Sub
+                If GlobalVariables.plot = "efficiency" Then
+                    If (test < 0) Or (test > 100) Then
+                        MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value between 0 And +100 As secondary Y-axis maximum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Exit Sub
+                    End If
                 End If
             End If
             If TextBox8.Text = "" Then     'Check if TextBox8 is empty
@@ -181,14 +184,18 @@
                     MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as secondary Y-axis minimum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
                 End Try
-                If (test < 0) Or (test > 100) Then
-                    MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value between 0 And +100 as secondary Y-axis minimum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Exit Sub
+                If GlobalVariables.plot = "efficiency" Then
+                    If (test < 0) Or (test > 100) Then
+                        MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value between 0 And +100 as secondary Y-axis minimum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Exit Sub
+                    End If
                 End If
             End If
-            If (CDbl(TextBox7.Text) - CDbl(TextBox8.Text)) < 5 Then
-                MetroFramework.MetroMessageBox.Show(Me, "The secondary Y-Axis maximum value should be atleast 5 more than the secondary Y-Axis minimum value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Exit Sub
+            If GlobalVariables.plot = "efficiency" Then
+                If (CDbl(TextBox7.Text) - CDbl(TextBox8.Text)) < 5 Then
+                    MetroFramework.MetroMessageBox.Show(Me, "The secondary Y-Axis maximum value should be atleast 5 more than the secondary Y-Axis minimum value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
             End If
             If TextBox9.Text = "" Then     'Check if TextBox9 is empty
                 MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as secondary Y-axis interval.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -200,11 +207,50 @@
                     MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as secondary Y-axis interval.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
                 End Try
-                If (test > (TextBox7.Text - TextBox8.Text)) Or (test <= 0) Then
-                    MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value between 0 And " & TextBox7.Text - TextBox8.Text & " as secondary Y-axis interval.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If GlobalVariables.plot = "efficiency" Then
+                    If (test > (TextBox7.Text - TextBox8.Text)) Or (test <= 0) Then
+                        MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value between 0 And " & TextBox7.Text - TextBox8.Text & " as secondary Y-axis interval.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Exit Sub
+                    End If
+                End If
+            End If
+            If GlobalVariables.plot = "generic" Then
+                If CDbl(TextBox7.Text) < CDbl(TextBox8.Text) Then
+                    MetroFramework.MetroMessageBox.Show(Me, "The secondary Y-Axis maximum value should be more than the secondary Y-Axis minimum value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+                If CDbl(TextBox9.Text) <= 0 Then
+                    MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as secondary Y-axis interval.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+                If CDbl(TextBox9.Text) > Math.Abs(CDbl(TextBox7.Text) - CDbl(TextBox8.Text)) Then
+                    MetroFramework.MetroMessageBox.Show(Me, "The secondary Y-Axis interval value is too small compared to its maximum and minimum values.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
                 End If
             End If
+            'Else
+            '    If TextBox7.Text = "" Then     'Check if TextBox7 is empty
+            '        MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as secondary Y-axis maximum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            '        Exit Sub
+            '    Else
+            '        Try
+            '            test = CDbl(TextBox7.Text)
+            '        Catch ex As Exception
+            '            MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as secondary Y-axis maximum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            '            Exit Sub
+            '        End Try
+            '    End If
+            '    If TextBox8.Text = "" Then     'Check if TextBox8 is empty
+            '        MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as secondary Y-axis minimum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            '        Exit Sub
+            '    Else
+            '        Try
+            '            test = CDbl(TextBox8.Text)
+            '        Catch ex As Exception
+            '            MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as secondary Y-axis minimum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            '            Exit Sub
+            '        End Try
+            '    End If
             GlobalVariables.y2axismax = TextBox7.Text
             GlobalVariables.y2axismin = TextBox8.Text
             GlobalVariables.y2axisint = TextBox9.Text

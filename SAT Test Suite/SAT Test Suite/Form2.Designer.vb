@@ -112,7 +112,7 @@ Partial Class Form2
         Me.TextBox9.CustomButton.UseSelectable = True
         Me.TextBox9.CustomButton.Visible = False
         Me.TextBox9.Lines = New String(-1) {}
-        Me.TextBox9.Location = New System.Drawing.Point(316, 219)
+        Me.TextBox9.Location = New System.Drawing.Point(307, 219)
         Me.TextBox9.MaxLength = 32767
         Me.TextBox9.Name = "TextBox9"
         Me.TextBox9.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -130,11 +130,11 @@ Partial Class Form2
         '
         Me.Label10.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(116, 218)
+        Me.Label10.Location = New System.Drawing.Point(125, 218)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(181, 19)
+        Me.Label10.Size = New System.Drawing.Size(162, 19)
         Me.Label10.TabIndex = 18
-        Me.Label10.Text = "Secondary Y-axis interval (%):"
+        Me.Label10.Text = "Secondary Y-axis interval :"
         '
         'TextBox8
         '
@@ -152,7 +152,7 @@ Partial Class Form2
         Me.TextBox8.CustomButton.UseSelectable = True
         Me.TextBox8.CustomButton.Visible = False
         Me.TextBox8.Lines = New String(-1) {}
-        Me.TextBox8.Location = New System.Drawing.Point(316, 186)
+        Me.TextBox8.Location = New System.Drawing.Point(307, 186)
         Me.TextBox8.MaxLength = 32767
         Me.TextBox8.Name = "TextBox8"
         Me.TextBox8.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -182,7 +182,7 @@ Partial Class Form2
         Me.TextBox7.CustomButton.UseSelectable = True
         Me.TextBox7.CustomButton.Visible = False
         Me.TextBox7.Lines = New String(-1) {}
-        Me.TextBox7.Location = New System.Drawing.Point(316, 153)
+        Me.TextBox7.Location = New System.Drawing.Point(307, 153)
         Me.TextBox7.MaxLength = 32767
         Me.TextBox7.Name = "TextBox7"
         Me.TextBox7.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -200,21 +200,21 @@ Partial Class Form2
         '
         Me.Label8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(116, 152)
+        Me.Label8.Location = New System.Drawing.Point(125, 152)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(198, 19)
+        Me.Label8.Size = New System.Drawing.Size(179, 19)
         Me.Label8.TabIndex = 15
-        Me.Label8.Text = "Secondary Y-axis maximum (%):"
+        Me.Label8.Text = "Secondary Y-axis maximum :"
         '
         'Label9
         '
         Me.Label9.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(116, 185)
+        Me.Label9.Location = New System.Drawing.Point(125, 185)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(195, 19)
+        Me.Label9.Size = New System.Drawing.Size(176, 19)
         Me.Label9.TabIndex = 14
-        Me.Label9.Text = "Secondary Y-axis minimum (%):"
+        Me.Label9.Text = "Secondary Y-axis minimum :"
         '
         'TextBox6
         '
