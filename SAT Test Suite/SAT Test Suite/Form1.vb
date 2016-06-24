@@ -55,7 +55,7 @@ Public Class Form1
     Dim excelReader As IExcelDataReader
     Dim a As Double
     Dim xmax As Double
-    Dim x2max As Double
+    Dim x2max As Double = 0
     Dim xmin As Double
     Dim ymax As Double
     Dim ymin As Double
@@ -136,6 +136,7 @@ Public Class Form1
             checkboxnum = 1
             y2max1 = 0
             y2min1 = 0
+            x2max = 0
             Erase names
             names = New String(1) {}
             Try
@@ -713,7 +714,9 @@ Public Class Form1
                         Next
                     End If
                 End If
-                x2max = freq1.Max
+                If x2max = 0 Then
+                    x2max = freq1.Max
+                End If
                 If GlobalVariables.autobutton = True Then
                     x2axisadjust()
                 End If
