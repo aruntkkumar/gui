@@ -545,11 +545,11 @@ Partial Class Form2
         Me.Label11.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label11.AutoSize = True
         Me.Label11.FontWeight = MetroFramework.MetroLabelWeight.Bold
-        Me.Label11.Location = New System.Drawing.Point(195, 18)
+        Me.Label11.Location = New System.Drawing.Point(176, 18)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(111, 19)
+        Me.Label11.Size = New System.Drawing.Size(146, 19)
         Me.Label11.TabIndex = 10
-        Me.Label11.Text = "S PARAMETERS"
+        Me.Label11.Text = "SERIES PARAMETERS"
         '
         'Form2
         '
