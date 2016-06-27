@@ -582,7 +582,8 @@ Public Class Form1
                 End While
                 numRow = result.Tables(0).Rows.Count - 2
                 numColumn = result.Tables(0).Columns.Count
-                If line1.ToLower.Contains("eff") Or line2.ToLower.Contains("eff") Then
+                'If line1.ToLower.Contains("eff") Or line2.ToLower.Contains("eff") Then
+                If line2.ToLower.Contains("eff") Then
                 ElseIf line1.ToLower.Contains("hz") Then
                     genericplot()
                     Exit Sub
