@@ -116,6 +116,7 @@ Public Class Form1
         dialog.Filter = "Touchstone files (*.snp)|*.s*p"
         dialog.FilterIndex = 1
         dialog.RestoreDirectory = True
+        dialog.FileName = ""
         If dialog.ShowDialog() = DialogResult.OK Then
             CheckedListBox1.Items.Clear()
             Chart1.Series.Clear()
@@ -550,6 +551,7 @@ Public Class Form1
         dialog.Filter = "Excel Workbook (*.xlsx)|*.xlsx|Excel 97-2003 Workbook (*.xls)|*.xls"
         dialog.FilterIndex = 1
         dialog.RestoreDirectory = True
+        dialog.FileName = ""
         If dialog.ShowDialog() = DialogResult.OK Then
             Try
                 Dim stream As FileStream = File.Open(dialog.FileName, FileMode.Open, FileAccess.Read)
