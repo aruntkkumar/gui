@@ -387,6 +387,7 @@ Public Class Form1
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
         dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp"
         dialog1.FilterIndex = 3
+        dialog1.FileName = ""
 
         Dim graph As Graphics = Nothing         ' Image capture if the CheckedListBox is not empty
         Dim frmleft As System.Drawing.Point = Me.Bounds.Location
