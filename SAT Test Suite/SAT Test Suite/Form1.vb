@@ -132,7 +132,12 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
             extension = System.IO.Path.GetExtension(dialog.FileName)
-            ports = System.Text.RegularExpressions.Regex.Replace(extension, "[^\d]", "")    'Remove Characters from a Numeric String
+            Try
+                ports = System.Text.RegularExpressions.Regex.Replace(extension, "[^\d]", "")    'Remove Characters from a Numeric String
+            Catch ex As Exception
+                MetroFramework.MetroMessageBox.Show(Me, "The selected file is not a compatible Touchstone file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End Try
             column = ((Math.Pow(ports, 2) * 2) + 1)
             checkboxnum = 1
             y2max1 = 0
