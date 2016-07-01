@@ -191,6 +191,7 @@ Public Class Form1
                                 'matrix = "full"
                             End If
                         ElseIf line.Contains("!") Then
+                        ElseIf line = "" Then
                         Else
                             Exit While
                         End If
