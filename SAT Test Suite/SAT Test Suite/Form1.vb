@@ -300,7 +300,7 @@ Public Class Form1
                                 b += 1
                             End While
                         End If
-                        z = 0
+                        'z = 0
                         For j As Integer = 0 To row - 1
                             Select Case parameter
                                 Case "s"
@@ -317,39 +317,42 @@ Public Class Form1
                                 Case "h"
                                 Case "g"
                             End Select
-                            If CStr(para1(j)) <> "-Infinity" Then
-                                'If ymax < para1(j) Then
-                                '    ymax = para1(j)
-                                'End If
-                                'If ymin > para1(j) Then
-                                '    ymin = para1(j)
-                                'End If
-                            Else
-                                z = 1
+                            'If CStr(para1(j)) <> "-Infinity" Then
+                            '    'If ymax < para1(j) Then
+                            '    '    ymax = para1(j)
+                            '    'End If
+                            '    'If ymin > para1(j) Then
+                            '    '    ymin = para1(j)
+                            '    'End If
+                            'Else
+                            '    z = 1
+                            'End If
+                            If CStr(para1(j)) = "-Infinity" Then
+                                para1(j) = -1000
                             End If
                         Next
                         x += 2
-                        If z = 0 Then
-                            If ymax < para1.Max Then
-                                ymax = para1.Max
-                            End If
-                            If ymin > para1.Min Then
-                                ymin = para1.Min
-                            End If
-                            If GlobalVariables.autobutton = True Then
-                                yaxisadjust()
-                            End If
-                            Chart1.Series.Add("S(" & a & "," & b & ")")
-                            Chart1.Series("S(" & a & "," & b & ")").ChartType = DataVisualization.Charting.SeriesChartType.Line
-                            Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 2
-                            Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
-                            Chart1.Series("S(" & a & "," & b & ")").Points.DataBindXY(freq1, para1)
-                            GlobalVariables.seriesnames(y) = "S(" & a & "," & b & ")"
-                            GlobalVariables.series(y) = 1
-                            y += 1
-                        Else
-                            MetroFramework.MetroMessageBox.Show(Me, "S(" & a & "," & b & ") has been skipped due to a Math error", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        'If z = 0 Then
+                        If ymax < para1.Max Then
+                            ymax = para1.Max
                         End If
+                        If ymin > para1.Min Then
+                            ymin = para1.Min
+                        End If
+                        If GlobalVariables.autobutton = True Then
+                            yaxisadjust()
+                        End If
+                        Chart1.Series.Add("S(" & a & "," & b & ")")
+                        Chart1.Series("S(" & a & "," & b & ")").ChartType = DataVisualization.Charting.SeriesChartType.Line
+                        Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 2
+                        Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                        Chart1.Series("S(" & a & "," & b & ")").Points.DataBindXY(freq1, para1)
+                        GlobalVariables.seriesnames(y) = "S(" & a & "," & b & ")"
+                        GlobalVariables.series(y) = 1
+                        y += 1
+                        'Else
+                        '    MetroFramework.MetroMessageBox.Show(Me, "S(" & a & "," & b & ") has been skipped due to a Math error", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        'End If
                     Next
                 Next
                 Erase freq1         '   Releasing memory
@@ -489,13 +492,13 @@ Public Class Form1
             End If
             If GlobalVariables.ports <> 0 Then
                 For i As Integer = 0 To GlobalVariables.series.Length - 2
-                    If GlobalVariables.seriesnames(i) <> "" Then
-                        If GlobalVariables.series(i) = 1 Then
-                            Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = True
-                        Else
-                            Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = False
-                        End If
+                    'If GlobalVariables.seriesnames(i) <> "" Then
+                    If GlobalVariables.series(i) = 1 Then
+                        Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = True
+                    Else
+                        Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = False
                     End If
+                    'End If
                 Next
                 If GlobalVariables.autobutton = True Then
                     xaxisadjust()

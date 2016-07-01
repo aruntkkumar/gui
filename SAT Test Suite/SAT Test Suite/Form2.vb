@@ -41,13 +41,13 @@
             CheckBox2.Enabled = True
             RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
             For i As Integer = 0 To GlobalVariables.seriesnames.Length - 2
-                If GlobalVariables.seriesnames(i) <> "" Then
-                    If GlobalVariables.series(i) = 1 Then
-                        CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=True)
-                    Else
-                        CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=False)
-                    End If
+                'If GlobalVariables.seriesnames(i) <> "" Then
+                If GlobalVariables.series(i) = 1 Then
+                    CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=True)
+                Else
+                    CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=False)
                 End If
+                'End If
             Next
             AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
         End If
