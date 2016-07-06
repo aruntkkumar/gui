@@ -614,16 +614,17 @@ Public Class Form5
     End Sub
 
     Private Sub RichTextBox2_KeyDown(sender As Object, e As KeyEventArgs) Handles RichTextBox2.KeyDown
-        If e.Modifiers = Keys.Control AndAlso e.KeyCode = Keys.V Then
-            Using box As New RichTextBox
-                box.SelectAll()
-                box.SelectedRtf = Clipboard.GetText(TextDataFormat.Rtf)
-                box.SelectAll()
-                box.SelectionFont = New Font("Consolas", 8, FontStyle.Regular)
-                box.SelectionBackColor = Color.Black
-                box.SelectionColor = Color.White
-                RichTextBox2.SelectedRtf = box.SelectedRtf
-            End Using
+        If (e.Modifiers = Keys.Control AndAlso e.KeyCode = Keys.V) Or (e.Modifiers = Keys.Shift AndAlso e.KeyCode = Keys.Insert) Then
+            DirectCast(sender, RichTextBox).Paste(DataFormats.GetFormat("Text"))
+            'Using box As New RichTextBox
+            '    box.SelectAll()
+            '    box.SelectedRtf = Clipboard.GetText(TextDataFormat.Rtf)
+            '    box.SelectAll()
+            '    box.SelectionFont = New Font("Consolas", 8, FontStyle.Regular)
+            '    box.SelectionBackColor = Color.Black
+            '    box.SelectionColor = Color.White
+            '    RichTextBox2.SelectedRtf = box.SelectedRtf
+            'End Using
 
             e.Handled = True
         End If
