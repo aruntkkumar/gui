@@ -15,7 +15,7 @@ Public Class Form1
     Dim z As Integer
     Dim row As Integer = 1
     Dim column As Integer = 1
-    Dim ports As Integer
+    Dim ports As Integer = 0
     'Dim spacelocator As String
     'Dim numlocator As Double
     Dim frequnit As String
@@ -63,6 +63,7 @@ Public Class Form1
     Dim y2min1 As Double = 0
     Dim y2max As Double
     Dim y2min As Double
+    Dim preVISAAddress As String
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         dialog.InitialDirectory = "C:\"
@@ -90,6 +91,11 @@ Public Class Form1
         AddToolStripMenuItem.Enabled = False
         ClearAllMarkersToolStripMenuItem.Enabled = False
         'ClearSelectedMarkerToolStripMenuItem.Enabled = False
+        'preVISAAddress = VISAAddressEdit.Text
+        GlobalVariables.DeviceName = New String(1) {}
+        GlobalVariables.DeviceAddress = New String(1) {}
+        GlobalVariables.DeviceName(0) = "Agilent Technologies N5230A Network Analyzer"
+        GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
@@ -461,7 +467,7 @@ Public Class Form1
             GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum
             GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval
         End If
-        If (ports = 0) Or (ports = vbNull) Then
+        If (ports = 0) Then
             GlobalVariables.ports = 0
         Else
             GlobalVariables.ports = ports
@@ -1105,6 +1111,314 @@ Public Class Form1
         End Try
     End Sub
 
+    Private Sub FirstDevice_Click(sender As Object, e As EventArgs) Handles FirstDevice.Click
+        Dim ioMgr As New Ivi.Visa.Interop.ResourceManager
+        Dim instrument As New Ivi.Visa.Interop.FormattedIO488
+        'Dim commas As Integer
+        Dim commas() As String
+        Dim returnstring As String
+        Try
+            'instrument.IO = ioMgr.Open("TCPIP0::10.1.100.174::hpib7,16::INSTR") ' use instrument specific address for Open() parameter
+            'instrument.IO = ioMgr.Open(VISAAddressEdit.Text)
+            instrument.IO = ioMgr.Open(GlobalVariables.DeviceAddress(0))
+
+            'instrument.WriteString("*IDN?", True)  'returns the identification of the PNA
+            'returnstring = instrument.ReadString()
+            'MsgBox("The IDN String is: " & returnstring, vbOKOnly, "IDN Result")
+            'instrument.WriteString("SENS:FREQ:STAR?;STOP?", True)  'Read start and stop frequency from pna
+            'returnstring = instrument.ReadString()
+            'MsgBox("The Frequency Start and Stop is: " & returnstring, vbOKOnly, "Frequency Values")
+            'instrument.WriteString("SENSe:SWEep:POIN?", True)      'Returns the number of measurement points
+            'returnstring = instrument.ReadString()
+            'MsgBox("The number of measurement points are " & returnstring, vbOKOnly, "Measurement Points")
+
+            instrument.IO.Timeout = 60000    'Making sure that the timeout is set to 2 seconds
+            instrument.WriteString("*CLS", True)
+            instrument.WriteString("CALC:PAR:CAT:EXT?", True)
+            returnstring = instrument.ReadString()
+            commas = returnstring.Split(",")
+            If commas(0) = "NO CATALOG" Then
+                instrument.WriteString("DISP:WIND:STAT ON", True)
+                instrument.WriteString("CALC:PAR:DEF:EXT 'CH1_S11_1',S11", True)
+                instrument.WriteString("DISP:WIND:TRAC:FEED 'CH1_S11_1'", True)
+                instrument.WriteString("CALC:PAR:CAT:EXT?", True)
+                returnstring = instrument.ReadString()
+                commas = returnstring.Split(",")
+            End If
+            'MsgBox("The selected value is " & commas(0) & """", vbOKOnly, "Calc Para")
+            'instrument.WriteString("CALC:PAR:SEL 'CH1_S11_1'", True)
+            instrument.WriteString("CALC:PAR:SEL " & commas(0) & """", True)
+            'instrument.WriteString("CALC:PAR:SEL?", True)
+            'returnstring = instrument.ReadString()
+            'MsgBox("The selected parameter is " & returnstring, vbOKOnly, "Calc Para")
+            'Exit Sub
+            If returnstring.Contains("S14") Or returnstring.Contains("S24") Or returnstring.Contains("S34") Or returnstring.Contains("S44") Or returnstring.Contains("S41") Or returnstring.Contains("S42") Or returnstring.Contains("S43") Then
+                ports = 4
+            ElseIf returnstring.Contains("S13") Or returnstring.Contains("S23") Or returnstring.Contains("S33") Or returnstring.Contains("S31") Or returnstring.Contains("S32") Then
+                ports = 3
+            ElseIf returnstring.Contains("S12") Or returnstring.Contains("S22") Or returnstring.Contains("S21") Then
+                ports = 2
+            Else
+                ports = 1
+            End If
+            'commas = returnstring.Split(",").Length - 1
+            'instrument.WriteString("CALC:PAR:DEF:EXT 'CH1_S11_1', 'S11'", True)
+            'instrument.WriteString("CALC:PAR:SEL " & """" & "CH1_S11_1" & """", True)
+            'instrument.WriteString("CALC:PAR:SEL?", True)
+            instrument.WriteString("format:data ascii", True)
+            instrument.WriteString("mmem:stor:trac:form:snp DB", True)
+            'instrument.IO.Timeout = 60000   'Changing the timeout to 1 minute
+            If ports = 1 Then
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1','c:\MyData.s1p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? 'c:\MyData.s1p'", True)
+            ElseIf ports = 2 Then
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2','c:\MyData.s2p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? 'c:\MyData.s2p'", True)
+            ElseIf ports = 3 Then
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2,3','c:\MyData.s3p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? 'c:\MyData.s3p'", True)
+            ElseIf ports = 4 Then
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2,3,4','c:\MyData.s4p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? 'c:\MyData.s4p'", True)
+            End If
+            'AllocConsole() 'show console
+            Using sr As New StringReader(instrument.ReadString())
+                While True
+                    line = sr.ReadLine()
+                    'Console.WriteLine(line)
+                    If line.Contains("!") Then
+                        'No action. This is for the first line that contains a number which could be a result of the previous computations
+                    ElseIf line.Contains("#") Then
+                        If line.ToLower.Contains("khz") Then
+                            frequnit = "khz"
+                        ElseIf line.ToLower.Contains("mhz") Then
+                            frequnit = "mhz"
+                        ElseIf line.ToLower.Contains("ghz") Then
+                            frequnit = "ghz"
+                        ElseIf line.ToLower.Contains("hz") Then
+                            frequnit = "hz"
+                        End If
+
+                        If line.ToLower.Contains("s") Then
+                            parameter = "s"
+                        ElseIf line.ToLower.Contains("y") Then
+                            parameter = "y"
+                        ElseIf line.ToLower.Contains("z") Then
+                            parameter = "z"
+                        ElseIf line.ToLower.Contains("h") Then
+                            parameter = "h"
+                        ElseIf line.ToLower.Contains("g") Then
+                            parameter = "g"
+                        End If
+
+                        If line.ToLower.Contains("ri") Then
+                            format = "ri"
+                        ElseIf line.ToLower.Contains("ma") Then
+                            format = "ma"
+                        ElseIf line.ToLower.Contains("db") Then
+                            format = "db"
+                        End If
+
+                    ElseIf line.ToLower.Contains("matrix format") Then
+                        If line.ToLower.Contains("lower") Then
+                            matrix = "lower"
+                        ElseIf line.ToLower.Contains("upper") Then
+                            matrix = "upper"
+                            'Else
+                            'matrix = "full"
+                        End If
+                        'ElseIf line.Contains("!") Then
+                    ElseIf line = "" Then
+                    Else
+                        Exit While
+                    End If
+                End While
+                fullstring = sr.ReadToEnd()
+                'Console.Write(fullstring)
+                sr.Dispose()
+            End Using
+            instrument.IO.Timeout = 2000    'Reverting back the timeout to 2 seconds
+            If ports = 1 Then
+                instrument.WriteString("MMEM:DEL 'c:\MyData.s1p'", True)    'Deletes the file
+            ElseIf ports = 2 Then
+                instrument.WriteString("MMEM:DEL 'c:\MyData.s2p'", True)    'Deletes the file
+            ElseIf ports = 3 Then
+                instrument.WriteString("MMEM:DEL 'c:\MyData.s3p'", True)    'Deletes the file
+            ElseIf ports = 4 Then
+                instrument.WriteString("MMEM:DEL 'c:\MyData.s4p'", True)    'Deletes the file
+            End If
+
+            CheckedListBox1.Items.Clear()
+            Chart1.Series.Clear()
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
+            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+            Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+            Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
+            column = ((Math.Pow(ports, 2) * 2) + 1)
+            checkboxnum = 1
+            y2max1 = 0
+            y2min1 = 0
+            x2max = 0
+            Erase names
+            names = New String(1) {}
+            matrix = "full"
+            fullstring = line & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
+            fullstring = System.Text.RegularExpressions.Regex.Replace(fullstring, "\s{1,}", ",")    'Replaces white spaces (Space, tab, linefeed, carriage-return, formfeed, vertical-tab, and newline characters) with a comma 
+
+            value = System.Text.RegularExpressions.Regex.Split(fullstring, ",")
+            row = (value.Length - 2) / column
+            table = New Double(row - 1, column - 1) {}
+            freq1 = New Double(row - 1) {}
+            para1 = New Double(row - 1) {}
+            x = 0
+            y = 0
+            For Each s As String In value
+                If String.IsNullOrWhiteSpace(s) Then
+                Else
+                    table(x, y) = CDbl(s)
+                    y += 1
+                    If y >= column Then
+                        y = 0
+                        x += 1
+                    End If
+                End If
+            Next
+            fullstring = vbNullString   '   Releasing memory by setting values as Null
+            line = vbNullString
+            value = Nothing
+            xmax = table(row - 1, 0)
+            xmin = table(0, 0)
+            Select Case frequnit
+                Case "hz"
+                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
+                Case "khz"
+                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
+                Case "mhz"
+                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
+                Case "ghz"
+                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
+            End Select
+            If GlobalVariables.autobutton = True Then
+                xaxisadjust()
+            End If
+            For i As Integer = 0 To row - 1
+                freq1(i) = table(i, 0)
+            Next
+            If matrix = "lower" Then
+                GlobalVariables.seriesnames = New String(ports * (ports + 1) / 2) {}
+                GlobalVariables.series = New Integer(ports * (ports + 1) / 2) {}
+            ElseIf matrix = "upper" Then
+                GlobalVariables.seriesnames = New String(ports * (ports + 1) / 2) {}
+                GlobalVariables.series = New Integer(ports * (ports + 1) / 2) {}
+            Else
+                GlobalVariables.seriesnames = New String(ports * ports) {}
+                GlobalVariables.series = New Integer(ports * ports) {}
+            End If
+            ymax = 0
+            ymin = 0
+            x = 1
+            y = 0
+            For a As Integer = 1 To ports
+                For b As Integer = 1 To ports
+                    If matrix = "lower" Then
+                        If a < b Then
+                            Exit For
+                        End If
+                    ElseIf matrix = "upper" Then
+                        While a > b
+                            b += 1
+                        End While
+                    End If
+                    For j As Integer = 0 To row - 1
+                        Select Case parameter
+                            Case "s"
+                                Select Case format
+                                    Case "db"
+                                        para1(j) = table(j, x)
+                                    Case "ma"
+                                        para1(j) = (20 * Math.Log10(table(j, x)))
+                                    Case "ri"
+                                        para1(j) = (10 * Math.Log10((Math.Pow(table(j, x), 2) + Math.Pow(table(j, x + 1), 2))))
+                                End Select
+                            Case "y"
+                            Case "z"
+                            Case "h"
+                            Case "g"
+                        End Select
+                        If CStr(para1(j)) = "-Infinity" Then
+                            para1(j) = -1000
+                        End If
+                    Next
+                    x += 2
+                    If ymax < para1.Max Then
+                        ymax = para1.Max
+                    End If
+                    If ymin > para1.Min Then
+                        ymin = para1.Min
+                    End If
+                    If GlobalVariables.autobutton = True Then
+                        yaxisadjust()
+                    End If
+                    Chart1.Series.Add("S(" & a & "," & b & ")")
+                    Chart1.Series("S(" & a & "," & b & ")").ChartType = DataVisualization.Charting.SeriesChartType.Line
+                    Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 2
+                    Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                    Chart1.Series("S(" & a & "," & b & ")").Points.DataBindXY(freq1, para1)
+                    GlobalVariables.seriesnames(y) = "S(" & a & "," & b & ")"
+                    GlobalVariables.series(y) = 1
+                    y += 1
+                Next
+            Next
+            Erase freq1         '   Releasing memory
+            Erase para1
+            Erase table
+
+        Catch ex As Exception
+            MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Try
+                instrument.IO.Close()
+            Catch ex As Exception
+            End Try
+            Try
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
+            Catch ex As Exception
+            End Try
+            Try
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
+            Catch ex As Exception
+            End Try
+        End Try
+    End Sub
+
+    'Private Sub VISAAddressEdit_Click(sender As Object, e As EventArgs) Handles VISAAddressEdit.Click
+    '    preVISAAddress = VISAAddressEdit.Text
+    '    VISAAddressEdit.Text = InputBox("Enter the new VISA Address", "VISA Address", VISAAddressEdit.Text)
+    '    If VISAAddressEdit.Text = "" Then
+    '        VISAAddressEdit.Text = preVISAAddress
+    '    End If
+    'End Sub
+
+    Private Sub DeviceOptionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeviceOptionsToolStripMenuItem.Click
+        'Form3.ShowDialog()
+    End Sub
+
     'Private Sub ClearSelectedMarkerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearSelectedMarkerToolStripMenuItem.Click
     '    'For i As Integer = 0 To checkboxnum - 2
     '    '    If i = CheckedListBox1.SelectedIndex() Then
@@ -1166,6 +1480,8 @@ Public Class GlobalVariables
     Public Shared seriesnames() As String
     Public Shared y2axis As Boolean
     Public Shared plot As String = "efficiency"
+    Public Shared DeviceName() As String
+    Public Shared DeviceAddress() As String
 End Class
 
 

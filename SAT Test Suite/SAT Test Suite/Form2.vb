@@ -33,7 +33,7 @@
             TextBox9.Enabled = False
         End If
         GlobalVariables.okbutton = "cancel"
-        If (GlobalVariables.ports = 0) Or (GlobalVariables.ports = vbNull) Then
+        If (GlobalVariables.ports = 0) Then
             CheckBox1.Enabled = False
             CheckBox2.Enabled = False
         Else

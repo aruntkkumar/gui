@@ -14,3 +14,4 @@ C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\obj\x64\D
 C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\bin\x64\Debug\ICSharpCode.SharpZipLib.dll
 C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\bin\x64\Debug\Excel.4.5.dll
 C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\bin\x64\Debug\Excel.4.5.pdb
+C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\obj\x64\Debug\SAT_Test_Suite.Form3.resources

@@ -563,7 +563,7 @@ Partial Class Form2
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(558, 611)
         Me.Name = "Form2"
-        Me.Text = "Options"
+        Me.Text = "Plot Options"
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.MetroPanel1.ResumeLayout(False)
