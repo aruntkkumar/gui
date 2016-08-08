@@ -1132,19 +1132,20 @@ Public Class Form1
             'returnstring = instrument.ReadString()
             'MsgBox("The number of measurement points are " & returnstring, vbOKOnly, "Measurement Points")
 
-            instrument.IO.Timeout = 60000    'Making sure that the timeout is set to 2 seconds
+            'instrument.IO.Timeout = 60000    'Making sure that the timeout is set to 2 seconds
             instrument.WriteString("*CLS", True)
+            instrument.WriteString("DISP:WIND:CAT?", True)
+            returnstring = instrument.ReadString()
+            returnstring = System.Text.RegularExpressions.Regex.Replace(returnstring, "\s{1,}", "") 'Removing the line feed
+            returnstring = returnstring.Replace("""", "")   'Removing the double quotes
+            If returnstring = "EMPTY" Then
+                'instrument.WriteString("DISP:WIND:STAT ON", True)
+                instrument.WriteString("CALC:PAR:DEF:EXT 'CH1_S11_1',S11", True)
+                instrument.WriteString("DISP:WIND:TRAC:FEED 'CH1_S11_1'", True)
+            End If
             instrument.WriteString("CALC:PAR:CAT:EXT?", True)
             returnstring = instrument.ReadString()
             commas = returnstring.Split(",")
-            If commas(0) = "NO CATALOG" Then
-                instrument.WriteString("DISP:WIND:STAT ON", True)
-                instrument.WriteString("CALC:PAR:DEF:EXT 'CH1_S11_1',S11", True)
-                instrument.WriteString("DISP:WIND:TRAC:FEED 'CH1_S11_1'", True)
-                instrument.WriteString("CALC:PAR:CAT:EXT?", True)
-                returnstring = instrument.ReadString()
-                commas = returnstring.Split(",")
-            End If
             'MsgBox("The selected value is " & commas(0) & """", vbOKOnly, "Calc Para")
             'instrument.WriteString("CALC:PAR:SEL 'CH1_S11_1'", True)
             instrument.WriteString("CALC:PAR:SEL " & commas(0) & """", True)
