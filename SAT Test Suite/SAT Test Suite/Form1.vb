@@ -1187,7 +1187,7 @@ Public Class Form1
                 While True
                     line = sr.ReadLine()
                     'Console.WriteLine(line)
-                    If line.Contains("!") Then
+                    If line.Contains("!") Then      'This includes a line with # and ! appearing together
                         'No action. This is for the first line that contains a number which could be a result of the previous computations
                     ElseIf line.Contains("#") Then
                         If line.ToLower.Contains("khz") Then
