@@ -1168,7 +1168,7 @@ Public Class Form1
             'instrument.WriteString("CALC:PAR:SEL?", True)
             instrument.WriteString("format:data ascii", True)
             instrument.WriteString("mmem:stor:trac:form:snp DB", True)
-            'instrument.IO.Timeout = 60000   'Changing the timeout to 1 minute
+            instrument.IO.Timeout = 60000   'Changing the timeout to 1 minute
             If ports = 1 Then
                 instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1','c:\MyData.s1p'", True)
                 instrument.WriteString("MMEMory:TRANsfer? 'c:\MyData.s1p'", True)
