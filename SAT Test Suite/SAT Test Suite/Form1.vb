@@ -64,6 +64,9 @@ Public Class Form1
     Dim y2max As Double
     Dim y2min As Double
     Dim preVISAAddress As String
+    Dim newtoolbar As Boolean = False
+    Dim addtoolbar As Boolean = False
+    Dim generic As Boolean = False
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         dialog.InitialDirectory = "C:\"
@@ -88,7 +91,7 @@ Public Class Form1
             array(i) = 0
             Chart1.Series(" ").Points.AddXY(i, array(i))
         Next
-        AddToolStripMenuItem.Enabled = False
+        'AddToolStripMenuItem.Enabled = False
         ClearAllMarkersToolStripMenuItem.Enabled = False
         'ClearSelectedMarkerToolStripMenuItem.Enabled = False
         'preVISAAddress = VISAAddressEdit.Text
@@ -131,6 +134,7 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
             Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
+            Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
@@ -371,10 +375,11 @@ Public Class Form1
                 Erase para1
                 Erase table
                 'Chart1.Series("S(1,1)").Enabled = False
+                'AddToolStripMenuItem.Enabled = True
+                newtoolbar = True
             Catch Ex As Exception
                 MetroFramework.MetroMessageBox.Show(Me, Ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
-            AddToolStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -472,6 +477,10 @@ Public Class Form1
         Else
             GlobalVariables.ports = ports
         End If
+        'AllocConsole() 'show console
+        'For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
+        '    Console.WriteLine(GlobalVariables.seriesnames(i))
+        'Next
         Form2.ShowDialog()
         If GlobalVariables.okbutton = "ok" Then
             If GlobalVariables.autobutton = False Then
@@ -639,6 +648,48 @@ Public Class Form1
                     MetroFramework.MetroMessageBox.Show(Me, "The selected spreadsheet is not supported by SAT Test Suite", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Exit Sub
                 End If
+                If newtoolbar = False AndAlso addtoolbar = False Then
+                    CheckedListBox1.Items.Clear()
+                    Chart1.Series.Clear()
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+                    Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
+                    Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
+                    frequnit = "ghz"
+                    checkboxnum = 1
+                Else
+                    If generic = True Then
+                        Dim i As Integer
+                        If matrix = "lower" Then
+                            i = (ports * (ports + 1) / 2)
+                        ElseIf matrix = "upper" Then
+                            i = (ports * (ports + 1) / 2)
+                        Else
+                            i = ports * ports
+                        End If
+                        Dim series1 As DataVisualization.Charting.Series
+                        For j As Integer = i To GlobalVariables.seriesnames.Length - 2
+                            series1 = Chart1.Series(GlobalVariables.seriesnames(j))
+                            Chart1.Series.Remove(series1)
+                        Next
+                        ReDim Preserve GlobalVariables.seriesnames(i)
+                        ReDim Preserve GlobalVariables.series(i)
+                    End If
+                End If
+                If newtoolbar = False AndAlso generic = True Then
+                    CheckedListBox1.Items.Clear()
+                    Chart1.Series.Clear()
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+                    Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
+                    Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
+                    frequnit = "ghz"
+                    checkboxnum = 1
+                End If
                 Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
                 Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Clear()
                 'Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100 * (Math.Pow(10, (Chart1.ChartAreas("ChartArea1").AxisY.Maximum) / 10))
@@ -647,6 +698,9 @@ Public Class Form1
                 value = System.Text.RegularExpressions.Regex.Split(line1, ",")
                 value2 = System.Text.RegularExpressions.Regex.Split(line2, ",")
                 'Dim names(numColumn) As String
+                If generic = True Then
+                    names = New String(numColumn) {}
+                End If
                 column = 0
                 If names.Length - 2 = 0 Then
                     names = New String(numColumn) {}
@@ -765,6 +819,32 @@ Public Class Form1
                         Next
                     End If
                 End If
+                If newtoolbar = False AndAlso addtoolbar = False Then
+                    xmax = freq1.Max
+                    xmin = freq1.Min
+                    Select Case frequnit
+                        Case "hz"
+                            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
+                        Case "khz"
+                            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
+                            Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
+                            Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
+                            Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
+                        Case "mhz"
+                            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
+                            Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
+                            Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
+                            Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
+                        Case "ghz"
+                            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+                            Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
+                            Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
+                            Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
+                    End Select
+                    If GlobalVariables.autobutton = True Then
+                        xaxisadjust()
+                    End If
+                End If
                 If x2max = 0 Then
                     x2max = freq1.Max
                 End If
@@ -818,9 +898,21 @@ Public Class Form1
                 'Else
                 '    format = "percentage"
                 'End If
-                x = GlobalVariables.seriesnames.Length
-                ReDim Preserve GlobalVariables.seriesnames(x + numColumn - 2)
-                ReDim Preserve GlobalVariables.series(x + numColumn - 2)
+                If newtoolbar = True Then
+                    x = GlobalVariables.seriesnames.Length
+                    ReDim Preserve GlobalVariables.seriesnames(x + numColumn - 2)
+                    ReDim Preserve GlobalVariables.series(x + numColumn - 2)
+                Else
+                    If addtoolbar = True Then
+                        x = GlobalVariables.seriesnames.Length
+                        ReDim Preserve GlobalVariables.seriesnames(x + numColumn - 2)
+                        ReDim Preserve GlobalVariables.series(x + numColumn - 2)
+                    Else
+                        x = 1
+                        GlobalVariables.seriesnames = New String(numColumn - 1) {}
+                        GlobalVariables.series = New Integer(numColumn - 1) {}
+                    End If
+                End If
                 For i As Integer = 1 To numColumn - 1
                     Chart1.Series.Add(names(column + i))
                     Chart1.Series(names(column + i)).XAxisType = AxisType.Primary
@@ -840,8 +932,8 @@ Public Class Form1
                     GlobalVariables.seriesnames(x + i - 2) = names(column + i)
                     GlobalVariables.series(x + i - 2) = 1
                 Next
-                '    AllocConsole() 'show console
-                'For i As Integer = 0 To GlobalVariables.seriesnames.Length - 2
+                'AllocConsole() 'show console
+                'For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
                 '    Console.WriteLine(GlobalVariables.seriesnames(i))
                 'Next
                 fullstring = vbNullString   ' Releasing memory by setting values as Null
@@ -853,6 +945,8 @@ Public Class Form1
                 Erase freq1
                 Erase eff1
                 Erase table
+                addtoolbar = True
+                generic = False
             Catch ex As Exception
                 MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
@@ -900,182 +994,260 @@ Public Class Form1
     End Sub
 
     Sub genericplot()
-        Try
-            If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
-                MetroFramework.MetroMessageBox.Show(Me, "An efficiency graph has aleady been plotted against the frequency. Kindly open a new chart area to plot a generic graph", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End If
-            numRow += 1
-            fullstring = line2 & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
-            Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
-            Chart1.ChartAreas("ChartArea1").AxisY2.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dot
-            value = System.Text.RegularExpressions.Regex.Split(line1, ",")
-            'column = 0
-            names = New String(numColumn) {}
-            'column = names.Length - 2
-            table = New Double(numRow - 1, numColumn - 1) {}
-            freq1 = New Double(numRow - 1) {}
-            para1 = New Double(numRow - 1) {}
-            Dim result As String = ""
-            Dim s1 As String = ""
-            x = 0
-            For Each s As String In value
-                If x > 0 Then
-                    If String.IsNullOrWhiteSpace(s) Then
-                    Else
-                        If x = 1 Then
-                            s1 = s
-                        Else
-                            s1 = String.Join(" ", s1.Split(" "c).Intersect(s.Split(" "c)))
-                        End If
-                        names(x) = s
-                    End If
+        'If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
+        '    MetroFramework.MetroMessageBox.Show(Me, "An efficiency graph has aleady been plotted against the frequency. Kindly open a new chart area to plot a generic graph", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '    Exit Sub
+        'End If
+        If newtoolbar = False Then
+            CheckedListBox1.Items.Clear()
+            Chart1.Series.Clear()
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
+            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+            Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
+            Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
+            frequnit = "ghz"
+            checkboxnum = 1
+        Else
+            If addtoolbar = True Then
+                Dim i As Integer
+                If matrix = "lower" Then
+                    i = (ports * (ports + 1) / 2)
+                ElseIf matrix = "upper" Then
+                    i = (ports * (ports + 1) / 2)
                 Else
-                    names(x) = s
+                    i = ports * ports
                 End If
-                x += 1
-            Next
-            value = System.Text.RegularExpressions.Regex.Split(fullstring, ",")
-            x = 0
-            y = 0
-            For Each s As String In value
+                Dim series1 As DataVisualization.Charting.Series
+                For j As Integer = i To GlobalVariables.seriesnames.Length - 2
+                    series1 = Chart1.Series(GlobalVariables.seriesnames(j))
+                    Chart1.Series.Remove(series1)
+                Next
+                ReDim Preserve GlobalVariables.seriesnames(i)
+                ReDim Preserve GlobalVariables.series(i)
+            End If
+        End If
+        numRow += 1
+        fullstring = line2 & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
+        Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
+        Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Clear()
+        Chart1.ChartAreas("ChartArea1").AxisY2.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dot
+        value = System.Text.RegularExpressions.Regex.Split(line1, ",")
+        ''column = 0
+        'names = New String(numColumn) {}
+        ''column = names.Length - 2
+        column = 0
+        If names.Length - 2 = 0 Then
+            names = New String(numColumn) {}
+        Else
+            column = names.Length - 2
+            ReDim Preserve names(column + numColumn)
+        End If
+        table = New Double(numRow - 1, numColumn - 1) {}
+        freq1 = New Double(numRow - 1) {}
+        para1 = New Double(numRow - 1) {}
+        Dim result As String = ""
+        Dim s1 As String = ""
+        x = 0
+        For Each s As String In value
+            If x > 0 Then
                 If String.IsNullOrWhiteSpace(s) Then
                 Else
-                    table(x, y) = CDbl(s)
-                    y += 1
-                    If y >= numColumn Then
-                        y = 0
-                        x += 1
+                    If x = 1 Then
+                        s1 = s
+                    Else
+                        For i As Integer = 0 To names.Length - 2
+                            If names(i) = String.Join(" ", s1.Split(" "c).Intersect(s.Split(" "c))) Then
+                                MetroFramework.MetroMessageBox.Show(Me, "The title name '" + String.Join(" ", s1.Split(" "c).Intersect(s.Split(" "c))) + "' is already a member of the Chart Series", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                Exit Sub
+                            End If
+                        Next
+                        s1 = String.Join(" ", s1.Split(" "c).Intersect(s.Split(" "c)))
                     End If
+                    names(x) = s
                 End If
-            Next
-            If frequnit = "hz" Then
-                If line1.ToString.ToLower.Contains("ghz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) * 1000000000
-                    Next
-                ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) * 1000000
-                    Next
-                ElseIf line1.ToString.ToLower.Contains("khz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) * 1000
-                    Next
-                Else
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0)
-                    Next
-                End If
-            ElseIf frequnit = "khz" Then
-                If line1.ToString.ToLower.Contains("ghz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) * 1000000
-                    Next
-                ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) * 1000
-                    Next
-                ElseIf line1.ToString.ToLower.Contains("khz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0)
-                    Next
-                Else
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) / 1000
-                    Next
-                End If
-            ElseIf frequnit = "mhz" Then
-                If line1.ToString.ToLower.Contains("ghz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) * 1000
-                    Next
-                ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0)
-                    Next
-                ElseIf line1.ToString.ToLower.Contains("khz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) / 1000
-                    Next
-                Else
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) / 1000000
-                    Next
-                End If
-            ElseIf frequnit = "ghz" Then
-                If line1.ToString.ToLower.Contains("ghz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0)
-                    Next
-                ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) / 1000
-                    Next
-                ElseIf line1.ToString.ToLower.Contains("khz") Then
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) / 1000000
-                    Next
-                Else
-                    For i As Integer = 0 To numRow - 1
-                        freq1(i) = table(i, 0) / 1000000000
-                    Next
+            Else
+                names(x) = s
+            End If
+            x += 1
+        Next
+        value = System.Text.RegularExpressions.Regex.Split(fullstring, ",")
+        x = 0
+        y = 0
+        For Each s As String In value
+            If String.IsNullOrWhiteSpace(s) Then
+            Else
+                table(x, y) = CDbl(s)
+                y += 1
+                If y >= numColumn Then
+                    y = 0
+                    x += 1
                 End If
             End If
-            x2max = freq1.Max
-            If GlobalVariables.autobutton = True Then
-                x2axisadjust()
-            End If
-            For i As Integer = 0 To numRow - 1
-                For j As Integer = 1 To numColumn - 1
-                    If i = 0 AndAlso j = 1 Then
-                        y2max = table(0, 1)
-                        y2min = table(0, 1)
-                    End If
-                    If table(i, j) > y2max Then
-                        y2max = table(i, j)
-                    End If
-                    If table(i, j) < y2min Then
-                        y2min = table(i, j)
-                    End If
+        Next
+        If frequnit = "hz" Then
+            If line1.ToString.ToLower.Contains("ghz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) * 1000000000
                 Next
+            ElseIf line1.ToString.ToLower.Contains("mhz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) * 1000000
+                Next
+            ElseIf line1.ToString.ToLower.Contains("khz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) * 1000
+                Next
+            Else
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0)
+                Next
+            End If
+        ElseIf frequnit = "khz" Then
+            If line1.ToString.ToLower.Contains("ghz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) * 1000000
+                Next
+            ElseIf line1.ToString.ToLower.Contains("mhz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) * 1000
+                Next
+            ElseIf line1.ToString.ToLower.Contains("khz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0)
+                Next
+            Else
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) / 1000
+                Next
+            End If
+        ElseIf frequnit = "mhz" Then
+            If line1.ToString.ToLower.Contains("ghz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) * 1000
+                Next
+            ElseIf line1.ToString.ToLower.Contains("mhz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0)
+                Next
+            ElseIf line1.ToString.ToLower.Contains("khz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) / 1000
+                Next
+            Else
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) / 1000000
+                Next
+            End If
+        ElseIf frequnit = "ghz" Then
+            If line1.ToString.ToLower.Contains("ghz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0)
+                Next
+            ElseIf line1.ToString.ToLower.Contains("mhz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) / 1000
+                Next
+            ElseIf line1.ToString.ToLower.Contains("khz") Then
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) / 1000000
+                Next
+            Else
+                For i As Integer = 0 To numRow - 1
+                    freq1(i) = table(i, 0) / 1000000000
+                Next
+            End If
+        End If
+        If newtoolbar = False Then
+            xmax = freq1.Max
+            xmin = freq1.Min
+            Select Case frequnit
+                Case "hz"
+                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
+                Case "khz"
+                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
+                Case "mhz"
+                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
+                Case "ghz"
+                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
+            End Select
+            If GlobalVariables.autobutton = True Then
+                xaxisadjust()
+            End If
+        End If
+        x2max = freq1.Max
+        If GlobalVariables.autobutton = True Then
+            x2axisadjust()
+        End If
+        For i As Integer = 0 To numRow - 1
+            For j As Integer = 1 To numColumn - 1
+                If i = 0 AndAlso j = 1 Then
+                    y2max = table(0, 1)
+                    y2min = table(0, 1)
+                End If
+                If table(i, j) > y2max Then
+                    y2max = table(i, j)
+                End If
+                If table(i, j) < y2min Then
+                    y2min = table(i, j)
+                End If
             Next
-            Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
-            Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
-            Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
-            GlobalVariables.plot = "generic"
-            y2axisadjust()
-            Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
-            Chart1.ChartAreas("ChartArea1").AxisY2.Title = s1                       '.# to provide one decimal part; For 2 decimal part it is .###
+        Next
+        Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
+        Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
+        Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
+        GlobalVariables.plot = "generic"
+        y2axisadjust()
+        Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+        Chart1.ChartAreas("ChartArea1").AxisY2.Title = s1                       '.# to provide one decimal part; For 2 decimal part it is .###
+        If newtoolbar = True Then
             x = GlobalVariables.seriesnames.Length
             ReDim Preserve GlobalVariables.seriesnames(x + numColumn - 2)
             ReDim Preserve GlobalVariables.series(x + numColumn - 2)
-            For i As Integer = 1 To numColumn - 1
-                Chart1.Series.Add(names(i))
-                Chart1.Series(names(i)).XAxisType = AxisType.Primary
-                Chart1.Series(names(i)).YAxisType = AxisType.Secondary
-                Chart1.Series(names(i)).ChartType = DataVisualization.Charting.SeriesChartType.Line
-                Chart1.Series(names(i)).BorderWidth = 2
-                Chart1.Series(names(i)).BorderDashStyle = ChartDashStyle.Dash
-                Chart1.Series(names(i)).Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
-                For j As Integer = 0 To numRow - 1
-                    para1(j) = table(j, i)
-                Next
-                Chart1.Series(names(i)).Points.DataBindXY(freq1, para1)
-                GlobalVariables.seriesnames(x + i - 2) = names(i)
-                GlobalVariables.series(x + i - 2) = 1
+        Else
+            x = 1
+            GlobalVariables.seriesnames = New String(numColumn - 1) {}
+            GlobalVariables.series = New Integer(numColumn - 1) {}
+        End If
+        For i As Integer = 1 To numColumn - 1
+            Chart1.Series.Add(names(i))
+            Chart1.Series(names(i)).XAxisType = AxisType.Primary
+            Chart1.Series(names(i)).YAxisType = AxisType.Secondary
+            Chart1.Series(names(i)).ChartType = DataVisualization.Charting.SeriesChartType.Line
+            Chart1.Series(names(i)).BorderWidth = 2
+            Chart1.Series(names(i)).BorderDashStyle = ChartDashStyle.Dash
+            Chart1.Series(names(i)).Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+            For j As Integer = 0 To numRow - 1
+                para1(j) = table(j, i)
             Next
-            fullstring = vbNullString   ' Releasing memory by setting values as Null
-            line1 = vbNullString
-            line2 = vbNullString
-            value = Nothing
-            Erase freq1
-            Erase para1
-            Erase table
-            AddToolStripMenuItem.Enabled = False
-        Catch ex As Exception
-            MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+            Chart1.Series(names(i)).Points.DataBindXY(freq1, para1)
+            GlobalVariables.seriesnames(x + i - 2) = names(i)
+            GlobalVariables.series(x + i - 2) = 1
+        Next
+        'AllocConsole() 'show console
+        'For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
+        '    Console.WriteLine(GlobalVariables.seriesnames(i))
+        'Next
+        fullstring = vbNullString   ' Releasing memory by setting values as Null
+        line1 = vbNullString
+        line2 = vbNullString
+        value = Nothing
+        Erase freq1
+        Erase para1
+        Erase table
+        'AddToolStripMenuItem.Enabled = False
+        addtoolbar = False
+        generic = True
     End Sub
 
     Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CheckedListBox1.ItemCheck
@@ -1426,6 +1598,35 @@ Public Class Form1
 
     Private Sub DeviceOptionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeviceOptionsToolStripMenuItem.Click
         'Form3.ShowDialog()
+    End Sub
+
+    Private Sub ClearChartAreaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearChartAreaToolStripMenuItem.Click
+        Chart1.Series.Clear()
+        Chart1.Series.Add(" ")
+        Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
+        Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
+        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
+        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
+        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
+        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
+        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
+        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
+        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+        Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
+        Chart1.ChartAreas("ChartArea1").AxisY.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
+        Chart1.Series(" ").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
+        For i As Integer = 0 To 100
+            array(i) = 0
+            Chart1.Series(" ").Points.AddXY(i, array(i))
+        Next
+        Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
+        names = New String(1) {}
+        newtoolbar = False
+        addtoolbar = False
+        generic = False
     End Sub
 
     'Private Sub ClearSelectedMarkerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearSelectedMarkerToolStripMenuItem.Click

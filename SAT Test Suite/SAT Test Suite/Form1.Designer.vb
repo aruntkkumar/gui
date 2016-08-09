@@ -48,6 +48,7 @@ Partial Class Form1
         Me.FirstDevice = New System.Windows.Forms.ToolStripMenuItem()
         Me.DeviceOptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
+        Me.ClearChartAreaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
@@ -127,7 +128,7 @@ Partial Class Form1
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.AddToolStripMenuItem, Me.ToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.ToolStripMenuItem2, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.AddToolStripMenuItem, Me.ClearChartAreaToolStripMenuItem, Me.ToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.ToolStripMenuItem2, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -229,6 +230,12 @@ Partial Class Form1
         Me.CheckedListBox1.Size = New System.Drawing.Size(191, 360)
         Me.CheckedListBox1.TabIndex = 22
         '
+        'ClearChartAreaToolStripMenuItem
+        '
+        Me.ClearChartAreaToolStripMenuItem.Name = "ClearChartAreaToolStripMenuItem"
+        Me.ClearChartAreaToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
+        Me.ClearChartAreaToolStripMenuItem.Text = "Clear Chart Area"
+        '
         'Form1
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -275,4 +282,5 @@ Partial Class Form1
     Friend WithEvents ScanMyDevicesToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents FirstDevice As ToolStripMenuItem
     Friend WithEvents DeviceOptionsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ClearChartAreaToolStripMenuItem As ToolStripMenuItem
 End Class
