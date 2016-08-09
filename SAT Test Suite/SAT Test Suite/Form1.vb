@@ -627,6 +627,10 @@ Public Class Form1
                 numRow = result.Tables(0).Rows.Count - 2
                 numColumn = result.Tables(0).Columns.Count
                 'If line1.ToLower.Contains("eff") Or line2.ToLower.Contains("eff") Then
+                If line1.Contains("!") Or line1.Contains("#") Or line2.Contains("!") Or line2.Contains("#") Then
+                    MetroFramework.MetroMessageBox.Show(Me, "The selected spreadsheet is not supported by SAT Test Suite", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+                End If
                 If line2.ToLower.Contains("eff") Then
                 ElseIf line1.ToLower.Contains("hz") Then
                     genericplot()
