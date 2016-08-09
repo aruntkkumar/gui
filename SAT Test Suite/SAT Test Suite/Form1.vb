@@ -1395,7 +1395,11 @@ Public Class Form1
             Erase table
 
         Catch ex As Exception
-            MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If ex.Message = "HRESULT = 80040000" Then
+                MetroFramework.MetroMessageBox.Show(Me, "Unable to connect to Agilent N5230A NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         Finally
             Try
                 instrument.IO.Close()
