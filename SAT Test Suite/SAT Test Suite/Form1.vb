@@ -67,6 +67,7 @@ Public Class Form1
     Dim newtoolbar As Boolean = False
     Dim addtoolbar As Boolean = False
     Dim generic As Boolean = False
+    Dim values() As String
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         dialog.InitialDirectory = "C:\"
@@ -95,13 +96,33 @@ Public Class Form1
         ClearAllMarkersToolStripMenuItem.Enabled = False
         'ClearSelectedMarkerToolStripMenuItem.Enabled = False
         'preVISAAddress = VISAAddressEdit.Text
-        GlobalVariables.DeviceName = New String(1) {}
-        GlobalVariables.DeviceAddress = New String(1) {}
+        GlobalVariables.DeviceName = New String(2) {}
+        GlobalVariables.DeviceAddress = New String(2) {}
         GlobalVariables.DeviceName(0) = "Agilent Technologies N5230A Network Analyzer"
-        GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
+        GlobalVariables.DeviceName(1) = "Rohde & Schwarz ZVL6"
+        If System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt") Then
+            values = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt").Split("|"c)
+            If values(1) = "" Then
+                GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
+            Else
+                GlobalVariables.DeviceAddress(0) = values(1)
+            End If
+            If values(3) = "" Then
+                GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
+            Else
+                GlobalVariables.DeviceAddress(1) = values(3)
+            End If
+        Else
+            GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
+            GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
+        End If
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
+        If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
+            System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
+        End If
+        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
         'If xlWorkBook Is Nothing Then
         Me.Close()
         'Else
@@ -111,6 +132,10 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
+            System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
+        End If
+        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
         'If xlWorkBook Is Nothing Then
         'Else
         '    xlApp.Quit()
@@ -1363,6 +1388,7 @@ Public Class Form1
                 instrument.WriteString("MMEMory:TRANsfer? 'c:\MyData.s4p'", True)
             End If
             'AllocConsole() 'show console
+            matrix = "full"
             Using sr As New StringReader(instrument.ReadString())
                 While True
                     line = sr.ReadLine()
@@ -1449,7 +1475,6 @@ Public Class Form1
             x2max = 0
             Erase names
             names = New String(1) {}
-            matrix = "full"
             fullstring = line & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
             fullstring = System.Text.RegularExpressions.Regex.Replace(fullstring, "\s{1,}", ",")    'Replaces white spaces (Space, tab, linefeed, carriage-return, formfeed, vertical-tab, and newline characters) with a comma 
 
@@ -1569,7 +1594,7 @@ Public Class Form1
             Erase freq1         '   Releasing memory
             Erase para1
             Erase table
-
+            newtoolbar = True
         Catch ex As Exception
             If ex.Message = "HRESULT = 80040000" Then
                 MetroFramework.MetroMessageBox.Show(Me, "Unable to connect to Agilent N5230A NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1601,7 +1626,7 @@ Public Class Form1
     'End Sub
 
     Private Sub DeviceOptionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeviceOptionsToolStripMenuItem.Click
-        'Form3.ShowDialog()
+        Form3.ShowDialog()
     End Sub
 
     Private Sub ClearChartAreaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearChartAreaToolStripMenuItem.Click
@@ -1631,6 +1656,257 @@ Public Class Form1
         newtoolbar = False
         addtoolbar = False
         generic = False
+    End Sub
+
+    Private Sub SecondDevice_Click(sender As Object, e As EventArgs) Handles SecondDevice.Click
+        Dim ioMgr As New Ivi.Visa.Interop.ResourceManager
+        Dim instrument As New Ivi.Visa.Interop.FormattedIO488
+        'Dim commas As String()
+        Dim trace As String()
+        Dim returnstring As String
+        Dim S11(1) As Double
+        Dim S12(1) As Double
+        Dim S21(1) As Double
+        Dim S22(1) As Double
+        Try
+            instrument.IO = ioMgr.Open(GlobalVariables.DeviceAddress(1))
+            instrument.WriteString("*CLS", True)
+            instrument.WriteString("INST:NSEL 2", True)     '1 - Spectrum analyser mode and 2 - Network analyser mode; Or INST NWA - Network Analyser
+            instrument.WriteString("CALC:PAR:CAT?", True)
+            returnstring = instrument.ReadString()
+            returnstring = System.Text.RegularExpressions.Regex.Replace(returnstring, "'{1,}", "")
+            returnstring = System.Text.RegularExpressions.Regex.Replace(returnstring, "\s{1,}", "")
+            trace = System.Text.RegularExpressions.Regex.Split(returnstring, ",")
+            instrument.WriteString("FORMAT ASCII", True)
+            instrument.WriteString("CALC:FORM MLOG", True)
+            instrument.WriteString("SWE:POIN?", True)
+            row = instrument.ReadString()
+            freq1 = New Double(row - 1) {}
+            instrument.WriteString("CALC:DATA:STIM?", True)
+            returnstring = instrument.ReadString()
+            value = System.Text.RegularExpressions.Regex.Split(returnstring, ",")
+            x = 0
+            For Each s As String In value
+                If String.IsNullOrWhiteSpace(s) Then
+                Else
+                    freq1(x) = CDbl(s)
+                    x += 1
+                End If
+            Next
+            If trace.Contains("S11") AndAlso trace.Contains("S12") AndAlso trace.Contains("S21") AndAlso trace.Contains("S22") Then
+                ports = 2
+                S11 = New Double(row - 1) {}
+                S12 = New Double(row - 1) {}
+                S21 = New Double(row - 1) {}
+                S22 = New Double(row - 1) {}
+                GlobalVariables.seriesnames = New String(4) {"S(1,1)", "S(1,2)", "S(2,1)", "S(2,2)", ""}
+                GlobalVariables.series = New Integer(4) {1, 1, 1, 1, 0}
+                For i As Integer = 0 To trace.Count - 1
+                    If trace(i) = "S11" Or trace(i) = "S12" Or trace(i) = "S21" Or trace(i) = "S22" Then
+                        instrument.WriteString("CALC:PAR:MEAS '" & trace(i - 1) & "','" & trace(i) & "'", True)
+                        instrument.WriteString("CALC:DATA? FDATA", True)
+                        returnstring = instrument.ReadString()
+                        value = System.Text.RegularExpressions.Regex.Split(returnstring, ",")
+                        x = 0
+                        For Each s As String In value
+                            If String.IsNullOrWhiteSpace(s) Then
+                            Else
+                                If trace(i) = "S11" Then
+                                    S11(x) = CDbl(s)
+                                ElseIf trace(i) = "S12" Then
+                                    S12(x) = CDbl(s)
+                                ElseIf trace(i) = "S21" Then
+                                    S21(x) = CDbl(s)
+                                ElseIf trace(i) = "S22" Then
+                                    S22(x) = CDbl(s)
+                                End If
+                                x += 1
+                            End If
+                        Next
+                    End If
+                Next
+            ElseIf trace.Contains("S11") Then
+                ports = 1
+                S11 = New Double(row - 1) {}
+                GlobalVariables.seriesnames = New String(1) {"S(1,1)", ""}
+                GlobalVariables.series = New Integer(1) {1, 0}
+                For i As Integer = 0 To trace.Count - 1
+                    If trace(i) = "S11" Then
+                        instrument.WriteString("CALC:PAR:MEAS '" & trace(i - 1) & "','" & trace(i) & "'", True)
+                        instrument.WriteString("CALC:DATA? FDATA", True)
+                        returnstring = instrument.ReadString()
+                        value = System.Text.RegularExpressions.Regex.Split(returnstring, ",")
+                        x = 0
+                        For Each s As String In value
+                            If String.IsNullOrWhiteSpace(s) Then
+                            Else
+                                S11(x) = CDbl(s)
+                                x += 1
+                            End If
+                        Next
+                    End If
+                Next
+            Else
+                MetroFramework.MetroMessageBox.Show(Me, "Cannot process the data. Please create a trace for 'S11' or for all the s parameters and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+            'commas = System.Text.RegularExpressions.Regex.Split(returnstring, ",")
+            'For i As Integer = 0 To commas.Count - 1
+            '    If System.Text.RegularExpressions.Regex.Replace(commas(i), "\s{1,}", "") = "S11" Then       'Removes the linefeed
+            '        trace = commas(i - 1)
+            '    End If
+            'Next
+            'For Creating Touchstone File
+            'If ports = 2 Then
+            '    instrument.WriteString("MMEM:STOR:TRAC '" & trace & "','c:\Test1.s2p',UNF,LOGP,POIN,SPAC", True)
+            'Else
+            '    instrument.WriteString("MMEM:STOR:TRAC '" & trace & "','c:\Test1.s1p',UNF,LOGP,POIN,SPAC", True)
+            'End If
+            'For Deleting Touchstone File
+            'If ports = 2 Then
+            '    instrument.WriteString("MMEM:DEL 'c:\Test1.s2p'", True)
+            'Else
+            '    instrument.WriteString("MMEM:DEL 'c:\Test1.s1p'", True)
+            'End If
+            matrix = "full"
+            frequnit = "hz"
+            checkboxnum = 1
+            y2max1 = 0
+            y2min1 = 0
+            x2max = 0
+            xmax = freq1.Max
+            xmin = freq1.Min
+            CheckedListBox1.Items.Clear()
+            Chart1.Series.Clear()
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
+            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+            Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
+            Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+            Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
+            If GlobalVariables.autobutton = True Then
+                xaxisadjust()
+            End If
+            ymax = 0
+            ymin = 0
+            x = 1
+            y = 0
+            'AllocConsole()
+            If ports = 1 Then
+                For i As Integer = 0 To row - 1
+                    If CStr(S11(i)) = "-Infinity" Then
+                        S11(i) = -1000
+                    End If
+                Next
+                If ymax < S11.Max Then
+                    ymax = S11.Max
+                End If
+                If ymin > S11.Min Then
+                    ymin = S11.Min
+                End If
+                Chart1.Series.Add("S(1,1)")
+                Chart1.Series("S(1,1)").ChartType = DataVisualization.Charting.SeriesChartType.Line
+                Chart1.Series("S(1,1)").BorderWidth = 2
+                Chart1.Series("S(1,1)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                Chart1.Series("S(1,1)").Points.DataBindXY(freq1, S11)
+            Else
+                For i As Integer = 0 To row - 1
+                    If CStr(S11(i)) = "-Infinity" Then
+                        S11(i) = -1000
+                    End If
+                    If CStr(S12(i)) = "-Infinity" Then
+                        S12(i) = -1000
+                    End If
+                    If CStr(S21(i)) = "-Infinity" Then
+                        S21(i) = -1000
+                    End If
+                    If CStr(S22(i)) = "-Infinity" Then
+                        S22(i) = -1000
+                    End If
+                    'Console.WriteLine(freq1(i) & " " & S11(i) & " " & S12(i) & " " & S21(i) & " " & S22(i))
+                Next
+                If ymax < S11.Max Then
+                    ymax = S11.Max
+                End If
+                If ymax < S12.Max Then
+                    ymax = S12.Max
+                End If
+                If ymax < S21.Max Then
+                    ymax = S21.Max
+                End If
+                If ymax < S22.Max Then
+                    ymax = S22.Max
+                End If
+                If ymin > S11.Min Then
+                    ymin = S11.Min
+                End If
+                If ymin > S12.Min Then
+                    ymin = S12.Min
+                End If
+                If ymin > S21.Min Then
+                    ymin = S21.Min
+                End If
+                If ymin > S22.Min Then
+                    ymin = S22.Min
+                End If
+                Chart1.Series.Add("S(1,1)")
+                Chart1.Series("S(1,1)").ChartType = DataVisualization.Charting.SeriesChartType.Line
+                Chart1.Series("S(1,1)").BorderWidth = 2
+                Chart1.Series("S(1,1)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                Chart1.Series("S(1,1)").Points.DataBindXY(freq1, S11)
+                Chart1.Series.Add("S(1,2)")
+                Chart1.Series("S(1,2)").ChartType = DataVisualization.Charting.SeriesChartType.Line
+                Chart1.Series("S(1,2)").BorderWidth = 2
+                Chart1.Series("S(1,2)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                Chart1.Series("S(1,2)").Points.DataBindXY(freq1, S12)
+                Chart1.Series.Add("S(2,1)")
+                Chart1.Series("S(2,1)").ChartType = DataVisualization.Charting.SeriesChartType.Line
+                Chart1.Series("S(2,1)").BorderWidth = 2
+                Chart1.Series("S(2,1)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                Chart1.Series("S(2,1)").Points.DataBindXY(freq1, S21)
+                Chart1.Series.Add("S(2,2)")
+                Chart1.Series("S(2,2)").ChartType = DataVisualization.Charting.SeriesChartType.Line
+                Chart1.Series("S(2,2)").BorderWidth = 2
+                Chart1.Series("S(2,2)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                Chart1.Series("S(2,2)").Points.DataBindXY(freq1, S22)
+            End If
+            If GlobalVariables.autobutton = True Then
+                yaxisadjust()
+            End If
+            Erase freq1         '   Releasing memory
+            Erase S11
+            If ports = 2 Then
+                Erase S12
+                Erase S21
+                Erase S22
+            End If
+            newtoolbar = True
+        Catch ex As Exception
+            If ex.Message = "HRESULT = 80040000" Then
+                MetroFramework.MetroMessageBox.Show(Me, "Unable to connect to Rohde && Schwarz ZVL6 NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Finally
+            Try
+            instrument.IO.Close()
+        Catch ex As Exception
+        End Try
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
+        Catch ex As Exception
+        End Try
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
+        Catch ex As Exception
+        End Try
+        End Try
     End Sub
 
     'Private Sub ClearSelectedMarkerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearSelectedMarkerToolStripMenuItem.Click

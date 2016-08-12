@@ -33,26 +33,26 @@
             TextBox9.Enabled = False
         End If
         GlobalVariables.okbutton = "cancel"
-        'If (GlobalVariables.ports = 0) Then
-        If (GlobalVariables.series.Length - 2 = 0) Then
-            CheckBox1.Enabled = False
-            CheckBox2.Enabled = False
-        Else
-            CheckBox1.Enabled = True
-            CheckBox2.Enabled = True
-            RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-            'If (GlobalVariables.ports = 0) Then                     'Bug found. If no S parameters are there, then it is Length-1. Else it is Length-2
-            '    For i As Integer = 0 To GlobalVariables.seriesnames.Length - 2
-            '        'If GlobalVariables.seriesnames(i) <> "" Then
-            '        If GlobalVariables.series(i) = 1 Then
-            '            CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=True)
-            '        Else
-            '            CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=False)
-            '        End If
-            '        'End If
-            '    Next
-            'Else
-            For i As Integer = 0 To GlobalVariables.seriesnames.Length - 2
+        If (GlobalVariables.ports <> 0) Then
+            If (GlobalVariables.series.Length - 2 = 0) Then
+                CheckBox1.Enabled = False
+                CheckBox2.Enabled = False
+            Else
+                CheckBox1.Enabled = True
+                CheckBox2.Enabled = True
+                RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                'If (GlobalVariables.ports = 0) Then                     'Bug found. If no S parameters are there, then it is Length-1. Else it is Length-2
+                '    For i As Integer = 0 To GlobalVariables.seriesnames.Length - 2
+                '        'If GlobalVariables.seriesnames(i) <> "" Then
+                '        If GlobalVariables.series(i) = 1 Then
+                '            CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=True)
+                '        Else
+                '            CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=False)
+                '        End If
+                '        'End If
+                '    Next
+                'Else
+                For i As Integer = 0 To GlobalVariables.seriesnames.Length - 2
                     'If GlobalVariables.seriesnames(i) <> "" Then
                     If GlobalVariables.series(i) = 1 Then
                         CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=True)
@@ -61,10 +61,10 @@
                     End If
                     'End If
                 Next
-            'End If
-            AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
             End If
-            If GlobalVariables.autobutton = True Then
+            AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+        End If
+        If GlobalVariables.autobutton = True Then
             CheckBox3.Checked = True
         Else
             CheckBox3.Checked = False
