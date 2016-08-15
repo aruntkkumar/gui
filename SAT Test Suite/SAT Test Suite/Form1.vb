@@ -9,7 +9,7 @@ Imports Excel
 Public Class Form1
     Dim dialog As OpenFileDialog = New OpenFileDialog()
     Dim dialog1 As SaveFileDialog = New SaveFileDialog()
-    Dim names(1) As String
+    Dim names(0) As String
     Dim x As Integer
     Dim y As Integer
     Dim z As Integer
@@ -96,8 +96,10 @@ Public Class Form1
         ClearAllMarkersToolStripMenuItem.Enabled = False
         'ClearSelectedMarkerToolStripMenuItem.Enabled = False
         'preVISAAddress = VISAAddressEdit.Text
-        GlobalVariables.DeviceName = New String(2) {}
-        GlobalVariables.DeviceAddress = New String(2) {}
+        GlobalVariables.series = New Integer(-1) {}     'Array with zeo elements
+        GlobalVariables.seriesnames = New String(-1) {}
+        GlobalVariables.DeviceName = New String(1) {}   '1 initialises two elements
+        GlobalVariables.DeviceAddress = New String(1) {}
         GlobalVariables.DeviceName(0) = "Agilent Technologies N5230A Network Analyzer"
         GlobalVariables.DeviceName(1) = "Rohde & Schwarz ZVL6"
         If System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt") Then
@@ -179,7 +181,7 @@ Public Class Form1
             y2min1 = 0
             x2max = 0
             Erase names
-            names = New String(1) {}
+            names = New String(0) {}
             Try
                 matrix = "full"
                 Using sr As New StreamReader(dialog.FileName)
@@ -317,14 +319,14 @@ Public Class Form1
                     'Console.WriteLine(freq1(i))
                 Next
                 If matrix = "lower" Then
-                    GlobalVariables.seriesnames = New String(ports * (ports + 1) / 2) {}
-                    GlobalVariables.series = New Integer(ports * (ports + 1) / 2) {}
+                    GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
+                    GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
                 ElseIf matrix = "upper" Then
-                    GlobalVariables.seriesnames = New String(ports * (ports + 1) / 2) {}
-                    GlobalVariables.series = New Integer(ports * (ports + 1) / 2) {}
+                    GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
+                    GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
                 Else
-                    GlobalVariables.seriesnames = New String(ports * ports) {}
-                    GlobalVariables.series = New Integer(ports * ports) {}
+                    GlobalVariables.seriesnames = New String((ports * ports) - 1) {}
+                    GlobalVariables.series = New Integer((ports * ports) - 1) {}
                 End If
                 ymax = 0
                 ymin = 0
@@ -537,7 +539,7 @@ Public Class Form1
                 End If
             End If
             If GlobalVariables.ports <> 0 Then
-                For i As Integer = 0 To GlobalVariables.series.Length - 2
+                For i As Integer = 0 To GlobalVariables.series.Length - 1
                     'If GlobalVariables.seriesnames(i) <> "" Then
                     If GlobalVariables.series(i) = 1 Then
                         Chart1.Series(GlobalVariables.seriesnames(i)).Enabled = True
@@ -688,6 +690,7 @@ Public Class Form1
                     Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
                     frequnit = "ghz"
                     checkboxnum = 1
+                    x2max = 0
                 Else
                     If generic = True Then
                         Dim i As Integer
@@ -699,12 +702,15 @@ Public Class Form1
                             i = ports * ports
                         End If
                         Dim series1 As DataVisualization.Charting.Series
-                        For j As Integer = i To GlobalVariables.seriesnames.Length - 2
+                        For j As Integer = i To GlobalVariables.seriesnames.Length - 1
                             series1 = Chart1.Series(GlobalVariables.seriesnames(j))
                             Chart1.Series.Remove(series1)
                         Next
-                        ReDim Preserve GlobalVariables.seriesnames(i)
-                        ReDim Preserve GlobalVariables.series(i)
+                        ReDim Preserve GlobalVariables.seriesnames(i - 1)
+                        ReDim Preserve GlobalVariables.series(i - 1)
+                        x2max = 0
+                        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = xmin
+                        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xmax
                     End If
                 End If
                 If newtoolbar = False AndAlso generic = True Then
@@ -718,6 +724,7 @@ Public Class Form1
                     Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
                     frequnit = "ghz"
                     checkboxnum = 1
+                    x2max = 0
                 End If
                 Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
                 Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Clear()
@@ -728,14 +735,14 @@ Public Class Form1
                 value2 = System.Text.RegularExpressions.Regex.Split(line2, ",")
                 'Dim names(numColumn) As String
                 If generic = True Then
-                    names = New String(numColumn) {}
+                    names = New String(numColumn - 1) {}
                 End If
                 column = 0
-                If names.Length - 2 = 0 Then
-                    names = New String(numColumn) {}
+                If names.Length - 1 = 0 Then
+                    names = New String(numColumn - 1) {}
                 Else
-                    column = names.Length - 2
-                    ReDim Preserve names(column + numColumn)
+                    column = names.Length - 1
+                    ReDim Preserve names(column + numColumn - 1)
                 End If
                 table = New Double(numRow - 1, numColumn - 1) {}
                 freq1 = New Double(numRow - 1) {}
@@ -745,16 +752,18 @@ Public Class Form1
                     y = 0
                     For Each s2 As String In value2
                         If x = y Then
-                            If x = 0 Then
-                                names(column + x) = s2
-                            Else
-                                For i As Integer = 0 To names.Length - 2
-                                    If names(i) = String.Concat(s + " " + s2) Then
-                                        MetroFramework.MetroMessageBox.Show(Me, "The title name '" + String.Concat(s + " " + s2) + "' is already a member of the Chart Series", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                        Exit Sub
-                                    End If
-                                Next
-                                names(column + x) = String.Concat(s + " " + s2)
+                            If s <> "" AndAlso s2 <> "" Then
+                                If x = 0 Then
+                                    names(column + x) = s2
+                                Else
+                                    For i As Integer = 0 To names.Length - 1
+                                        If names(i) = String.Concat(s + " " + s2) Then
+                                            MetroFramework.MetroMessageBox.Show(Me, "The title name '" + String.Concat(s + " " + s2) + "' is already a member of the Chart Series", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                            Exit Sub
+                                        End If
+                                    Next
+                                    names(column + x) = String.Concat(s + " " + s2)
+                                End If
                             End If
                         End If
                         y += 1
@@ -874,7 +883,7 @@ Public Class Form1
                         xaxisadjust()
                     End If
                 End If
-                If x2max = 0 Then
+                If freq1.Max > x2max Then
                     x2max = freq1.Max
                 End If
                 If GlobalVariables.autobutton = True Then
@@ -937,9 +946,9 @@ Public Class Form1
                         ReDim Preserve GlobalVariables.seriesnames(x + numColumn - 2)
                         ReDim Preserve GlobalVariables.series(x + numColumn - 2)
                     Else
-                        x = 1
-                        GlobalVariables.seriesnames = New String(numColumn - 1) {}
-                        GlobalVariables.series = New Integer(numColumn - 1) {}
+                        x = 0
+                        GlobalVariables.seriesnames = New String(numColumn - 2) {}
+                        GlobalVariables.series = New Integer(numColumn - 2) {}
                     End If
                 End If
                 For i As Integer = 1 To numColumn - 1
@@ -958,12 +967,12 @@ Public Class Form1
                         End If
                     Next
                     Chart1.Series(names(column + i)).Points.DataBindXY(freq1, eff1)
-                    GlobalVariables.seriesnames(x + i - 2) = names(column + i)
-                    GlobalVariables.series(x + i - 2) = 1
+                    GlobalVariables.seriesnames(x + i - 1) = names(column + i)
+                    GlobalVariables.series(x + i - 1) = 1
                 Next
                 'AllocConsole() 'show console
                 'For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
-                '    Console.WriteLine(GlobalVariables.seriesnames(i))
+                'Console.WriteLine(GlobalVariables.seriesnames(i))
                 'Next
                 fullstring = vbNullString   ' Releasing memory by setting values as Null
                 line1 = vbNullString
@@ -1038,24 +1047,28 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
             frequnit = "ghz"
             checkboxnum = 1
+            x2max = 0
         Else
-            If addtoolbar = True Then
-                Dim i As Integer
-                If matrix = "lower" Then
-                    i = (ports * (ports + 1) / 2)
-                ElseIf matrix = "upper" Then
-                    i = (ports * (ports + 1) / 2)
-                Else
-                    i = ports * ports
-                End If
-                Dim series1 As DataVisualization.Charting.Series
-                For j As Integer = i To GlobalVariables.seriesnames.Length - 2
-                    series1 = Chart1.Series(GlobalVariables.seriesnames(j))
-                    Chart1.Series.Remove(series1)
-                Next
-                ReDim Preserve GlobalVariables.seriesnames(i)
-                ReDim Preserve GlobalVariables.series(i)
+            'If addtoolbar = True Then
+            Dim i As Integer
+            If matrix = "lower" Then
+                i = (ports * (ports + 1) / 2)
+            ElseIf matrix = "upper" Then
+                i = (ports * (ports + 1) / 2)
+            Else
+                i = ports * ports
             End If
+            Dim series1 As DataVisualization.Charting.Series
+            For j As Integer = i To GlobalVariables.seriesnames.Length - 1
+                series1 = Chart1.Series(GlobalVariables.seriesnames(j))
+                Chart1.Series.Remove(series1)
+            Next
+            ReDim Preserve GlobalVariables.seriesnames(i - 1)
+            ReDim Preserve GlobalVariables.series(i - 1)
+            x2max = 0
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = xmin
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xmax
+            'End If
         End If
         numRow += 1
         fullstring = line2 & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
@@ -1067,11 +1080,11 @@ Public Class Form1
         'names = New String(numColumn) {}
         ''column = names.Length - 2
         column = 0
-        If names.Length - 2 = 0 Then
-            names = New String(numColumn) {}
+        If names.Length - 1 = 0 Then
+            names = New String(numColumn - 1) {}
         Else
-            column = names.Length - 2
-            ReDim Preserve names(column + numColumn)
+            column = names.Length - 1
+            ReDim Preserve names(column + numColumn - 1)
         End If
         table = New Double(numRow - 1, numColumn - 1) {}
         freq1 = New Double(numRow - 1) {}
@@ -1080,13 +1093,13 @@ Public Class Form1
         Dim s1 As String = ""
         x = 0
         For Each s As String In value
-            If x > 0 Then
-                If String.IsNullOrWhiteSpace(s) Then
-                Else
+            If String.IsNullOrWhiteSpace(s) Then
+            Else
+                If x > 0 Then
                     If x = 1 Then
                         s1 = s
                     Else
-                        For i As Integer = 0 To names.Length - 2
+                        For i As Integer = 0 To names.Length - 1
                             If names(i) = String.Join(" ", s1.Split(" "c).Intersect(s.Split(" "c))) Then
                                 MetroFramework.MetroMessageBox.Show(Me, "The title name '" + String.Join(" ", s1.Split(" "c).Intersect(s.Split(" "c))) + "' is already a member of the Chart Series", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                 Exit Sub
@@ -1095,11 +1108,12 @@ Public Class Form1
                         s1 = String.Join(" ", s1.Split(" "c).Intersect(s.Split(" "c)))
                     End If
                     names(x) = s
+
+                Else
+                    names(x) = s
                 End If
-            Else
-                names(x) = s
+                x += 1
             End If
-            x += 1
         Next
         value = System.Text.RegularExpressions.Regex.Split(fullstring, ",")
         x = 0
@@ -1214,7 +1228,10 @@ Public Class Form1
                 xaxisadjust()
             End If
         End If
-        x2max = freq1.Max
+        If x2max = 0 Then
+            x2max = freq1.Max
+        End If
+        'x2max = freq1.Max
         If GlobalVariables.autobutton = True Then
             x2axisadjust()
         End If
@@ -1244,9 +1261,9 @@ Public Class Form1
             ReDim Preserve GlobalVariables.seriesnames(x + numColumn - 2)
             ReDim Preserve GlobalVariables.series(x + numColumn - 2)
         Else
-            x = 1
-            GlobalVariables.seriesnames = New String(numColumn - 1) {}
-            GlobalVariables.series = New Integer(numColumn - 1) {}
+            x = 0
+            GlobalVariables.seriesnames = New String(numColumn - 2) {}
+            GlobalVariables.series = New Integer(numColumn - 2) {}
         End If
         For i As Integer = 1 To numColumn - 1
             Chart1.Series.Add(names(i))
@@ -1260,12 +1277,12 @@ Public Class Form1
                 para1(j) = table(j, i)
             Next
             Chart1.Series(names(i)).Points.DataBindXY(freq1, para1)
-            GlobalVariables.seriesnames(x + i - 2) = names(i)
-            GlobalVariables.series(x + i - 2) = 1
+            GlobalVariables.seriesnames(x + i - 1) = names(i)
+            GlobalVariables.series(x + i - 1) = 1
         Next
         'AllocConsole() 'show console
         'For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
-        '    Console.WriteLine(GlobalVariables.seriesnames(i))
+        '    'Console.WriteLine(GlobalVariables.seriesnames(i))
         'Next
         fullstring = vbNullString   ' Releasing memory by setting values as Null
         line1 = vbNullString
@@ -1474,7 +1491,7 @@ Public Class Form1
             y2min1 = 0
             x2max = 0
             Erase names
-            names = New String(1) {}
+            names = New String(0) {}
             fullstring = line & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
             fullstring = System.Text.RegularExpressions.Regex.Replace(fullstring, "\s{1,}", ",")    'Replaces white spaces (Space, tab, linefeed, carriage-return, formfeed, vertical-tab, and newline characters) with a comma 
 
@@ -1527,14 +1544,14 @@ Public Class Form1
                 freq1(i) = table(i, 0)
             Next
             If matrix = "lower" Then
-                GlobalVariables.seriesnames = New String(ports * (ports + 1) / 2) {}
-                GlobalVariables.series = New Integer(ports * (ports + 1) / 2) {}
+                GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
+                GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
             ElseIf matrix = "upper" Then
-                GlobalVariables.seriesnames = New String(ports * (ports + 1) / 2) {}
-                GlobalVariables.series = New Integer(ports * (ports + 1) / 2) {}
+                GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
+                GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
             Else
-                GlobalVariables.seriesnames = New String(ports * ports) {}
-                GlobalVariables.series = New Integer(ports * ports) {}
+                GlobalVariables.seriesnames = New String((ports * ports) - 1) {}
+                GlobalVariables.series = New Integer((ports * ports) - 1) {}
             End If
             ymax = 0
             ymin = 0
@@ -1652,10 +1669,12 @@ Public Class Form1
             Chart1.Series(" ").Points.AddXY(i, array(i))
         Next
         Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
-        names = New String(1) {}
+        names = New String(0) {}
         newtoolbar = False
         addtoolbar = False
         generic = False
+        GlobalVariables.series = New Integer(-1) {}     'Array with zeo elements
+        GlobalVariables.seriesnames = New String(-1) {}
     End Sub
 
     Private Sub SecondDevice_Click(sender As Object, e As EventArgs) Handles SecondDevice.Click
@@ -1699,8 +1718,8 @@ Public Class Form1
                 S12 = New Double(row - 1) {}
                 S21 = New Double(row - 1) {}
                 S22 = New Double(row - 1) {}
-                GlobalVariables.seriesnames = New String(4) {"S(1,1)", "S(1,2)", "S(2,1)", "S(2,2)", ""}
-                GlobalVariables.series = New Integer(4) {1, 1, 1, 1, 0}
+                GlobalVariables.seriesnames = New String(3) {"S(1,1)", "S(1,2)", "S(2,1)", "S(2,2)"}
+                GlobalVariables.series = New Integer(3) {1, 1, 1, 1}
                 For i As Integer = 0 To trace.Count - 1
                     If trace(i) = "S11" Or trace(i) = "S12" Or trace(i) = "S21" Or trace(i) = "S22" Then
                         instrument.WriteString("CALC:PAR:MEAS '" & trace(i - 1) & "','" & trace(i) & "'", True)
@@ -1728,8 +1747,8 @@ Public Class Form1
             ElseIf trace.Contains("S11") Then
                 ports = 1
                 S11 = New Double(row - 1) {}
-                GlobalVariables.seriesnames = New String(1) {"S(1,1)", ""}
-                GlobalVariables.series = New Integer(1) {1, 0}
+                GlobalVariables.seriesnames = New String(0) {"S(1,1)"}
+                GlobalVariables.series = New Integer(0) {1}
                 For i As Integer = 0 To trace.Count - 1
                     If trace(i) = "S11" Then
                         instrument.WriteString("CALC:PAR:MEAS '" & trace(i - 1) & "','" & trace(i) & "'", True)
@@ -1895,17 +1914,17 @@ Public Class Form1
             End If
         Finally
             Try
-            instrument.IO.Close()
-        Catch ex As Exception
-        End Try
-        Try
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
-        Catch ex As Exception
-        End Try
-        Try
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
-        Catch ex As Exception
-        End Try
+                instrument.IO.Close()
+            Catch ex As Exception
+            End Try
+            Try
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
+            Catch ex As Exception
+            End Try
+            Try
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
+            Catch ex As Exception
+            End Try
         End Try
     End Sub
 
