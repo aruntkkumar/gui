@@ -154,7 +154,7 @@ Public Class Form1
         dialog.RestoreDirectory = True
         dialog.FileName = ""
         If dialog.ShowDialog() = DialogResult.OK Then
-            CheckedListBox1.Items.Clear()
+            ClearMarkers()
             Chart1.Series.Clear()
             Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
             Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
@@ -680,7 +680,7 @@ Public Class Form1
                     Exit Sub
                 End If
                 If newtoolbar = False AndAlso addtoolbar = False Then
-                    CheckedListBox1.Items.Clear()
+                    ClearMarkers()
                     Chart1.Series.Clear()
                     Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
                     Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
@@ -693,6 +693,7 @@ Public Class Form1
                     x2max = 0
                 Else
                     If generic = True Then
+                        ClearMarkers()
                         Dim i As Integer
                         If matrix = "lower" Then
                             i = (ports * (ports + 1) / 2)
@@ -714,7 +715,7 @@ Public Class Form1
                     End If
                 End If
                 If newtoolbar = False AndAlso generic = True Then
-                    CheckedListBox1.Items.Clear()
+                    ClearMarkers()
                     Chart1.Series.Clear()
                     Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
                     Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
@@ -1037,7 +1038,7 @@ Public Class Form1
         '    Exit Sub
         'End If
         If newtoolbar = False Then
-            CheckedListBox1.Items.Clear()
+            ClearMarkers()
             Chart1.Series.Clear()
             Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
             Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
@@ -1050,6 +1051,7 @@ Public Class Form1
             x2max = 0
         Else
             'If addtoolbar = True Then
+            ClearMarkers()
             Dim i As Integer
             If matrix = "lower" Then
                 i = (ports * (ports + 1) / 2)
@@ -1313,6 +1315,10 @@ Public Class Form1
     End Sub
 
     Private Sub ClearAllMarkersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearAllMarkersToolStripMenuItem.Click
+        ClearMarkers()
+    End Sub
+
+    Sub ClearMarkers()
         CheckedListBox1.Items.Clear()
         For i As Integer = 0 To checkboxnum - 2
             Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
@@ -1472,7 +1478,7 @@ Public Class Form1
                 instrument.WriteString("MMEM:DEL 'c:\MyData.s4p'", True)    'Deletes the file
             End If
 
-            CheckedListBox1.Items.Clear()
+            ClearMarkers()
             Chart1.Series.Clear()
             Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
             Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
@@ -1795,7 +1801,7 @@ Public Class Form1
             x2max = 0
             xmax = freq1.Max
             xmin = freq1.Min
-            CheckedListBox1.Items.Clear()
+            ClearMarkers()
             Chart1.Series.Clear()
             Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
             Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
