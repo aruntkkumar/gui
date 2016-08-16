@@ -102,29 +102,36 @@ Public Class Form1
         GlobalVariables.DeviceAddress = New String(1) {}
         GlobalVariables.DeviceName(0) = "Agilent Technologies N5230A Network Analyzer"
         GlobalVariables.DeviceName(1) = "Rohde & Schwarz ZVL6"
-        If System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt") Then
-            values = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt").Split("|"c)
-            If values(1) = "" Then
-                GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
-            Else
-                GlobalVariables.DeviceAddress(0) = values(1)
-            End If
-            If values(3) = "" Then
-                GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
-            Else
-                GlobalVariables.DeviceAddress(1) = values(3)
-            End If
-        Else
-            GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
-            GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
-        End If
+
+        'Routine has been temporarily disabled
+        'If System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt") Then
+        '    values = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt").Split("|"c)
+        '    If values(1) = "" Then
+        '        GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
+        '    Else
+        '        GlobalVariables.DeviceAddress(0) = values(1)
+        '    End If
+        '    If values(3) = "" Then
+        '        GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
+        '    Else
+        '        GlobalVariables.DeviceAddress(1) = values(3)
+        '    End If
+        'Else
+        GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
+        GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
+        'End If
+        DeviceOptionsToolStripMenuItem.Visible = False
+
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
-        If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
-            System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
-        End If
-        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
+
+        'Routine has been temporarily disabled
+        'If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
+        '    System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
+        'End If
+        'File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
+
         'If xlWorkBook Is Nothing Then
         Me.Close()
         'Else
@@ -134,10 +141,13 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
-            System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
-        End If
-        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
+
+        'Routine has been temporarily disabled
+        'If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
+        '    System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
+        'End If
+        'File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
+
         'If xlWorkBook Is Nothing Then
         'Else
         '    xlApp.Quit()
