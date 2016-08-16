@@ -446,6 +446,30 @@ Public Class Form1
         End While   'Loop to keep the interval a multiple of 5
     End Sub
 
+    Sub newyaxisadjust()
+        Dim newymin As Double = 0.0
+        For i As Integer = 0 To GlobalVariables.series.Length - 1
+            If GlobalVariables.series(i) = 1 Then
+                line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMinByValue().ToString()
+                If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) < newymin Then
+                    newymin = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
+                    newymin = Math.Round(newymin, 0)
+                    If newymin Mod 5 <> 0 Then
+                        newymin = newymin - (5 + (newymin Mod 5))
+                    End If
+                End If
+            End If
+        Next
+        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = newymin
+        While ymax > Chart1.ChartAreas("ChartArea1").AxisY.Maximum
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum += 5
+        End While
+        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
+        While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / Chart1.ChartAreas("ChartArea1").AxisY.Interval) > 10)
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval += 5
+        End While   'Loop to keep the interval a multiple of 5
+    End Sub
+
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
         dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp"
         dialog1.FilterIndex = 3
@@ -550,7 +574,8 @@ Public Class Form1
                 Next
                 If GlobalVariables.autobutton = True Then
                     xaxisadjust()
-                    yaxisadjust()
+                    'yaxisadjust()
+                    newyaxisadjust()
                     If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
                         x2axisadjust()
                         y2axisadjust()
