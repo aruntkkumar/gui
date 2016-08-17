@@ -68,6 +68,8 @@ Public Class Form1
     Dim addtoolbar As Boolean = False
     Dim generic As Boolean = False
     Dim values() As String
+    Dim colourcounter As Integer = 1
+    Dim c As Color
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         dialog.InitialDirectory = "C:\"
@@ -96,7 +98,7 @@ Public Class Form1
         ClearAllMarkersToolStripMenuItem.Enabled = False
         'ClearSelectedMarkerToolStripMenuItem.Enabled = False
         'preVISAAddress = VISAAddressEdit.Text
-        GlobalVariables.series = New Integer(-1) {}     'Array with zeo elements
+        GlobalVariables.series = New Integer(-1) {}     'Array with zero elements
         GlobalVariables.seriesnames = New String(-1) {}
         GlobalVariables.DeviceName = New String(1) {}   '1 initialises two elements
         GlobalVariables.DeviceAddress = New String(1) {}
@@ -164,6 +166,7 @@ Public Class Form1
         dialog.RestoreDirectory = True
         dialog.FileName = ""
         If dialog.ShowDialog() = DialogResult.OK Then
+            colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
             Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
@@ -398,7 +401,9 @@ Public Class Form1
                         Chart1.Series.Add("S(" & a & "," & b & ")")
                         Chart1.Series("S(" & a & "," & b & ")").ChartType = DataVisualization.Charting.SeriesChartType.Line
                         Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 2
-                        Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                        'Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                        colourpicker()
+                        Chart1.Series("S(" & a & "," & b & ")").Color = c
                         Chart1.Series("S(" & a & "," & b & ")").Points.DataBindXY(freq1, para1)
                         GlobalVariables.seriesnames(y) = "S(" & a & "," & b & ")"
                         GlobalVariables.series(y) = 1
@@ -715,6 +720,7 @@ Public Class Form1
                     Exit Sub
                 End If
                 If newtoolbar = False AndAlso addtoolbar = False Then
+                    colourcounter = 1
                     ClearMarkers()
                     Chart1.Series.Clear()
                     Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
@@ -750,6 +756,7 @@ Public Class Form1
                     End If
                 End If
                 If newtoolbar = False AndAlso generic = True Then
+                    colourcounter = 1
                     ClearMarkers()
                     Chart1.Series.Clear()
                     Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
@@ -994,7 +1001,9 @@ Public Class Form1
                     Chart1.Series(names(column + i)).ChartType = DataVisualization.Charting.SeriesChartType.Line
                     Chart1.Series(names(column + i)).BorderWidth = 2
                     Chart1.Series(names(column + i)).BorderDashStyle = ChartDashStyle.Dash
-                    Chart1.Series(names(column + i)).Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                    'Chart1.Series(names(column + i)).Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                    colourpicker()
+                    Chart1.Series(names(column + i)).Color = c
                     For j As Integer = 0 To numRow - 1
                         If format = "db" Then
                             eff1(j) = 100 * (Math.Pow(10, (table(j, i) / 10)))
@@ -1073,6 +1082,7 @@ Public Class Form1
         '    Exit Sub
         'End If
         If newtoolbar = False Then
+            colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
             Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
@@ -1309,7 +1319,9 @@ Public Class Form1
             Chart1.Series(names(i)).ChartType = DataVisualization.Charting.SeriesChartType.Line
             Chart1.Series(names(i)).BorderWidth = 2
             Chart1.Series(names(i)).BorderDashStyle = ChartDashStyle.Dash
-            Chart1.Series(names(i)).Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+            'Chart1.Series(names(i)).Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+            colourpicker()
+            Chart1.Series(names(i)).Color = c
             For j As Integer = 0 To numRow - 1
                 para1(j) = table(j, i)
             Next
@@ -1512,7 +1524,7 @@ Public Class Form1
             ElseIf ports = 4 Then
                 instrument.WriteString("MMEM:DEL 'c:\MyData.s4p'", True)    'Deletes the file
             End If
-
+            colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
             Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
@@ -1642,7 +1654,9 @@ Public Class Form1
                     Chart1.Series.Add("S(" & a & "," & b & ")")
                     Chart1.Series("S(" & a & "," & b & ")").ChartType = DataVisualization.Charting.SeriesChartType.Line
                     Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 2
-                    Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                    'Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                    colourpicker()
+                    Chart1.Series("S(" & a & "," & b & ")").Color = c
                     Chart1.Series("S(" & a & "," & b & ")").Points.DataBindXY(freq1, para1)
                     GlobalVariables.seriesnames(y) = "S(" & a & "," & b & ")"
                     GlobalVariables.series(y) = 1
@@ -1688,6 +1702,7 @@ Public Class Form1
     End Sub
 
     Private Sub ClearChartAreaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearChartAreaToolStripMenuItem.Click
+        colourcounter = 1
         Chart1.Series.Clear()
         Chart1.Series.Add(" ")
         Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
@@ -1836,6 +1851,7 @@ Public Class Form1
             x2max = 0
             xmax = freq1.Max
             xmin = freq1.Min
+            colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
             Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
@@ -1873,7 +1889,9 @@ Public Class Form1
                 Chart1.Series.Add("S(1,1)")
                 Chart1.Series("S(1,1)").ChartType = DataVisualization.Charting.SeriesChartType.Line
                 Chart1.Series("S(1,1)").BorderWidth = 2
-                Chart1.Series("S(1,1)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                'Chart1.Series("S(1,1)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                colourpicker()
+                Chart1.Series("S(1,1)").Color = c
                 Chart1.Series("S(1,1)").Points.DataBindXY(freq1, S11)
             Else
                 For i As Integer = 0 To row - 1
@@ -1918,22 +1936,30 @@ Public Class Form1
                 Chart1.Series.Add("S(1,1)")
                 Chart1.Series("S(1,1)").ChartType = DataVisualization.Charting.SeriesChartType.Line
                 Chart1.Series("S(1,1)").BorderWidth = 2
-                Chart1.Series("S(1,1)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                'Chart1.Series("S(1,1)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                colourpicker()
+                Chart1.Series("S(1,1)").Color = c
                 Chart1.Series("S(1,1)").Points.DataBindXY(freq1, S11)
                 Chart1.Series.Add("S(1,2)")
                 Chart1.Series("S(1,2)").ChartType = DataVisualization.Charting.SeriesChartType.Line
                 Chart1.Series("S(1,2)").BorderWidth = 2
-                Chart1.Series("S(1,2)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                'Chart1.Series("S(1,2)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                colourpicker()
+                Chart1.Series("S(1,2)").Color = c
                 Chart1.Series("S(1,2)").Points.DataBindXY(freq1, S12)
                 Chart1.Series.Add("S(2,1)")
                 Chart1.Series("S(2,1)").ChartType = DataVisualization.Charting.SeriesChartType.Line
                 Chart1.Series("S(2,1)").BorderWidth = 2
-                Chart1.Series("S(2,1)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                'Chart1.Series("S(2,1)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                colourpicker()
+                Chart1.Series("S(2,1)").Color = c
                 Chart1.Series("S(2,1)").Points.DataBindXY(freq1, S21)
                 Chart1.Series.Add("S(2,2)")
                 Chart1.Series("S(2,2)").ChartType = DataVisualization.Charting.SeriesChartType.Line
                 Chart1.Series("S(2,2)").BorderWidth = 2
-                Chart1.Series("S(2,2)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                'Chart1.Series("S(2,2)").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                colourpicker()
+                Chart1.Series("S(2,2)").Color = c
                 Chart1.Series("S(2,2)").Points.DataBindXY(freq1, S22)
             End If
             If GlobalVariables.autobutton = True Then
@@ -1968,6 +1994,261 @@ Public Class Form1
             End Try
         End Try
     End Sub
+
+    Sub colourpicker()
+        Select Case colourcounter
+            Case 1
+                c = Color.AntiqueWhite
+            Case 2
+                c = Color.Aqua
+            Case 3
+                c = Color.Aquamarine
+            Case 4
+                c = Color.Beige
+            Case 5
+                c = Color.Bisque
+            Case 6
+                c = Color.Black
+            Case 7
+                c = Color.BlanchedAlmond
+            Case 8
+                c = Color.Blue
+            Case 9
+                c = Color.BlueViolet
+            Case 10
+                c = Color.Brown
+            Case 11
+                c = Color.BurlyWood
+            Case 12
+                c = Color.CadetBlue
+            Case 13
+                c = Color.Chartreuse
+            Case 14
+                c = Color.Chocolate
+            Case 15
+                c = Color.Coral
+            Case 16
+                c = Color.CornflowerBlue
+            Case 17
+                c = Color.Crimson
+            Case 18
+                c = Color.Cyan
+            Case 19
+                c = Color.DarkBlue
+            Case 20
+                c = Color.DarkCyan
+            Case 21
+                c = Color.DarkGoldenrod
+            Case 22
+                c = Color.DarkGray
+            Case 23
+                c = Color.DarkGreen
+            Case 24
+                c = Color.DarkKhaki
+            Case 25
+                c = Color.DarkMagenta
+            Case 26
+                c = Color.DarkOliveGreen
+            Case 27
+                c = Color.DarkOrange
+            Case 28
+                c = Color.DarkOrchid
+            Case 29
+                c = Color.DarkRed
+            Case 30
+                c = Color.DarkSalmon
+            Case 31
+                c = Color.DarkSeaGreen
+            Case 32
+                c = Color.DarkSlateBlue
+            Case 33
+                c = Color.DarkSlateGray
+            Case 34
+                c = Color.DarkTurquoise
+            Case 35
+                c = Color.DarkViolet
+            Case 36
+                c = Color.DeepPink
+            Case 37
+                c = Color.DeepSkyBlue
+            Case 38
+                c = Color.DimGray
+            Case 39
+                c = Color.DodgerBlue
+            Case 40
+                c = Color.Firebrick
+            Case 41
+                c = Color.ForestGreen
+            Case 42
+                c = Color.Fuchsia
+            Case 43
+                c = Color.Gainsboro
+            Case 44
+                c = Color.Gold
+            Case 45
+                c = Color.Goldenrod
+            Case 46
+                c = Color.Gray
+            Case 47
+                c = Color.Green
+            Case 48
+                c = Color.GreenYellow
+            Case 49
+                c = Color.HotPink
+            Case 50
+                c = Color.IndianRed
+            Case 51
+                c = Color.Indigo
+            Case 52
+                c = Color.Khaki
+            Case 53
+                c = Color.Lavender
+            Case 54
+                c = Color.LawnGreen
+            Case 55
+                c = Color.LemonChiffon
+            Case 56
+                c = Color.LightBlue
+            Case 57
+                c = Color.LightCoral
+            Case 58
+                c = Color.LightGoldenrodYellow
+            Case 59
+                c = Color.LightGray
+            Case 60
+                c = Color.LightGreen
+            Case 61
+                c = Color.LightPink
+            Case 62
+                c = Color.LightSalmon
+            Case 63
+                c = Color.LightSeaGreen
+            Case 64
+                c = Color.LightSkyBlue
+            Case 65
+                c = Color.LightSlateGray
+            Case 66
+                c = Color.LightSteelBlue
+            Case 67
+                c = Color.Lime
+            Case 68
+                c = Color.LimeGreen
+            Case 69
+                c = Color.Magenta
+            Case 70
+                c = Color.Maroon
+            Case 71
+                c = Color.MediumAquamarine
+            Case 72
+                c = Color.MediumBlue
+            Case 73
+                c = Color.MediumOrchid
+            Case 74
+                c = Color.MediumPurple
+            Case 75
+                c = Color.MediumSeaGreen
+            Case 76
+                c = Color.MediumSlateBlue
+            Case 77
+                c = Color.MediumSpringGreen
+            Case 78
+                c = Color.MediumTurquoise
+            Case 79
+                c = Color.MediumVioletRed
+            Case 80
+                c = Color.MidnightBlue
+            Case 81
+                c = Color.MistyRose
+            Case 82
+                c = Color.Moccasin
+            Case 83
+                c = Color.NavajoWhite
+            Case 84
+                c = Color.Navy
+            Case 85
+                c = Color.Olive
+            Case 86
+                c = Color.OliveDrab
+            Case 87
+                c = Color.Orange
+            Case 88
+                c = Color.OrangeRed
+            Case 89
+                c = Color.Orchid
+            Case 90
+                c = Color.PaleGoldenrod
+            Case 91
+                c = Color.PaleGreen
+            Case 92
+                c = Color.PaleTurquoise
+            Case 93
+                c = Color.PaleVioletRed
+            Case 94
+                c = Color.PeachPuff
+            Case 95
+                c = Color.Peru
+            Case 96
+                c = Color.Pink
+            Case 97
+                c = Color.Plum
+            Case 98
+                c = Color.PowderBlue
+            Case 99
+                c = Color.Purple
+            Case 100
+                c = Color.Red
+            Case 101
+                c = Color.RosyBrown
+            Case 102
+                c = Color.RoyalBlue
+            Case 103
+                c = Color.SaddleBrown
+            Case 104
+                c = Color.Salmon
+            Case 105
+                c = Color.SandyBrown
+            Case 106
+                c = Color.SeaGreen
+            Case 107
+                c = Color.Sienna
+            Case 108
+                c = Color.Silver
+            Case 109
+                c = Color.SkyBlue
+            Case 110
+                c = Color.SlateBlue
+            Case 111
+                c = Color.SlateGray
+            Case 112
+                c = Color.SpringGreen
+            Case 113
+                c = Color.SteelBlue
+            Case 114
+                c = Color.Tan
+            Case 115
+                c = Color.Teal
+            Case 116
+                c = Color.Thistle
+            Case 117
+                c = Color.Tomato
+            Case 118
+                c = Color.Turquoise
+            Case 119
+                c = Color.Violet
+            Case 120
+                c = Color.Wheat
+            Case 121
+                c = Color.Yellow
+            Case 122
+                c = Color.YellowGreen
+        End Select
+        If colourcounter >= 122 Then
+            colourcounter = 1
+        Else
+            colourcounter += 1
+        End If
+    End Sub
+
 
     'Private Sub ClearSelectedMarkerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearSelectedMarkerToolStripMenuItem.Click
     '    'For i As Integer = 0 To checkboxnum - 2
