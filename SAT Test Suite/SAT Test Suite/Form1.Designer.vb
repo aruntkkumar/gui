@@ -144,7 +144,7 @@ Partial Class Form1
         '
         Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
         Me.AddToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
-        Me.AddToolStripMenuItem.Text = "New/Add Data File"
+        Me.AddToolStripMenuItem.Text = "Add/New Data File"
         '
         'ClearChartAreaToolStripMenuItem
         '
