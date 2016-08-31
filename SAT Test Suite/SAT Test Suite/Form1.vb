@@ -1353,7 +1353,6 @@ Public Class Form1
         If z <> 0 Then
             System.Array.Resize(Of Integer)(nullpoints, z)
         End If
-
         eff1 = New Double(freq1.Length - 1) {}
         For i As Integer = 1 To numColumn - 1
             y = 0
@@ -1386,6 +1385,14 @@ Public Class Form1
                     Else
                         eff1(y) = table(j, i)
                     End If
+                    If eff1(y) <> Double.NaN Then
+                        If ymax < eff1(y) Then
+                            ymax = eff1(y)
+                        End If
+                        If ymin > eff1(y) Then
+                            ymin = eff1(y)
+                        End If
+                    End If
                     y += 1
                 Else
                     Exit Sub
@@ -1395,12 +1402,12 @@ Public Class Form1
             GlobalVariables.seriesnames(x + i - 1) = names(column + i - 1)
             GlobalVariables.series(x + i - 1) = 1
 
-            If ymax < eff1.Max Then
-                ymax = eff1.Max
-            End If
-            If ymin > eff1.Min Then
-                ymin = eff1.Min
-            End If
+            'If ymax < eff1.Max Then
+            '    ymax = eff1.Max
+            'End If
+            'If ymin > eff1.Min Then
+            '    ymin = eff1.Min
+            'End If
             If GlobalVariables.autobutton = True Then
                 yaxisadjust()
             End If
