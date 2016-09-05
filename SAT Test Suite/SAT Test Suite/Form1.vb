@@ -55,7 +55,7 @@ Public Class Form1
     Dim excelReader As IExcelDataReader
     Dim a As Double
     Dim xmax As Double
-    Dim x2max As Double = 0
+    'Dim x2max As Double = 0
     Dim xmin As Double
     Dim ymax As Double
     Dim ymin As Double
@@ -199,7 +199,7 @@ Public Class Form1
             checkboxnum = 1
             y2max1 = 0
             y2min1 = 0
-            x2max = 0
+            'x2max = 0
             Erase names
             names = New String(-1) {}
             Try
@@ -603,7 +603,8 @@ Public Class Form1
                         newyaxisadjust()
                     End If
                     If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
-                        x2axisadjust()
+                        'x2axisadjust()
+                        xaxisadjust()
                         y2axisadjust()
                     End If
                 End If
@@ -748,7 +749,7 @@ Public Class Form1
                     Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
                     frequnit = "ghz"
                     checkboxnum = 1
-                    x2max = 0
+                    'x2max = 0
                     'Else
                 End If
                 If generic = True Then
@@ -778,7 +779,7 @@ Public Class Form1
                     Next
                     System.Array.Resize(Of String)(GlobalVariables.seriesnames, GlobalVariables.seriesnames.Length - secondarynames.Length)  'Need to one more than the normal ReDim Preserve
                     System.Array.Resize(Of Integer)(GlobalVariables.series, GlobalVariables.series.Length - secondarynames.Length)
-                    x2max = 0
+                    'x2max = 0
                     'Chart1.ChartAreas("ChartArea1").AxisX.Minimum = xmin
                     'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xmax
                 End If
@@ -952,16 +953,25 @@ Public Class Form1
                             Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
                             Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
                     End Select
-                    If GlobalVariables.autobutton = True Then
-                        xaxisadjust()
-                    End If
+                    'If GlobalVariables.autobutton = True Then
+                    '    xaxisadjust()
+                    'End If
                 End If
-                If freq1.Max > x2max Then
-                    x2max = freq1.Max
+                If freq1.Max > xmax Then
+                    xmax = freq1.Max
+                End If
+                If freq1.Min < xmin Then
+                    xmin = freq1.Min
                 End If
                 If GlobalVariables.autobutton = True Then
-                    x2axisadjust()
+                    xaxisadjust()
                 End If
+                'If freq1.Max > x2max Then
+                '    x2max = freq1.Max
+                'End If
+                'If GlobalVariables.autobutton = True Then
+                '    x2axisadjust()
+                'End If
                 For i As Integer = 0 To numRow - 1
                     For j As Integer = 1 To numColumn - 1
                         If i = 0 AndAlso j = 1 Then
@@ -1081,11 +1091,11 @@ Public Class Form1
         End If
     End Sub
 
-    Sub x2axisadjust()
-        While x2max > Chart1.ChartAreas("ChartArea1").AxisX.Maximum
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum += Chart1.ChartAreas("ChartArea1").AxisX.Interval
-        End While
-    End Sub
+    'Sub x2axisadjust()
+    '    While x2max > Chart1.ChartAreas("ChartArea1").AxisX.Maximum
+    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum += Chart1.ChartAreas("ChartArea1").AxisX.Interval
+    '    End While
+    'End Sub
 
     Sub y2axisadjust()
         Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Clear()
@@ -1147,7 +1157,7 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             frequnit = "ghz"
             checkboxnum = 1
-            x2max = 0
+            'x2max = 0
         End If
         fullstring = line2 + vbLf + fullstring
         numRow += 1
@@ -1447,7 +1457,7 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
             frequnit = "ghz"
             checkboxnum = 1
-            x2max = 0
+            'x2max = 0
         End If
         If generic = True Then
             ClearMarkers()
@@ -1466,7 +1476,7 @@ Public Class Form1
             Next
             System.Array.Resize(Of String)(GlobalVariables.seriesnames, GlobalVariables.seriesnames.Length - secondarynames.Length)  'Need to one more than the normal ReDim Preserve
             System.Array.Resize(Of Integer)(GlobalVariables.series, GlobalVariables.series.Length - secondarynames.Length)
-            x2max = 0
+            'x2max = 0
         End If
         Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
         Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Clear()
@@ -1615,16 +1625,25 @@ Public Class Form1
                     Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
                     Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
             End Select
-            If GlobalVariables.autobutton = True Then
-                xaxisadjust()
-            End If
+            'If GlobalVariables.autobutton = True Then
+            '    xaxisadjust()
+            'End If
         End If
-        If freq1.Max > x2max Then
-            x2max = freq1.Max
+        If freq1.Max > xmax Then
+            xmax = freq1.Max
+        End If
+        If freq1.Min < xmin Then
+            xmin = freq1.Min
         End If
         If GlobalVariables.autobutton = True Then
-            x2axisadjust()
+            xaxisadjust()
         End If
+        'If freq1.Max > x2max Then
+        '    x2max = freq1.Max
+        'End If
+        'If GlobalVariables.autobutton = True Then
+        '    x2axisadjust()
+        'End If
         For i As Integer = 0 To numRow - 1
             For j As Integer = 1 To numColumn - 1
                 If i = 0 AndAlso j = 1 Then
@@ -1728,7 +1747,7 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
             frequnit = "ghz"
             checkboxnum = 1
-            x2max = 0
+            'x2max = 0
         End If
         If addtoolbar = True AndAlso generic = False Then
             ClearMarkers()
@@ -1747,7 +1766,7 @@ Public Class Form1
             Next
             System.Array.Resize(Of String)(GlobalVariables.seriesnames, GlobalVariables.seriesnames.Length - secondarynames.Length)  'Need to one more than the normal ReDim Preserve
             System.Array.Resize(Of Integer)(GlobalVariables.series, GlobalVariables.series.Length - secondarynames.Length)
-            x2max = 0
+            'x2max = 0
             'Chart1.ChartAreas("ChartArea1").AxisX.Minimum = xmin
             'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xmax
         End If
@@ -1772,6 +1791,7 @@ Public Class Form1
         Dim result As String = ""
         Dim s1 As String = ""
         x = 0
+        z = 0
         For Each s As String In value
             If String.IsNullOrWhiteSpace(s) Then
             Else
@@ -1780,8 +1800,11 @@ Public Class Form1
                         s1 = s
                     Else
                         For i As Integer = 0 To names.Length - 1
-                            If names(i) = String.Join(" ", s1.Split(" "c).Intersect(s.Split(" "c))) Then
-                                MetroFramework.MetroMessageBox.Show(Me, "The title name '" + String.Join(" ", s1.Split(" "c).Intersect(s.Split(" "c))) + "' is already a member of the Chart Series", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            If names(i) = String.Join(" ", s1.Split(" "c).Intersect(s.Split(" "c))) Then    'To find if there is any matching names to be added as the secondary Y axis title
+                                z = 1   'No matching titles found
+                            End If
+                            If names(i) = s Then
+                                MetroFramework.MetroMessageBox.Show(Me, "The title name '" + s + "' is already a member of the Chart Series", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                 Exit Sub
                             End If
                         Next
@@ -1795,6 +1818,9 @@ Public Class Form1
                 x += 1
             End If
         Next
+        If z = 1 Then
+            s1 = ""
+        End If
         value = System.Text.RegularExpressions.Regex.Split(fullstring, ",")
         x = 0
         y = 0
@@ -1904,17 +1930,26 @@ Public Class Form1
                     Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
                     Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
             End Select
-            If GlobalVariables.autobutton = True Then
-                xaxisadjust()
-            End If
+            'If GlobalVariables.autobutton = True Then
+            '    xaxisadjust()
+            'End If
         End If
-        If x2max = 0 Then
-            x2max = freq1.Max
+        If freq1.Max > xmax Then
+            xmax = freq1.Max
         End If
-        'x2max = freq1.Max
+        If freq1.Min < xmin Then
+            xmin = freq1.Min
+        End If
         If GlobalVariables.autobutton = True Then
-            x2axisadjust()
+            xaxisadjust()
         End If
+        'If x2max = 0 Then
+        '    x2max = freq1.Max
+        'End If
+        ''x2max = freq1.Max
+        'If GlobalVariables.autobutton = True Then
+        '    x2axisadjust()
+        'End If
         For i As Integer = 0 To numRow - 1
             For j As Integer = 1 To numColumn - 1
                 If i = 0 AndAlso j = 1 Then
@@ -2175,7 +2210,7 @@ Public Class Form1
             checkboxnum = 1
             y2max1 = 0
             y2min1 = 0
-            x2max = 0
+            'x2max = 0
             Erase names
             names = New String(-1) {}
             fullstring = line & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
@@ -2482,7 +2517,7 @@ Public Class Form1
             checkboxnum = 1
             y2max1 = 0
             y2min1 = 0
-            x2max = 0
+            'x2max = 0
             xmax = freq1.Max
             xmin = freq1.Min
             colourcounter = 1
