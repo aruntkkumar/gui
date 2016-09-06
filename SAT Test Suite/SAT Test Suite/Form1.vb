@@ -59,8 +59,8 @@ Public Class Form1
     Dim xmin As Double
     Dim ymax As Double
     Dim ymin As Double
-    Dim y2max1 As Double = 0
-    Dim y2min1 As Double = 0
+    'Dim y2max1 As Double = 0
+    'Dim y2min1 As Double = 0
     Dim y2max As Double
     Dim y2min As Double
     Dim preVISAAddress As String
@@ -84,10 +84,11 @@ Public Class Form1
         Chart1.Series.Add(" ")
         Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
         Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
-        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
-        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
-        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+        'Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
@@ -176,10 +177,10 @@ Public Class Form1
             colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
-            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
@@ -197,8 +198,8 @@ Public Class Form1
             End Try
             column = ((Math.Pow(ports, 2) * 2) + 1)
             checkboxnum = 1
-            y2max1 = 0
-            y2min1 = 0
+            'y2max1 = 0
+            'y2min1 = 0
             'x2max = 0
             Erase names
             names = New String(-1) {}
@@ -285,59 +286,88 @@ Public Class Form1
                 fullstring = vbNullString   '   Releasing memory by setting values as Null
                 line = vbNullString
                 value = Nothing
-                xmax = table(row - 1, 0)
-                xmin = table(0, 0)
+
                 Select Case frequnit
                     Case "hz"
-                        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
-                        'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000                  'X axis interval adjustment
-                        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000000 <> 0 Then    'X axis maximum adjustment
-                        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000000)) + 100000000)
-                        'End If
-                        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
-                        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 100000000
-                        'End While
+                        For i As Integer = 0 To row - 1
+                            freq1(i) = table(i, 0) / 1000000000
+                        Next
                     Case "khz"
-                        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
-                        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
-                        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
-                        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
-                        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000 <> 0 Then
-                        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000)) + 100000)
-                        'End If
-                        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
-                        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 100000
-                        'End While
+                        For i As Integer = 0 To row - 1
+                            freq1(i) = table(i, 0) / 1000000
+                        Next
                     Case "mhz"
-                        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
-                        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
-                        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
-                        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
-                        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100 <> 0 Then
-                        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100)) + 100)
-                        'End If
-                        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
-                        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 100
-                        'End While
+                        For i As Integer = 0 To row - 1
+                            freq1(i) = table(i, 0) / 1000
+                        Next
                     Case "ghz"
-                        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
-                        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
-                        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
-                        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
-                        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 0.1 <> 0 Then
-                        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 0.1)) + 0.1)
-                        'End If
-                        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
-                        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 0.1
-                        'End While
+                        For i As Integer = 0 To row - 1
+                            freq1(i) = table(i, 0)
+                        Next
                 End Select
-                If GlobalVariables.autobutton = True Then
-                    xaxisadjust()
-                End If
-                For i As Integer = 0 To row - 1
-                    freq1(i) = table(i, 0)
-                    'Console.WriteLine(freq1(i))
-                Next
+                'xmax = freq1.Max
+                'xmin = freq1.Min
+
+                'If GlobalVariables.autobutton = True Then
+                '    xaxisadjust()
+                'End If
+
+                'xmax = table(row - 1, 0)
+                'xmin = table(0, 0)
+                'Select Case frequnit
+                '    Case "hz"
+                '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
+                '        'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000                  'X axis interval adjustment
+                '        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000000 <> 0 Then    'X axis maximum adjustment
+                '        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000000)) + 100000000)
+                '        'End If
+                '        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                '        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 100000000
+                '        'End While
+                '    Case "khz"
+                '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
+                '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
+                '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
+                '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
+                '        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000 <> 0 Then
+                '        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100000)) + 100000)
+                '        'End If
+                '        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                '        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 100000
+                '        'End While
+                '    Case "mhz"
+                '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
+                '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
+                '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
+                '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
+                '        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100 <> 0 Then
+                '        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 100)) + 100)
+                '        'End If
+                '        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                '        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 100
+                '        'End While
+                '    Case "ghz"
+                '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+                '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
+                '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
+                '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
+                '        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 0.1 <> 0 Then
+                '        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod 0.1)) + 0.1)
+                '        'End If
+                '        'While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 15
+                '        '    Chart1.ChartAreas("ChartArea1").AxisX.Interval += 0.1
+                '        'End While
+                'End Select
+                'If GlobalVariables.autobutton = True Then
+                '    xaxisadjust()
+                'End If
+                'For i As Integer = 0 To row - 1
+                '    freq1(i) = table(i, 0)
+                '    'Console.WriteLine(freq1(i))
+                'Next
+
+
+
                 If matrix = "lower" Then
                     GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
                     GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
@@ -348,8 +378,8 @@ Public Class Form1
                     GlobalVariables.seriesnames = New String((ports * ports) - 1) {}
                     GlobalVariables.series = New Integer((ports * ports) - 1) {}
                 End If
-                ymax = 0
-                ymin = 0
+                'ymax = 0
+                'ymin = 0
                 x = 1
                 y = 0
                 For a As Integer = 1 To ports
@@ -396,15 +426,15 @@ Public Class Form1
                         Next
                         x += 2
                         'If z = 0 Then
-                        If ymax < para1.Max Then
-                            ymax = para1.Max
-                        End If
-                        If ymin > para1.Min Then
-                            ymin = para1.Min
-                        End If
-                        If GlobalVariables.autobutton = True Then
-                            yaxisadjust()
-                        End If
+                        'If ymax < para1.Max Then
+                        '    ymax = para1.Max
+                        'End If
+                        'If ymin > para1.Min Then
+                        '    ymin = para1.Min
+                        'End If
+                        'If GlobalVariables.autobutton = True Then
+                        '    yaxisadjust()
+                        'End If
                         Chart1.Series.Add("S(" & a & "," & b & ")")
                         Chart1.Series("S(" & a & "," & b & ")").ChartType = DataVisualization.Charting.SeriesChartType.Line
                         Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 2
@@ -420,6 +450,9 @@ Public Class Form1
                         'End If
                     Next
                 Next
+                If GlobalVariables.autobutton = True Then
+                    axisvalues()
+                End If
                 Erase freq1         '   Releasing memory
                 Erase para1
                 Erase table
@@ -433,65 +466,212 @@ Public Class Form1
         End If
     End Sub
 
-    Sub xaxisadjust()
-        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xmax
-        If Chart1.ChartAreas("ChartArea1").AxisX.Minimum > xmin Then
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0
-        End If
-        a = Chart1.ChartAreas("ChartArea1").AxisX.Interval
-        'While Chart1.ChartAreas("ChartArea1").AxisX.Minimum >= table(0, 0)
-        '    Chart1.ChartAreas("ChartArea1").AxisX.Minimum -= a
-        'End While
-        'If table(0, 0) < Chart1.ChartAreas("ChartArea1").AxisX.Minimum Then
-        '    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = table(0, 0)
-        'End If
-        'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod a <> 0 Then    'X axis maximum adjustment
-        '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum + (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod a)) + a)
-        'End If
-        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 21
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval += a
-        End While
-    End Sub
-
-    Sub yaxisadjust()
-        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
-        While ymin < Chart1.ChartAreas("ChartArea1").AxisY.Minimum
-            Chart1.ChartAreas("ChartArea1").AxisY.Minimum -= 5
-        End While
-        While ymax > Chart1.ChartAreas("ChartArea1").AxisY.Maximum
-            Chart1.ChartAreas("ChartArea1").AxisY.Maximum += 5
-        End While
-        'While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 5) Mod 5 <> 0)
-        '    Chart1.ChartAreas("ChartArea1").AxisY.Minimum = Chart1.ChartAreas("ChartArea1").AxisY.Minimum - 5
-        'End While   'Loop to keep the interval a multiple of 5
-        While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / Chart1.ChartAreas("ChartArea1").AxisY.Interval) > 10)
-            Chart1.ChartAreas("ChartArea1").AxisY.Interval += 5
-        End While   'Loop to keep the interval a multiple of 5
-    End Sub
-
-    Sub newyaxisadjust()
-        Dim newymin As Double = 0.0
-        For i As Integer = 0 To GlobalVariables.series.Length - 1
-            If GlobalVariables.series(i) = 1 Then
+    Sub axisvalues()
+        xmax = 0
+        xmin = 100
+        ymax = -1000
+        ymin = 1000
+        y2max = -1000
+        y2min = 1000
+        For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
+            line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMinByValue("X", 0).ToString()
+            If CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2)) < xmin Then
+                xmin = CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2))
+                xmin = Math.Round(xmin, 2)
+                If xmin Mod 0.5 <> 0 Then
+                    xmin = xmin - (xmin Mod 0.5)
+                End If
+            End If
+            line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMaxByValue("X", 0).ToString()
+            If CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2)) > xmax Then
+                xmax = CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2))
+                xmax = Math.Round(xmax, 2)
+                If xmax Mod 0.5 <> 0 Then
+                    xmax = xmax + (0.5 - (xmax Mod 0.5))
+                End If
+            End If
+            If Chart1.Series(GlobalVariables.seriesnames(i)).YAxisType = 0 Then
                 line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMinByValue().ToString()
-                If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) < newymin Then
-                    newymin = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
-                    newymin = Math.Round(newymin, 0)
-                    If newymin Mod 5 <> 0 Then
-                        newymin = newymin - (5 + (newymin Mod 5))
+                If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) < ymin Then
+                    ymin = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
+                    ymin = Math.Round(ymin, 2)
+                    If ymin > 0 Then
+                        If ymin Mod 5 <> 0 Then
+                            ymin = ymin - (ymin Mod 5)
+                        End If
+                    ElseIf ymin < 0 Then
+                        If ymin Mod 5 <> 0 Then
+                            ymin = ymin - (5 - (Math.Abs(ymin) Mod 5))
+                        End If
+                    End If
+                    ymin = Math.Round(ymin, 0)
+                End If
+                line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMaxByValue().ToString()
+                If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) > ymax Then
+                    ymax = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
+                    ymax = Math.Round(ymax, 2)
+                    If ymax > 0 Then
+                        If ymax Mod 5 <> 0 Then
+                            ymax = ymax + (5 - (ymax Mod 5))
+                        End If
+                    ElseIf ymax < 0 Then
+                        If ymax Mod 5 <> 0 Then
+                            ymax = ymax + (Math.Abs(ymax) Mod 5)
+                        End If
+                    End If
+                    ymax = Math.Round(ymax, 0)
+                End If
+            Else
+                line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMinByValue().ToString()
+                If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) < y2min Then
+                    y2min = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
+                    y2min = Math.Round(y2min, 2)
+                    If GlobalVariables.plot = "efficiency" Then
+                        If y2min Mod 5 <> 0 Then
+                            y2min = y2min - (y2min Mod 5)
+                        End If
+                        y2min = Math.Round(y2min, 0)
+                    End If
+                End If
+                line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMaxByValue().ToString()
+                If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) > y2max Then
+                    y2max = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
+                    y2max = Math.Round(y2max, 2)
+                    If GlobalVariables.plot = "efficiency" Then
+                        If y2max Mod 5 <> 0 Then
+                            y2max = y2max + (5 - (y2max Mod 5))
+                        End If
+                        y2max = Math.Round(y2max, 0)
                     End If
                 End If
             End If
         Next
-        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = newymin
-        While ymax > Chart1.ChartAreas("ChartArea1").AxisY.Maximum
-            Chart1.ChartAreas("ChartArea1").AxisY.Maximum += 5
-        End While
-        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
-        While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / Chart1.ChartAreas("ChartArea1").AxisY.Interval) > 10)
-            Chart1.ChartAreas("ChartArea1").AxisY.Interval += 5
-        End While   'Loop to keep the interval a multiple of 5
+        If xmax = xmin Then
+            If xmin = 0 Then
+                xmax += 0.5
+            Else
+                xmin -= 0.5
+                xmax += 0.5
+            End If
+        End If
+        If ymax = ymin Then
+            ymax += 5
+            ymin -= 5
+        End If
+        If y2max = y2min Then
+            If y2max = 100 Then
+                y2min -= 5
+            ElseIf y2min = 0 Then
+                y2max += 5
+            Else
+                y2max += 5
+                y2min -= 5
+            End If
+        End If
+        axisadjust()
     End Sub
+
+    Sub axisadjust()
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xmax
+        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = xmin
+        a = Chart1.ChartAreas("ChartArea1").AxisX.Interval
+        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 21
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval += a
+        End While
+        If Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True Then
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = ymax
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = ymin
+            While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / Chart1.ChartAreas("ChartArea1").AxisY.Interval) > 10)
+                Chart1.ChartAreas("ChartArea1").AxisY.Interval += 5
+            End While   'Loop to keep the interval a multiple of 5
+        End If
+        If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
+
+            Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Clear()
+            Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
+            Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
+            Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
+            If GlobalVariables.plot = "efficiency" Then
+                For i As Double = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum To Chart1.ChartAreas("ChartArea1").AxisY2.Maximum Step Chart1.ChartAreas("ChartArea1").AxisY2.Interval
+                    If i = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum Then
+                        If i = 0 Then
+                            Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Add(i, i + 0.01, CStr(i))
+                        Else
+                            Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Add(i, i + 0.01, CStr(i) + " (" + CStr(Math.Round(10 * Math.Log10(i / 100), 1)) + " in dB)")
+                        End If
+                    End If
+                    Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Add(i, i - 0.01, CStr(i) + " (" + CStr(Math.Round(10 * Math.Log10(i / 100), 1)) + " in dB)")
+                Next
+            Else
+                For i As Double = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum To (Chart1.ChartAreas("ChartArea1").AxisY2.Maximum + Chart1.ChartAreas("ChartArea1").AxisY2.Interval) Step Chart1.ChartAreas("ChartArea1").AxisY2.Interval
+                    If i = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum Then
+                        Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Add(i, i + 0.01, CStr(Math.Round(i, 2)))
+                    End If
+                    Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Add(i, i - 0.01, CStr(Math.Round(i, 2)))
+                Next
+            End If
+        End If
+    End Sub
+
+    'Sub xaxisadjust()
+    '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xmax
+    '    If Chart1.ChartAreas("ChartArea1").AxisX.Minimum > xmin Then
+    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0
+    '    End If
+    '    a = Chart1.ChartAreas("ChartArea1").AxisX.Interval
+    '    'While Chart1.ChartAreas("ChartArea1").AxisX.Minimum >= table(0, 0)
+    '    '    Chart1.ChartAreas("ChartArea1").AxisX.Minimum -= a
+    '    'End While
+    '    'If table(0, 0) < Chart1.ChartAreas("ChartArea1").AxisX.Minimum Then
+    '    '    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = table(0, 0)
+    '    'End If
+    '    'If Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod a <> 0 Then    'X axis maximum adjustment
+    '    '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum + (Chart1.ChartAreas("ChartArea1").AxisX.Maximum Mod a)) + a)
+    '    'End If
+    '    While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 21
+    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval += a
+    '    End While
+    'End Sub
+
+    'Sub yaxisadjust()
+    '    Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
+    '    While ymin < Chart1.ChartAreas("ChartArea1").AxisY.Minimum
+    '        Chart1.ChartAreas("ChartArea1").AxisY.Minimum -= 5
+    '    End While
+    '    While ymax > Chart1.ChartAreas("ChartArea1").AxisY.Maximum
+    '        Chart1.ChartAreas("ChartArea1").AxisY.Maximum += 5
+    '    End While
+    '    'While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / 5) Mod 5 <> 0)
+    '    '    Chart1.ChartAreas("ChartArea1").AxisY.Minimum = Chart1.ChartAreas("ChartArea1").AxisY.Minimum - 5
+    '    'End While   'Loop to keep the interval a multiple of 5
+    '    While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / Chart1.ChartAreas("ChartArea1").AxisY.Interval) > 10)
+    '        Chart1.ChartAreas("ChartArea1").AxisY.Interval += 5
+    '    End While   'Loop to keep the interval a multiple of 5
+    'End Sub
+
+    'Sub newyaxisadjust()
+    '    Dim newymin As Double = 0.0
+    '    For i As Integer = 0 To GlobalVariables.series.Length - 1
+    '        If GlobalVariables.series(i) = 1 Then
+    '            line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMinByValue().ToString()
+    '            If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) < newymin Then
+    '                newymin = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
+    '                newymin = Math.Round(newymin, 0)
+    '                If newymin Mod 5 <> 0 Then
+    '                    newymin = newymin - (5 + (newymin Mod 5))
+    '                End If
+    '            End If
+    '        End If
+    '    Next
+    '    Chart1.ChartAreas("ChartArea1").AxisY.Minimum = newymin
+    '    While ymax > Chart1.ChartAreas("ChartArea1").AxisY.Maximum
+    '        Chart1.ChartAreas("ChartArea1").AxisY.Maximum += 5
+    '    End While
+    '    Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
+    '    While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / Chart1.ChartAreas("ChartArea1").AxisY.Interval) > 10)
+    '        Chart1.ChartAreas("ChartArea1").AxisY.Interval += 5
+    '    End While   'Loop to keep the interval a multiple of 5
+    'End Sub
 
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
         dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp"
@@ -529,23 +709,23 @@ Public Class Form1
         Else
             GlobalVariables.y2axis = False
         End If
-        If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
-            GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 1000000000
-            GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum / 1000000000
-            GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval / 1000000000
-        ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
-            GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 1000000
-            GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum / 1000000
-            GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval / 1000000
-        ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
-            GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 1000
-            GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum / 1000
-            GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval / 1000
-        Else
-            GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum
-            GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum
-            GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval
-        End If
+        'If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
+        '    GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 1000000000
+        '    GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum / 1000000000
+        '    GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval / 1000000000
+        'ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
+        '    GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 1000000
+        '    GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum / 1000000
+        '    GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval / 1000000
+        'ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
+        '    GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 1000
+        '    GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum / 1000
+        '    GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval / 1000
+        'Else
+        GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum
+        GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum
+        GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval
+        'End If
         If (ports = 0) Then
             GlobalVariables.ports = 0
         Else
@@ -561,28 +741,28 @@ Public Class Form1
                 Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
                 Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
                 Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-                If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000000000
-                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000000
-                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000
-                Else
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
-                End If
+                'If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
+                '    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000000000
+                '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000000000
+                '    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000000000
+                'ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
+                '    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000000
+                '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000000
+                '    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000000
+                'ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
+                '    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin * 1000
+                '    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax * 1000
+                '    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint * 1000
+                'Else
+                Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+                Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
+                'End If
                 If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
                     Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = GlobalVariables.y2axismax
                     Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = GlobalVariables.y2axismin
                     Chart1.ChartAreas("ChartArea1").AxisY2.Interval = GlobalVariables.y2axisint
-                    y2axisadjust()
+                    'y2axisadjust()
                 End If
             End If
             If GlobalVariables.series.Length <> 0 Then
@@ -597,16 +777,18 @@ Public Class Form1
                     'End If
                 Next
                 If GlobalVariables.autobutton = True Then
-                    If GlobalVariables.ports <> 0 Or db = True Then
-                        xaxisadjust()
-                        'yaxisadjust()
-                        newyaxisadjust()
-                    End If
-                    If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
-                        'x2axisadjust()
-                        xaxisadjust()
-                        y2axisadjust()
-                    End If
+                    axisvalues()
+                    'Exit Sub
+                    'If GlobalVariables.ports <> 0 Or db = True Then
+                    '    xaxisadjust()
+                    '    'yaxisadjust()
+                    '    newyaxisadjust()
+                    'End If
+                    'If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
+                    '    'x2axisadjust()
+                    '    xaxisadjust()
+                    '    y2axisadjust()
+                    'End If
                 End If
             End If
         End If
@@ -640,15 +822,15 @@ Public Class Form1
                     'seriespointindex = Nothing
                 End If
                 RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-                If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
-                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000000000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
-                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
-                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
-                ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
-                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
-                Else
-                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
-                End If
+                'If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
+                '    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000000000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
+                'ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}" Then
+                '    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
+                'ElseIf Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}" Then
+                '    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue / 1000, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
+                'Else
+                CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(selectedDataPoint.XValue, 3) & ", Y=" & Math.Round(selectedDataPoint.YValues(0), 3), isChecked:=True)
+                'End If
                 AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
                 Chart1.Series(selectedSeries.Name).Points.Item(selectedPointIndex).Label = checkboxnum
                 Chart1.Series(selectedSeries.Name).Points.Item(selectedPointIndex).MarkerStyle = MarkerStyle.Triangle
@@ -741,10 +923,10 @@ Public Class Form1
                     colourcounter = 1
                     ClearMarkers()
                     Chart1.Series.Clear()
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
                     Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
                     Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
                     frequnit = "ghz"
@@ -858,155 +1040,177 @@ Public Class Form1
                         End If
                     End If
                 Next
-                If frequnit = "hz" Then
-                    If line2.ToString.ToLower.Contains("ghz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000000000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("mhz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("khz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000
-                        Next
-                    Else
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0)
-                        Next
-                    End If
-                ElseIf frequnit = "khz" Then
-                    If line2.ToString.ToLower.Contains("ghz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("mhz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("khz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0)
-                        Next
-                    Else
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000
-                        Next
-                    End If
-                ElseIf frequnit = "mhz" Then
-                    If line2.ToString.ToLower.Contains("ghz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) * 1000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("mhz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0)
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("khz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000
-                        Next
-                    Else
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000000
-                        Next
-                    End If
-                ElseIf frequnit = "ghz" Then
-                    If line2.ToString.ToLower.Contains("ghz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0)
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("mhz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000
-                        Next
-                    ElseIf line2.ToString.ToLower.Contains("khz") Then
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000000
-                        Next
-                    Else
-                        For i As Integer = 0 To numRow - 1
-                            freq1(i) = table(i, 0) / 1000000000
-                        Next
-                    End If
+
+                If line2.ToString.ToLower.Contains("ghz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0)
+                    Next
+                ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000
+                    Next
+                ElseIf line2.ToString.ToLower.Contains("khz") Then
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000000
+                    Next
+                Else
+                    For i As Integer = 0 To numRow - 1
+                        freq1(i) = table(i, 0) / 1000000000
+                    Next
                 End If
-                If newtoolbar = False AndAlso addtoolbar = False AndAlso generic = False AndAlso db = False Then
-                    xmax = freq1.Max
-                    xmin = freq1.Min
-                    Select Case frequnit
-                        Case "hz"
-                            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
-                        Case "khz"
-                            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
-                            Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
-                            Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
-                            Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
-                        Case "mhz"
-                            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
-                            Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
-                            Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
-                            Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
-                        Case "ghz"
-                            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
-                            Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
-                            Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
-                            Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
-                    End Select
-                    'If GlobalVariables.autobutton = True Then
-                    '    xaxisadjust()
-                    'End If
-                End If
-                If freq1.Max > xmax Then
-                    xmax = freq1.Max
-                End If
-                If freq1.Min < xmin Then
-                    xmin = freq1.Min
-                End If
-                If GlobalVariables.autobutton = True Then
-                    xaxisadjust()
-                End If
-                'If freq1.Max > x2max Then
-                '    x2max = freq1.Max
+
+                'If frequnit = "hz" Then
+                '    If line2.ToString.ToLower.Contains("ghz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) * 1000000000
+                '        Next
+                '    ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) * 1000000
+                '        Next
+                '    ElseIf line2.ToString.ToLower.Contains("khz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) * 1000
+                '        Next
+                '    Else
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0)
+                '        Next
+                '    End If
+                'ElseIf frequnit = "khz" Then
+                '    If line2.ToString.ToLower.Contains("ghz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) * 1000000
+                '        Next
+                '    ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) * 1000
+                '        Next
+                '    ElseIf line2.ToString.ToLower.Contains("khz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0)
+                '        Next
+                '    Else
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) / 1000
+                '        Next
+                '    End If
+                'ElseIf frequnit = "mhz" Then
+                '    If line2.ToString.ToLower.Contains("ghz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) * 1000
+                '        Next
+                '    ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0)
+                '        Next
+                '    ElseIf line2.ToString.ToLower.Contains("khz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) / 1000
+                '        Next
+                '    Else
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) / 1000000
+                '        Next
+                '    End If
+                'ElseIf frequnit = "ghz" Then
+                '    If line2.ToString.ToLower.Contains("ghz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0)
+                '        Next
+                '    ElseIf line2.ToString.ToLower.Contains("mhz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) / 1000
+                '        Next
+                '    ElseIf line2.ToString.ToLower.Contains("khz") Then
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) / 1000000
+                '        Next
+                '    Else
+                '        For i As Integer = 0 To numRow - 1
+                '            freq1(i) = table(i, 0) / 1000000000
+                '        Next
+                '    End If
+                'End If
+
+
+
+                'If newtoolbar = False AndAlso addtoolbar = False AndAlso generic = False AndAlso db = False Then
+                '    xmax = freq1.Max
+                '    xmin = freq1.Min
+                '    'Select Case frequnit
+                '    '    Case "hz"
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
+                '    '    Case "khz"
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
+                '    '    Case "mhz"
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
+                '    '    Case "ghz"
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
+                '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
+                '    'End Select
+                '    'If GlobalVariables.autobutton = True Then
+                '    '    xaxisadjust()
+                '    'End If
+                'End If
+                'If freq1.Max > xmax Then
+                '    xmax = freq1.Max
+                'End If
+                'If freq1.Min < xmin Then
+                '    xmin = freq1.Min
                 'End If
                 'If GlobalVariables.autobutton = True Then
-                '    x2axisadjust()
+                '    xaxisadjust()
                 'End If
-                For i As Integer = 0 To numRow - 1
-                    For j As Integer = 1 To numColumn - 1
-                        If i = 0 AndAlso j = 1 Then
-                            If y2max1 = 0 AndAlso y2min1 = 0 Then
-                                y2max1 = table(0, 1)
-                                y2min1 = table(0, 1)
-                            End If
-                        End If
-                        If table(i, j) > y2max1 Then
-                            y2max1 = table(i, j)
-                        End If
-                        If table(i, j) < y2min1 Then
-                            y2min1 = table(i, j)
-                        End If
-                    Next
-                Next
-                y2max = Math.Round(100 * (Math.Pow(10, (y2max1 / 10))), 0)
-                If y2max Mod 5 <> 0 Then
-                    y2max = y2max + (5 - (y2max Mod 5))
-                End If
-                y2min = Math.Round(100 * (Math.Pow(10, (y2min1 / 10))), 0)
-                If y2min Mod 5 <> 0 Then
-                    y2min = y2min - (y2min Mod 5)
-                End If
-                If GlobalVariables.autobutton = True Then
-                    Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
-                    Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
-                    Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
-                Else
-                    Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
-                    Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
-                    Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
-                End If
+                ''If freq1.Max > x2max Then
+                ''    x2max = freq1.Max
+                ''End If
+                ''If GlobalVariables.autobutton = True Then
+                ''    x2axisadjust()
+                ''End If
+                'For i As Integer = 0 To numRow - 1
+                '    For j As Integer = 1 To numColumn - 1
+                '        If i = 0 AndAlso j = 1 Then
+                '            If y2max1 = 0 AndAlso y2min1 = 0 Then
+                '                y2max1 = table(0, 1)
+                '                y2min1 = table(0, 1)
+                '            End If
+                '        End If
+                '        If table(i, j) > y2max1 Then
+                '            y2max1 = table(i, j)
+                '        End If
+                '        If table(i, j) < y2min1 Then
+                '            y2min1 = table(i, j)
+                '        End If
+                '    Next
+                'Next
+                'y2max = Math.Round(100 * (Math.Pow(10, (y2max1 / 10))), 0)
+                'If y2max Mod 5 <> 0 Then
+                '    y2max = y2max + (5 - (y2max Mod 5))
+                'End If
+                'y2min = Math.Round(100 * (Math.Pow(10, (y2min1 / 10))), 0)
+                'If y2min Mod 5 <> 0 Then
+                '    y2min = y2min - (y2min Mod 5)
+                'End If
+                'If GlobalVariables.autobutton = True Then
+                '    Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
+                '    Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
+                '    Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
+                'Else
+                Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
+                Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
+                Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
+                'End If
                 GlobalVariables.plot = "efficiency"
-                y2axisadjust()
+                'y2axisadjust()
                 Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
                 Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in %"        '.# to provide one decimal part; For 2 decimal part it is .###
                 'If line2.ToLower.Contains("db") Then
@@ -1070,6 +1274,11 @@ Public Class Form1
                     GlobalVariables.series(x + i - 1) = 1
                 Next
                 System.Array.Resize(Of String)(secondarynames, secondarynames.Length - 1)
+                If GlobalVariables.autobutton = True Then
+                    axisvalues()
+                Else
+                    y2axisadjust()
+                End If
                 'AllocConsole() 'show console
                 'For i As Integer = 0 To secondarynames.Length - 1
                 '    Console.WriteLine(secondarynames(i))
@@ -1099,11 +1308,11 @@ Public Class Form1
 
     Sub y2axisadjust()
         Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Clear()
-        If GlobalVariables.autobutton = True Then
-            Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
-            Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
-            Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
-        End If
+        'If GlobalVariables.autobutton = True Then
+        '    Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
+        '    Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
+        '    Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
+        'End If
         If GlobalVariables.plot = "efficiency" Then
             'If Chart1.ChartAreas("ChartArea1").AxisY2.Minimum <> 0 Or Chart1.ChartAreas("ChartArea1").AxisY2.Maximum <> 100 Or Chart1.ChartAreas("ChartArea1").AxisY2.Interval <> 10 Then
             '    For i As Double = 0 To 100 Step 10
@@ -1144,10 +1353,10 @@ Public Class Form1
             colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
-            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
@@ -1206,111 +1415,136 @@ Public Class Form1
                 End If
             End If
         Next
-        If frequnit = "hz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000000000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            End If
-        ElseIf frequnit = "khz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000
-                Next
-            End If
-        ElseIf frequnit = "mhz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000000
-                Next
-            End If
-        ElseIf frequnit = "ghz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000000
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000000000
-                Next
-            End If
+
+        If line1.ToString.ToLower.Contains("ghz") Then
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0)
+            Next
+        ElseIf line1.ToString.ToLower.Contains("mhz") Then
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0) / 1000
+            Next
+        ElseIf line1.ToString.ToLower.Contains("khz") Then
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0) / 1000000
+            Next
+        Else
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0) / 1000000000
+            Next
         End If
-        If newtoolbar = False AndAlso addtoolbar = False AndAlso generic = False AndAlso db = False Then
-            xmax = freq1.Max
-            xmin = freq1.Min
-            Select Case frequnit
-                Case "hz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
-                Case "khz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
-                Case "mhz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
-                Case "ghz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
-            End Select
-            If GlobalVariables.autobutton = True Then
-                xaxisadjust()
-            End If
-        End If
-        If freq1.Max > xmax Then
-            xmax = freq1.Max
-        End If
-        If GlobalVariables.autobutton = True Then
-            xaxisadjust()
-        End If
+
+        'If frequnit = "hz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000000000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    End If
+        'ElseIf frequnit = "khz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000
+        '        Next
+        '    End If
+        'ElseIf frequnit = "mhz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000000
+        '        Next
+        '    End If
+        'ElseIf frequnit = "ghz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000000
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000000000
+        '        Next
+        '    End If
+        'End If
+
+
+
+        'If newtoolbar = False AndAlso addtoolbar = False AndAlso generic = False AndAlso db = False Then
+        '    xmax = freq1.Max
+        '    xmin = freq1.Min
+        '    'Select Case frequnit
+        '    '    Case "hz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
+        '    '    Case "khz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
+        '    '    Case "mhz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
+        '    '    Case "ghz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
+        '    'End Select
+        '    'If GlobalVariables.autobutton = True Then
+        '    '    xaxisadjust()
+        '    'End If
+        'End If
+        'If freq1.Max > xmax Then
+        '    xmax = freq1.Max
+        'End If
+        'If freq1.Min < xmin Then
+        '    xmin = freq1.Min
+        'End If
+        'If GlobalVariables.autobutton = True Then
+        '    xaxisadjust()
+        'End If
         If GlobalVariables.seriesnames.Length <> 0 Then
             x = GlobalVariables.seriesnames.Length
             'ReDim Preserve GlobalVariables.seriesnames(x + numColumn - 2)
@@ -1325,15 +1559,15 @@ Public Class Form1
 
         'interval = freq1(1) - freq1(0)
         'interval = Math.Round((freq1(1) - freq1(0)), 3)
-        If frequnit = "ghz" Then
-            interval = 0.05 'Interval needs to more flexible
-        ElseIf frequnit = "mhz" Then
-            interval = 50
-        ElseIf frequnit = "khz" Then
-            interval = 50000
-        Else
-            interval = 50000000
-        End If
+        'If frequnit = "ghz" Then
+        interval = 0.05 'Interval needs to more flexible
+        'ElseIf frequnit = "mhz" Then
+        '    interval = 50
+        'ElseIf frequnit = "khz" Then
+        '    interval = 50000
+        'Else
+        '    interval = 50000000
+        'End If
 
         If interval.ToString().IndexOf(".") = -1 Then
             decimalpart = 0     'No decimal part                                     
@@ -1395,14 +1629,14 @@ Public Class Form1
                     Else
                         eff1(y) = table(j, i)
                     End If
-                    If eff1(y) <> Double.NaN Then
-                        If ymax < eff1(y) Then
-                            ymax = eff1(y)
-                        End If
-                        If ymin > eff1(y) Then
-                            ymin = eff1(y)
-                        End If
-                    End If
+                    'If eff1(y) <> Double.NaN Then
+                    '    If ymax < eff1(y) Then
+                    '        ymax = eff1(y)
+                    '    End If
+                    '    If ymin > eff1(y) Then
+                    '        ymin = eff1(y)
+                    '    End If
+                    'End If
                     y += 1
                 Else
                     Exit Sub
@@ -1418,10 +1652,13 @@ Public Class Form1
             'If ymin > eff1.Min Then
             '    ymin = eff1.Min
             'End If
-            If GlobalVariables.autobutton = True Then
-                yaxisadjust()
-            End If
+            'If GlobalVariables.autobutton = True Then
+            '    yaxisadjust()
+            'End If
         Next
+        If GlobalVariables.autobutton = True Then
+            axisvalues()
+        End If
         fullstring = vbNullString   ' Releasing memory by setting values as Null
         line1 = vbNullString
         line2 = vbNullString
@@ -1449,10 +1686,10 @@ Public Class Form1
             colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
-            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
             frequnit = "ghz"
@@ -1530,155 +1767,178 @@ Public Class Form1
                 End If
             End If
         Next
-        If frequnit = "hz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000000000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            End If
-        ElseIf frequnit = "khz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000
-                Next
-            End If
-        ElseIf frequnit = "mhz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000000
-                Next
-            End If
-        ElseIf frequnit = "ghz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000000
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000000000
-                Next
-            End If
+
+        If line1.ToString.ToLower.Contains("ghz") Then
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0)
+            Next
+        ElseIf line1.ToString.ToLower.Contains("mhz") Then
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0) / 1000
+            Next
+        ElseIf line1.ToString.ToLower.Contains("khz") Then
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0) / 1000000
+            Next
+        Else
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0) / 1000000000
+            Next
         End If
-        If newtoolbar = False AndAlso addtoolbar = False AndAlso generic = False AndAlso db = False Then
-            xmax = freq1.Max
-            xmin = freq1.Min
-            Select Case frequnit
-                Case "hz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
-                Case "khz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
-                Case "mhz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
-                Case "ghz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
-            End Select
-            'If GlobalVariables.autobutton = True Then
-            '    xaxisadjust()
-            'End If
-        End If
-        If freq1.Max > xmax Then
-            xmax = freq1.Max
-        End If
-        If freq1.Min < xmin Then
-            xmin = freq1.Min
-        End If
-        If GlobalVariables.autobutton = True Then
-            xaxisadjust()
-        End If
-        'If freq1.Max > x2max Then
-        '    x2max = freq1.Max
+
+
+        'If frequnit = "hz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000000000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    End If
+        'ElseIf frequnit = "khz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000
+        '        Next
+        '    End If
+        'ElseIf frequnit = "mhz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000000
+        '        Next
+        '    End If
+        'ElseIf frequnit = "ghz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000000
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000000000
+        '        Next
+        '    End If
+        'End If
+
+
+
+        'If newtoolbar = False AndAlso addtoolbar = False AndAlso generic = False AndAlso db = False Then
+        '    xmax = freq1.Max
+        '    xmin = freq1.Min
+        '    'Select Case frequnit
+        '    '    Case "hz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
+        '    '    Case "khz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
+        '    '    Case "mhz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
+        '    '    Case "ghz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
+        '    'End Select
+        '    'If GlobalVariables.autobutton = True Then
+        '    '    xaxisadjust()
+        '    'End If
+        'End If
+        'If freq1.Max > xmax Then
+        '    xmax = freq1.Max
+        'End If
+        'If freq1.Min < xmin Then
+        '    xmin = freq1.Min
         'End If
         'If GlobalVariables.autobutton = True Then
-        '    x2axisadjust()
+        '    xaxisadjust()
         'End If
-        For i As Integer = 0 To numRow - 1
-            For j As Integer = 1 To numColumn - 1
-                If i = 0 AndAlso j = 1 Then
-                    If y2max1 = 0 AndAlso y2min1 = 0 Then
-                        y2max1 = table(0, 1)
-                        y2min1 = table(0, 1)
-                    End If
-                End If
-                If table(i, j) > y2max1 Then
-                    y2max1 = table(i, j)
-                End If
-                If table(i, j) < y2min1 Then
-                    y2min1 = table(i, j)
-                End If
-            Next
-        Next
-        y2max = Math.Round(100 * (Math.Pow(10, (y2max1 / 10))), 0)
-        If y2max Mod 5 <> 0 Then
-            y2max = y2max + (5 - (y2max Mod 5))
-        End If
-        y2min = Math.Round(100 * (Math.Pow(10, (y2min1 / 10))), 0)
-        If y2min Mod 5 <> 0 Then
-            y2min = y2min - (y2min Mod 5)
-        End If
-        If GlobalVariables.autobutton = True Then
-            Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
-            Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
-            Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
-        Else
-            Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
-            Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
-            Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
-        End If
+        ''If freq1.Max > x2max Then
+        ''    x2max = freq1.Max
+        ''End If
+        ''If GlobalVariables.autobutton = True Then
+        ''    x2axisadjust()
+        ''End If
+        'For i As Integer = 0 To numRow - 1
+        '    For j As Integer = 1 To numColumn - 1
+        '        If i = 0 AndAlso j = 1 Then
+        '            If y2max1 = 0 AndAlso y2min1 = 0 Then
+        '                y2max1 = table(0, 1)
+        '                y2min1 = table(0, 1)
+        '            End If
+        '        End If
+        '        If table(i, j) > y2max1 Then
+        '            y2max1 = table(i, j)
+        '        End If
+        '        If table(i, j) < y2min1 Then
+        '            y2min1 = table(i, j)
+        '        End If
+        '    Next
+        'Next
+        'y2max = Math.Round(100 * (Math.Pow(10, (y2max1 / 10))), 0)
+        'If y2max Mod 5 <> 0 Then
+        '    y2max = y2max + (5 - (y2max Mod 5))
+        'End If
+        'y2min = Math.Round(100 * (Math.Pow(10, (y2min1 / 10))), 0)
+        'If y2min Mod 5 <> 0 Then
+        '    y2min = y2min - (y2min Mod 5)
+        'End If
+        'If GlobalVariables.autobutton = True Then
+        '    Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = y2max
+        '    Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
+        '    Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
+        'Else
+        Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = 100
+        Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = 0
+        Chart1.ChartAreas("ChartArea1").AxisY2.Interval = 10
+        'End If
         GlobalVariables.plot = "efficiency"
-        y2axisadjust()
+        'y2axisadjust()
         Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisY2.Title = "Efficiency in %"        '.# to provide one decimal part; For 2 decimal part it is .###
         If GlobalVariables.seriesnames.Length <> 0 Then
@@ -1721,6 +1981,11 @@ Public Class Form1
             GlobalVariables.series(x + i - 1) = 1
         Next
         System.Array.Resize(Of String)(secondarynames, secondarynames.Length - 1)
+        If GlobalVariables.autobutton = True Then
+            axisvalues()
+        Else
+            y2axisadjust()
+        End If
         fullstring = vbNullString   ' Releasing memory by setting values as Null
         line1 = vbNullString
         line2 = vbNullString
@@ -1739,10 +2004,10 @@ Public Class Form1
             colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
-            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
             frequnit = "ghz"
@@ -1835,121 +2100,144 @@ Public Class Form1
                 End If
             End If
         Next
-        If frequnit = "hz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000000000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            End If
-        ElseIf frequnit = "khz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000
-                Next
-            End If
-        ElseIf frequnit = "mhz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) * 1000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000000
-                Next
-            End If
-        ElseIf frequnit = "ghz" Then
-            If line1.ToString.ToLower.Contains("ghz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0)
-                Next
-            ElseIf line1.ToString.ToLower.Contains("mhz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000
-                Next
-            ElseIf line1.ToString.ToLower.Contains("khz") Then
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000000
-                Next
-            Else
-                For i As Integer = 0 To numRow - 1
-                    freq1(i) = table(i, 0) / 1000000000
-                Next
-            End If
+
+        If line1.ToString.ToLower.Contains("ghz") Then
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0)
+            Next
+        ElseIf line1.ToString.ToLower.Contains("mhz") Then
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0) / 1000
+            Next
+        ElseIf line1.ToString.ToLower.Contains("khz") Then
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0) / 1000000
+            Next
+        Else
+            For i As Integer = 0 To numRow - 1
+                freq1(i) = table(i, 0) / 1000000000
+            Next
         End If
-        If newtoolbar = False AndAlso addtoolbar = False AndAlso generic = False AndAlso db = False Then
-            xmax = freq1.Max
-            xmin = freq1.Min
-            Select Case frequnit
-                Case "hz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
-                Case "khz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
-                Case "mhz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
-                Case "ghz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
-            End Select
-            'If GlobalVariables.autobutton = True Then
-            '    xaxisadjust()
-            'End If
-        End If
-        If freq1.Max > xmax Then
-            xmax = freq1.Max
-        End If
-        If freq1.Min < xmin Then
-            xmin = freq1.Min
-        End If
-        If GlobalVariables.autobutton = True Then
-            xaxisadjust()
-        End If
-        'If x2max = 0 Then
-        '    x2max = freq1.Max
+
+
+        'If frequnit = "hz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000000000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    End If
+        'ElseIf frequnit = "khz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000
+        '        Next
+        '    End If
+        'ElseIf frequnit = "mhz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) * 1000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000000
+        '        Next
+        '    End If
+        'ElseIf frequnit = "ghz" Then
+        '    If line1.ToString.ToLower.Contains("ghz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0)
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("mhz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000
+        '        Next
+        '    ElseIf line1.ToString.ToLower.Contains("khz") Then
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000000
+        '        Next
+        '    Else
+        '        For i As Integer = 0 To numRow - 1
+        '            freq1(i) = table(i, 0) / 1000000000
+        '        Next
+        '    End If
         'End If
-        ''x2max = freq1.Max
+
+
+
+        'If newtoolbar = False AndAlso addtoolbar = False AndAlso generic = False AndAlso db = False Then
+        '    xmax = freq1.Max
+        '    xmin = freq1.Min
+        '    'Select Case frequnit
+        '    '    Case "hz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
+        '    '    Case "khz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
+        '    '    Case "mhz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
+        '    '    Case "ghz"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
+        '    '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
+        '    'End Select
+        '    'If GlobalVariables.autobutton = True Then
+        '    '    xaxisadjust()
+        '    'End If
+        'End If
+        'If freq1.Max > xmax Then
+        '    xmax = freq1.Max
+        'End If
+        'If freq1.Min < xmin Then
+        '    xmin = freq1.Min
+        'End If
         'If GlobalVariables.autobutton = True Then
-        '    x2axisadjust()
+        '    xaxisadjust()
         'End If
+        ''If x2max = 0 Then
+        ''    x2max = freq1.Max
+        ''End If
+        ''x2max = freq1.Max
+        ''If GlobalVariables.autobutton = True Then
+        ''    x2axisadjust()
+        ''End If
         For i As Integer = 0 To numRow - 1
             For j As Integer = 1 To numColumn - 1
                 If i = 0 AndAlso j = 1 Then
@@ -1968,7 +2256,7 @@ Public Class Form1
         Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = y2min
         Chart1.ChartAreas("ChartArea1").AxisY2.Interval = (y2max - y2min) / 10
         GlobalVariables.plot = "generic"
-        y2axisadjust()
+        'y2axisadjust()
         Chart1.ChartAreas("ChartArea1").AxisY2.LabelStyle.Format = "{0:0.##}"   'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisY2.Title = s1                       '.# to provide one decimal part; For 2 decimal part it is .###
         If GlobalVariables.seriesnames.Length <> 0 Then
@@ -2001,6 +2289,11 @@ Public Class Form1
             GlobalVariables.series(x + i - 1) = 1
         Next
         System.Array.Resize(Of String)(secondarynames, secondarynames.Length - 1)
+        If GlobalVariables.autobutton = True Then
+            axisvalues()
+        Else
+            y2axisadjust()
+        End If
         fullstring = vbNullString   ' Releasing memory by setting values as Null
         line1 = vbNullString
         line2 = vbNullString
@@ -2195,10 +2488,10 @@ Public Class Form1
             colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
-            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
@@ -2208,8 +2501,8 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
             column = ((Math.Pow(ports, 2) * 2) + 1)
             checkboxnum = 1
-            y2max1 = 0
-            y2min1 = 0
+            'y2max1 = 0
+            'y2min1 = 0
             'x2max = 0
             Erase names
             names = New String(-1) {}
@@ -2237,33 +2530,62 @@ Public Class Form1
             fullstring = vbNullString   '   Releasing memory by setting values as Null
             line = vbNullString
             value = Nothing
-            xmax = table(row - 1, 0)
-            xmin = table(0, 0)
+
             Select Case frequnit
                 Case "hz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
+                    For i As Integer = 0 To row - 1
+                        freq1(i) = table(i, 0) / 1000000000
+                    Next
                 Case "khz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
+                    For i As Integer = 0 To row - 1
+                        freq1(i) = table(i, 0) / 1000000
+                    Next
                 Case "mhz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
+                    For i As Integer = 0 To row - 1
+                        freq1(i) = table(i, 0) / 1000
+                    Next
                 Case "ghz"
-                    Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
+                    For i As Integer = 0 To row - 1
+                        freq1(i) = table(i, 0)
+                    Next
             End Select
-            If GlobalVariables.autobutton = True Then
-                xaxisadjust()
-            End If
-            For i As Integer = 0 To row - 1
-                freq1(i) = table(i, 0)
-            Next
+            'xmax = freq1.Max
+            'xmin = freq1.Min
+
+            'If GlobalVariables.autobutton = True Then
+            '    xaxisadjust()
+            'End If
+
+            'xmax = table(row - 1, 0)
+            'xmin = table(0, 0)
+            'Select Case frequnit
+            '    Case "hz"
+            '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"    'Two decimal adjustment (if required)
+            '    Case "khz"
+            '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,.##}"
+            '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000
+            '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000
+            '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000
+            '    Case "mhz"
+            '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,.##}"
+            '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000
+            '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000
+            '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000
+            '    Case "ghz"
+            '        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+            '        Chart1.ChartAreas("ChartArea1").AxisX.Interval /= 1000000000
+            '        Chart1.ChartAreas("ChartArea1").AxisX.Maximum /= 1000000000
+            '        Chart1.ChartAreas("ChartArea1").AxisX.Minimum /= 1000000000
+            'End Select
+            'If GlobalVariables.autobutton = True Then
+            '    xaxisadjust()
+            'End If
+            'For i As Integer = 0 To row - 1
+            '    freq1(i) = table(i, 0)
+            'Next
+
+
+
             If matrix = "lower" Then
                 GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
                 GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
@@ -2274,8 +2596,8 @@ Public Class Form1
                 GlobalVariables.seriesnames = New String((ports * ports) - 1) {}
                 GlobalVariables.series = New Integer((ports * ports) - 1) {}
             End If
-            ymax = 0
-            ymin = 0
+            'ymax = 0
+            'ymin = 0
             x = 1
             y = 0
             For a As Integer = 1 To ports
@@ -2310,15 +2632,15 @@ Public Class Form1
                         End If
                     Next
                     x += 2
-                    If ymax < para1.Max Then
-                        ymax = para1.Max
-                    End If
-                    If ymin > para1.Min Then
-                        ymin = para1.Min
-                    End If
-                    If GlobalVariables.autobutton = True Then
-                        yaxisadjust()
-                    End If
+                    'If ymax < para1.Max Then
+                    '    ymax = para1.Max
+                    'End If
+                    'If ymin > para1.Min Then
+                    '    ymin = para1.Min
+                    'End If
+                    'If GlobalVariables.autobutton = True Then
+                    '    yaxisadjust()
+                    'End If
                     Chart1.Series.Add("S(" & a & "," & b & ")")
                     Chart1.Series("S(" & a & "," & b & ")").ChartType = DataVisualization.Charting.SeriesChartType.Line
                     Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 2
@@ -2331,6 +2653,9 @@ Public Class Form1
                     y += 1
                 Next
             Next
+            If GlobalVariables.autobutton = True Then
+                axisvalues()
+            End If
             Erase freq1         '   Releasing memory
             Erase para1
             Erase table
@@ -2371,14 +2696,15 @@ Public Class Form1
 
     Private Sub ClearChartAreaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearChartAreaToolStripMenuItem.Click
         colourcounter = 1
+        ClearMarkers()
         Chart1.Series.Clear()
         Chart1.Series.Add(" ")
         Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
         Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
-        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
-        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
-        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
@@ -2433,7 +2759,7 @@ Public Class Form1
             For Each s As String In value
                 If String.IsNullOrWhiteSpace(s) Then
                 Else
-                    freq1(x) = CDbl(s)
+                    freq1(x) = CDbl(s) / 1000000000
                     x += 1
                 End If
             Next
@@ -2515,18 +2841,18 @@ Public Class Form1
             matrix = "full"
             frequnit = "hz"
             checkboxnum = 1
-            y2max1 = 0
-            y2min1 = 0
+            'y2max1 = 0
+            'y2min1 = 0
             'x2max = 0
-            xmax = freq1.Max
-            xmin = freq1.Min
+            'xmax = freq1.Max
+            'xmin = freq1.Min
             colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
-            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
@@ -2535,11 +2861,11 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
-            If GlobalVariables.autobutton = True Then
-                xaxisadjust()
-            End If
-            ymax = 0
-            ymin = 0
+            'If GlobalVariables.autobutton = True Then
+            '    xaxisadjust()
+            'End If
+            'ymax = 0
+            'ymin = 0
             x = 1
             y = 0
             'AllocConsole()
@@ -2549,12 +2875,12 @@ Public Class Form1
                         S11(i) = -1000
                     End If
                 Next
-                If ymax < S11.Max Then
-                    ymax = S11.Max
-                End If
-                If ymin > S11.Min Then
-                    ymin = S11.Min
-                End If
+                'If ymax < S11.Max Then
+                '    ymax = S11.Max
+                'End If
+                'If ymin > S11.Min Then
+                '    ymin = S11.Min
+                'End If
                 Chart1.Series.Add("S(1,1)")
                 Chart1.Series("S(1,1)").ChartType = DataVisualization.Charting.SeriesChartType.Line
                 Chart1.Series("S(1,1)").BorderWidth = 2
@@ -2578,30 +2904,30 @@ Public Class Form1
                     End If
                     'Console.WriteLine(freq1(i) & " " & S11(i) & " " & S12(i) & " " & S21(i) & " " & S22(i))
                 Next
-                If ymax < S11.Max Then
-                    ymax = S11.Max
-                End If
-                If ymax < S12.Max Then
-                    ymax = S12.Max
-                End If
-                If ymax < S21.Max Then
-                    ymax = S21.Max
-                End If
-                If ymax < S22.Max Then
-                    ymax = S22.Max
-                End If
-                If ymin > S11.Min Then
-                    ymin = S11.Min
-                End If
-                If ymin > S12.Min Then
-                    ymin = S12.Min
-                End If
-                If ymin > S21.Min Then
-                    ymin = S21.Min
-                End If
-                If ymin > S22.Min Then
-                    ymin = S22.Min
-                End If
+                'If ymax < S11.Max Then
+                '    ymax = S11.Max
+                'End If
+                'If ymax < S12.Max Then
+                '    ymax = S12.Max
+                'End If
+                'If ymax < S21.Max Then
+                '    ymax = S21.Max
+                'End If
+                'If ymax < S22.Max Then
+                '    ymax = S22.Max
+                'End If
+                'If ymin > S11.Min Then
+                '    ymin = S11.Min
+                'End If
+                'If ymin > S12.Min Then
+                '    ymin = S12.Min
+                'End If
+                'If ymin > S21.Min Then
+                '    ymin = S21.Min
+                'End If
+                'If ymin > S22.Min Then
+                '    ymin = S22.Min
+                'End If
                 Chart1.Series.Add("S(1,1)")
                 Chart1.Series("S(1,1)").ChartType = DataVisualization.Charting.SeriesChartType.Line
                 Chart1.Series("S(1,1)").BorderWidth = 2
@@ -2632,7 +2958,7 @@ Public Class Form1
                 Chart1.Series("S(2,2)").Points.DataBindXY(freq1, S22)
             End If
             If GlobalVariables.autobutton = True Then
-                yaxisadjust()
+                axisvalues()
             End If
             Erase freq1         '   Releasing memory
             Erase S11
