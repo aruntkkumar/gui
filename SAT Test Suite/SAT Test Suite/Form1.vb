@@ -581,6 +581,7 @@ Public Class Form1
         If Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True Then
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = ymax
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = ymin
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 5
             While (((Chart1.ChartAreas("ChartArea1").AxisY.Maximum - Chart1.ChartAreas("ChartArea1").AxisY.Minimum) / Chart1.ChartAreas("ChartArea1").AxisY.Interval) > 10)
                 Chart1.ChartAreas("ChartArea1").AxisY.Interval += 5
             End While   'Loop to keep the interval a multiple of 5
