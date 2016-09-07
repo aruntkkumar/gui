@@ -763,7 +763,7 @@ Public Class Form1
                     Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = GlobalVariables.y2axismax
                     Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = GlobalVariables.y2axismin
                     Chart1.ChartAreas("ChartArea1").AxisY2.Interval = GlobalVariables.y2axisint
-                    'y2axisadjust()
+                    y2axisadjust()
                 End If
             End If
             If GlobalVariables.series.Length <> 0 Then
