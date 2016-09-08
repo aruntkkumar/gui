@@ -77,6 +77,8 @@ Public Class Form1
     Dim nullpoints(0) As Integer
     Dim lastvalue As Decimal = 0.0
     Dim secondarynames(-1) As String
+    Dim device As Boolean = False
+    Dim devicedata As String
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         dialog.InitialDirectory = "C:\"
@@ -460,6 +462,7 @@ Public Class Form1
                 'AddToolStripMenuItem.Enabled = True
                 newtoolbar = True
                 db = False
+                device = False
             Catch Ex As Exception
                 MetroFramework.MetroMessageBox.Show(Me, Ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
@@ -675,26 +678,51 @@ Public Class Form1
     'End Sub
 
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
-        dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp"
+        If device = False Then
+            dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp"
+        Else
+            If ports = 1 Then
+                dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp|Touchstone (*.s1p)|*.s1p"
+            ElseIf ports = 2 Then
+                dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp|Touchstone (*.s2p)|*.s2p"
+            ElseIf ports = 3 Then
+                dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp|Touchstone (*.s3p)|*.s3p"
+            Else
+                dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp|Touchstone (*.s4p)|*.s4p"
+            End If
+        End If
         dialog1.FilterIndex = 3
         dialog1.FileName = ""
 
-        Dim graph As Graphics = Nothing         ' Image capture if the CheckedListBox is not empty
-        Dim frmleft As System.Drawing.Point = Me.Bounds.Location
-        Dim img As New Bitmap(Me.Bounds.Width + 0, Me.Bounds.Height + 0)
-        graph = Graphics.FromImage(img)
-        Dim screenx As Integer = frmleft.X
-        Dim screeny As Integer = frmleft.Y
-        graph.CopyFromScreen(screenx - 0, screeny - 0, 0, 0, img.Size)
-        Me.BackgroundImageLayout = ImageLayout.Stretch
-        Me.BackgroundImage = img
-
         If (dialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK) Then
-            If CheckedListBox1.Items.Count > 0 Then
-                img.Save(dialog1.FileName, System.Drawing.Imaging.ImageFormat.Png)
+            If dialog1.FilterIndex = 5 Then
+                System.IO.File.WriteAllText(dialog1.FileName, devicedata)
+                If ports = 1 Then
+                    System.IO.File.Move(dialog1.FileName, dialog1.FileName.Replace(".txt", ".s1p"))
+                ElseIf ports = 2 Then
+                    System.IO.File.Move(dialog1.FileName, dialog1.FileName.Replace(".txt", ".s2p"))
+                ElseIf ports = 3 Then
+                    System.IO.File.Move(dialog1.FileName, dialog1.FileName.Replace(".txt", ".s3p"))
+                Else
+                    System.IO.File.Move(dialog1.FileName, dialog1.FileName.Replace(".txt", ".s4p"))
+                End If
             Else
-                Chart1.SaveImage(dialog1.FileName, System.Drawing.Imaging.ImageFormat.Png)
+                Dim graph As Graphics = Nothing         ' Image capture if the CheckedListBox is not empty
+                Dim frmleft As System.Drawing.Point = Me.Bounds.Location
+                Dim img As New Bitmap(Me.Bounds.Width + 0, Me.Bounds.Height + 0)
+                graph = Graphics.FromImage(img)
+                Dim screenx As Integer = frmleft.X
+                Dim screeny As Integer = frmleft.Y
+                graph.CopyFromScreen(screenx - 0, screeny - 0, 0, 0, img.Size)
+                Me.BackgroundImageLayout = ImageLayout.Stretch
+                Me.BackgroundImage = img
+                If CheckedListBox1.Items.Count > 0 Then
+                    img.Save(dialog1.FileName, System.Drawing.Imaging.ImageFormat.Png)
+                Else
+                    Chart1.SaveImage(dialog1.FileName, System.Drawing.Imaging.ImageFormat.Png)
+                End If
             End If
+
         End If
     End Sub
 
@@ -1295,6 +1323,7 @@ Public Class Form1
                 Erase table
                 addtoolbar = True
                 generic = False
+                device = False
             Catch ex As Exception
                 MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
@@ -1672,6 +1701,7 @@ Public Class Form1
         'addtoolbar = False
         'generic = False
         db = True
+        device = False
     End Sub
 
     Sub efficiencyplot()
@@ -1998,6 +2028,7 @@ Public Class Form1
         Erase table
         addtoolbar = True
         generic = False
+        device = False
     End Sub
 
     Sub genericplot()
@@ -2305,6 +2336,7 @@ Public Class Form1
         'AddToolStripMenuItem.Enabled = False
         addtoolbar = False
         generic = True
+        device = False
     End Sub
 
     Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CheckedListBox1.ItemCheck
@@ -2420,10 +2452,12 @@ Public Class Form1
                 instrument.WriteString("MMEMory:TRANsfer? 'c:\MyData.s4p'", True)
             End If
             'AllocConsole() 'show console
+            devicedata = ""
             matrix = "full"
             Using sr As New StringReader(instrument.ReadString())
                 While True
                     line = sr.ReadLine()
+                    devicedata = devicedata & line & vbCrLf
                     'Console.WriteLine(line)
                     If line.Contains("!") Then      'This includes a line with # and ! appearing together
                         'No action. This is for the first line that contains a number which could be a result of the previous computations
@@ -2507,6 +2541,8 @@ Public Class Form1
             'x2max = 0
             Erase names
             names = New String(-1) {}
+            devicedata = devicedata & fullstring
+            devicedata = devicedata.Substring(devicedata.IndexOf("!"))  'Removing the extra numbers added in the start
             fullstring = line & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
             fullstring = System.Text.RegularExpressions.Regex.Replace(fullstring, "\s{1,}", ",")    'Replaces white spaces (Space, tab, linefeed, carriage-return, formfeed, vertical-tab, and newline characters) with a comma 
 
@@ -2661,6 +2697,7 @@ Public Class Form1
             Erase para1
             Erase table
             newtoolbar = True
+            device = True
         Catch ex As Exception
             If ex.Message = "HRESULT = 80040000" Then
                 MetroFramework.MetroMessageBox.Show(Me, "Unable to connect to Agilent N5230A NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -2725,6 +2762,7 @@ Public Class Form1
         addtoolbar = False
         generic = False
         db = False
+        device = False
         GlobalVariables.series = New Integer(-1) {}     'Array with zeo elements
         GlobalVariables.seriesnames = New String(-1) {}
     End Sub
@@ -2739,6 +2777,10 @@ Public Class Form1
         Dim S12(1) As Double
         Dim S21(1) As Double
         Dim S22(1) As Double
+        Dim Ang11(1) As Double
+        Dim Ang12(1) As Double
+        Dim Ang21(1) As Double
+        Dim Ang22(1) As Double
         Try
             instrument.IO = ioMgr.Open(GlobalVariables.DeviceAddress(1))
             instrument.WriteString("*CLS", True)
@@ -2749,7 +2791,7 @@ Public Class Form1
             returnstring = System.Text.RegularExpressions.Regex.Replace(returnstring, "\s{1,}", "")
             trace = System.Text.RegularExpressions.Regex.Split(returnstring, ",")
             instrument.WriteString("FORMAT ASCII", True)
-            instrument.WriteString("CALC:FORM MLOG", True)
+            'instrument.WriteString("CALC:FORM MLOG", True) 'Disabled because it is used in the below loop
             instrument.WriteString("SWE:POIN?", True)
             row = instrument.ReadString()
             freq1 = New Double(row - 1) {}
@@ -2770,11 +2812,18 @@ Public Class Form1
                 S12 = New Double(row - 1) {}
                 S21 = New Double(row - 1) {}
                 S22 = New Double(row - 1) {}
+                Ang11 = New Double(row - 1) {}
+                Ang12 = New Double(row - 1) {}
+                Ang21 = New Double(row - 1) {}
+                Ang22 = New Double(row - 1) {}
                 GlobalVariables.seriesnames = New String(3) {"S(1,1)", "S(1,2)", "S(2,1)", "S(2,2)"}
                 GlobalVariables.series = New Integer(3) {1, 1, 1, 1}
                 For i As Integer = 0 To trace.Count - 1
                     If trace(i) = "S11" Or trace(i) = "S12" Or trace(i) = "S21" Or trace(i) = "S22" Then
                         instrument.WriteString("CALC:PAR:MEAS '" & trace(i - 1) & "','" & trace(i) & "'", True)
+                        instrument.WriteString("CALC:FORM?", True)
+                        line = instrument.ReadString()
+                        instrument.WriteString("CALC:FORM MLOG", True)
                         instrument.WriteString("CALC:DATA? FDATA", True)
                         returnstring = instrument.ReadString()
                         value = System.Text.RegularExpressions.Regex.Split(returnstring, ",")
@@ -2794,6 +2843,27 @@ Public Class Form1
                                 x += 1
                             End If
                         Next
+                        instrument.WriteString("CALC:FORM PHAS", True)
+                        instrument.WriteString("CALC:DATA? FDATA", True)
+                        returnstring = instrument.ReadString()
+                        value = System.Text.RegularExpressions.Regex.Split(returnstring, ",")
+                        x = 0
+                        For Each s As String In value
+                            If String.IsNullOrWhiteSpace(s) Then
+                            Else
+                                If trace(i) = "S11" Then
+                                    Ang11(x) = CDbl(s)
+                                ElseIf trace(i) = "S12" Then
+                                    Ang12(x) = CDbl(s)
+                                ElseIf trace(i) = "S21" Then
+                                    Ang21(x) = CDbl(s)
+                                ElseIf trace(i) = "S22" Then
+                                    Ang22(x) = CDbl(s)
+                                End If
+                                x += 1
+                            End If
+                        Next
+                        instrument.WriteString("CALC:FORM " & line, True)
                     End If
                 Next
             ElseIf trace.Contains("S11") Then
@@ -2804,6 +2874,9 @@ Public Class Form1
                 For i As Integer = 0 To trace.Count - 1
                     If trace(i) = "S11" Then
                         instrument.WriteString("CALC:PAR:MEAS '" & trace(i - 1) & "','" & trace(i) & "'", True)
+                        instrument.WriteString("CALC:FORM?", True)
+                        line = instrument.ReadString()
+                        instrument.WriteString("CALC:FORM MLOG", True)
                         instrument.WriteString("CALC:DATA? FDATA", True)
                         returnstring = instrument.ReadString()
                         value = System.Text.RegularExpressions.Regex.Split(returnstring, ",")
@@ -2815,6 +2888,19 @@ Public Class Form1
                                 x += 1
                             End If
                         Next
+                        instrument.WriteString("CALC:FORM PHAS", True)
+                        instrument.WriteString("CALC:DATA? FDATA", True)
+                        returnstring = instrument.ReadString()
+                        value = System.Text.RegularExpressions.Regex.Split(returnstring, ",")
+                        x = 0
+                        For Each s As String In value
+                            If String.IsNullOrWhiteSpace(s) Then
+                            Else
+                                Ang11(x) = CDbl(s)
+                                x += 1
+                            End If
+                        Next
+                        instrument.WriteString("CALC:FORM " & line, True)
                     End If
                 Next
             Else
@@ -2839,6 +2925,17 @@ Public Class Form1
             'Else
             '    instrument.WriteString("MMEM:DEL 'c:\Test1.s1p'", True)
             'End If
+            devicedata = ""
+            devicedata = "#  GHZ  S  dB  R  50.0" & vbCrLf & "! Rohde & Schwarz ZVL" & vbCrLf
+            If ports = 1 Then
+                For i As Integer = 0 To freq1.Length - 1
+                    devicedata = devicedata & freq1(i) & "  " & S11(i) & "  " & Ang11(i) & vbCrLf
+                Next
+            Else
+                For i As Integer = 0 To freq1.Length - 1
+                    devicedata = devicedata & freq1(i) & "  " & S11(i) & "  " & Ang11(i) & "  " & S12(i) & "  " & Ang12(i) & "  " & S21(i) & "  " & Ang21(i) & "  " & S22(i) & "  " & Ang22(i) & vbCrLf
+                Next
+            End If
             matrix = "full"
             frequnit = "hz"
             checkboxnum = 1
@@ -2969,6 +3066,7 @@ Public Class Form1
                 Erase S22
             End If
             newtoolbar = True
+            device = True
         Catch ex As Exception
             If ex.Message = "HRESULT = 80040000" Then
                 MetroFramework.MetroMessageBox.Show(Me, "Unable to connect to Rohde && Schwarz ZVL6 NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
