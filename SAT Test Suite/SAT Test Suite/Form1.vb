@@ -2436,6 +2436,12 @@ Public Class Form1
     End Sub
 
     Private Sub FirstDevice_Click(sender As Object, e As EventArgs) Handles FirstDevice.Click
+        Try
+            Dim ioMgrexample As New Ivi.Visa.Interop.ResourceManager
+        Catch ex As Exception
+            MetroFramework.MetroMessageBox.Show(Me, "VISA COM and the required IVI drivers are missing. Kindly install the driver files before connecting to the Agilent N5230A NA.", "Driver Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
         Dim ioMgr As New Ivi.Visa.Interop.ResourceManager
         Dim instrument As New Ivi.Visa.Interop.FormattedIO488
         'Dim commas As Integer
@@ -2823,6 +2829,12 @@ Public Class Form1
     End Sub
 
     Private Sub SecondDevice_Click(sender As Object, e As EventArgs) Handles SecondDevice.Click
+        Try
+            Dim ioMgrexample As New Ivi.Visa.Interop.ResourceManager
+        Catch ex As Exception
+            MetroFramework.MetroMessageBox.Show(Me, "VISA COM and the required IVI drivers are missing. Kindly install the driver files before connecting to the Rohde && Schwarz ZVL6 NA.", "Driver Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
         Dim ioMgr As New Ivi.Visa.Interop.ResourceManager
         Dim instrument As New Ivi.Visa.Interop.FormattedIO488
         'Dim commas As String()
