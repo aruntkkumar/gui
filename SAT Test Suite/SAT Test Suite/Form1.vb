@@ -940,12 +940,12 @@ Public Class Form1
         dialog.RestoreDirectory = True
         dialog.FileName = ""
         If dialog.ShowDialog() = DialogResult.OK Then
-            'Try
-            Dim stream As FileStream = File.Open(dialog.FileName, FileMode.Open, FileAccess.Read)
-            If System.IO.Path.GetExtension(dialog.FileName).ToLower() = ".xls" Then       ' Reading from a binary Excel file ('97-2003 format; *.xls)
-                excelReader = ExcelReaderFactory.CreateBinaryReader(stream)
-            ElseIf System.IO.Path.GetExtension(dialog.FileName).ToLower() = ".xlsx" Then  ' Reading from a OpenXml Excel file (2007 format; *.xlsx)
-                excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream)
+            Try
+                Dim stream As FileStream = File.Open(dialog.FileName, FileMode.Open, FileAccess.Read)
+                If System.IO.Path.GetExtension(dialog.FileName).ToLower() = ".xls" Then       ' Reading from a binary Excel file ('97-2003 format; *.xls)
+                    excelReader = ExcelReaderFactory.CreateBinaryReader(stream)
+                ElseIf System.IO.Path.GetExtension(dialog.FileName).ToLower() = ".xlsx" Then  ' Reading from a OpenXml Excel file (2007 format; *.xlsx)
+                    excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream)
                 End If
                 Dim result As DataSet = excelReader.AsDataSet()                     ' DataSet - The result of each spreadsheet will be created in the result.Tables
                 excelReader.Close()                                                 ' Free resources (IExcelDataReader is IDisposable)
@@ -1379,9 +1379,9 @@ Public Class Form1
                 addtoolbar = True
                 generic = False
                 device = False
-            'Catch ex As Exception
-            '    MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            'End Try
+            Catch ex As Exception
+                MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
     End Sub
 
