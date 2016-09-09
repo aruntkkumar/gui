@@ -477,79 +477,81 @@ Public Class Form1
         y2max = -1000
         y2min = 1000
         For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
-            line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMinByValue("X", 0).ToString()
-            If CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2)) < xmin Then
-                xmin = CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2))
-                xmin = Math.Round(xmin, 2)
-                If xmin Mod 0.5 <> 0 Then
-                    xmin = xmin - (xmin Mod 0.5)
-                End If
-            End If
-            line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMaxByValue("X", 0).ToString()
-            If CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2)) > xmax Then
-                xmax = CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2))
-                xmax = Math.Round(xmax, 2)
-                If xmax Mod 0.5 <> 0 Then
-                    xmax = xmax + (0.5 - (xmax Mod 0.5))
-                End If
-            End If
-            If Chart1.Series(GlobalVariables.seriesnames(i)).YAxisType = 0 Then
-                line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMinByValue().ToString()
-                If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) < ymin Then
-                    ymin = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
-                    ymin = Math.Round(ymin, 2)
-                    If ymin > 0 Then
-                        If ymin Mod 5 <> 0 Then
-                            ymin = ymin - (ymin Mod 5)
-                        End If
-                    ElseIf ymin < 0 Then
-                        If ymin Mod 5 <> 0 Then
-                            ymin = ymin - (5 - (Math.Abs(ymin) Mod 5))
-                        End If
-                    End If
-                    ymin = Math.Round(ymin, 0)
-                End If
-                line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMaxByValue().ToString()
-                If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) > ymax Then
-                    ymax = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
-                    ymax = Math.Round(ymax, 2)
-                    If ymax > 0 Then
-                        If ymax Mod 5 <> 0 Then
-                            ymax = ymax + (5 - (ymax Mod 5))
-                        End If
-                    ElseIf ymax < 0 Then
-                        If ymax Mod 5 <> 0 Then
-                            ymax = ymax + (Math.Abs(ymax) Mod 5)
-                        End If
-                    End If
-                    ymax = Math.Round(ymax, 0)
-                End If
-            Else
-                line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMinByValue().ToString()
-                If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) < y2min Then
-                    y2min = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
-                    y2min = Math.Round(y2min, 2)
-                    If GlobalVariables.plot = "efficiency" Then
-                        If y2min Mod 5 <> 0 Then
-                            y2min = y2min - (y2min Mod 5)
-                        End If
-                        y2min = Math.Round(y2min, 0)
+            If GlobalVariables.series(i) = 1 Then
+                line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMinByValue("X", 0).ToString()
+                If CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2)) < xmin Then
+                    xmin = CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2))
+                    xmin = Math.Round(xmin, 2)
+                    If xmin Mod 0.5 <> 0 Then
+                        xmin = xmin - (xmin Mod 0.5)
                     End If
                 End If
-                line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMaxByValue().ToString()
-                If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) > y2max Then
-                    y2max = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
-                    y2max = Math.Round(y2max, 2)
-                    If GlobalVariables.plot = "efficiency" Then
-                        If y2max Mod 5 <> 0 Then
-                            y2max = y2max + (5 - (y2max Mod 5))
+                line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMaxByValue("X", 0).ToString()
+                If CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2)) > xmax Then
+                    xmax = CDbl(line.Substring(line.IndexOf("X") + 2, line.IndexOf(",", line.IndexOf("X")) - line.IndexOf("X") - 2))
+                    xmax = Math.Round(xmax, 2)
+                    If xmax Mod 0.5 <> 0 Then
+                        xmax = xmax + (0.5 - (xmax Mod 0.5))
+                    End If
+                End If
+                If Chart1.Series(GlobalVariables.seriesnames(i)).YAxisType = 0 Then
+                    line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMinByValue().ToString()
+                    If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) < ymin Then
+                        ymin = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
+                        ymin = Math.Round(ymin, 2)
+                        If ymin > 0 Then
+                            If ymin Mod 5 <> 0 Then
+                                ymin = ymin - (ymin Mod 5)
+                            End If
+                        ElseIf ymin < 0 Then
+                            If ymin Mod 5 <> 0 Then
+                                ymin = ymin - (5 - (Math.Abs(ymin) Mod 5))
+                            End If
                         End If
-                        y2max = Math.Round(y2max, 0)
+                        ymin = Math.Round(ymin, 0)
+                    End If
+                    line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMaxByValue().ToString()
+                    If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) > ymax Then
+                        ymax = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
+                        ymax = Math.Round(ymax, 2)
+                        If ymax > 0 Then
+                            If ymax Mod 5 <> 0 Then
+                                ymax = ymax + (5 - (ymax Mod 5))
+                            End If
+                        ElseIf ymax < 0 Then
+                            If ymax Mod 5 <> 0 Then
+                                ymax = ymax + (Math.Abs(ymax) Mod 5)
+                            End If
+                        End If
+                        ymax = Math.Round(ymax, 0)
+                    End If
+                Else
+                    line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMinByValue().ToString()
+                    If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) < y2min Then
+                        y2min = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
+                        y2min = Math.Round(y2min, 2)
+                        If GlobalVariables.plot = "efficiency" Then
+                            If y2min Mod 5 <> 0 Then
+                                y2min = y2min - (y2min Mod 5)
+                            End If
+                            y2min = Math.Round(y2min, 0)
+                        End If
+                    End If
+                    line = Chart1.Series(GlobalVariables.seriesnames(i)).Points.FindMaxByValue().ToString()
+                    If CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2)) > y2max Then
+                        y2max = CDbl(line.Substring(line.IndexOf("Y") + 2, line.IndexOf("}", line.IndexOf("Y")) - line.IndexOf("Y") - 2))
+                        y2max = Math.Round(y2max, 2)
+                        If GlobalVariables.plot = "efficiency" Then
+                            If y2max Mod 5 <> 0 Then
+                                y2max = y2max + (5 - (y2max Mod 5))
+                            End If
+                            y2max = Math.Round(y2max, 0)
+                        End If
                     End If
                 End If
             End If
         Next
-        If xmax = xmin Then
+        If xmax = xmin Then     'Routine to check if the plot has only a single data point
             If xmin = 0 Then
                 xmax += 0.5
             Else
@@ -570,6 +572,24 @@ Public Class Form1
                 y2max += 5
                 y2min -= 5
             End If
+        End If
+        If xmax = 0 AndAlso xmin = 100 Then             'To check if the Y or Y2 axis series are disabled or not
+            xmax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum
+            xmin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum
+        End If
+        If ymax = -1000 AndAlso ymin = 1000 Then        'Y and Y2 axis needs to be disabled/enabled depending on the value
+            Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
+            ymax = Chart1.ChartAreas("ChartArea1").AxisY.Maximum
+            ymin = Chart1.ChartAreas("ChartArea1").AxisY.Minimum
+        Else
+            Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
+        End If
+        If y2max = -1000 AndAlso y2min = 1000 Then
+            Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
+            y2max = Chart1.ChartAreas("ChartArea1").AxisY2.Maximum
+            y2min = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum
+        Else
+            Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
         End If
         axisadjust()
     End Sub
@@ -730,14 +750,25 @@ Public Class Form1
         GlobalVariables.yaxismax = Chart1.ChartAreas("ChartArea1").AxisY.Maximum
         GlobalVariables.yaxismin = Chart1.ChartAreas("ChartArea1").AxisY.Minimum
         GlobalVariables.yaxisint = Chart1.ChartAreas("ChartArea1").AxisY.Interval
-        If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
-            GlobalVariables.y2axis = True
-            GlobalVariables.y2axismax = Chart1.ChartAreas("ChartArea1").AxisY2.Maximum
-            GlobalVariables.y2axismin = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum
-            GlobalVariables.y2axisint = Chart1.ChartAreas("ChartArea1").AxisY2.Interval
-        Else
-            GlobalVariables.y2axis = False
+        GlobalVariables.y2axis = False
+        If GlobalVariables.series.Length <> 0 Then
+            For i As Integer = 0 To GlobalVariables.series.Length - 1
+                If Chart1.Series(GlobalVariables.seriesnames(i)).YAxisType = 1 Then
+                    GlobalVariables.y2axis = True
+                    GlobalVariables.y2axismax = Chart1.ChartAreas("ChartArea1").AxisY2.Maximum
+                    GlobalVariables.y2axismin = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum
+                    GlobalVariables.y2axisint = Chart1.ChartAreas("ChartArea1").AxisY2.Interval
+                End If
+            Next
         End If
+        'If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
+        '    GlobalVariables.y2axis = True
+        '    GlobalVariables.y2axismax = Chart1.ChartAreas("ChartArea1").AxisY2.Maximum
+        '    GlobalVariables.y2axismin = Chart1.ChartAreas("ChartArea1").AxisY2.Minimum
+        '    GlobalVariables.y2axisint = Chart1.ChartAreas("ChartArea1").AxisY2.Interval
+        'Else
+        '    GlobalVariables.y2axis = False
+        'End If
         'If Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}" Then
         '    GlobalVariables.xaxismax = Chart1.ChartAreas("ChartArea1").AxisX.Maximum / 1000000000
         '    GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum / 1000000000
@@ -787,11 +818,35 @@ Public Class Form1
                 Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
                 Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
                 'End If
-                If Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True Then
+                If GlobalVariables.y2axis = True Then
                     Chart1.ChartAreas("ChartArea1").AxisY2.Maximum = GlobalVariables.y2axismax
                     Chart1.ChartAreas("ChartArea1").AxisY2.Minimum = GlobalVariables.y2axismin
                     Chart1.ChartAreas("ChartArea1").AxisY2.Interval = GlobalVariables.y2axisint
                     y2axisadjust()
+                End If
+                x = 0
+                y = 0
+                If GlobalVariables.series.Length <> 0 Then
+                    For i As Integer = 0 To GlobalVariables.series.Length - 1
+                        If GlobalVariables.series(i) = 1 Then
+                            If Chart1.Series(GlobalVariables.seriesnames(i)).YAxisType = 0 Then
+                                x = 1
+                            End If
+                            If Chart1.Series(GlobalVariables.seriesnames(i)).YAxisType = 1 Then
+                                y = 1
+                            End If
+                        End If
+                    Next
+                    If x = 0 Then
+                        Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
+                    Else
+                        Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
+                    End If
+                    If y = 0 Then
+                        Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
+                    Else
+                        Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
+                    End If
                 End If
             End If
             If GlobalVariables.series.Length <> 0 Then
@@ -885,12 +940,12 @@ Public Class Form1
         dialog.RestoreDirectory = True
         dialog.FileName = ""
         If dialog.ShowDialog() = DialogResult.OK Then
-            Try
-                Dim stream As FileStream = File.Open(dialog.FileName, FileMode.Open, FileAccess.Read)
-                If System.IO.Path.GetExtension(dialog.FileName) = ".xls" Then       ' Reading from a binary Excel file ('97-2003 format; *.xls)
-                    excelReader = ExcelReaderFactory.CreateBinaryReader(stream)
-                ElseIf System.IO.Path.GetExtension(dialog.FileName) = ".xlsx" Then  ' Reading from a OpenXml Excel file (2007 format; *.xlsx)
-                    excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream)
+            'Try
+            Dim stream As FileStream = File.Open(dialog.FileName, FileMode.Open, FileAccess.Read)
+            If System.IO.Path.GetExtension(dialog.FileName).ToLower() = ".xls" Then       ' Reading from a binary Excel file ('97-2003 format; *.xls)
+                excelReader = ExcelReaderFactory.CreateBinaryReader(stream)
+            ElseIf System.IO.Path.GetExtension(dialog.FileName).ToLower() = ".xlsx" Then  ' Reading from a OpenXml Excel file (2007 format; *.xlsx)
+                excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream)
                 End If
                 Dim result As DataSet = excelReader.AsDataSet()                     ' DataSet - The result of each spreadsheet will be created in the result.Tables
                 excelReader.Close()                                                 ' Free resources (IExcelDataReader is IDisposable)
@@ -1324,9 +1379,9 @@ Public Class Form1
                 addtoolbar = True
                 generic = False
                 device = False
-            Catch ex As Exception
-                MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
+            'Catch ex As Exception
+            '    MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'End Try
         End If
     End Sub
 
