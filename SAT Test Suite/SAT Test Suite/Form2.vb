@@ -102,10 +102,12 @@
                 Exit Sub
             End If
         End If
-        If (CDbl(TextBox1.Text) - CDbl(TextBox2.Text)) < 0.5 Then
-            MetroFramework.MetroMessageBox.Show(Me, "The X-axis maximum value should be atleast 0.5 more than the X-axis minimum value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
+        'If (CDbl(TextBox1.Text) - CDbl(TextBox2.Text)) < CDbl(TextBox5.Text) Then
+        '    'If (CDbl(TextBox1.Text) - CDbl(TextBox2.Text)) < 0.5 Then
+        '    MetroFramework.MetroMessageBox.Show(Me, "The X-axis interval should be atleast the difference between X axis maximum and minimum values.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        '    'MetroFramework.MetroMessageBox.Show(Me, "The X-axis maximum value should be atleast 0.5 more than the X-axis minimum value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        '    Exit Sub
+        'End If
         If TextBox3.Text = "" Then     'Check if TextBox3 is empty
             MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as primary Y-Axis maximum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
@@ -136,10 +138,12 @@
                 Exit Sub
             End If
         End If
-        If (CDbl(TextBox3.Text) - CDbl(TextBox4.Text)) < 5 Then
-            MetroFramework.MetroMessageBox.Show(Me, "The primary Y-Axis maximum value should be atleast 5 more than the primary Y-Axis minimum value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
+        'If (CDbl(TextBox3.Text) - CDbl(TextBox4.Text)) < CDbl(TextBox6.Text) Then
+        '    'If (CDbl(TextBox3.Text) - CDbl(TextBox4.Text)) < 5 Then
+        '    MetroFramework.MetroMessageBox.Show(Me, "The primary Y-axis interval should be atleast the difference between primary Y axis maximum and minimum values.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        '    'MetroFramework.MetroMessageBox.Show(Me, "The primary Y-Axis maximum value should be atleast 5 more than the primary Y-Axis minimum value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        '    Exit Sub
+        'End If
         If TextBox5.Text = "" Then     'Check if TextBox5 is empty
             MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as X-axis interval.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
@@ -206,12 +210,12 @@
                     End If
                 End If
             End If
-            If GlobalVariables.plot = "efficiency" Then
-                If (CDbl(TextBox7.Text) - CDbl(TextBox8.Text)) < 5 Then
-                    MetroFramework.MetroMessageBox.Show(Me, "The secondary Y-Axis maximum value should be atleast 5 more than the secondary Y-Axis minimum value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Exit Sub
-                End If
-            End If
+            'If GlobalVariables.plot = "efficiency" Then
+            '    If (CDbl(TextBox7.Text) - CDbl(TextBox8.Text)) < 5 Then
+            '        MetroFramework.MetroMessageBox.Show(Me, "The secondary Y-Axis maximum value should be atleast 5 more than the secondary Y-Axis minimum value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            '        Exit Sub
+            '    End If
+            'End If
             If TextBox9.Text = "" Then     'Check if TextBox9 is empty
                 MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as secondary Y-axis interval.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
