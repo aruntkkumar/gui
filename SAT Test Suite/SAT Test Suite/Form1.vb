@@ -2937,6 +2937,7 @@ Public Class Form1
             ElseIf trace.Contains("S11") Then
                 ports = 1
                 S11 = New Double(row - 1) {}
+                Ang11 = New Double(row - 1) {}
                 GlobalVariables.seriesnames = New String(0) {"S(1,1)"}
                 GlobalVariables.series = New Integer(0) {1}
                 For i As Integer = 0 To trace.Count - 1
