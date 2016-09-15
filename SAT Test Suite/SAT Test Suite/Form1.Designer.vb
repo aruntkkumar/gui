@@ -44,6 +44,7 @@ Partial Class Form1
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator()
         Me.ClearAllMarkersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ClearSelectedMarkerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConnectivityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ScanMyDevicesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FirstDevice = New System.Windows.Forms.ToolStripMenuItem()
@@ -176,7 +177,7 @@ Partial Class Form1
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.ToolStripMenuItem4, Me.ClearAllMarkersToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.ToolStripMenuItem4, Me.ClearAllMarkersToolStripMenuItem, Me.ClearSelectedMarkerToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
@@ -184,19 +185,25 @@ Partial Class Form1
         'OptionsToolStripMenuItem
         '
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
         Me.OptionsToolStripMenuItem.Text = "Plot Options"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(160, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(185, 6)
         '
         'ClearAllMarkersToolStripMenuItem
         '
         Me.ClearAllMarkersToolStripMenuItem.Name = "ClearAllMarkersToolStripMenuItem"
-        Me.ClearAllMarkersToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.ClearAllMarkersToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
         Me.ClearAllMarkersToolStripMenuItem.Text = "Clear All Markers"
+        '
+        'ClearSelectedMarkerToolStripMenuItem
+        '
+        Me.ClearSelectedMarkerToolStripMenuItem.Name = "ClearSelectedMarkerToolStripMenuItem"
+        Me.ClearSelectedMarkerToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.ClearSelectedMarkerToolStripMenuItem.Text = "Clear Selected Marker"
         '
         'ConnectivityToolStripMenuItem
         '
@@ -235,7 +242,6 @@ Partial Class Form1
         Me.CheckedListBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckedListBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.CheckedListBox1.CheckOnClick = True
         Me.CheckedListBox1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.CheckedListBox1.FormattingEnabled = True
         Me.CheckedListBox1.Location = New System.Drawing.Point(802, 96)
@@ -291,4 +297,5 @@ Partial Class Form1
     Friend WithEvents DeviceOptionsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ClearChartAreaToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SecondDevice As ToolStripMenuItem
+    Friend WithEvents ClearSelectedMarkerToolStripMenuItem As ToolStripMenuItem
 End Class

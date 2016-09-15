@@ -106,7 +106,7 @@ Public Class Form1
         Next
         'AddToolStripMenuItem.Enabled = False
         ClearAllMarkersToolStripMenuItem.Enabled = False
-        'ClearSelectedMarkerToolStripMenuItem.Enabled = False
+        ClearSelectedMarkerToolStripMenuItem.Enabled = False
         'preVISAAddress = VISAAddressEdit.Text
         GlobalVariables.series = New Integer(-1) {}     'Array with zero elements
         GlobalVariables.seriesnames = New String(-1) {}
@@ -2422,6 +2422,7 @@ Public Class Form1
         Next
         checkboxnum = 1
         ClearAllMarkersToolStripMenuItem.Enabled = False
+        ClearSelectedMarkerToolStripMenuItem.Enabled = False
     End Sub
 
     Private Sub releaseObject(ByVal obj As Object)
@@ -3402,49 +3403,40 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub CheckedListBox1_SelectedValueChanged(sender As Object, e As EventArgs) Handles CheckedListBox1.SelectedValueChanged
+        ClearSelectedMarkerToolStripMenuItem.Enabled = True
+    End Sub
 
-    'Private Sub ClearSelectedMarkerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearSelectedMarkerToolStripMenuItem.Click
-    '    'For i As Integer = 0 To checkboxnum - 2
-    '    '    If i = CheckedListBox1.SelectedIndex() Then
-    '    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
-    '    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
-    '    '        CheckedListBox1.Items.RemoveAt(CheckedListBox1.SelectedIndex())
-    '    '        'For j As Integer = i To checkboxnum - 2
-    '    '        '    seriesname(i) = seriesname(i + 1)
-    '    '        '    seriespointindex(i) = seriespointindex(i + 1)
-    '    '        'Next
-    '    '        'checkboxnum -= 1
-    '    '        Exit For
-    '    '    End If
-    '    'Next
-    '    'For i As Integer = 0 To CheckedListBox1.Items.Count - 1
-    '    '    Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = i + 1
-    '    '    Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.Triangle
-    '    'Next
-    '    AllocConsole() 'show console
-    '    Console.WriteLine(CheckedListBox1.SelectedIndex())
-    '    Console.WriteLine(checkboxnum - 2)
-    '    Chart1.Series(seriesname(CheckedListBox1.SelectedIndex())).Points.Item(seriespointindex(CheckedListBox1.SelectedIndex())).Label = ""
-    '    Chart1.Series(seriesname(CheckedListBox1.SelectedIndex())).Points.Item(seriespointindex(CheckedListBox1.SelectedIndex())).MarkerStyle = MarkerStyle.None
-    '    For i As Integer = CheckedListBox1.SelectedIndex() To checkboxnum - 2
-    '        If i < checkboxnum - 2 Then
-    '            seriesname(i) = seriesname(i + 1)
-    '            seriespointindex(i) = seriespointindex(i + 1)
-    '        End If
-    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = i + 1
-    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.Triangle
-    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerSize = 10
-    '        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerColor = Chart1.Series(seriesname(i)).Color
-    '        Console.WriteLine(i)
-    '    Next
-    '    checkboxnum -= 1
-    '    CheckedListBox1.Items.RemoveAt(CheckedListBox1.SelectedIndex())
-    '    ClearSelectedMarkerToolStripMenuItem.Enabled = False
-    'End Sub
+    Private Sub ClearSelectedMarkerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearSelectedMarkerToolStripMenuItem.Click
+        Chart1.Series(seriesname(CheckedListBox1.SelectedIndex)).Points.Item(seriespointindex(CheckedListBox1.SelectedIndex)).Label = ""
+        Chart1.Series(seriesname(CheckedListBox1.SelectedIndex)).Points.Item(seriespointindex(CheckedListBox1.SelectedIndex)).MarkerStyle = MarkerStyle.None
+        For i As Integer = CheckedListBox1.SelectedIndex To checkboxnum - 3
+            If i > (checkboxnum - 3) Then
+                Exit For
+            End If
+            seriesname(i) = seriesname(i + 1)
+            seriespointindex(i) = seriespointindex(i + 1)
+            line = CheckedListBox1.Items(i + 1).ToString()
+            CheckedListBox1.Items.Insert(i, (CInt(line.Substring(0, line.IndexOf("."))) - 1) & line.Substring(line.IndexOf(".")))
+            RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+            If CheckedListBox1.GetItemCheckState(i + 2) = CheckState.Checked Then
+                CheckedListBox1.SetItemCheckState(i, CheckState.Checked)
+                Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = i + 1
+                Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.Triangle
+            Else
+                CheckedListBox1.SetItemCheckState(i, CheckState.Unchecked)
+                Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
+                Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
+            End If
+            AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+            CheckedListBox1.Items.RemoveAt(i + 1)
+        Next
+        CheckedListBox1.Items.RemoveAt(checkboxnum - 2)
+        checkboxnum -= 1
+        CheckedListBox1.SelectedIndex = -1
+        ClearSelectedMarkerToolStripMenuItem.Enabled = False
+    End Sub
 
-    'Private Sub CheckedListBox1_SelectedValueChanged(sender As Object, e As EventArgs) Handles CheckedListBox1.SelectedValueChanged
-    '    ClearSelectedMarkerToolStripMenuItem.Enabled = True
-    'End Sub
 End Class
 
 Public Class GlobalVariables
