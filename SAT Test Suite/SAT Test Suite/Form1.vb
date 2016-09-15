@@ -598,7 +598,7 @@ Public Class Form1
         Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xmax
         Chart1.ChartAreas("ChartArea1").AxisX.Minimum = xmin
         a = Chart1.ChartAreas("ChartArea1").AxisX.Interval
-        While (Chart1.ChartAreas("ChartArea1").AxisX.Maximum / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 21
+        While ((Chart1.ChartAreas("ChartArea1").AxisX.Maximum - Chart1.ChartAreas("ChartArea1").AxisX.Minimum) / Chart1.ChartAreas("ChartArea1").AxisX.Interval) > 25
             Chart1.ChartAreas("ChartArea1").AxisX.Interval += a
         End While
         If Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True Then
