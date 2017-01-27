@@ -79,6 +79,7 @@ Public Class Form1
     Dim secondarynames(-1) As String
     Dim device As Boolean = False
     Dim devicedata As String
+    Dim compare As Integer = 1
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         dialog.InitialDirectory = "C:\"
@@ -112,37 +113,37 @@ Public Class Form1
         GlobalVariables.seriesnames = New String(-1) {}
         GlobalVariables.DeviceName = New String(1) {}   '1 initialises two elements
         GlobalVariables.DeviceAddress = New String(1) {}
-        GlobalVariables.DeviceName(0) = "Agilent Technologies N5230A Network Analyzer"
+        GlobalVariables.DeviceName(0) = "Agilent Technologies N5230A"
         GlobalVariables.DeviceName(1) = "Rohde & Schwarz ZVL6"
 
-        'Routine has been temporarily disabled
-        'If System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt") Then
-        '    values = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt").Split("|"c)
-        '    If values(1) = "" Then
-        '        GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
-        '    Else
-        '        GlobalVariables.DeviceAddress(0) = values(1)
-        '    End If
-        '    If values(3) = "" Then
-        '        GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
-        '    Else
-        '        GlobalVariables.DeviceAddress(1) = values(3)
-        '    End If
-        'Else
-        GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
-        GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
-        'End If
-        DeviceOptionsToolStripMenuItem.Visible = False
-
+        'Routine has been reactivated
+        If System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt") Then
+            values = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt").Split("|"c)
+            If values(1) = "" Then
+                GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
+            Else
+                GlobalVariables.DeviceAddress(0) = values(1)
+            End If
+            If values(3) = "" Then
+                GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
+            Else
+                GlobalVariables.DeviceAddress(1) = values(3)
+            End If
+        Else
+            GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
+            GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
+        End If
+        DeviceOptionsToolStripMenuItem.Visible = False 'Deactivated
+        TabControl1.SelectedTab = TabPage1
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
 
-        'Routine has been temporarily disabled
-        'If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
-        '    System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
-        'End If
-        'File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
+        'Routine has been reactivated
+        If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
+            System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
+        End If
+        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
 
         'If xlWorkBook Is Nothing Then
         Me.Close()
@@ -154,11 +155,11 @@ Public Class Form1
 
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
 
-        'Routine has been temporarily disabled
-        'If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
-        '    System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
-        'End If
-        'File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
+        'Routine has been reactivated
+        If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
+            System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
+        End If
+        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
 
         'If xlWorkBook Is Nothing Then
         'Else
@@ -176,21 +177,23 @@ Public Class Form1
         dialog.RestoreDirectory = True
         dialog.FileName = ""
         If dialog.ShowDialog() = DialogResult.OK Then
-            colourcounter = 1
-            ClearMarkers()
-            Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
-            Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
-            Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
-            Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
-            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
-            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
-            Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
+            If ComparisonModeToolStripMenuItem.Checked = False Or (ComparisonModeToolStripMenuItem.Checked = True AndAlso compare = 1) Then
+                colourcounter = 1
+                ClearMarkers()
+                Chart1.Series.Clear()
+                Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+                Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+                Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+                Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
+                Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
+                Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
+                Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
+                Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+                Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
+            End If
             extension = System.IO.Path.GetExtension(dialog.FileName)
             Try
                 ports = System.Text.RegularExpressions.Regex.Replace(extension, "[^\d]", "")    'Remove Characters from a Numeric String
@@ -367,18 +370,35 @@ Public Class Form1
                 '    freq1(i) = table(i, 0)
                 '    'Console.WriteLine(freq1(i))
                 'Next
+                If ComparisonModeToolStripMenuItem.Checked = True Then
+                    z = GlobalVariables.seriesnames.Length
+                    If matrix = "lower" Or matrix = "upper" Then
+                        If z = 0 Then
+                            GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
+                            GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
+                        Else
+                            System.Array.Resize(Of String)(GlobalVariables.seriesnames, (z + (ports * (ports + 1) / 2)))   'Need to one more than the normal ReDim Preserve
+                            System.Array.Resize(Of Integer)(GlobalVariables.series, (z + (ports * (ports + 1) / 2)))
+                        End If
 
+                    Else
+                        If z = 0 Then
+                            GlobalVariables.seriesnames = New String((ports * ports) - 1) {}
+                            GlobalVariables.series = New Integer((ports * ports) - 1) {}
+                        Else
+                            System.Array.Resize(Of String)(GlobalVariables.seriesnames, (z + ((ports * ports))))  'Need to one more than the normal ReDim Preserve
+                            System.Array.Resize(Of Integer)(GlobalVariables.series, (z + (ports * ports)))
+                        End If
 
-
-                If matrix = "lower" Then
-                    GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
-                    GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
-                ElseIf matrix = "upper" Then
-                    GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
-                    GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
+                    End If
                 Else
-                    GlobalVariables.seriesnames = New String((ports * ports) - 1) {}
-                    GlobalVariables.series = New Integer((ports * ports) - 1) {}
+                    If matrix <> "lower" Or matrix <> "upper" Then
+                        GlobalVariables.seriesnames = New String((ports * ports) - 1) {}
+                        GlobalVariables.series = New Integer((ports * ports) - 1) {}
+                    Else
+                        GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
+                        GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
+                    End If
                 End If
                 'ymax = 0
                 'ymin = 0
@@ -437,15 +457,27 @@ Public Class Form1
                         'If GlobalVariables.autobutton = True Then
                         '    yaxisadjust()
                         'End If
-                        Chart1.Series.Add("S(" & a & "," & b & ")")
-                        Chart1.Series("S(" & a & "," & b & ")").ChartType = DataVisualization.Charting.SeriesChartType.Line
-                        Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 2
-                        'Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
-                        colourpicker()
-                        Chart1.Series("S(" & a & "," & b & ")").Color = c
-                        Chart1.Series("S(" & a & "," & b & ")").Points.DataBindXY(freq1, para1)
-                        GlobalVariables.seriesnames(y) = "S(" & a & "," & b & ")"
-                        GlobalVariables.series(y) = 1
+                        If ComparisonModeToolStripMenuItem.Checked = True Then
+                            Chart1.Series.Add("S(" & a & "," & b & ") #" & compare)
+                            Chart1.Series("S(" & a & "," & b & ") #" & compare).ChartType = DataVisualization.Charting.SeriesChartType.Line
+                            Chart1.Series("S(" & a & "," & b & ") #" & compare).BorderWidth = 2
+                            'Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                            colourpicker()
+                            Chart1.Series("S(" & a & "," & b & ") #" & compare).Color = c
+                            Chart1.Series("S(" & a & "," & b & ") #" & compare).Points.DataBindXY(freq1, para1)
+                            GlobalVariables.seriesnames(y + z) = "S(" & a & "," & b & ") #" & compare
+                            GlobalVariables.series(y + z) = 1
+                        Else
+                            Chart1.Series.Add("S(" & a & "," & b & ")")
+                            Chart1.Series("S(" & a & "," & b & ")").ChartType = DataVisualization.Charting.SeriesChartType.Line
+                            Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 2
+                            'Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                            colourpicker()
+                            Chart1.Series("S(" & a & "," & b & ")").Color = c
+                            Chart1.Series("S(" & a & "," & b & ")").Points.DataBindXY(freq1, para1)
+                            GlobalVariables.seriesnames(y) = "S(" & a & "," & b & ")"
+                            GlobalVariables.series(y) = 1
+                        End If
                         y += 1
                         'Else
                         '    MetroFramework.MetroMessageBox.Show(Me, "S(" & a & "," & b & ") has been skipped due to a Math error", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -463,6 +495,12 @@ Public Class Form1
                 newtoolbar = True
                 db = False
                 device = False
+                If ComparisonModeToolStripMenuItem.Checked = True Then
+                    compare += 1
+                    TextBox1.Text &= dialog.FileName & vbCrLf
+                Else
+                    TextBox1.Text = dialog.FileName & vbCrLf
+                End If
             Catch Ex As Exception
                 MetroFramework.MetroMessageBox.Show(Me, Ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
@@ -714,6 +752,16 @@ Public Class Form1
         dialog1.FilterIndex = 3
         dialog1.FileName = ""
 
+        Dim graph As Graphics = Nothing         ' Image capture if the CheckedListBox is not empty
+        Dim frmleft As System.Drawing.Point = Me.Bounds.Location
+        Dim img As New Bitmap(Me.Bounds.Width + 0, Me.Bounds.Height + 0)
+        graph = Graphics.FromImage(img)
+        Dim screenx As Integer = frmleft.X
+        Dim screeny As Integer = frmleft.Y
+        graph.CopyFromScreen(screenx - 0, screeny - 0, 0, 0, img.Size)
+        Me.BackgroundImageLayout = ImageLayout.Stretch
+        Me.BackgroundImage = img
+
         If (dialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK) Then
             If dialog1.FilterIndex = 5 Then
                 System.IO.File.WriteAllText(dialog1.FileName, devicedata)
@@ -727,15 +775,7 @@ Public Class Form1
                     System.IO.File.Move(dialog1.FileName, dialog1.FileName.Replace(".txt", ".s4p"))
                 End If
             Else
-                Dim graph As Graphics = Nothing         ' Image capture if the CheckedListBox is not empty
-                Dim frmleft As System.Drawing.Point = Me.Bounds.Location
-                Dim img As New Bitmap(Me.Bounds.Width + 0, Me.Bounds.Height + 0)
-                graph = Graphics.FromImage(img)
-                Dim screenx As Integer = frmleft.X
-                Dim screeny As Integer = frmleft.Y
-                graph.CopyFromScreen(screenx - 0, screeny - 0, 0, 0, img.Size)
-                Me.BackgroundImageLayout = ImageLayout.Stretch
-                Me.BackgroundImage = img
+
                 If CheckedListBox1.Items.Count > 0 Then
                     img.Save(dialog1.FileName, System.Drawing.Imaging.ImageFormat.Png)
                 Else
@@ -1379,6 +1419,7 @@ Public Class Form1
                 addtoolbar = True
                 generic = False
                 device = False
+                TextBox1.Text &= dialog.FileName & vbCrLf
             Catch ex As Exception
                 MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
@@ -1757,6 +1798,7 @@ Public Class Form1
         'generic = False
         db = True
         device = False
+        TextBox1.Text &= dialog.FileName & vbCrLf
     End Sub
 
     Sub efficiencyplot()
@@ -2084,6 +2126,7 @@ Public Class Form1
         addtoolbar = True
         generic = False
         device = False
+        TextBox1.Text &= dialog.FileName & vbCrLf
     End Sub
 
     Sub genericplot()
@@ -2392,9 +2435,10 @@ Public Class Form1
         addtoolbar = False
         generic = True
         device = False
+        TextBox1.Text &= dialog.FileName & vbCrLf
     End Sub
 
-    Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CheckedListBox1.ItemCheck
+    Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs)
         Me.BeginInvoke(DirectCast(Sub() ItemChecker(), MethodInvoker))
     End Sub
 
@@ -2795,6 +2839,10 @@ Public Class Form1
     End Sub
 
     Private Sub ClearChartAreaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearChartAreaToolStripMenuItem.Click
+        ClearAll()
+    End Sub
+
+    Sub ClearAll()
         colourcounter = 1
         ClearMarkers()
         Chart1.Series.Clear()
@@ -2827,6 +2875,8 @@ Public Class Form1
         device = False
         GlobalVariables.series = New Integer(-1) {}     'Array with zeo elements
         GlobalVariables.seriesnames = New String(-1) {}
+        TextBox1.Text = ""
+        compare = 1
     End Sub
 
     Private Sub SecondDevice_Click(sender As Object, e As EventArgs) Handles SecondDevice.Click
@@ -3404,7 +3454,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub CheckedListBox1_SelectedValueChanged(sender As Object, e As EventArgs) Handles CheckedListBox1.SelectedValueChanged
+    Private Sub CheckedListBox1_SelectedValueChanged(sender As Object, e As EventArgs)
         ClearSelectedMarkerToolStripMenuItem.Enabled = True
     End Sub
 
@@ -3436,6 +3486,18 @@ Public Class Form1
         checkboxnum -= 1
         CheckedListBox1.SelectedIndex = -1
         ClearSelectedMarkerToolStripMenuItem.Enabled = False
+    End Sub
+
+    Private Sub ComparisonModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ComparisonModeToolStripMenuItem.Click
+        If ComparisonModeToolStripMenuItem.Checked = False Then
+            ComparisonModeToolStripMenuItem.Checked = True
+            AddToolStripMenuItem.Enabled = False
+            ClearAll()
+        Else
+            ComparisonModeToolStripMenuItem.Checked = False
+            AddToolStripMenuItem.Enabled = True
+            ClearAll()
+        End If
     End Sub
 
 End Class

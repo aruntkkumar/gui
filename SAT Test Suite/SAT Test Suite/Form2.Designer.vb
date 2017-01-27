@@ -22,7 +22,14 @@ Partial Class Form2
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form2))
+        Me.TabControl1 = New MetroFramework.Controls.MetroTabControl()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.CheckBox3 = New MetroFramework.Controls.MetroCheckBox()
         Me.TextBox9 = New MetroFramework.Controls.MetroTextBox()
@@ -44,16 +51,51 @@ Partial Class Form2
         Me.Label5 = New MetroFramework.Controls.MetroLabel()
         Me.Label3 = New MetroFramework.Controls.MetroLabel()
         Me.Label2 = New MetroFramework.Controls.MetroLabel()
-        Me.Button1 = New MetroFramework.Controls.MetroButton()
-        Me.Button2 = New MetroFramework.Controls.MetroButton()
         Me.MetroPanel1 = New MetroFramework.Controls.MetroPanel()
         Me.CheckBox2 = New MetroFramework.Controls.MetroCheckBox()
         Me.CheckBox1 = New MetroFramework.Controls.MetroCheckBox()
         Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
         Me.Label11 = New MetroFramework.Controls.MetroLabel()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.Device = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Button1 = New MetroFramework.Controls.MetroButton()
+        Me.Button2 = New MetroFramework.Controls.MetroButton()
+        Me.TabControl1.SuspendLayout()
+        Me.TabPage1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.MetroPanel1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
+        '
+        'TabControl1
+        '
+        Me.TabControl1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
+        Me.TabControl1.Location = New System.Drawing.Point(23, 55)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(516, 573)
+        Me.TabControl1.TabIndex = 24
+        Me.TabControl1.UseSelectable = True
+        '
+        'TabPage1
+        '
+        Me.TabPage1.BackColor = System.Drawing.Color.Transparent
+        Me.TabPage1.Controls.Add(Me.Panel1)
+        Me.TabPage1.Controls.Add(Me.MetroPanel1)
+        Me.TabPage1.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.TabPage1.Location = New System.Drawing.Point(4, 38)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Size = New System.Drawing.Size(508, 531)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "Plot"
         '
         'Panel1
         '
@@ -80,10 +122,10 @@ Partial Class Form2
         Me.Panel1.Controls.Add(Me.Label5)
         Me.Panel1.Controls.Add(Me.Label3)
         Me.Panel1.Controls.Add(Me.Label2)
-        Me.Panel1.Location = New System.Drawing.Point(30, 63)
+        Me.Panel1.Location = New System.Drawing.Point(5, 11)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(498, 288)
-        Me.Panel1.TabIndex = 0
+        Me.Panel1.TabIndex = 4
         '
         'CheckBox3
         '
@@ -461,28 +503,6 @@ Partial Class Form2
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "X-axis maximum (GHz):"
         '
-        'Button1
-        '
-        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button1.FontSize = MetroFramework.MetroButtonSize.Medium
-        Me.Button1.Location = New System.Drawing.Point(291, 598)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(115, 38)
-        Me.Button1.TabIndex = 1
-        Me.Button1.Text = "OK"
-        Me.Button1.UseSelectable = True
-        '
-        'Button2
-        '
-        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button2.FontSize = MetroFramework.MetroButtonSize.Medium
-        Me.Button2.Location = New System.Drawing.Point(413, 598)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(115, 38)
-        Me.Button2.TabIndex = 2
-        Me.Button2.Text = "Cancel"
-        Me.Button2.UseSelectable = True
-        '
         'MetroPanel1
         '
         Me.MetroPanel1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -496,10 +516,10 @@ Partial Class Form2
         Me.MetroPanel1.HorizontalScrollbarBarColor = True
         Me.MetroPanel1.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroPanel1.HorizontalScrollbarSize = 10
-        Me.MetroPanel1.Location = New System.Drawing.Point(31, 368)
+        Me.MetroPanel1.Location = New System.Drawing.Point(6, 316)
         Me.MetroPanel1.Name = "MetroPanel1"
-        Me.MetroPanel1.Size = New System.Drawing.Size(496, 213)
-        Me.MetroPanel1.TabIndex = 3
+        Me.MetroPanel1.Size = New System.Drawing.Size(496, 212)
+        Me.MetroPanel1.TabIndex = 7
         Me.MetroPanel1.VerticalScrollbarBarColor = True
         Me.MetroPanel1.VerticalScrollbarHighlightOnWheel = False
         Me.MetroPanel1.VerticalScrollbarSize = 10
@@ -508,7 +528,7 @@ Partial Class Form2
         '
         Me.CheckBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(373, 176)
+        Me.CheckBox2.Location = New System.Drawing.Point(373, 175)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(86, 15)
         Me.CheckBox2.TabIndex = 13
@@ -519,7 +539,7 @@ Partial Class Form2
         '
         Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(34, 176)
+        Me.CheckBox1.Location = New System.Drawing.Point(34, 175)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(73, 15)
         Me.CheckBox1.TabIndex = 12
@@ -551,53 +571,148 @@ Partial Class Form2
         Me.Label11.TabIndex = 10
         Me.Label11.Text = "SERIES PARAMETERS"
         '
+        'TabPage2
+        '
+        Me.TabPage2.BackColor = System.Drawing.Color.Transparent
+        Me.TabPage2.Controls.Add(Me.DataGridView1)
+        Me.TabPage2.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.TabPage2.Location = New System.Drawing.Point(4, 38)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Size = New System.Drawing.Size(508, 531)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "Devices"
+        '
+        'DataGridView1
+        '
+        Me.DataGridView1.AllowUserToAddRows = False
+        Me.DataGridView1.AllowUserToDeleteRows = False
+        Me.DataGridView1.AllowUserToResizeColumns = False
+        Me.DataGridView1.AllowUserToResizeRows = False
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.DataGridView1.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        Me.DataGridView1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.Window
+        Me.DataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.DataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Device, Me.Column2})
+        Me.DataGridView1.Location = New System.Drawing.Point(1, 18)
+        Me.DataGridView1.MultiSelect = False
+        Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
+        Me.DataGridView1.RowHeadersVisible = False
+        Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.DataGridView1.RowsDefaultCellStyle = DataGridViewCellStyle5
+        Me.DataGridView1.Size = New System.Drawing.Size(500, 510)
+        Me.DataGridView1.TabIndex = 5
+        '
+        'Device
+        '
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.Device.DefaultCellStyle = DataGridViewCellStyle3
+        Me.Device.HeaderText = "Devices"
+        Me.Device.Name = "Device"
+        Me.Device.ReadOnly = True
+        Me.Device.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.Device.ToolTipText = "List of all supported devices"
+        Me.Device.Width = 249
+        '
+        'Column2
+        '
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.Column2.DefaultCellStyle = DataGridViewCellStyle4
+        Me.Column2.HeaderText = "Visa Address"
+        Me.Column2.Name = "Column2"
+        Me.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.Column2.ToolTipText = "List of all the device VISA address"
+        Me.Column2.Width = 249
+        '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button1.Location = New System.Drawing.Point(293, 634)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(115, 38)
+        Me.Button1.TabIndex = 25
+        Me.Button1.Text = "OK"
+        Me.Button1.UseSelectable = True
+        '
+        'Button2
+        '
+        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button2.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button2.Location = New System.Drawing.Point(415, 634)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(115, 38)
+        Me.Button2.TabIndex = 26
+        Me.Button2.Text = "Cancel"
+        Me.Button2.UseSelectable = True
+        '
         'Form2
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(558, 655)
-        Me.Controls.Add(Me.MetroPanel1)
-        Me.Controls.Add(Me.Button2)
+        Me.ClientSize = New System.Drawing.Size(562, 693)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.TabControl1)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MinimumSize = New System.Drawing.Size(558, 611)
+        Me.MinimumSize = New System.Drawing.Size(562, 693)
         Me.Name = "Form2"
-        Me.Text = "Plot Options"
+        Me.Text = "Options"
+        Me.TabControl1.ResumeLayout(False)
+        Me.TabPage1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.MetroPanel1.ResumeLayout(False)
         Me.MetroPanel1.PerformLayout()
+        Me.TabPage2.ResumeLayout(False)
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-
+    Friend WithEvents TabControl1 As MetroFramework.Controls.MetroTabControl
+    Friend WithEvents TabPage1 As TabPage
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents Label1 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents Label4 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents Label5 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents Label3 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents Label2 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents TextBox4 As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents TextBox3 As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents TextBox2 As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents TextBox1 As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents Button1 As MetroFramework.Controls.MetroButton
-    Friend WithEvents Button2 As MetroFramework.Controls.MetroButton
-    Friend WithEvents MetroPanel1 As MetroFramework.Controls.MetroPanel
-    Friend WithEvents CheckedListBox1 As CheckedListBox
-    Friend WithEvents Label11 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents CheckBox1 As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents CheckBox2 As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents TextBox6 As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents TextBox5 As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents Label7 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents MetroLabel2 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents CheckBox3 As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents TextBox9 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents Label10 As MetroFramework.Controls.MetroLabel
     Friend WithEvents TextBox8 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents TextBox7 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents Label8 As MetroFramework.Controls.MetroLabel
     Friend WithEvents Label9 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents CheckBox3 As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents TextBox6 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents TextBox5 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents Label7 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents MetroLabel2 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents TextBox4 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents TextBox3 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents TextBox2 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents TextBox1 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents Label1 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents Label4 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents Label5 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents Label3 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents Label2 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents MetroPanel1 As MetroFramework.Controls.MetroPanel
+    Friend WithEvents CheckBox2 As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents CheckBox1 As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents CheckedListBox1 As CheckedListBox
+    Friend WithEvents Label11 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents DataGridView1 As DataGridView
+    Friend WithEvents Device As DataGridViewTextBoxColumn
+    Friend WithEvents Column2 As DataGridViewTextBoxColumn
+    Friend WithEvents Button1 As MetroFramework.Controls.MetroButton
+    Friend WithEvents Button2 As MetroFramework.Controls.MetroButton
 End Class
