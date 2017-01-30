@@ -87,10 +87,16 @@ Public Class Form1
         Chart1.Series.Add(" ")
         Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
         Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
-        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+
+        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000               'Somehow fixes the plot appearing on the Form Load
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
+        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
+        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+
+        'Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+        'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+        'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+        'Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
         'Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
@@ -2849,10 +2855,16 @@ Public Class Form1
         Chart1.Series.Add(" ")
         Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
         Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
-        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+
+        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000               'Somehow fixes the plot appearing on the Form Load
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
+        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
+        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+
+        'Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+        'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+        'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+        'Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
