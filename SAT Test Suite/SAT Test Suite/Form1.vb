@@ -87,16 +87,10 @@ Public Class Form1
         Chart1.Series.Add(" ")
         Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
         Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-
-        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000               'Somehow fixes the plot appearing on the Form Load
-        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
-        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
-        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
-
-        'Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-        'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-        'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
-        'Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
         'Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
@@ -107,8 +101,8 @@ Public Class Form1
         Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.ChartAreas("ChartArea1").AxisY.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.Series(" ").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-        For i As Integer = 0 To 100
-            array(i) = 0
+        For i As Double = 0 To 0.1 Step 0.1             'Bug found when X values are 0.5 to 3. The plot adds values from 1 to 100 which would be visible from
+            array(i) = 0                                '0.5 to 3
             Chart1.Series(" ").Points.AddXY(i, array(i))
         Next
         'AddToolStripMenuItem.Enabled = False
@@ -2855,16 +2849,10 @@ Public Class Form1
         Chart1.Series.Add(" ")
         Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
         Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-
-        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 500000000               'Somehow fixes the plot appearing on the Form Load
-        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3000000000
-        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 100000000
-        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
-
-        'Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-        'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-        'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
-        'Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
+        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
@@ -2874,7 +2862,7 @@ Public Class Form1
         Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.ChartAreas("ChartArea1").AxisY.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.Series(" ").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-        For i As Integer = 0 To 100
+        For i As Double = 0 To 0.1 Step 0.1
             array(i) = 0
             Chart1.Series(" ").Points.AddXY(i, array(i))
         Next
