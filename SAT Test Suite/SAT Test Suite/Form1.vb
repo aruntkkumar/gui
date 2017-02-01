@@ -2463,6 +2463,8 @@ Public Class Form1
         For i As Integer = 0 To checkboxnum - 2
             Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
             Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
+            seriesname(i) = Nothing
+            seriespointindex(i) = Nothing
         Next
         checkboxnum = 1
         ClearAllMarkersToolStripMenuItem.Enabled = False
@@ -3454,13 +3456,15 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub CheckedListBox1_SelectedValueChanged(sender As Object, e As EventArgs)
+    Private Sub CheckedListBox1_SelectedValueChanged(sender As Object, e As EventArgs) Handles CheckedListBox1.SelectedIndexChanged
         ClearSelectedMarkerToolStripMenuItem.Enabled = True
     End Sub
 
     Private Sub ClearSelectedMarkerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearSelectedMarkerToolStripMenuItem.Click
         Chart1.Series(seriesname(CheckedListBox1.SelectedIndex)).Points.Item(seriespointindex(CheckedListBox1.SelectedIndex)).Label = ""
         Chart1.Series(seriesname(CheckedListBox1.SelectedIndex)).Points.Item(seriespointindex(CheckedListBox1.SelectedIndex)).MarkerStyle = MarkerStyle.None
+        seriesname(CheckedListBox1.SelectedIndex) = Nothing
+        seriespointindex(CheckedListBox1.SelectedIndex) = Nothing
         For i As Integer = CheckedListBox1.SelectedIndex To checkboxnum - 3
             If i > (checkboxnum - 3) Then
                 Exit For
@@ -3500,6 +3504,86 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub AddMarkerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddMarkerToolStripMenuItem.Click
+        GlobalVariables.Markertraceindex = -1
+        Form4.ShowDialog()
+        If GlobalVariables.Markertraceindex <> -1 Then
+            Dim Datapoint As DataPoint = Nothing
+            Dim j As Integer = 0
+            For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Points
+                Datapoint = pt
+                If pt.XValue >= GlobalVariables.Markerfreq Then
+                    Exit For
+                End If
+                j += 1
+            Next
+            For i As Integer = 0 To checkboxnum - 1
+                If seriesname(i) = GlobalVariables.seriesnames(GlobalVariables.Markertraceindex) AndAlso seriespointindex(i) = j Then
+                    MetroFramework.MetroMessageBox.Show(Me, "The marker is already available in the list. Refer marker #" & i + 1 & ".", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+            Next
+            If checkboxnum > 20 Then
+                checkboxnum = 1
+                CheckedListBox1.Items.Clear()
+                For i As Integer = 0 To 19
+                    Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
+                    Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
+                Next
+                ClearAllMarkersToolStripMenuItem.Enabled = False
+            End If
+            RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+            CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(DataPoint.XValue, 3) & ", Y=" & Math.Round(DataPoint.YValues(0), 3), isChecked:=True)
+            AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+            DataPoint.Label = checkboxnum
+            DataPoint.MarkerStyle = MarkerStyle.Triangle
+            DataPoint.MarkerSize = 10
+            DataPoint.MarkerColor = Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Color
+            seriesname(checkboxnum - 1) = GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)
+            seriespointindex(checkboxnum - 1) = j
+            ClearAllMarkersToolStripMenuItem.Enabled = True
+            checkboxnum += 1
+            prevxval = DataPoint.XValue
+            prevyval = DataPoint.YValues(0)
+        End If
+    End Sub
+
+    'Private curPoint As DataPoint = Nothing
+    'Private oldXY As Point = Nothing
+
+    'Private Sub Chart1_MouseUp(sender As Object, e As MouseEventArgs) Handles Chart1.MouseUp
+    '    curPoint = Nothing
+    'End Sub
+
+    'Private Sub Chart1_MouseMove(sender As Object, e As MouseEventArgs) Handles Chart1.MouseMove
+    '    If e.Button.HasFlag(MouseButtons.Left) Then
+    '        If e.X > oldXY.X Then
+    '            MsgBox("Right")
+    '        ElseIf e.X < oldXY.X Then
+    '            MsgBox("Left")
+    '            End If
+    '            oldXY.X = e.X
+    '            oldXY.Y = e.Y
+
+    '            Dim ca As DataVisualization.Charting.ChartArea = Chart1.ChartAreas(0)
+    '            Dim ax As DataVisualization.Charting.Axis = ca.AxisX
+    '            Dim ay As DataVisualization.Charting.Axis = ca.AxisY
+
+    '            Dim hit As HitTestResult = Chart1.HitTest(e.X, e.Y)
+    '            If hit.PointIndex >= 0 Then
+    '                curPoint = hit.Series.Points(hit.PointIndex)
+    '            End If
+
+    '            If curPoint IsNot Nothing Then
+    '                Dim s As DataVisualization.Charting.Series = hit.Series
+    '                Dim dx As Double = ax.PixelPositionToValue(e.X)
+    '                Dim dy As Double = ay.PixelPositionToValue(e.Y)
+
+    '                curPoint.XValue = dx
+    '                curPoint.YValues(0) = dy
+    '            End If
+    '        End If
+    'End Sub
 End Class
 
 Public Class GlobalVariables
@@ -3521,6 +3605,8 @@ Public Class GlobalVariables
     Public Shared plot As String = "efficiency"
     Public Shared DeviceName() As String
     Public Shared DeviceAddress() As String
+    Public Shared Markertraceindex As Integer = -1
+    Public Shared Markerfreq As Double = 0
 End Class
 
 

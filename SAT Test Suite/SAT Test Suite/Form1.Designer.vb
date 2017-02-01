@@ -47,6 +47,7 @@ Partial Class Form1
         Me.ClearSelectedMarkerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ComparisonModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddMarkerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConnectivityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ScanMyDevicesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FirstDevice = New System.Windows.Forms.ToolStripMenuItem()
@@ -85,7 +86,7 @@ Partial Class Form1
         Me.label3.Name = "label3"
         Me.label3.Size = New System.Drawing.Size(46, 15)
         Me.label3.TabIndex = 16
-        Me.label3.Text = "Ver. 1.0"
+        Me.label3.Text = "Ver. 2.0"
         '
         'Chart1
         '
@@ -180,7 +181,7 @@ Partial Class Form1
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.ToolStripMenuItem4, Me.ClearChartAreaToolStripMenuItem, Me.ClearAllMarkersToolStripMenuItem, Me.ClearSelectedMarkerToolStripMenuItem, Me.ToolStripMenuItem3, Me.ComparisonModeToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddMarkerToolStripMenuItem, Me.ComparisonModeToolStripMenuItem, Me.ToolStripMenuItem4, Me.ClearSelectedMarkerToolStripMenuItem, Me.ClearAllMarkersToolStripMenuItem, Me.ClearChartAreaToolStripMenuItem, Me.ToolStripMenuItem3, Me.OptionsToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
@@ -225,6 +226,12 @@ Partial Class Form1
         Me.ComparisonModeToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
         Me.ComparisonModeToolStripMenuItem.Text = "Comparison Mode"
         '
+        'AddMarkerToolStripMenuItem
+        '
+        Me.AddMarkerToolStripMenuItem.Name = "AddMarkerToolStripMenuItem"
+        Me.AddMarkerToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.AddMarkerToolStripMenuItem.Text = "Add Marker"
+        '
         'ConnectivityToolStripMenuItem
         '
         Me.ConnectivityToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ScanMyDevicesToolStripMenuItem, Me.DeviceOptionsToolStripMenuItem})
@@ -266,7 +273,7 @@ Partial Class Form1
         Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
         Me.TabControl1.Location = New System.Drawing.Point(50, 426)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.SelectedIndex = 1
         Me.TabControl1.Size = New System.Drawing.Size(636, 136)
         Me.TabControl1.TabIndex = 23
         Me.TabControl1.UseSelectable = True
@@ -276,9 +283,9 @@ Partial Class Form1
         Me.TabPage1.BackColor = System.Drawing.Color.Transparent
         Me.TabPage1.Controls.Add(Me.TextBox1)
         Me.TabPage1.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
-        Me.TabPage1.Location = New System.Drawing.Point(4, 38)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 35)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(628, 94)
+        Me.TabPage1.Size = New System.Drawing.Size(628, 97)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "File Location"
         '
@@ -289,7 +296,7 @@ Partial Class Form1
         Me.TextBox1.BackColor = System.Drawing.Color.White
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.TextBox1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(11, 9)
+        Me.TextBox1.Location = New System.Drawing.Point(11, 12)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ReadOnly = True
         Me.TextBox1.Size = New System.Drawing.Size(609, 77)
@@ -302,9 +309,9 @@ Partial Class Form1
         Me.TabPage2.BackColor = System.Drawing.Color.Transparent
         Me.TabPage2.Controls.Add(Me.CheckedListBox1)
         Me.TabPage2.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
-        Me.TabPage2.Location = New System.Drawing.Point(4, 35)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 38)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Size = New System.Drawing.Size(628, 97)
+        Me.TabPage2.Size = New System.Drawing.Size(628, 94)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Marker List"
         '
@@ -316,7 +323,7 @@ Partial Class Form1
         Me.CheckedListBox1.ColumnWidth = 150
         Me.CheckedListBox1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.CheckedListBox1.FormattingEnabled = True
-        Me.CheckedListBox1.Location = New System.Drawing.Point(10, 6)
+        Me.CheckedListBox1.Location = New System.Drawing.Point(10, 3)
         Me.CheckedListBox1.MultiColumn = True
         Me.CheckedListBox1.Name = "CheckedListBox1"
         Me.CheckedListBox1.Size = New System.Drawing.Size(608, 90)
@@ -380,4 +387,5 @@ Partial Class Form1
     Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
     Friend WithEvents ComparisonModeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ClearChartAreaToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AddMarkerToolStripMenuItem As ToolStripMenuItem
 End Class
