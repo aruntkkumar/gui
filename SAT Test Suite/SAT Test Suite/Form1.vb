@@ -2807,8 +2807,8 @@ Public Class Form1
             newtoolbar = True
             device = True
         Catch ex As Exception
-            If ex.Message = "HRESULT = 80040000" Then
-                MetroFramework.MetroMessageBox.Show(Me, "Unable to connect to Agilent N5230A NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If ex.Message.Contains("HRESULT") Then  'Previous value was If ex.Message = "HRESULT = 80040000" Then
+                MetroFramework.MetroMessageBox.Show(Me, "Error while connecting to Agilent N5230A NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Else
                 MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
@@ -3189,8 +3189,8 @@ Public Class Form1
             newtoolbar = True
             device = True
         Catch ex As Exception
-            If ex.Message = "HRESULT = 80040000" Then
-                MetroFramework.MetroMessageBox.Show(Me, "Unable to connect to Rohde && Schwarz ZVL6 NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If ex.Message.Contains("HRESULT") Then  'Previous value was If ex.Message = "HRESULT = 80040011" Then
+                MetroFramework.MetroMessageBox.Show(Me, "Error while connecting to Rohde && Schwarz ZVL6 NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Else
                 MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
