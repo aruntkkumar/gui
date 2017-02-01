@@ -125,13 +125,13 @@ Public Class Form1
                 GlobalVariables.DeviceAddress(0) = values(1)
             End If
             If values(3) = "" Then
-                GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
+                GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.154::inst0::INSTR"
             Else
                 GlobalVariables.DeviceAddress(1) = values(3)
             End If
         Else
             GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
-            GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.149::inst0::INSTR"
+            GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.154::inst0::INSTR"
         End If
         DeviceOptionsToolStripMenuItem.Visible = False 'Deactivated
         TabControl1.SelectedTab = TabPage1
