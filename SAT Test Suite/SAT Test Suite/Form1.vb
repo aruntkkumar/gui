@@ -3490,6 +3490,9 @@ Public Class Form1
         checkboxnum -= 1
         CheckedListBox1.SelectedIndex = -1
         ClearSelectedMarkerToolStripMenuItem.Enabled = False
+        If checkboxnum = 1 Then
+            ClearAllMarkersToolStripMenuItem.Enabled = False
+        End If
     End Sub
 
     Private Sub ComparisonModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ComparisonModeToolStripMenuItem.Click
