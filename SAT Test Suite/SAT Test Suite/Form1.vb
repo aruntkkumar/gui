@@ -80,6 +80,7 @@ Public Class Form1
     Dim device As Boolean = False
     Dim devicedata As String
     Dim compare As Integer = 1
+    Dim filelocation(-1) As String
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         dialog.InitialDirectory = "C:\"
@@ -1088,6 +1089,16 @@ Public Class Form1
                     'x2max = 0
                     'Chart1.ChartAreas("ChartArea1").AxisX.Minimum = xmin
                     'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xmax
+                    For i As Integer = 0 To filelocation.Length - 1
+                        Dim strLine() As String = TextBox1.Text.Split(CChar(vbLf))
+                        TextBox1.Clear()
+                        For Each ln As String In strLine
+                            If ln <> "" AndAlso ln <> filelocation(i) Then
+                                TextBox1.Text &= ln & vbCrLf
+                            End If
+                        Next
+                    Next
+                    filelocation = New String(-1) {}
                 End If
                 'If newtoolbar = False AndAlso generic = True Then
                 '    colourcounter = 1
@@ -1420,6 +1431,8 @@ Public Class Form1
                 generic = False
                 device = False
                 TextBox1.Text &= dialog.FileName & vbCrLf
+                System.Array.Resize(Of String)(filelocation, (filelocation.Length + 1))
+                filelocation(filelocation.Length - 1) = dialog.FileName
             Catch ex As Exception
                 MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
@@ -1842,6 +1855,16 @@ Public Class Form1
             System.Array.Resize(Of String)(GlobalVariables.seriesnames, GlobalVariables.seriesnames.Length - secondarynames.Length)  'Need to one more than the normal ReDim Preserve
             System.Array.Resize(Of Integer)(GlobalVariables.series, GlobalVariables.series.Length - secondarynames.Length)
             'x2max = 0
+            For i As Integer = 0 To filelocation.Length - 1
+                Dim strLine() As String = TextBox1.Text.Split(CChar(vbLf))
+                TextBox1.Clear()
+                For Each ln As String In strLine
+                    If ln <> "" AndAlso ln <> filelocation(i) Then
+                        TextBox1.Text &= ln & vbCrLf
+                    End If
+                Next
+            Next
+            filelocation = New String(-1) {}
         End If
         Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.True
         Chart1.ChartAreas("ChartArea1").AxisY2.CustomLabels.Clear()
@@ -2127,6 +2150,8 @@ Public Class Form1
         generic = False
         device = False
         TextBox1.Text &= dialog.FileName & vbCrLf
+        System.Array.Resize(Of String)(filelocation, (filelocation.Length + 1))
+        filelocation(filelocation.Length - 1) = dialog.FileName
     End Sub
 
     Sub genericplot()
@@ -2164,6 +2189,16 @@ Public Class Form1
             'x2max = 0
             'Chart1.ChartAreas("ChartArea1").AxisX.Minimum = xmin
             'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = xmax
+            For i As Integer = 0 To filelocation.Length - 1
+                Dim strLine() As String = TextBox1.Text.Split(CChar(vbLf))
+                TextBox1.Clear()
+                For Each ln As String In strLine
+                    If ln <> "" AndAlso ln <> filelocation(i) Then
+                        TextBox1.Text &= ln & vbCrLf
+                    End If
+                Next
+            Next
+            filelocation = New String(-1) {}
         End If
         numRow += 1
         fullstring = line2 & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
@@ -2436,6 +2471,8 @@ Public Class Form1
         generic = True
         device = False
         TextBox1.Text &= dialog.FileName & vbCrLf
+        System.Array.Resize(Of String)(filelocation, (filelocation.Length + 1))
+        filelocation(filelocation.Length - 1) = dialog.FileName
     End Sub
 
     Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs)
@@ -2870,6 +2907,7 @@ Public Class Form1
         Next
         Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
         names = New String(-1) {}
+        filelocation = New String(-1) {}
         newtoolbar = False
         addtoolbar = False
         generic = False
