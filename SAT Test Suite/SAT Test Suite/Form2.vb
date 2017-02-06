@@ -387,4 +387,18 @@
         End If
     End Sub
 
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        TextBox1.Text = 3
+        TextBox2.Text = 0.5
+        TextBox5.Text = 0.1
+        TextBox3.Text = 0
+        TextBox4.Text = -30
+        TextBox6.Text = 3
+        GlobalVariables.xaxismax = 3.0
+        GlobalVariables.xaxismin = 0.5
+        GlobalVariables.xaxisint = 0.1
+        GlobalVariables.yaxismax = 0
+        GlobalVariables.yaxismin = -30.0
+        GlobalVariables.yaxisint = 3.0
+    End Sub
 End Class

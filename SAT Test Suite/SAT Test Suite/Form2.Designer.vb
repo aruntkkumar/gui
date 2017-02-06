@@ -62,6 +62,7 @@ Partial Class Form2
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Button1 = New MetroFramework.Controls.MetroButton()
         Me.Button2 = New MetroFramework.Controls.MetroButton()
+        Me.Button3 = New MetroFramework.Controls.MetroButton()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -102,6 +103,7 @@ Partial Class Form2
         Me.Panel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.Button3)
         Me.Panel1.Controls.Add(Me.CheckBox3)
         Me.Panel1.Controls.Add(Me.TextBox9)
         Me.Panel1.Controls.Add(Me.Label10)
@@ -122,16 +124,16 @@ Partial Class Form2
         Me.Panel1.Controls.Add(Me.Label5)
         Me.Panel1.Controls.Add(Me.Label3)
         Me.Panel1.Controls.Add(Me.Label2)
-        Me.Panel1.Location = New System.Drawing.Point(5, 11)
+        Me.Panel1.Location = New System.Drawing.Point(5, 6)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(498, 288)
+        Me.Panel1.Size = New System.Drawing.Size(498, 311)
         Me.Panel1.TabIndex = 4
         '
         'CheckBox3
         '
         Me.CheckBox3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(205, 252)
+        Me.CheckBox3.Location = New System.Drawing.Point(205, 240)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(86, 15)
         Me.CheckBox3.TabIndex = 20
@@ -154,7 +156,7 @@ Partial Class Form2
         Me.TextBox9.CustomButton.UseSelectable = True
         Me.TextBox9.CustomButton.Visible = False
         Me.TextBox9.Lines = New String(-1) {}
-        Me.TextBox9.Location = New System.Drawing.Point(307, 219)
+        Me.TextBox9.Location = New System.Drawing.Point(307, 209)
         Me.TextBox9.MaxLength = 32767
         Me.TextBox9.Name = "TextBox9"
         Me.TextBox9.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -172,7 +174,7 @@ Partial Class Form2
         '
         Me.Label10.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(125, 218)
+        Me.Label10.Location = New System.Drawing.Point(125, 208)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(162, 19)
         Me.Label10.TabIndex = 18
@@ -194,7 +196,7 @@ Partial Class Form2
         Me.TextBox8.CustomButton.UseSelectable = True
         Me.TextBox8.CustomButton.Visible = False
         Me.TextBox8.Lines = New String(-1) {}
-        Me.TextBox8.Location = New System.Drawing.Point(307, 186)
+        Me.TextBox8.Location = New System.Drawing.Point(307, 178)
         Me.TextBox8.MaxLength = 32767
         Me.TextBox8.Name = "TextBox8"
         Me.TextBox8.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -224,7 +226,7 @@ Partial Class Form2
         Me.TextBox7.CustomButton.UseSelectable = True
         Me.TextBox7.CustomButton.Visible = False
         Me.TextBox7.Lines = New String(-1) {}
-        Me.TextBox7.Location = New System.Drawing.Point(307, 153)
+        Me.TextBox7.Location = New System.Drawing.Point(307, 147)
         Me.TextBox7.MaxLength = 32767
         Me.TextBox7.Name = "TextBox7"
         Me.TextBox7.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -242,7 +244,7 @@ Partial Class Form2
         '
         Me.Label8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(125, 152)
+        Me.Label8.Location = New System.Drawing.Point(125, 146)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(179, 19)
         Me.Label8.TabIndex = 15
@@ -252,7 +254,7 @@ Partial Class Form2
         '
         Me.Label9.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(125, 185)
+        Me.Label9.Location = New System.Drawing.Point(125, 177)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(176, 19)
         Me.Label9.TabIndex = 14
@@ -274,7 +276,7 @@ Partial Class Form2
         Me.TextBox6.CustomButton.UseSelectable = True
         Me.TextBox6.CustomButton.Visible = False
         Me.TextBox6.Lines = New String(-1) {}
-        Me.TextBox6.Location = New System.Drawing.Point(416, 120)
+        Me.TextBox6.Location = New System.Drawing.Point(416, 116)
         Me.TextBox6.MaxLength = 32767
         Me.TextBox6.Name = "TextBox6"
         Me.TextBox6.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -303,7 +305,7 @@ Partial Class Form2
         Me.TextBox5.CustomButton.UseSelectable = True
         Me.TextBox5.CustomButton.Visible = False
         Me.TextBox5.Lines = New String(-1) {}
-        Me.TextBox5.Location = New System.Drawing.Point(162, 120)
+        Me.TextBox5.Location = New System.Drawing.Point(162, 116)
         Me.TextBox5.MaxLength = 32767
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -321,7 +323,7 @@ Partial Class Form2
         '
         Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(229, 119)
+        Me.Label7.Location = New System.Drawing.Point(229, 115)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(171, 19)
         Me.Label7.TabIndex = 11
@@ -330,7 +332,7 @@ Partial Class Form2
         'MetroLabel2
         '
         Me.MetroLabel2.AutoSize = True
-        Me.MetroLabel2.Location = New System.Drawing.Point(14, 119)
+        Me.MetroLabel2.Location = New System.Drawing.Point(14, 115)
         Me.MetroLabel2.Name = "MetroLabel2"
         Me.MetroLabel2.Size = New System.Drawing.Size(129, 19)
         Me.MetroLabel2.TabIndex = 10
@@ -352,7 +354,7 @@ Partial Class Form2
         Me.TextBox4.CustomButton.UseSelectable = True
         Me.TextBox4.CustomButton.Visible = False
         Me.TextBox4.Lines = New String(-1) {}
-        Me.TextBox4.Location = New System.Drawing.Point(416, 87)
+        Me.TextBox4.Location = New System.Drawing.Point(416, 85)
         Me.TextBox4.MaxLength = 32767
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -411,7 +413,7 @@ Partial Class Form2
         Me.TextBox2.CustomButton.UseSelectable = True
         Me.TextBox2.CustomButton.Visible = False
         Me.TextBox2.Lines = New String(-1) {}
-        Me.TextBox2.Location = New System.Drawing.Point(162, 87)
+        Me.TextBox2.Location = New System.Drawing.Point(162, 85)
         Me.TextBox2.MaxLength = 32767
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -479,7 +481,7 @@ Partial Class Form2
         '
         Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(229, 86)
+        Me.Label5.Location = New System.Drawing.Point(229, 84)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(185, 19)
         Me.Label5.TabIndex = 2
@@ -488,7 +490,7 @@ Partial Class Form2
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(14, 86)
+        Me.Label3.Location = New System.Drawing.Point(14, 84)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(143, 19)
         Me.Label3.TabIndex = 1
@@ -516,9 +518,9 @@ Partial Class Form2
         Me.MetroPanel1.HorizontalScrollbarBarColor = True
         Me.MetroPanel1.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroPanel1.HorizontalScrollbarSize = 10
-        Me.MetroPanel1.Location = New System.Drawing.Point(6, 316)
+        Me.MetroPanel1.Location = New System.Drawing.Point(5, 328)
         Me.MetroPanel1.Name = "MetroPanel1"
-        Me.MetroPanel1.Size = New System.Drawing.Size(496, 212)
+        Me.MetroPanel1.Size = New System.Drawing.Size(498, 200)
         Me.MetroPanel1.TabIndex = 7
         Me.MetroPanel1.VerticalScrollbarBarColor = True
         Me.MetroPanel1.VerticalScrollbarHighlightOnWheel = False
@@ -528,7 +530,7 @@ Partial Class Form2
         '
         Me.CheckBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(373, 175)
+        Me.CheckBox2.Location = New System.Drawing.Point(375, 163)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(86, 15)
         Me.CheckBox2.TabIndex = 13
@@ -539,7 +541,7 @@ Partial Class Form2
         '
         Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(34, 175)
+        Me.CheckBox1.Location = New System.Drawing.Point(34, 163)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(73, 15)
         Me.CheckBox1.TabIndex = 12
@@ -555,9 +557,9 @@ Partial Class Form2
         Me.CheckedListBox1.CheckOnClick = True
         Me.CheckedListBox1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.CheckedListBox1.FormattingEnabled = True
-        Me.CheckedListBox1.Location = New System.Drawing.Point(34, 51)
+        Me.CheckedListBox1.Location = New System.Drawing.Point(34, 50)
         Me.CheckedListBox1.Name = "CheckedListBox1"
-        Me.CheckedListBox1.Size = New System.Drawing.Size(425, 110)
+        Me.CheckedListBox1.Size = New System.Drawing.Size(427, 92)
         Me.CheckedListBox1.TabIndex = 11
         '
         'Label11
@@ -565,7 +567,7 @@ Partial Class Form2
         Me.Label11.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label11.AutoSize = True
         Me.Label11.FontWeight = MetroFramework.MetroLabelWeight.Bold
-        Me.Label11.Location = New System.Drawing.Point(176, 18)
+        Me.Label11.Location = New System.Drawing.Point(177, 18)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(146, 19)
         Me.Label11.TabIndex = 10
@@ -576,9 +578,9 @@ Partial Class Form2
         Me.TabPage2.BackColor = System.Drawing.Color.Transparent
         Me.TabPage2.Controls.Add(Me.DataGridView1)
         Me.TabPage2.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
-        Me.TabPage2.Location = New System.Drawing.Point(4, 38)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 35)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Size = New System.Drawing.Size(508, 531)
+        Me.TabPage2.Size = New System.Drawing.Size(508, 534)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Devices"
         '
@@ -612,7 +614,7 @@ Partial Class Form2
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         DataGridViewCellStyle5.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.DataGridView1.RowsDefaultCellStyle = DataGridViewCellStyle5
-        Me.DataGridView1.Size = New System.Drawing.Size(500, 510)
+        Me.DataGridView1.Size = New System.Drawing.Size(500, 513)
         Me.DataGridView1.TabIndex = 5
         '
         'Device
@@ -640,6 +642,7 @@ Partial Class Form2
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button1.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button1.Location = New System.Drawing.Point(293, 634)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(115, 38)
@@ -651,12 +654,25 @@ Partial Class Form2
         '
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button2.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button2.Location = New System.Drawing.Point(415, 634)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(115, 38)
         Me.Button2.TabIndex = 26
         Me.Button2.Text = "Cancel"
         Me.Button2.UseSelectable = True
+        '
+        'Button3
+        '
+        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button3.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button3.FontWeight = MetroFramework.MetroButtonWeight.Regular
+        Me.Button3.Location = New System.Drawing.Point(191, 263)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(115, 38)
+        Me.Button3.TabIndex = 27
+        Me.Button3.Text = "Reset to Default"
+        Me.Button3.UseSelectable = True
         '
         'Form2
         '
@@ -715,4 +731,5 @@ Partial Class Form2
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Button1 As MetroFramework.Controls.MetroButton
     Friend WithEvents Button2 As MetroFramework.Controls.MetroButton
+    Friend WithEvents Button3 As MetroFramework.Controls.MetroButton
 End Class

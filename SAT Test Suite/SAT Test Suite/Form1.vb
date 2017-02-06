@@ -83,29 +83,6 @@ Public Class Form1
     Dim filelocation(-1) As String
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        dialog.InitialDirectory = "C:\"
-        Chart1.Series.Clear()
-        Chart1.Series.Add(" ")
-        Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
-        Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
-        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
-        'Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
-        Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
-        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
-        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
-        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
-        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
-        Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
-        Chart1.ChartAreas("ChartArea1").AxisY.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
-        Chart1.Series(" ").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-        For i As Double = 0 To 0.1 Step 0.1             'Bug found when X values are 0.5 to 3. The plot adds values from 1 to 100 which would be visible from
-            array(i) = 0                                '0.5 to 3
-            Chart1.Series(" ").Points.AddXY(i, array(i))
-        Next
         'AddToolStripMenuItem.Enabled = False
         ClearAllMarkersToolStripMenuItem.Enabled = False
         ClearSelectedMarkerToolStripMenuItem.Enabled = False
@@ -120,20 +97,77 @@ Public Class Form1
         'Routine has been reactivated
         If System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt") Then
             values = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt").Split("|"c)
-            If values(1) = "" Then
+            If (values.Length = 10) Then
+                Try
+                    GlobalVariables.xaxismax = CDbl(values(0))
+                    GlobalVariables.xaxismin = CDbl(values(1))
+                    GlobalVariables.xaxisint = CDbl(values(2))
+                    GlobalVariables.yaxismax = CDbl(values(3))
+                    GlobalVariables.yaxismin = CDbl(values(4))
+                    GlobalVariables.yaxisint = CDbl(values(5))
+                Catch ex As Exception
+                    GlobalVariables.xaxismax = 3.0
+                    GlobalVariables.xaxismin = 0.5
+                    GlobalVariables.xaxisint = 0.1
+                    GlobalVariables.yaxismax = 0
+                    GlobalVariables.yaxismin = -30.0
+                    GlobalVariables.yaxisint = 3.0
+                End Try
+                If values(7) = "" Then
+                    GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
+                Else
+                    GlobalVariables.DeviceAddress(0) = values(7)
+                End If
+                If values(9) = "" Then
+                    GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.154::inst0::INSTR"
+                Else
+                    GlobalVariables.DeviceAddress(1) = values(9)
+                End If
+            Else
                 GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
-            Else
-                GlobalVariables.DeviceAddress(0) = values(1)
-            End If
-            If values(3) = "" Then
                 GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.154::inst0::INSTR"
-            Else
-                GlobalVariables.DeviceAddress(1) = values(3)
+                GlobalVariables.xaxismax = 3.0
+                GlobalVariables.xaxismin = 0.5
+                GlobalVariables.xaxisint = 0.1
+                GlobalVariables.yaxismax = 0
+                GlobalVariables.yaxismin = -30.0
+                GlobalVariables.yaxisint = 3.0
             End If
         Else
             GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
             GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.154::inst0::INSTR"
+            GlobalVariables.xaxismax = 3.0
+            GlobalVariables.xaxismin = 0.5
+            GlobalVariables.xaxisint = 0.1
+            GlobalVariables.yaxismax = 0
+            GlobalVariables.yaxismin = -30.0
+            GlobalVariables.yaxisint = 3.0
         End If
+
+        dialog.InitialDirectory = "C:\"
+        Chart1.Series.Clear()
+        Chart1.Series.Add(" ")
+        Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
+        Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
+        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+        Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
+        Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+        'Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
+        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+        Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
+        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+        Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
+        Chart1.ChartAreas("ChartArea1").AxisY.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
+        Chart1.Series(" ").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
+        For i As Double = 0 To 0.1 Step 0.1             'Bug found when X values are 0.5 to 3. The plot adds values from 1 to 100 which would be visible from
+            array(i) = 0                                '0.5 to 3
+            Chart1.Series(" ").Points.AddXY(i, array(i))
+        Next
+
         DeviceOptionsToolStripMenuItem.Visible = False 'Deactivated
         TabControl1.SelectedTab = TabPage1
     End Sub
@@ -144,7 +178,7 @@ Public Class Form1
         If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
             System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
         End If
-        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
+        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.xaxismax, GlobalVariables.xaxismin, GlobalVariables.xaxisint, GlobalVariables.yaxismax, GlobalVariables.yaxismin, GlobalVariables.yaxisint, GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
 
         'If xlWorkBook Is Nothing Then
         Me.Close()
@@ -160,7 +194,7 @@ Public Class Form1
         If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
             System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
         End If
-        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
+        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.xaxismax, GlobalVariables.xaxismin, GlobalVariables.xaxisint, GlobalVariables.yaxismax, GlobalVariables.yaxismin, GlobalVariables.yaxisint, GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1)}))
 
         'If xlWorkBook Is Nothing Then
         'Else
@@ -182,15 +216,15 @@ Public Class Form1
                 colourcounter = 1
                 ClearMarkers()
                 Chart1.Series.Clear()
-                Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-                Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+                Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+                Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
                 Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
                 Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
                 Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-                Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
-                Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-                Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
+                Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+                Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+                Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
                 Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
                 Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
                 Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
@@ -827,11 +861,11 @@ Public Class Form1
         GlobalVariables.xaxismin = Chart1.ChartAreas("ChartArea1").AxisX.Minimum
         GlobalVariables.xaxisint = Chart1.ChartAreas("ChartArea1").AxisX.Interval
         'End If
-        If (ports = 0) Then
-            GlobalVariables.ports = 0
-        Else
-            GlobalVariables.ports = ports
-        End If
+        'If (ports = 0) Then
+        '    GlobalVariables.ports = 0
+        'Else
+        '    GlobalVariables.ports = ports
+        'End If
         'AllocConsole() 'show console
         'For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
         '    Console.WriteLine(GlobalVariables.seriesnames(i))
@@ -1048,9 +1082,9 @@ Public Class Form1
                     colourcounter = 1
                     ClearMarkers()
                     Chart1.Series.Clear()
-                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+                    Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+                    Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+                    Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
                     Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
                     Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
                     Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
@@ -1483,24 +1517,24 @@ Public Class Form1
         If newtoolbar = True Or db = True Then
         ElseIf addtoolbar = True Or generic = True Then
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
-            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
         Else
             colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
             Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
-            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             frequnit = "ghz"
@@ -1827,9 +1861,9 @@ Public Class Form1
             colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
             Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
@@ -2159,9 +2193,9 @@ Public Class Form1
             colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
             Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
@@ -2668,14 +2702,14 @@ Public Class Form1
             colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
             Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
-            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
-            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
@@ -2888,14 +2922,14 @@ Public Class Form1
         Chart1.Series.Add(" ")
         Chart1.ChartAreas("ChartArea1").AxisX.Enabled = AxisEnabled.True        'Keeps the axis when all the plots are deselected.
         Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+        Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
         Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
-        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
-        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
+        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+        Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
         Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
         Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
@@ -3106,15 +3140,15 @@ Public Class Form1
             colourcounter = 1
             ClearMarkers()
             Chart1.Series.Clear()
-            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0.5
-            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 3
-            Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+            Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+            Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
             Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -30
-            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 0
-            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 3
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
@@ -3628,18 +3662,18 @@ Public Class Form1
 End Class
 
 Public Class GlobalVariables
-    Public Shared xaxismin As Double = 0
-    Public Shared xaxismax As Double = 6
-    Public Shared xaxisint As Double = 0.5
-    Public Shared yaxismin As Double = -50
+    Public Shared xaxismin As Double = 0.5
+    Public Shared xaxismax As Double = 3
+    Public Shared xaxisint As Double = 0.1
+    Public Shared yaxismin As Double = -30
     Public Shared yaxismax As Double = 0
-    Public Shared yaxisint As Double = 5
+    Public Shared yaxisint As Double = 3
     Public Shared y2axismin As Double = vbNull
     Public Shared y2axismax As Double = vbNull
     Public Shared y2axisint As Double = vbNull
     Public Shared okbutton As String
     Public Shared autobutton As Boolean = False
-    Public Shared ports As Integer
+    'Public Shared ports As Integer
     Public Shared series() As Integer
     Public Shared seriesnames() As String
     Public Shared y2axis As Boolean

@@ -78,6 +78,7 @@ Partial Class Form4
         '
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button2.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button2.Location = New System.Drawing.Point(147, 201)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(115, 38)
@@ -89,6 +90,7 @@ Partial Class Form4
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button1.FontWeight = MetroFramework.MetroButtonWeight.Regular
         Me.Button1.Location = New System.Drawing.Point(23, 201)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(115, 38)
