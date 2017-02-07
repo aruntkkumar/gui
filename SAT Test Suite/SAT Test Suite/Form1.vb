@@ -113,6 +113,14 @@ Public Class Form1
                     GlobalVariables.yaxismin = -30.0
                     GlobalVariables.yaxisint = 3.0
                 End Try
+                If (GlobalVariables.xaxismax < 0) Or (GlobalVariables.xaxismax > 100) Or (GlobalVariables.xaxismin < 0) Or (GlobalVariables.xaxismin > 100) Or (GlobalVariables.yaxismax < -1000) Or (GlobalVariables.yaxismax > 1000) Or (GlobalVariables.yaxismin < -1000) Or (GlobalVariables.yaxismin > 1000) Or (GlobalVariables.xaxisint > (GlobalVariables.xaxismax - GlobalVariables.xaxismin)) Or (GlobalVariables.xaxisint <= 0) Or (GlobalVariables.yaxisint > (GlobalVariables.yaxismax - GlobalVariables.yaxismin)) Or (GlobalVariables.yaxisint <= 0) Then
+                    GlobalVariables.xaxismax = 3.0
+                    GlobalVariables.xaxismin = 0.5
+                    GlobalVariables.xaxisint = 0.1
+                    GlobalVariables.yaxismax = 0
+                    GlobalVariables.yaxismin = -30.0
+                    GlobalVariables.yaxisint = 3.0
+                End If
                 If values(7) = "" Then
                     GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
                 Else
