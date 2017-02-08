@@ -171,8 +171,8 @@ Public Class Form1
         Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.ChartAreas("ChartArea1").AxisY.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.Series(" ").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-        For i As Double = 0 To 0.1 Step 0.1             'Bug found when X values are 0.5 to 3. The plot adds values from 1 to 100 which would be visible from
-            array(i) = 0                                '0.5 to 3
+        For i As Double = 0 To 0.000000001 Step 0.000000001             'Bug found when X values are 0.5 to 3. The plot adds values from 1 to 100 which would be visible from
+            array(i) = 0                                                '0.5 to 3
             Chart1.Series(" ").Points.AddXY(i, array(i))
         Next
 
@@ -2943,7 +2943,7 @@ Public Class Form1
         Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.ChartAreas("ChartArea1").AxisY.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.Series(" ").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
-        For i As Double = 0 To 0.1 Step 0.1
+        For i As Double = 0 To 0.000000001 Step 0.000000001
             array(i) = 0
             Chart1.Series(" ").Points.AddXY(i, array(i))
         Next
