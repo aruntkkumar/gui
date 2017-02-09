@@ -82,6 +82,8 @@ Public Class Form1
     Dim compare As Integer = 1
     Dim filelocation(-1) As String
     Dim readvalue As String
+    Dim xaxis(2) As Double
+    Dim yaxis(2) As Double
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'AddToolStripMenuItem.Enabled = False
@@ -832,6 +834,12 @@ Public Class Form1
     End Sub
 
     Private Sub OptionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OptionsToolStripMenuItem.Click
+        xaxis(0) = GlobalVariables.xaxismax
+        xaxis(1) = GlobalVariables.xaxismin
+        xaxis(2) = GlobalVariables.xaxisint
+        yaxis(0) = GlobalVariables.yaxismax
+        yaxis(1) = GlobalVariables.yaxismin
+        yaxis(2) = GlobalVariables.yaxisint
         GlobalVariables.yaxismax = Chart1.ChartAreas("ChartArea1").AxisY.Maximum
         GlobalVariables.yaxismin = Chart1.ChartAreas("ChartArea1").AxisY.Minimum
         GlobalVariables.yaxisint = Chart1.ChartAreas("ChartArea1").AxisY.Interval
@@ -958,6 +966,12 @@ Public Class Form1
                     '    xaxisadjust()
                     '    y2axisadjust()
                     'End If
+                    GlobalVariables.xaxismax = xaxis(0)
+                    GlobalVariables.xaxismin = xaxis(1)
+                    GlobalVariables.xaxisint = xaxis(2)
+                    GlobalVariables.yaxismax = yaxis(0)
+                    GlobalVariables.yaxismin = yaxis(1)
+                    GlobalVariables.yaxisint = yaxis(2)
                 End If
             End If
         End If
