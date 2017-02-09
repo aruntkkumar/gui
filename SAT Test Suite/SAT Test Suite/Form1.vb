@@ -2626,17 +2626,17 @@ Public Class Form1
             instrument.WriteString("mmem:stor:trac:form:snp DB", True)
             instrument.IO.Timeout = 60000   'Changing the timeout to 1 minute
             If ports = 1 Then
-                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1','c:\MyData.s1p'", True)
-                instrument.WriteString("MMEMory:TRANsfer? 'c:\MyData.s1p'", True)
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1','c:\users\public\documents\MyData.s1p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? 'c:\users\public\documents\MyData.s1p'", True)
             ElseIf ports = 2 Then
-                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2','c:\MyData.s2p'", True)
-                instrument.WriteString("MMEMory:TRANsfer? 'c:\MyData.s2p'", True)
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2','c:\users\public\documents\MyData.s2p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? 'c:\users\public\documents\MyData.s2p'", True)
             ElseIf ports = 3 Then
-                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2,3','c:\MyData.s3p'", True)
-                instrument.WriteString("MMEMory:TRANsfer? 'c:\MyData.s3p'", True)
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2,3','c:\users\public\documents\MyData.s3p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? 'c:\users\public\documents\MyData.s3p'", True)
             ElseIf ports = 4 Then
-                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2,3,4','c:\MyData.s4p'", True)
-                instrument.WriteString("MMEMory:TRANsfer? 'c:\MyData.s4p'", True)
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2,3,4','c:\users\public\documents\MyData.s4p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? 'c:\users\public\documents\MyData.s4p'", True)
             End If
             'AllocConsole() 'show console
             devicedata = ""
@@ -2699,13 +2699,13 @@ Public Class Form1
             End Using
             instrument.IO.Timeout = 2000    'Reverting back the timeout to 2 seconds
             If ports = 1 Then
-                instrument.WriteString("MMEM:DEL 'c:\MyData.s1p'", True)    'Deletes the file
+                instrument.WriteString("MMEM:DEL 'c:\users\public\documents\MyData.s1p'", True)    'Deletes the file
             ElseIf ports = 2 Then
-                instrument.WriteString("MMEM:DEL 'c:\MyData.s2p'", True)    'Deletes the file
+                instrument.WriteString("MMEM:DEL 'c:\users\public\documents\MyData.s2p'", True)    'Deletes the file
             ElseIf ports = 3 Then
-                instrument.WriteString("MMEM:DEL 'c:\MyData.s3p'", True)    'Deletes the file
+                instrument.WriteString("MMEM:DEL 'c:\users\public\documents\MyData.s3p'", True)    'Deletes the file
             ElseIf ports = 4 Then
-                instrument.WriteString("MMEM:DEL 'c:\MyData.s4p'", True)    'Deletes the file
+                instrument.WriteString("MMEM:DEL 'c:\users\public\documents\MyData.s4p'", True)    'Deletes the file
             End If
             colourcounter = 1
             ClearMarkers()
@@ -2893,17 +2893,17 @@ Public Class Form1
             End If
         Finally
             Try
-                instrument.IO.Close()
-            Catch ex As Exception
-            End Try
-            Try
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
-            Catch ex As Exception
-            End Try
-            Try
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
-            Catch ex As Exception
-            End Try
+            instrument.IO.Close()
+        Catch ex As Exception
+        End Try
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
+        Catch ex As Exception
+        End Try
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
+        Catch ex As Exception
+        End Try
         End Try
     End Sub
 
