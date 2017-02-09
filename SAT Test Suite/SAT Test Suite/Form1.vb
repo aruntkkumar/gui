@@ -81,6 +81,7 @@ Public Class Form1
     Dim devicedata As String
     Dim compare As Integer = 1
     Dim filelocation(-1) As String
+    Dim readvalue As String
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'AddToolStripMenuItem.Enabled = False
@@ -178,6 +179,7 @@ Public Class Form1
 
         DeviceOptionsToolStripMenuItem.Visible = False 'Deactivated
         TabControl1.SelectedTab = TabPage1
+        readvalue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "Common Documents", Nothing)
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
@@ -2626,17 +2628,19 @@ Public Class Form1
             instrument.WriteString("mmem:stor:trac:form:snp DB", True)
             instrument.IO.Timeout = 60000   'Changing the timeout to 1 minute
             If ports = 1 Then
-                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1','c:\users\public\documents\MyData.s1p'", True)
-                instrument.WriteString("MMEMory:TRANsfer? 'c:\users\public\documents\MyData.s1p'", True)
+                'instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1','c:\users\public\documents\MyData.s1p'", True)
+                'instrument.WriteString("MMEMory:TRANsfer? 'c:\users\public\documents\MyData.s1p'", True)
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1','" & readvalue & "\MyData.s1p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? '" & readvalue & "\MyData.s1p'", True)
             ElseIf ports = 2 Then
-                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2','c:\users\public\documents\MyData.s2p'", True)
-                instrument.WriteString("MMEMory:TRANsfer? 'c:\users\public\documents\MyData.s2p'", True)
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2','" & readvalue & "\MyData.s2p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? '" & readvalue & "\MyData.s2p'", True)
             ElseIf ports = 3 Then
-                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2,3','c:\users\public\documents\MyData.s3p'", True)
-                instrument.WriteString("MMEMory:TRANsfer? 'c:\users\public\documents\MyData.s3p'", True)
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2,3','" & readvalue & "\MyData.s3p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? '" & readvalue & "\MyData.s3p'", True)
             ElseIf ports = 4 Then
-                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2,3,4','c:\users\public\documents\MyData.s4p'", True)
-                instrument.WriteString("MMEMory:TRANsfer? 'c:\users\public\documents\MyData.s4p'", True)
+                instrument.WriteString("CALC:DATA:SNP:PORTs:Save '1,2,3,4','" & readvalue & "\MyData.s4p'", True)
+                instrument.WriteString("MMEMory:TRANsfer? '" & readvalue & "\MyData.s4p'", True)
             End If
             'AllocConsole() 'show console
             devicedata = ""
@@ -2699,13 +2703,14 @@ Public Class Form1
             End Using
             instrument.IO.Timeout = 2000    'Reverting back the timeout to 2 seconds
             If ports = 1 Then
-                instrument.WriteString("MMEM:DEL 'c:\users\public\documents\MyData.s1p'", True)    'Deletes the file
+                'instrument.WriteString("MMEM:DEL 'c:\users\public\documents\MyData.s4p'", True)    'Deletes the file
+                instrument.WriteString("MMEM:DEL '" & readvalue & "\MyData.s1p'", True)    'Deletes the file
             ElseIf ports = 2 Then
-                instrument.WriteString("MMEM:DEL 'c:\users\public\documents\MyData.s2p'", True)    'Deletes the file
+                instrument.WriteString("MMEM:DEL '" & readvalue & "\MyData.s2p'", True)    'Deletes the file
             ElseIf ports = 3 Then
-                instrument.WriteString("MMEM:DEL 'c:\users\public\documents\MyData.s3p'", True)    'Deletes the file
+                instrument.WriteString("MMEM:DEL '" & readvalue & "\MyData.s3p'", True)    'Deletes the file
             ElseIf ports = 4 Then
-                instrument.WriteString("MMEM:DEL 'c:\users\public\documents\MyData.s4p'", True)    'Deletes the file
+                instrument.WriteString("MMEM:DEL '" & readvalue & "\MyData.s4p'", True)    'Deletes the file
             End If
             colourcounter = 1
             ClearMarkers()
