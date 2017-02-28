@@ -5,6 +5,8 @@ Imports System.Text
 Imports System.IO
 Imports System.Windows.Forms.DataVisualization.Charting
 Imports Excel
+Imports System.Net
+Imports Microsoft.Win32
 
 Public Class Form1
     Dim dialog As OpenFileDialog = New OpenFileDialog()
@@ -181,7 +183,7 @@ Public Class Form1
 
         DeviceOptionsToolStripMenuItem.Visible = False 'Deactivated
         TabControl1.SelectedTab = TabPage1
-        readvalue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "Common Documents", Nothing)
+        'readvalue = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "Common Documents", Nothing)
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
@@ -2589,6 +2591,15 @@ Public Class Form1
         'Dim commas As Integer
         Dim commas() As String
         Dim returnstring As String
+        'Dim ipaddress As String = GlobalVariables.DeviceAddress(0)
+        'ipaddress = ipaddress.Substring(ipaddress.IndexOf(":"c) + 2, (ipaddress.LastIndexOf(":"c) - ipaddress.IndexOf(":"c) + 1))
+        'ipaddress = ipaddress.Substring(0, ipaddress.IndexOf(":"c))             'Two steps to extract the IP address from VISA address
+        'Dim host As System.Net.IPHostEntry = Dns.GetHostEntry(ipaddress)   'To find the IP address
+        'Dim hostname As String = host.HostName                                  'To find the host name of N5230A
+        'readvalue = RegistryKey.OpenRemoteBaseKey(RegistryHive.LocalMachine, hostname).OpenSubKey("Software").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("Explorer").OpenSubKey("Shell Folders").GetValue("Common Documents")
+        'MsgBox("""" & readvalue & """")
+        'Exit Sub
+        readvalue = "C:\"
         Try
             'instrument.IO = ioMgr.Open("TCPIP0::10.1.100.174::hpib7,16::INSTR") ' use instrument specific address for Open() parameter
             'instrument.IO = ioMgr.Open(VISAAddressEdit.Text)
@@ -2912,17 +2923,17 @@ Public Class Form1
             End If
         Finally
             Try
-            instrument.IO.Close()
-        Catch ex As Exception
-        End Try
-        Try
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
-        Catch ex As Exception
-        End Try
-        Try
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
-        Catch ex As Exception
-        End Try
+                instrument.IO.Close()
+            Catch ex As Exception
+            End Try
+            Try
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
+            Catch ex As Exception
+            End Try
+            Try
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
+            Catch ex As Exception
+            End Try
         End Try
     End Sub
 
@@ -3635,18 +3646,18 @@ Public Class Form1
                 ClearAllMarkersToolStripMenuItem.Enabled = False
             End If
             RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-            CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(DataPoint.XValue, 3) & ", Y=" & Math.Round(DataPoint.YValues(0), 3), isChecked:=True)
+            CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(Datapoint.XValue, 3) & ", Y=" & Math.Round(Datapoint.YValues(0), 3), isChecked:=True)
             AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-            DataPoint.Label = checkboxnum
-            DataPoint.MarkerStyle = MarkerStyle.Triangle
-            DataPoint.MarkerSize = 10
-            DataPoint.MarkerColor = Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Color
+            Datapoint.Label = checkboxnum
+            Datapoint.MarkerStyle = MarkerStyle.Triangle
+            Datapoint.MarkerSize = 10
+            Datapoint.MarkerColor = Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Color
             seriesname(checkboxnum - 1) = GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)
             seriespointindex(checkboxnum - 1) = j
             ClearAllMarkersToolStripMenuItem.Enabled = True
             checkboxnum += 1
-            prevxval = DataPoint.XValue
-            prevyval = DataPoint.YValues(0)
+            prevxval = Datapoint.XValue
+            prevyval = Datapoint.YValues(0)
         End If
     End Sub
 
