@@ -18,31 +18,49 @@ Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler System.Windows.Forms.Application.Idle, AddressOf Application_Idle
         Try
-            Dim adapters() As NetworkInterface = NetworkInterface.GetAllNetworkInterfaces()
-            Dim wirelessfound As Boolean = False
-            For Each adapter As NetworkInterface In adapters
-                If adapter.NetworkInterfaceType = NetworkInterfaceType.Wireless80211 Then
-                    'MessageBox.Show("Name " & adapter.Name)
-                    'MessageBox.Show("Status:" & adapter.OperationalStatus.ToString)
-                    'MessageBox.Show("Speed:" & adapter.Speed.ToString())
-                    'MessageBox.Show(adapter.GetIPProperties.GetIPv4Properties.ToString)
-                    'MessageBox.Show(adapter.GetIPProperties.GetIPv4Properties.IsDhcpEnabled.ToString)
-                    'If adapter.GetIPProperties.GetIPv4Properties.IsDhcpEnabled Then
-                    '    MsgBox("Dynamic IP")
-                    'Else
-                    '    MsgBox("Static IP")
-                    'End If
-                    wirelessfound = True
-                End If
-            Next
-            If Not wirelessfound Then
-                MetroFramework.MetroMessageBox.Show(Me, "No wireless adaptor detected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Exit Sub
-            End If
+            'Dim adapters() As NetworkInterface = NetworkInterface.GetAllNetworkInterfaces()
+            'Dim wirelessfound As Boolean = False
+            'For Each adapter As NetworkInterface In adapters
+            '    If adapter.NetworkInterfaceType = NetworkInterfaceType.Wireless80211 Then
+            '        'MessageBox.Show("Name " & adapter.Name)
+            '        'MessageBox.Show("Status:" & adapter.OperationalStatus.ToString)
+            '        'MessageBox.Show("Speed:" & adapter.Speed.ToString())
+            '        'MessageBox.Show(adapter.GetIPProperties.GetIPv4Properties.ToString)
+            '        'MessageBox.Show(adapter.GetIPProperties.GetIPv4Properties.IsDhcpEnabled.ToString)
+            '        'If adapter.GetIPProperties.GetIPv4Properties.IsDhcpEnabled Then
+            '        '    MsgBox("Dynamic IP")
+            '        'Else
+            '        '    MsgBox("Static IP")
+            '        'End If
+            '        wirelessfound = True
+            '    End If
+            'Next
+            'If Not wirelessfound Then
+            '    MetroFramework.MetroMessageBox.Show(Me, "No wireless adaptor detected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            '    Exit Sub
+            'End If
 
             'Dim wlan = New WlanClient()
             'Dim connectedSsids As Collection(Of [String]) = New Collection(Of String)()
+
+            'Dim proc As New Process
+            'proc.StartInfo.CreateNoWindow = True
+            'proc.StartInfo.FileName = "netsh"
+            'proc.StartInfo.Arguments = "interface set interface name=""""Wireless Network Connection 2"""" admin=disabled"
+            'proc.StartInfo.RedirectStandardOutput = True
+            'proc.StartInfo.UseShellExecute = False
+            'proc.Start()
+            'proc.WaitForExit()
+
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                wlanIface.Scan()
+                AddHandler wlanIface.WlanNotification, AddressOf wlanIface_WlanNotification
+checkagain1:
+                If Wlan.WlanNotificationCodeAcm.ScanComplete Then
+                    'MsgBox("Scan Complete")
+                Else
+                    GoTo checkagain1
+                End If
                 ' Lists all networks with WEP security
                 'Dim networks As Wlan.WlanAvailableNetwork() = wlanIface.GetAvailableNetworkList(0)
                 'For Each network As Wlan.WlanAvailableNetwork In networks
@@ -137,10 +155,28 @@ Public Class Form1
         End Try
     End Sub
 
+    Private Shared Sub wlanIface_WlanNotification(notifyData As Wlan.WlanNotificationData)
+        If notifyData.NotificationCode = CInt(Wlan.WlanNotificationCodeAcm.ScanComplete) Then
+            'MsgBox("Scan Complete!")
+            'CreateObject("WScript.Shell").Popup("Welcome", 0.5, "Title")
+        End If
+    End Sub
+
     Private Sub Application_Idle(ByVal sender As Object, ByVal e As EventArgs)
+Testagain:
         Try
-            'Dim wlan = New WlanClient()
+            'Using wlan1 = New WlanClient()
+            'Dim wlan As New WlanClient()
+            'For Each wlanIface As WlanClient.WlanInterface In wlan1.Interfaces
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                'wlanIface.Scan()
+                'AddHandler wlanIface.WlanNotification, AddressOf wlanIface_WlanNotification
+                'checkagain1:
+                '                If Wlan.WlanNotificationCodeAcm.ScanComplete Then
+                '                    'MsgBox("Scan Complete")
+                '                Else
+                '                    GoTo checkagain1
+                '                End If
                 Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
 
                 For Each network As Wlan.WlanBssEntry In wlanBssEntries
@@ -201,6 +237,7 @@ Public Class Form1
                     Next
                     If available = 0 Then
                         If Me.IsDisposed = True Then
+                            Application.DoEvents()
                             Exit Sub
                         End If
                         DataGridView1.Rows.Add(ssid, tMac, network.dot11BssPhyType, rss, network.linkQuality, frequency, channelnumber, datarate, network.dot11BssType)
@@ -208,17 +245,26 @@ Public Class Form1
                         'If signalstrength <> 999 Then
                         'DataGridView1.Rows(rowindex).Cells(1).Value = network.linkQuality
                         'End If
-                        DataGridView1.Rows(rowindex).Cells(3).Value = rss
-                        DataGridView1.Rows(rowindex).Cells(4).Value = network.linkQuality
+                        'MsgBox(ssid & ", " & rss & ", " & network.linkQuality)
+                        If DataGridView1.Rows(rowindex).Cells(3).Value <> rss Or DataGridView1.Rows(rowindex).Cells(4).Value <> network.linkQuality Then
+                            DataGridView1.Rows(rowindex).Cells(3).Value = rss
+                            DataGridView1.Rows(rowindex).Cells(4).Value = network.linkQuality
+                        End If
+
                     End If
+
                 Next
             Next
+            'GC.SuppressFinalize(wlan1)
+            'Close()
+            'End Using
 
         Catch ex As Exception
             MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
-        'Application.DoEvents()
+        Application.DoEvents()
         Thread.Sleep(100)
+        GoTo Testagain
     End Sub
 
     Private Sub DataGridView1_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellDoubleClick
@@ -230,24 +276,41 @@ Public Class Form1
         'Dim client = New WlanClient()
         Try
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                'wlanIface.Scan()
                 For Each profileInfo As Wlan.WlanProfileInfo In wlanIface.GetProfiles()
                     Dim name As String = profileInfo.profileName
                     Dim xml As String = wlanIface.GetProfileXml(profileInfo.profileName)
                     If name = GlobalVariables.ssidname Then 'Need to check the MAC address of the profileName
-                        Try
-                            wlanIface.SetProfile(Wlan.WlanProfileFlags.AllUser, xml, True)
-                            wlanIface.Connect(Wlan.WlanConnectionMode.Profile, Wlan.Dot11BssType.Any, name)
+                        'Try
+                        'If wlanIface.InterfaceState.ToString <> "Connected" Then)
+                        'checkagain:
+                        '                        If Wlan.WlanNotificationCodeAcm.ScanComplete Then
+                        '                            MsgBox("Scan Complete")
+                        '                        Else
+                        '                            GoTo checkagain
+                        '                        End If
+                        wlanIface.SetProfile(Wlan.WlanProfileFlags.AllUser, xml, True)
+                        wlanIface.Connect(Wlan.WlanConnectionMode.Profile, Wlan.Dot11BssType.Any, name)
+                        'End If
+                        Application.DoEvents()
+                        Thread.Sleep(100)
+                        If DebugToolStripMenuItem.Checked = False Then
                             Form3.Show()
-                            Me.Close()
-                            Exit Sub
-                        Catch ex As Exception
-                            MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Try
+                        Else
+                            Form4.Show()
+                        End If
+                        Me.Close()
+                        Me.Dispose()
+                        Exit Sub
+                        'Catch ex As Exception
+                        '    MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        'End Try
                     End If
                 Next
             Next
         Catch ex As Exception
             MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
         End Try
         Form2.Show()
         Me.Close()
@@ -279,6 +342,29 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
+        Me.Close()
+    End Sub
+
+    Private Sub DebugToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DebugToolStripMenuItem.Click
+        If DebugToolStripMenuItem.Checked = False Then
+            DebugToolStripMenuItem.Checked = True
+            GlobalVariables.debug = True
+        Else
+            DebugToolStripMenuItem.Checked = False
+            GlobalVariables.debug = False
+        End If
+    End Sub
+
+
+    'Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+    '    'Me.Dispose()
+    '    'GC.SuppressFinalize(Me)
+    '    For Each d As [Delegate] In FindClicked.GetInvocationList()
+    '        FindClicked -= DirectCast(d, FindClickedHandler)
+    '    Next
+    'End Sub
+
     'Private Function RetrieveNetworks()
     '    Dim proc As New Process
     '    proc.StartInfo.CreateNoWindow = True
@@ -292,11 +378,18 @@ Public Class Form1
     '    proc.WaitForExit()
     'End Function
 
+    'Private Shared Sub wlanIface_WlanNotification(notifyData As Wlan.WlanNotificationData)
+    '    If notifyData.NotificationCode = CInt(Wlan.WlanNotificationCodeAcm.ScanComplete) Then
+    '        MsgBox("Scan Complete!")
+    '    End If
+    'End Sub
+
 End Class
 
 Public Class GlobalVariables
     Public Shared ssidname As String = ""
     Public Shared macadd As String = ""
+    Public Shared debug As Boolean = False
 End Class
 
 Public Class WiFi

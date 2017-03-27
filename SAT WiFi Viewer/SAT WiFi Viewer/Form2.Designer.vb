@@ -117,6 +117,7 @@ Partial Class Form2
         Me.Controls.Add(Me.Label1)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
         Me.MinimumSize = New System.Drawing.Size(300, 300)
         Me.Name = "Form2"
         Me.Resizable = False

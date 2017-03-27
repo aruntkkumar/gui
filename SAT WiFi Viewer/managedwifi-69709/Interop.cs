@@ -518,7 +518,7 @@ namespace NativeWifi
 			/// <summary>
 			/// Gets the notification code (in the correct enumeration type) according to the notification source.
 			/// </summary>
-			public object NotificationCode
+			public object NotificationCodes
 			{
 				get
 				{
