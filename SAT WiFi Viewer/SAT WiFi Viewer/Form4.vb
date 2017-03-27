@@ -50,7 +50,9 @@ Public Class Form4
             Button1.Enabled = False
             MenuStrip1.Enabled = False
             Application.DoEvents()
-
+            TextBox9.Text = ""
+            TextBox10.Text = ""
+            TextBox11.Text = ""
             Dim connectedSsids As Collection(Of [String]) = New Collection(Of String)()
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces        'Gets a list of all the connected SSIDs
                 wlanIface.Scan()
@@ -222,7 +224,7 @@ Public Class Form4
             quality = New Double(count) {}
             rssi = New Double(count) {}
             If MonitorSSIDToolStripMenuItem.Checked = True Then
-                fullstring += "Date & Time,State,RSSI,Signal Quality,Avg Signal Quality" & vbNewLine
+                fullstring += "Date & Time,RSSI,Signal Quality,Avg Signal Quality" & vbNewLine
                 Do
                     For j As Integer = 1 To 10
                         For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
