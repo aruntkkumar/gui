@@ -54,6 +54,7 @@ Partial Class Form4
         Me.MBToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MBToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.GBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DetailedReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TextBox11 = New MetroFramework.Controls.MetroTextBox()
@@ -81,7 +82,6 @@ Partial Class Form4
         Me.Label12 = New MetroFramework.Controls.MetroLabel()
         Me.Toggle1 = New MetroFramework.Controls.MetroToggle()
         Me.ProgressBar1 = New MetroFramework.Controls.MetroProgressBar()
-        Me.DetailedReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -219,61 +219,61 @@ Partial Class Form4
         Me.NoneSelectedToolStripMenuItem.Checked = True
         Me.NoneSelectedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.NoneSelectedToolStripMenuItem.Name = "NoneSelectedToolStripMenuItem"
-        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.NoneSelectedToolStripMenuItem.Text = "None Selected"
         '
         'STATE1ToolStripMenuItem
         '
         Me.STATE1ToolStripMenuItem.Name = "STATE1ToolStripMenuItem"
-        Me.STATE1ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE1ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.STATE1ToolStripMenuItem.Text = "STATE 1"
         '
         'STATE2ToolStripMenuItem
         '
         Me.STATE2ToolStripMenuItem.Name = "STATE2ToolStripMenuItem"
-        Me.STATE2ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE2ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.STATE2ToolStripMenuItem.Text = "STATE 2"
         '
         'STATE3ToolStripMenuItem
         '
         Me.STATE3ToolStripMenuItem.Name = "STATE3ToolStripMenuItem"
-        Me.STATE3ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE3ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.STATE3ToolStripMenuItem.Text = "STATE 3"
         '
         'STATE4ToolStripMenuItem
         '
         Me.STATE4ToolStripMenuItem.Name = "STATE4ToolStripMenuItem"
-        Me.STATE4ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE4ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.STATE4ToolStripMenuItem.Text = "STATE 4"
         '
         'STATE5ToolStripMenuItem
         '
         Me.STATE5ToolStripMenuItem.Name = "STATE5ToolStripMenuItem"
-        Me.STATE5ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE5ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.STATE5ToolStripMenuItem.Text = "STATE 5"
         '
         'STATE6ToolStripMenuItem
         '
         Me.STATE6ToolStripMenuItem.Name = "STATE6ToolStripMenuItem"
-        Me.STATE6ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE6ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.STATE6ToolStripMenuItem.Text = "STATE 6"
         '
         'STATE7ToolStripMenuItem
         '
         Me.STATE7ToolStripMenuItem.Name = "STATE7ToolStripMenuItem"
-        Me.STATE7ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE7ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.STATE7ToolStripMenuItem.Text = "STATE 7"
         '
         'STATE8ToolStripMenuItem
         '
         Me.STATE8ToolStripMenuItem.Name = "STATE8ToolStripMenuItem"
-        Me.STATE8ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE8ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.STATE8ToolStripMenuItem.Text = "STATE 8"
         '
         'STATE9ToolStripMenuItem
         '
         Me.STATE9ToolStripMenuItem.Name = "STATE9ToolStripMenuItem"
-        Me.STATE9ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE9ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.STATE9ToolStripMenuItem.Text = "STATE 9"
         '
         'SpeedTestToolStripMenuItem
@@ -322,6 +322,13 @@ Partial Class Form4
         Me.GBToolStripMenuItem.Name = "GBToolStripMenuItem"
         Me.GBToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
         Me.GBToolStripMenuItem.Text = "1 GB"
+        '
+        'DetailedReportToolStripMenuItem
+        '
+        Me.DetailedReportToolStripMenuItem.Enabled = False
+        Me.DetailedReportToolStripMenuItem.Name = "DetailedReportToolStripMenuItem"
+        Me.DetailedReportToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
+        Me.DetailedReportToolStripMenuItem.Text = "Detailed Report"
         '
         'ToolStripMenuItem2
         '
@@ -860,13 +867,6 @@ Partial Class Form4
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(400, 28)
         Me.ProgressBar1.TabIndex = 170
-        '
-        'DetailedReportToolStripMenuItem
-        '
-        Me.DetailedReportToolStripMenuItem.Enabled = False
-        Me.DetailedReportToolStripMenuItem.Name = "DetailedReportToolStripMenuItem"
-        Me.DetailedReportToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
-        Me.DetailedReportToolStripMenuItem.Text = "Detailed Report"
         '
         'Form4
         '

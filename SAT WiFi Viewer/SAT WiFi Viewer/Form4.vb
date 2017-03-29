@@ -277,7 +277,7 @@ Public Class Form4
                 wc.UseDefaultCredentials = True
                 wc.Credentials = New NetworkCredential("admin", "admin")
                 'foundit = 0
-                fullstring += "Download Started..." & vbNewLine
+                fullstring += "Download Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
                 elapsedStartTime = DateTime.Now
                 If MBToolStripMenuItem.Checked = True Then
                     wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/1mb.test"), tmp1)
@@ -320,13 +320,14 @@ Public Class Form4
 
     Private Sub wc_DownloadFileCompleted(sender As Object, e As System.ComponentModel.AsyncCompletedEventArgs) Handles wc.DownloadFileCompleted
         Dim elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
-        fullstring += "Total Bytes received = " & (download / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Download Speed = " & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
+        'fullstring += "Total Bytes received = " & (download / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Download Speed = " & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
+        fullstring += (download / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
         TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'ProgressBar1.Visible = False
         ProgressBar1.Value = 0
 
         'foundit = 0
-        fullstring += "Upload Started..." & vbNewLine
+        fullstring += "Upload Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
         elapsedStartTime = DateTime.Now
         If MBToolStripMenuItem.Checked = True Then
             wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/1mb.test"), tmp1)
@@ -347,7 +348,8 @@ Public Class Form4
         'End If
         download = CDbl(e.BytesReceived)
         If DetailedReportToolStripMenuItem.Checked = True Then
-            fullstring += download & " Bytes received. Download speed = " & Math.Round((download * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
+            'fullstring += download & " Bytes received. Download speed = " & Math.Round((download * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
+            fullstring += download / 1000000 & "," & Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) & "," & Math.Round((download * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & vbNewLine
         End If
         ProgressBar1.Visible = True
         ProgressBar1.Value = e.ProgressPercentage
@@ -355,7 +357,8 @@ Public Class Form4
 
     Private Sub wc_UploadFileCompleted(sender As Object, e As System.ComponentModel.AsyncCompletedEventArgs) Handles wc.UploadFileCompleted
         Dim elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
-        fullstring += "Total Bytes sent = " & (upload / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Upload Speed = " & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps"
+        'fullstring += "Total Bytes sent = " & (upload / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Upload Speed = " & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps"
+        fullstring += (upload / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'ProgressBar1.Visible = False
         ProgressBar1.Value = 0
@@ -382,7 +385,8 @@ Public Class Form4
         'End If
         upload = CDbl(e.BytesSent)
         If DetailedReportToolStripMenuItem.Checked = True Then
-            fullstring += upload & " Bytes sent. Upload speed = " & Math.Round((upload * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
+            'fullstring += upload & " Bytes sent. Upload speed = " & Math.Round((upload * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
+            fullstring += upload / 1000000 & "," & Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) & "," & Math.Round((upload * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & vbNewLine
         End If
         ProgressBar1.Visible = True
         ProgressBar1.Value = e.ProgressPercentage
@@ -634,6 +638,19 @@ Public Class Form4
         End If
     End Sub
 
+    Private Sub NoneSelectedToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NoneSelectedToolStripMenuItem.Click
+        STATE1ToolStripMenuItem.Checked = False
+        STATE2ToolStripMenuItem.Checked = False
+        STATE3ToolStripMenuItem.Checked = False
+        STATE4ToolStripMenuItem.Checked = False
+        STATE5ToolStripMenuItem.Checked = False
+        STATE6ToolStripMenuItem.Checked = False
+        STATE7ToolStripMenuItem.Checked = False
+        STATE8ToolStripMenuItem.Checked = False
+        STATE9ToolStripMenuItem.Checked = False
+        NoneSelectedToolStripMenuItem.Checked = True
+    End Sub
+
     Private Sub MBToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MBToolStripMenuItem.Click
         MBToolStripMenuItem.Checked = True
         MBToolStripMenuItem1.Checked = False
@@ -669,4 +686,5 @@ Public Class Form4
             DetailedReportToolStripMenuItem.Checked = False
         End If
     End Sub
+
 End Class

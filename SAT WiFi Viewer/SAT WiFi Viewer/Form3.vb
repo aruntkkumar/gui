@@ -411,7 +411,8 @@ Public Class Form3
         Dim elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
         'MsgBox("Downloading completed.")
         'MsgBox("Total Bytes received = " & (download / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Download Speed = " & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps")
-        fullstring += "Total Bytes received = " & (download / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Download Speed = " & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
+        'fullstring += "Total Bytes received = " & (download / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Download Speed = " & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
+        fullstring += (download / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
         TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'ProgressBar1.Visible = False
         ProgressBar1.Value = 0
@@ -435,6 +436,7 @@ Public Class Form3
         If foundit = 0 Then
             elapsedStartTime = DateTime.Now
             foundit = 1
+            fullstring += "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
         End If
         download = CDbl(e.BytesReceived)
         ProgressBar1.Visible = True
@@ -445,7 +447,8 @@ Public Class Form3
         Dim elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
         'MsgBox("Upload completed.")
         'MsgBox("Total Bytes sent = " & (upload / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Upload Speed = " & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps")
-        fullstring += "Total Bytes sent = " & (upload / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Upload Speed = " & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps"
+        'fullstring += "Total Bytes sent = " & (upload / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Upload Speed = " & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps"
+        fullstring += (upload / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'ProgressBar1.Visible = False
         ProgressBar1.Value = 0
@@ -469,6 +472,7 @@ Public Class Form3
         If foundit = 0 Then
             elapsedStartTime = DateTime.Now
             foundit = 1
+            fullstring += "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
         End If
         upload = CDbl(e.BytesSent)
         ProgressBar1.Visible = True
