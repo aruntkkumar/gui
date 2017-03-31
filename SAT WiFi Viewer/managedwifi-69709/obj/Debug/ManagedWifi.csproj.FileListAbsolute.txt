@@ -1,0 +1,10 @@
+C:\Users\arun.kumar\Desktop\managedwifi-69709\bin\Debug\ManagedWifi.dll
+C:\Users\arun.kumar\Desktop\managedwifi-69709\bin\Debug\ManagedWifi.pdb
+C:\Users\arun.kumar\Desktop\managedwifi-69709\obj\Debug\ManagedWifi.csprojResolveAssemblyReference.cache
+C:\Users\arun.kumar\Desktop\managedwifi-69709\obj\Debug\ManagedWifi.dll
+C:\Users\arun.kumar\Desktop\managedwifi-69709\obj\Debug\ManagedWifi.pdb
+C:\Users\arun.kumar\Desktop\git_show\gui\SAT WiFi Viewer\managedwifi-69709\bin\Debug\ManagedWifi.dll
+C:\Users\arun.kumar\Desktop\git_show\gui\SAT WiFi Viewer\managedwifi-69709\bin\Debug\ManagedWifi.pdb
+C:\Users\arun.kumar\Desktop\git_show\gui\SAT WiFi Viewer\managedwifi-69709\obj\Debug\ManagedWifi.csprojResolveAssemblyReference.cache
+C:\Users\arun.kumar\Desktop\git_show\gui\SAT WiFi Viewer\managedwifi-69709\obj\Debug\ManagedWifi.dll
+C:\Users\arun.kumar\Desktop\git_show\gui\SAT WiFi Viewer\managedwifi-69709\obj\Debug\ManagedWifi.pdb
