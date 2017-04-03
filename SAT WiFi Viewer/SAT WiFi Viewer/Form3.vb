@@ -117,8 +117,10 @@ Public Class Form3
                 ComboBox1.Enabled = True
                 Exit Sub
             End If
-            If (Not Directory.Exists("\\192.168.0.1\volume(sda1)\Download_Files\")) Or (Not Directory.Exists("\\192.168.0.1\volume(sda1)\Upload_Files\")) Then
-                MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.0.1\volume(sda1)\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            'If (Not Directory.Exists("\\192.168.0.1\volume(sda1)\Download_Files\")) Or (Not Directory.Exists("\\192.168.0.1\volume(sda1)\Upload_Files\")) Then
+            If (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Download_Files\")) Or (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Upload_Files\")) Then
+                'MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.0.1\volume(sda1)\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.31.1\tddownload\TDTEMP\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
                 ComboBox1.Enabled = True
                 Exit Sub
@@ -341,14 +343,23 @@ Public Class Form3
             'elapsedStartTime = DateTime.Now
             foundit = 0
             fullstring += "Download Started..." & vbNewLine
+            'If ComboBox1.SelectedIndex = 0 Then
+            '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/1mb.test"), tmp1)
+            'ElseIf ComboBox1.SelectedIndex = 1 Then
+            '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/10mb.test"), tmp2)
+            'ElseIf ComboBox1.SelectedIndex = 2 Then
+            '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/100mb.test"), tmp3)
+            'Else
+            '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/1gb.test"), tmp4)
+            'End If
             If ComboBox1.SelectedIndex = 0 Then
-                wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/1mb.test"), tmp1)
+                wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1mb.test"), tmp1)
             ElseIf ComboBox1.SelectedIndex = 1 Then
-                wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/10mb.test"), tmp2)
+                wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/10mb.test"), tmp2)
             ElseIf ComboBox1.SelectedIndex = 2 Then
-                wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/100mb.test"), tmp3)
+                wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/100mb.test"), tmp3)
             Else
-                wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/1gb.test"), tmp4)
+                wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1gb.test"), tmp4)
             End If
 
             myserialPort.Close()
@@ -420,14 +431,23 @@ Public Class Form3
         'elapsedStartTime = DateTime.Now
         foundit = 0
         fullstring += "Upload Started..." & vbNewLine
+        'If ComboBox1.SelectedIndex = 0 Then
+        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/1mb.test"), tmp1)
+        'ElseIf ComboBox1.SelectedIndex = 1 Then
+        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/10mb.test"), tmp2)
+        'ElseIf ComboBox1.SelectedIndex = 2 Then
+        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/100mb.test"), tmp3)
+        'Else
+        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/1gb.test"), tmp4)
+        'End If
         If ComboBox1.SelectedIndex = 0 Then
-            wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/1mb.test"), tmp1)
+            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1mb.test"), tmp1)
         ElseIf ComboBox1.SelectedIndex = 1 Then
-            wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/10mb.test"), tmp2)
+            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/10mb.test"), tmp2)
         ElseIf ComboBox1.SelectedIndex = 2 Then
-            wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/100mb.test"), tmp3)
+            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/100mb.test"), tmp3)
         Else
-            wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/1gb.test"), tmp4)
+            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1gb.test"), tmp4)
         End If
 
     End Sub
