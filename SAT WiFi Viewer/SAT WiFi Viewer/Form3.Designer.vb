@@ -35,7 +35,6 @@ Partial Class Form3
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ProgressBar1 = New MetroFramework.Controls.MetroProgressBar()
-        Me.ComboBox1 = New MetroFramework.Controls.MetroComboBox()
         Me.TextBox1 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox2 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox3 = New MetroFramework.Controls.MetroTextBox()
@@ -58,7 +57,17 @@ Partial Class Form3
         Me.Label11 = New MetroFramework.Controls.MetroLabel()
         Me.TextBox10 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox11 = New MetroFramework.Controls.MetroTextBox()
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AntennaStateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NormalOperationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DisabledToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SpeedTestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Button1
@@ -67,7 +76,7 @@ Partial Class Form3
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.DisplayFocus = True
         Me.Button1.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button1.Location = New System.Drawing.Point(406, 522)
+        Me.Button1.Location = New System.Drawing.Point(406, 514)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(118, 38)
         Me.Button1.TabIndex = 28
@@ -110,7 +119,7 @@ Partial Class Form3
         Me.DataGridView1.EnableHeadersVisualStyles = False
         Me.DataGridView1.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
         Me.DataGridView1.GridColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.DataGridView1.Location = New System.Drawing.Point(469, 87)
+        Me.DataGridView1.Location = New System.Drawing.Point(474, 102)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
@@ -172,26 +181,10 @@ Partial Class Form3
         '
         Me.ProgressBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgressBar1.Location = New System.Drawing.Point(265, 479)
+        Me.ProgressBar1.Location = New System.Drawing.Point(265, 465)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(400, 28)
         Me.ProgressBar1.TabIndex = 31
-        '
-        'ComboBox1
-        '
-        Me.ComboBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ComboBox1.FontSize = MetroFramework.MetroComboBoxSize.Small
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.ItemHeight = 19
-        Me.ComboBox1.Items.AddRange(New Object() {"1 MB", "10 MB", "100 MB", "1 GB"})
-        Me.ComboBox1.Location = New System.Drawing.Point(378, 439)
-        Me.ComboBox1.MaxDropDownItems = 20
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.PromptText = "Select file size for speed test"
-        Me.ComboBox1.Size = New System.Drawing.Size(174, 25)
-        Me.ComboBox1.TabIndex = 82
-        Me.ComboBox1.UseSelectable = True
         '
         'TextBox1
         '
@@ -211,7 +204,7 @@ Partial Class Form3
         Me.TextBox1.CustomButton.Visible = False
         Me.TextBox1.Enabled = False
         Me.TextBox1.Lines = New String(-1) {}
-        Me.TextBox1.Location = New System.Drawing.Point(190, 87)
+        Me.TextBox1.Location = New System.Drawing.Point(195, 102)
         Me.TextBox1.MaxLength = 32767
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -243,7 +236,7 @@ Partial Class Form3
         Me.TextBox2.CustomButton.Visible = False
         Me.TextBox2.Enabled = False
         Me.TextBox2.Lines = New String(-1) {}
-        Me.TextBox2.Location = New System.Drawing.Point(190, 118)
+        Me.TextBox2.Location = New System.Drawing.Point(195, 133)
         Me.TextBox2.MaxLength = 32767
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -275,7 +268,7 @@ Partial Class Form3
         Me.TextBox3.CustomButton.Visible = False
         Me.TextBox3.Enabled = False
         Me.TextBox3.Lines = New String(-1) {}
-        Me.TextBox3.Location = New System.Drawing.Point(190, 149)
+        Me.TextBox3.Location = New System.Drawing.Point(195, 164)
         Me.TextBox3.MaxLength = 32767
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -307,7 +300,7 @@ Partial Class Form3
         Me.TextBox4.CustomButton.Visible = False
         Me.TextBox4.Enabled = False
         Me.TextBox4.Lines = New String(-1) {}
-        Me.TextBox4.Location = New System.Drawing.Point(190, 180)
+        Me.TextBox4.Location = New System.Drawing.Point(195, 195)
         Me.TextBox4.MaxLength = 32767
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -339,7 +332,7 @@ Partial Class Form3
         Me.TextBox5.CustomButton.Visible = False
         Me.TextBox5.Enabled = False
         Me.TextBox5.Lines = New String(-1) {}
-        Me.TextBox5.Location = New System.Drawing.Point(190, 211)
+        Me.TextBox5.Location = New System.Drawing.Point(195, 226)
         Me.TextBox5.MaxLength = 32767
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -371,7 +364,7 @@ Partial Class Form3
         Me.TextBox6.CustomButton.Visible = False
         Me.TextBox6.Enabled = False
         Me.TextBox6.Lines = New String(-1) {}
-        Me.TextBox6.Location = New System.Drawing.Point(190, 242)
+        Me.TextBox6.Location = New System.Drawing.Point(195, 257)
         Me.TextBox6.MaxLength = 32767
         Me.TextBox6.Name = "TextBox6"
         Me.TextBox6.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -403,7 +396,7 @@ Partial Class Form3
         Me.TextBox7.CustomButton.Visible = False
         Me.TextBox7.Enabled = False
         Me.TextBox7.Lines = New String(-1) {}
-        Me.TextBox7.Location = New System.Drawing.Point(190, 273)
+        Me.TextBox7.Location = New System.Drawing.Point(195, 288)
         Me.TextBox7.MaxLength = 32767
         Me.TextBox7.Name = "TextBox7"
         Me.TextBox7.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -435,7 +428,7 @@ Partial Class Form3
         Me.TextBox8.CustomButton.Visible = False
         Me.TextBox8.Enabled = False
         Me.TextBox8.Lines = New String(-1) {}
-        Me.TextBox8.Location = New System.Drawing.Point(190, 304)
+        Me.TextBox8.Location = New System.Drawing.Point(195, 319)
         Me.TextBox8.MaxLength = 32767
         Me.TextBox8.Name = "TextBox8"
         Me.TextBox8.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -456,7 +449,7 @@ Partial Class Form3
         Me.Label1.AutoSize = True
         Me.Label1.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label1.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.Label1.Location = New System.Drawing.Point(27, 92)
+        Me.Label1.Location = New System.Drawing.Point(32, 107)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(33, 15)
         Me.Label1.TabIndex = 131
@@ -469,7 +462,7 @@ Partial Class Form3
         Me.Label2.AutoSize = True
         Me.Label2.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label2.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.Label2.Location = New System.Drawing.Point(28, 123)
+        Me.Label2.Location = New System.Drawing.Point(33, 138)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(82, 15)
         Me.Label2.TabIndex = 132
@@ -482,7 +475,7 @@ Partial Class Form3
         Me.Label3.AutoSize = True
         Me.Label3.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label3.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.Label3.Location = New System.Drawing.Point(27, 154)
+        Me.Label3.Location = New System.Drawing.Point(32, 169)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(62, 15)
         Me.Label3.TabIndex = 133
@@ -495,7 +488,7 @@ Partial Class Form3
         Me.Label4.AutoSize = True
         Me.Label4.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label4.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.Label4.Location = New System.Drawing.Point(27, 185)
+        Me.Label4.Location = New System.Drawing.Point(32, 200)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(98, 15)
         Me.Label4.TabIndex = 134
@@ -508,7 +501,7 @@ Partial Class Form3
         Me.Label5.AutoSize = True
         Me.Label5.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label5.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.Label5.Location = New System.Drawing.Point(27, 216)
+        Me.Label5.Location = New System.Drawing.Point(32, 231)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(54, 15)
         Me.Label5.TabIndex = 135
@@ -521,7 +514,7 @@ Partial Class Form3
         Me.Label6.AutoSize = True
         Me.Label6.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label6.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.Label6.Location = New System.Drawing.Point(27, 247)
+        Me.Label6.Location = New System.Drawing.Point(32, 262)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(103, 15)
         Me.Label6.TabIndex = 136
@@ -534,7 +527,7 @@ Partial Class Form3
         Me.Label7.AutoSize = True
         Me.Label7.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label7.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.Label7.Location = New System.Drawing.Point(27, 278)
+        Me.Label7.Location = New System.Drawing.Point(32, 293)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(117, 15)
         Me.Label7.TabIndex = 137
@@ -547,7 +540,7 @@ Partial Class Form3
         Me.Label8.AutoSize = True
         Me.Label8.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label8.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.Label8.Location = New System.Drawing.Point(28, 309)
+        Me.Label8.Location = New System.Drawing.Point(33, 324)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(58, 15)
         Me.Label8.TabIndex = 138
@@ -560,7 +553,7 @@ Partial Class Form3
         Me.Label9.AutoSize = True
         Me.Label9.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label9.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.Label9.Location = New System.Drawing.Point(27, 340)
+        Me.Label9.Location = New System.Drawing.Point(32, 355)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(83, 15)
         Me.Label9.TabIndex = 139
@@ -584,7 +577,7 @@ Partial Class Form3
         Me.TextBox9.CustomButton.Visible = False
         Me.TextBox9.Enabled = False
         Me.TextBox9.Lines = New String(-1) {}
-        Me.TextBox9.Location = New System.Drawing.Point(190, 335)
+        Me.TextBox9.Location = New System.Drawing.Point(195, 350)
         Me.TextBox9.MaxLength = 32767
         Me.TextBox9.Name = "TextBox9"
         Me.TextBox9.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -605,7 +598,7 @@ Partial Class Form3
         Me.Label10.AutoSize = True
         Me.Label10.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label10.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.Label10.Location = New System.Drawing.Point(28, 371)
+        Me.Label10.Location = New System.Drawing.Point(33, 386)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(140, 15)
         Me.Label10.TabIndex = 141
@@ -618,7 +611,7 @@ Partial Class Form3
         Me.Label11.AutoSize = True
         Me.Label11.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label11.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.Label11.Location = New System.Drawing.Point(28, 402)
+        Me.Label11.Location = New System.Drawing.Point(33, 417)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(124, 15)
         Me.Label11.TabIndex = 142
@@ -642,7 +635,7 @@ Partial Class Form3
         Me.TextBox10.CustomButton.Visible = False
         Me.TextBox10.Enabled = False
         Me.TextBox10.Lines = New String(-1) {}
-        Me.TextBox10.Location = New System.Drawing.Point(190, 366)
+        Me.TextBox10.Location = New System.Drawing.Point(195, 381)
         Me.TextBox10.MaxLength = 32767
         Me.TextBox10.Name = "TextBox10"
         Me.TextBox10.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -674,7 +667,7 @@ Partial Class Form3
         Me.TextBox11.CustomButton.Visible = False
         Me.TextBox11.Enabled = False
         Me.TextBox11.Lines = New String(-1) {}
-        Me.TextBox11.Location = New System.Drawing.Point(190, 397)
+        Me.TextBox11.Location = New System.Drawing.Point(195, 412)
         Me.TextBox11.MaxLength = 32767
         Me.TextBox11.Name = "TextBox11"
         Me.TextBox11.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -688,11 +681,75 @@ Partial Class Form3
         Me.TextBox11.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.TextBox11.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
         '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.BackColor = System.Drawing.SystemColors.Window
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(20, 60)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(890, 24)
+        Me.MenuStrip1.TabIndex = 146
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'FileToolStripMenuItem
+        '
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AntennaStateToolStripMenuItem, Me.SpeedTestToolStripMenuItem, Me.ToolStripMenuItem2, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.FileToolStripMenuItem.Text = "File"
+        '
+        'AntennaStateToolStripMenuItem
+        '
+        Me.AntennaStateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NormalOperationToolStripMenuItem, Me.DisabledToolStripMenuItem})
+        Me.AntennaStateToolStripMenuItem.Name = "AntennaStateToolStripMenuItem"
+        Me.AntennaStateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AntennaStateToolStripMenuItem.Text = "Antenna State"
+        '
+        'NormalOperationToolStripMenuItem
+        '
+        Me.NormalOperationToolStripMenuItem.Checked = True
+        Me.NormalOperationToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.NormalOperationToolStripMenuItem.Name = "NormalOperationToolStripMenuItem"
+        Me.NormalOperationToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.NormalOperationToolStripMenuItem.Text = "Normal Operation"
+        '
+        'DisabledToolStripMenuItem
+        '
+        Me.DisabledToolStripMenuItem.Name = "DisabledToolStripMenuItem"
+        Me.DisabledToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.DisabledToolStripMenuItem.Text = "Disabled"
+        '
+        'SpeedTestToolStripMenuItem
+        '
+        Me.SpeedTestToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem})
+        Me.SpeedTestToolStripMenuItem.Name = "SpeedTestToolStripMenuItem"
+        Me.SpeedTestToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SpeedTestToolStripMenuItem.Text = "Speed Test"
+        '
+        'OptionsToolStripMenuItem
+        '
+        Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.OptionsToolStripMenuItem.Text = "Options"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
+        '
+        'ExitToolStripMenuItem
+        '
+        Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExitToolStripMenuItem.Text = "Exit"
+        '
         'Form3
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.BackMaxSize = 30
         Me.ClientSize = New System.Drawing.Size(930, 579)
+        Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.TextBox11)
         Me.Controls.Add(Me.TextBox10)
         Me.Controls.Add(Me.Label11)
@@ -715,7 +772,6 @@ Partial Class Form3
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.TextBox1)
-        Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.Button1)
@@ -727,6 +783,8 @@ Partial Class Form3
         Me.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow
         Me.Text = "SAT WiFi Data Logger"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -734,7 +792,6 @@ Partial Class Form3
     Friend WithEvents Button1 As MetroFramework.Controls.MetroButton
     Friend WithEvents DataGridView1 As MetroFramework.Controls.MetroGrid
     Friend WithEvents ProgressBar1 As MetroFramework.Controls.MetroProgressBar
-    Friend WithEvents ComboBox1 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents TextBox1 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents TextBox2 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents TextBox3 As MetroFramework.Controls.MetroTextBox
@@ -762,4 +819,13 @@ Partial Class Form3
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents TextBox11 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents MenuStrip1 As MenuStrip
+    Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AntennaStateToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SpeedTestToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
+    Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents NormalOperationToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DisabledToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OptionsToolStripMenuItem As ToolStripMenuItem
 End Class

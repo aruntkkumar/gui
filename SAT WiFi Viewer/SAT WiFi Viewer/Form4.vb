@@ -35,7 +35,37 @@ Public Class Form4
     'Dim tmp As String
     Dim WithEvents wc As New WebClient
     Dim infoReader As System.IO.FileInfo
-    Dim i As String
+    Dim state As String
+    Dim values() As String
+
+    Private Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Try
+            If System.IO.File.Exists("config.txt") Then
+                values = File.ReadAllLines("config.txt")
+                For i As Integer = 0 To values.Length - 1
+                    values(i) = values(i).Substring(values(i).IndexOf("="c) + 2)
+                Next
+                GlobalVariables.period = values(0)
+                GlobalVariables.size = values(1)
+                GlobalVariables.dfolder = values(2)
+                GlobalVariables.ufolder = values(3)
+                If values(4).ToLower = "disabled" Then
+                    GlobalVariables.detailed = False
+                Else
+                    GlobalVariables.detailed = True
+                End If
+            Else
+                GlobalVariables.period = "Unlimited"
+                GlobalVariables.size = "1 MB"
+                GlobalVariables.dfolder = "\\192.168.31.1\tddownload\TDTEMP\Download_Files\"
+                GlobalVariables.ufolder = "\\192.168.31.1\tddownload\TDTEMP\Upload_Files\"
+                GlobalVariables.detailed = False
+            End If
+        Catch ex As Exception
+            MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End Try
+    End Sub
 
     Private Sub MonitorSSIDToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MonitorSSIDToolStripMenuItem.Click
         If MonitorSSIDToolStripMenuItem.Checked = False Then
@@ -80,10 +110,10 @@ Public Class Form4
                 Exit Sub
             End If
             If SpeedTestStatusToolStripMenuItem.Checked = True Then
-                'If (Not Directory.Exists("\\192.168.0.1\volume(sda1)\Download_Files\")) Or (Not Directory.Exists("\\192.168.0.1\volume(sda1)\Upload_Files\")) Then
-                '    MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.0.1\volume(sda1)\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                If (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Download_Files\")) Or (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Upload_Files\")) Then
-                    MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.31.1\tddownload\TDTEMP\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                'If (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Download_Files\")) Or (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Upload_Files\")) Then
+                '    MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.31.1\tddownload\TDTEMP\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If (Not Directory.Exists(GlobalVariables.dfolder)) Or (Not Directory.Exists(GlobalVariables.ufolder)) Then
+                    MetroFramework.MetroMessageBox.Show(Me, "Unable to access " & TextBox1.Text & " Or " & TextBox2.Text & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Button1.Enabled = True
                     MenuStrip1.Enabled = True
                     Exit Sub
@@ -182,31 +212,31 @@ Public Class Form4
 
                 If myserialPort.IsOpen Then
                     If STATE1ToolStripMenuItem.Checked = True Then
-                        i = 1
+                        state = 1
                         myserialPort.Write("SET STATE1")
                     ElseIf STATE2ToolStripMenuItem.Checked = True Then
-                        i = 2
+                        state = 2
                         myserialPort.Write("SET STATE2")
                     ElseIf STATE3ToolStripMenuItem.Checked = True Then
-                        i = 3
+                        state = 3
                         myserialPort.Write("SET STATE3")
                     ElseIf STATE4ToolStripMenuItem.Checked = True Then
-                        i = 4
+                        state = 4
                         myserialPort.Write("SET STATE4")
                     ElseIf STATE5ToolStripMenuItem.Checked = True Then
-                        i = 5
+                        state = 5
                         myserialPort.Write("SET STATE5")
                     ElseIf STATE6ToolStripMenuItem.Checked = True Then
-                        i = 6
+                        state = 6
                         myserialPort.Write("SET STATE6")
                     ElseIf STATE7ToolStripMenuItem.Checked = True Then
-                        i = 7
+                        state = 7
                         myserialPort.Write("SET STATE7")
                     ElseIf STATE8ToolStripMenuItem.Checked = True Then
-                        i = 8
+                        state = 8
                         myserialPort.Write("SET STATE8")
                     ElseIf STATE9ToolStripMenuItem.Checked = True Then
-                        i = 9
+                        state = 9
                         myserialPort.Write("SET STATE9")
                     End If
                     Thread.Sleep(25)
@@ -214,13 +244,13 @@ Public Class Form4
                     Thread.Sleep(25)
                 End If
             Else
-                i = "None"
+                state = "None"
             End If
-            TextBox9.Text = i
-            If i = "None" Then
+            TextBox9.Text = state
+            If state = "None" Then
                 fullstring += "No State selected" & vbNewLine
             Else
-                fullstring += "STATE " & i & " selected" & vbNewLine
+                fullstring += "STATE " & state & " selected" & vbNewLine
             End If
             count = 0
             quality = New Double(count) {}
@@ -278,26 +308,26 @@ Public Class Form4
                 wc.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)")
                 wc.UseDefaultCredentials = True
                 wc.Credentials = New NetworkCredential("admin", "admin")
-                'foundit = 0
+                foundit = 0
                 fullstring += "Download Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
                 elapsedStartTime = DateTime.Now
                 'If MBToolStripMenuItem.Checked = True Then
-                '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/1mb.test"), tmp1)
+                '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1mb.test"), tmp1)
                 'ElseIf MBToolStripMenuItem1.Checked = True Then
-                '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/10mb.test"), tmp2)
+                '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/10mb.test"), tmp2)
                 'ElseIf MBToolStripMenuItem2.Checked = True Then
-                '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/100mb.test"), tmp3)
+                '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/100mb.test"), tmp3)
                 'Else
-                '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/1gb.test"), tmp4)
+                '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1gb.test"), tmp4)
                 'End If
-                If MBToolStripMenuItem.Checked = True Then
-                    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1mb.test"), tmp1)
-                ElseIf MBToolStripMenuItem1.Checked = True Then
-                    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/10mb.test"), tmp2)
-                ElseIf MBToolStripMenuItem2.Checked = True Then
-                    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/100mb.test"), tmp3)
+                If GlobalVariables.size = "1 MB" Then
+                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1)
+                ElseIf GlobalVariables.size = "10 MB" Then
+                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"), tmp2)
+                ElseIf GlobalVariables.size = "100 MB" Then
+                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "100mb.test"), tmp3)
                 Else
-                    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1gb.test"), tmp4)
+                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
                 End If
             Else
                 Button1.Enabled = True
@@ -336,29 +366,32 @@ Public Class Form4
         TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'ProgressBar1.Visible = False
         ProgressBar1.Value = 0
+        If foundit = 1 Then
+            fullstring += "Download aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
+            TextBox10.Text = "Aborted due to the set time limit of " & GlobalVariables.period
+        End If
 
-        'foundit = 0
+        foundit = 0
         fullstring += "Upload Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
         elapsedStartTime = DateTime.Now
         'If MBToolStripMenuItem.Checked = True Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/1mb.test"), tmp1)
+        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1mb.test"), tmp1)
         'ElseIf MBToolStripMenuItem1.Checked = True Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/10mb.test"), tmp2)
+        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/10mb.test"), tmp2)
         'ElseIf MBToolStripMenuItem2.Checked = True Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/100mb.test"), tmp3)
+        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/100mb.test"), tmp3)
         'Else
-        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/1gb.test"), tmp4)
+        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1gb.test"), tmp4)
         'End If
-        If MBToolStripMenuItem.Checked = True Then
-            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1mb.test"), tmp1)
-        ElseIf MBToolStripMenuItem1.Checked = True Then
-            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/10mb.test"), tmp2)
-        ElseIf MBToolStripMenuItem2.Checked = True Then
-            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/100mb.test"), tmp3)
+        If GlobalVariables.size = "1 MB" Then
+            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
+        ElseIf GlobalVariables.size = "10 MB" Then
+            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "10mb.test"), tmp2)
+        ElseIf GlobalVariables.size = "100 MB" Then
+            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "100mb.test"), tmp3)
         Else
-            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1gb.test"), tmp4)
+            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1gb.test"), tmp4)
         End If
-
     End Sub
 
     Private Sub wc_DownloadProgressChanged(sender As Object, e As DownloadProgressChangedEventArgs) Handles wc.DownloadProgressChanged
@@ -366,8 +399,13 @@ Public Class Form4
         '    elapsedStartTime = DateTime.Now
         '    foundit = 1
         'End If
+        If (GlobalVariables.period = "1 min" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 60)) Or (GlobalVariables.period = "2.5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 150)) Or (GlobalVariables.period = "5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 300)) Then
+            wc.CancelAsync()
+            foundit = 1
+            Exit Sub
+        End If
         download = CDbl(e.BytesReceived)
-        If DetailedReportToolStripMenuItem.Checked = True Then
+        If GlobalVariables.detailed = True Then
             'fullstring += download & " Bytes received. Download speed = " & Math.Round((download * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
             fullstring += download / 1000000 & "," & Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) & "," & Math.Round((download * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & vbNewLine
         End If
@@ -378,10 +416,14 @@ Public Class Form4
     Private Sub wc_UploadFileCompleted(sender As Object, e As System.ComponentModel.AsyncCompletedEventArgs) Handles wc.UploadFileCompleted
         Dim elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
         'fullstring += "Total Bytes sent = " & (upload / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Upload Speed = " & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps"
-        fullstring += (upload / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
+        fullstring += (upload / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
         TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'ProgressBar1.Visible = False
         ProgressBar1.Value = 0
+        If foundit = 1 Then
+            fullstring += "Upload aborted due to the set termination period of " & GlobalVariables.period
+            TextBox11.Text = "Aborted due to the set time limit of " & GlobalVariables.period
+        End If
 
         Button1.Enabled = True
         MenuStrip1.Enabled = True
@@ -403,8 +445,13 @@ Public Class Form4
         '    elapsedStartTime = DateTime.Now
         '    foundit = 1
         'End If
+        If (GlobalVariables.period = "1 min" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 60)) Or (GlobalVariables.period = "2.5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 150)) Or (GlobalVariables.period = "5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 300)) Then
+            wc.CancelAsync()
+            foundit = 1
+            Exit Sub
+        End If
         upload = CDbl(e.BytesSent)
-        If DetailedReportToolStripMenuItem.Checked = True Then
+        If GlobalVariables.detailed = True Then
             'fullstring += upload & " Bytes sent. Upload speed = " & Math.Round((upload * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
             fullstring += upload / 1000000 & "," & Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) & "," & Math.Round((upload * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & vbNewLine
         End If
@@ -415,12 +462,10 @@ Public Class Form4
     Private Sub SpeedTestStatusToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SpeedTestStatusToolStripMenuItem.Click
         If SpeedTestStatusToolStripMenuItem.Checked = False Then
             SpeedTestStatusToolStripMenuItem.Checked = True
-            FileSizeToolStripMenuItem.Enabled = True
-            DetailedReportToolStripMenuItem.Enabled = True
+            OptionsToolStripMenuItem.Enabled = True
         Else
             SpeedTestStatusToolStripMenuItem.Checked = False
-            FileSizeToolStripMenuItem.Enabled = False
-            DetailedReportToolStripMenuItem.Enabled = False
+            OptionsToolStripMenuItem.Enabled = False
         End If
     End Sub
 
@@ -671,40 +716,30 @@ Public Class Form4
         NoneSelectedToolStripMenuItem.Checked = True
     End Sub
 
-    Private Sub MBToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MBToolStripMenuItem.Click
-        MBToolStripMenuItem.Checked = True
-        MBToolStripMenuItem1.Checked = False
-        MBToolStripMenuItem2.Checked = False
-        GBToolStripMenuItem.Checked = False
+    Private Sub OptionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OptionsToolStripMenuItem.Click
+        Form5.ShowDialog()
     End Sub
 
-    Private Sub MBToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles MBToolStripMenuItem1.Click
-        MBToolStripMenuItem.Checked = False
-        MBToolStripMenuItem1.Checked = True
-        MBToolStripMenuItem2.Checked = False
-        GBToolStripMenuItem.Checked = False
-    End Sub
-
-    Private Sub MBToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles MBToolStripMenuItem2.Click
-        MBToolStripMenuItem.Checked = False
-        MBToolStripMenuItem1.Checked = False
-        MBToolStripMenuItem2.Checked = True
-        GBToolStripMenuItem.Checked = False
-    End Sub
-
-    Private Sub GBToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GBToolStripMenuItem.Click
-        MBToolStripMenuItem.Checked = False
-        MBToolStripMenuItem1.Checked = False
-        MBToolStripMenuItem2.Checked = False
-        GBToolStripMenuItem.Checked = True
-    End Sub
-
-    Private Sub DetailedReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailedReportToolStripMenuItem.Click
-        If DetailedReportToolStripMenuItem.Checked = False Then
-            DetailedReportToolStripMenuItem.Checked = True
+    Private Sub Form4_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        Dim list1 As List(Of String) = New List(Of String)
+        list1.Add("Termination Period = " & GlobalVariables.period)
+        list1.Add("File Size = " & GlobalVariables.size)
+        list1.Add("Download Folder = " & GlobalVariables.dfolder)
+        list1.Add("Upload Folder = " & GlobalVariables.ufolder)
+        If GlobalVariables.detailed = True Then
+            list1.Add("Detailed Report = True")
         Else
-            DetailedReportToolStripMenuItem.Checked = False
+            list1.Add("Detailed Report = False")
+        End If
+        File.WriteAllLines("config.txt", list1)
+        If myserialPort.IsOpen() Then
+            Try
+                myserialPort.Close()
+            Catch ex As Exception
+            End Try
+            'Me.Dispose()
+            Application.DoEvents()  ' Give port time to close down
+            Thread.Sleep(200)
         End If
     End Sub
-
 End Class

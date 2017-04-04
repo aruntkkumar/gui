@@ -390,6 +390,12 @@ Public Class GlobalVariables
     Public Shared ssidname As String = ""
     Public Shared macadd As String = ""
     Public Shared debug As Boolean = False
+    Public Shared dfolder As String = ""
+    Public Shared ufolder As String = ""
+    Public Shared period As String = ""
+    Public Shared size As String = ""
+    Public Shared detailed As Boolean = False
+    Public Shared okbutton As String = "cancel"
 End Class
 
 Public Class WiFi

@@ -17,3 +17,4 @@ C:\Users\arun.kumar\Desktop\git_show\gui\SAT WiFi Viewer\SAT WiFi Viewer\obj\Deb
 C:\Users\arun.kumar\Desktop\git_show\gui\SAT WiFi Viewer\SAT WiFi Viewer\bin\Debug\ManagedWifi.pdb
 C:\Users\arun.kumar\Desktop\git_show\gui\SAT WiFi Viewer\SAT WiFi Viewer\obj\Debug\SAT_WiFi_Viewer.Form3.resources
 C:\Users\arun.kumar\Desktop\git_show\gui\SAT WiFi Viewer\SAT WiFi Viewer\obj\Debug\SAT_WiFi_Viewer.Form4.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SAT WiFi Viewer\SAT WiFi Viewer\obj\Debug\SAT_WiFi_Viewer.Form5.resources

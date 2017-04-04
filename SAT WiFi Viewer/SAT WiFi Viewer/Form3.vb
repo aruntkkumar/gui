@@ -37,53 +37,80 @@ Public Class Form3
     'Dim totaltime As Double
     Dim WithEvents wc As New WebClient
     'Dim WithEvents myWebClient As New WebClient
+    Dim values() As String
 
-    'Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-    '    'AddHandler System.Windows.Forms.Application.Idle, AddressOf Application_Idle
-    '    Try
-    '        myPort = IO.Ports.SerialPort.GetPortNames()
-    '        Dim x As New ComPortFinder
-    '        Dim list = x.ComPortNames("16C0", "0483")
-    '        For Each item As String In list
-    '            For Each Str As String In myPort
-    '                If Str.Contains(item) Then
-    '                    myserialPort.PortName = item
-    '                    myserialPort.BaudRate = 115200
-    '                    myserialPort.Parity = Parity.None
-    '                    myserialPort.DataBits = 8
-    '                    myserialPort.StopBits = StopBits.One
-    '                    myserialPort.Open()
-    '                End If
-    '            Next
-    '        Next
-    '        'MsgBox(myserialPort.PortName)
-    '        'MsgBox(myserialPort.IsOpen)
-    '        If myserialPort.IsOpen Then
-    '            myserialPort.Write("INIT")
-    '            myserialPort.Write("INIT")
-    '            Thread.Sleep(25)
-    '            myserialPort.ReadLine()
-    '            Thread.Sleep(25)
-    '            myserialPort.Write("BLINK")
-    '            Thread.Sleep(25)
-    '            MsgBox(myserialPort.ReadLine())
-    '            Thread.Sleep(25)
-    '            myserialPort.Close()
-    '            Application.DoEvents()  ' Give port time to close down
-    '            Thread.Sleep(200)
-    '            MsgBox(myserialPort.IsOpen)
-    '        End If
-    '    Catch ex As Exception
+    Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        '    'AddHandler System.Windows.Forms.Application.Idle, AddressOf Application_Idle
+        '    Try
+        '        myPort = IO.Ports.SerialPort.GetPortNames()
+        '        Dim x As New ComPortFinder
+        '        Dim list = x.ComPortNames("16C0", "0483")
+        '        For Each item As String In list
+        '            For Each Str As String In myPort
+        '                If Str.Contains(item) Then
+        '                    myserialPort.PortName = item
+        '                    myserialPort.BaudRate = 115200
+        '                    myserialPort.Parity = Parity.None
+        '                    myserialPort.DataBits = 8
+        '                    myserialPort.StopBits = StopBits.One
+        '                    myserialPort.Open()
+        '                End If
+        '            Next
+        '        Next
+        '        'MsgBox(myserialPort.PortName)
+        '        'MsgBox(myserialPort.IsOpen)
+        '        If myserialPort.IsOpen Then
+        '            myserialPort.Write("INIT")
+        '            myserialPort.Write("INIT")
+        '            Thread.Sleep(25)
+        '            myserialPort.ReadLine()
+        '            Thread.Sleep(25)
+        '            myserialPort.Write("BLINK")
+        '            Thread.Sleep(25)
+        '            MsgBox(myserialPort.ReadLine())
+        '            Thread.Sleep(25)
+        '            myserialPort.Close()
+        '            Application.DoEvents()  ' Give port time to close down
+        '            Thread.Sleep(200)
+        '            MsgBox(myserialPort.IsOpen)
+        '        End If
+        '    Catch ex As Exception
 
-    '    End Try
-    'End Sub
+        '    End Try
+        Try
+            If System.IO.File.Exists("config.txt") Then
+                values = File.ReadAllLines("config.txt")
+                For i As Integer = 0 To values.Length - 1
+                    values(i) = values(i).Substring(values(i).IndexOf("="c) + 2)
+                Next
+                GlobalVariables.period = values(0)
+                GlobalVariables.size = values(1)
+                GlobalVariables.dfolder = values(2)
+                GlobalVariables.ufolder = values(3)
+                If values(4).ToLower = "disabled" Then
+                    GlobalVariables.detailed = False
+                Else
+                    GlobalVariables.detailed = True
+                End If
+            Else
+                GlobalVariables.period = "Unlimited"
+                GlobalVariables.size = "1 MB"
+                GlobalVariables.dfolder = "\\192.168.31.1\tddownload\TDTEMP\Download_Files\"
+                GlobalVariables.ufolder = "\\192.168.31.1\tddownload\TDTEMP\Upload_Files\"
+                GlobalVariables.detailed = False
+            End If
+        Catch ex As Exception
+            MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End Try
+    End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If ComboBox1.SelectedIndex = -1 Then
-            MetroFramework.MetroMessageBox.Show(Me, "Please select a file size for speed test.", "File size", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
-        ComboBox1.Enabled = False
+        'If ComboBox1.SelectedIndex = -1 Then
+        '    MetroFramework.MetroMessageBox.Show(Me, "Please select a file size for speed test.", "File size", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        '    Exit Sub
+        'End If
+        'ComboBox1.Enabled = False
         TextBox9.Text = ""
         TextBox10.Text = ""
         TextBox11.Text = ""
@@ -107,22 +134,20 @@ Public Class Form3
                         MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                     Button1.Enabled = True
-                    ComboBox1.Enabled = True
                     Exit Sub
                 End Try
             Next
             If Not connectedSsids.Contains(GlobalVariables.ssidname) Then
                 MetroFramework.MetroMessageBox.Show(Me, "WiFi Connection to """ & GlobalVariables.ssidname & """ has been lost. Please establish a connection and try again.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
-                ComboBox1.Enabled = True
                 Exit Sub
             End If
             'If (Not Directory.Exists("\\192.168.0.1\volume(sda1)\Download_Files\")) Or (Not Directory.Exists("\\192.168.0.1\volume(sda1)\Upload_Files\")) Then
-            If (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Download_Files\")) Or (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Upload_Files\")) Then
+            'If (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Download_Files\")) Or (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Upload_Files\")) Then
+            If (Not Directory.Exists(GlobalVariables.dfolder)) Or (Not Directory.Exists(GlobalVariables.ufolder)) Then
                 'MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.0.1\volume(sda1)\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.31.1\tddownload\TDTEMP\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MetroFramework.MetroMessageBox.Show(Me, "Unable to access " & TextBox1.Text & " Or " & TextBox2.Text & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
-                ComboBox1.Enabled = True
                 Exit Sub
             End If
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
@@ -182,7 +207,6 @@ Public Class Form3
                             Catch ex As Exception
                                 MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Button1.Enabled = True
-                                ComboBox1.Enabled = True
                                 Exit Sub
                             End Try
                             If ((bandwidth = 20) Or (bandwidth = 22) Or (bandwidth = 40) Or (bandwidth = 80) Or (bandwidth = 160) Or (bandwidth = 2160) Or (bandwidth = 8000)) Then
@@ -202,7 +226,6 @@ Public Class Form3
                             Else
                                 MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Button1.Enabled = True
-                                ComboBox1.Enabled = True
                                 Exit Sub
                             End If
                         End If
@@ -217,149 +240,202 @@ Public Class Form3
             'End If
             DataGridView1.Rows.Clear()
             'fullstring = ""
-            myPort = IO.Ports.SerialPort.GetPortNames()
-            Dim x As New ComPortFinder
-            Dim list = x.ComPortNames("16C0", "0483")
-            For Each item As String In list
-                For Each Str As String In myPort
-                    If Str.Contains(item) Then
-                        myserialPort.PortName = item
-                        myserialPort.BaudRate = 115200
-                        myserialPort.Parity = Parity.None
-                        myserialPort.DataBits = 8
-                        myserialPort.StopBits = StopBits.One
-                        myserialPort.Open()
-                    End If
+            If NormalOperationToolStripMenuItem.Checked = True Then
+                myPort = IO.Ports.SerialPort.GetPortNames()
+                Dim x As New ComPortFinder
+                Dim list = x.ComPortNames("16C0", "0483")
+                For Each item As String In list
+                    For Each Str As String In myPort
+                        If Str.Contains(item) Then
+                            myserialPort.PortName = item
+                            myserialPort.BaudRate = 115200
+                            myserialPort.Parity = Parity.None
+                            myserialPort.DataBits = 8
+                            myserialPort.StopBits = StopBits.One
+                            myserialPort.Open()
+                        End If
+                    Next
                 Next
-            Next
 
-            If myserialPort.IsOpen Then
-                timestamp = DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")    'Hebrew colon (׃) is from right to left
-                For i As Integer = 1 To 9
-                    myserialPort.Write("SET STATE" & i)
-                    Thread.Sleep(25)
-                    myserialPort.ReadLine()
-                    Thread.Sleep(25)
-                    count = 0
-                    quality = New Double(count) {}
-                    rssi = New Double(count) {}
-                    For j As Integer = 1 To 10
-                        For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
-                            wlanIface.Scan()
-                            Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
-                            For Each network As Wlan.WlanBssEntry In wlanBssEntries
-                                If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
-                                    Dim macAddr As Byte() = network.dot11Bssid
-                                    Dim tMac As String = ""
-                                    For k As Integer = 0 To macAddr.Length - 1
-                                        If tMac = "" Then
-                                            tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                        Else
-                                            tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                If myserialPort.IsOpen Then
+                    timestamp = DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")    'Hebrew colon (׃) is from right to left
+                    For i As Integer = 1 To 9
+                        myserialPort.Write("SET STATE" & i)
+                        Thread.Sleep(25)
+                        myserialPort.ReadLine()
+                        Thread.Sleep(25)
+                        count = 0
+                        quality = New Double(count) {}
+                        rssi = New Double(count) {}
+                        For j As Integer = 1 To 10
+                            For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                                wlanIface.Scan()
+                                Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+                                For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                                    If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+                                        Dim macAddr As Byte() = network.dot11Bssid
+                                        Dim tMac As String = ""
+                                        For k As Integer = 0 To macAddr.Length - 1
+                                            If tMac = "" Then
+                                                tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                            Else
+                                                tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                            End If
+                                        Next
+                                        If tMac.Replace(":", "") = GlobalVariables.macadd Then
+                                            count += 1
+                                            quality(count - 1) = network.linkQuality
+                                            rssi(count - 1) = network.rssi
+                                            avgquality = 0.0
+                                            avgrssi = 0.0
+                                            For Each n In quality
+                                                avgquality += n
+                                            Next
+                                            For Each n In rssi
+                                                avgrssi += n
+                                            Next
+                                            avgquality /= count
+                                            avgrssi /= count
+                                            avgquality = Math.Round(avgquality, 1)
+                                            avgrssi = Math.Round(avgrssi, 1)
+                                            fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & "STATE" & i & "," & network.rssi & "," & network.linkQuality & "," & avgquality & vbNewLine
+                                            DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), "STATE" & i, network.rssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
+                                            DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
+                                            System.Array.Resize(Of Double)(quality, count + 1)
+                                            System.Array.Resize(Of Double)(rssi, count + 1)
+                                            Application.DoEvents()
+                                            Thread.Sleep(200)
                                         End If
-                                    Next
-                                    If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                                        count += 1
-                                        quality(count - 1) = network.linkQuality
-                                        rssi(count - 1) = network.rssi
-                                        avgquality = 0.0
-                                        avgrssi = 0.0
-                                        For Each n In quality
-                                            avgquality += n
-                                        Next
-                                        For Each n In rssi
-                                            avgrssi += n
-                                        Next
-                                        avgquality /= count
-                                        avgrssi /= count
-                                        avgquality = Math.Round(avgquality, 1)
-                                        avgrssi = Math.Round(avgrssi, 1)
-                                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & "STATE" & i & "," & network.rssi & "," & network.linkQuality & "," & avgquality & vbNewLine
-                                        DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), "STATE" & i, network.rssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
-                                        DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
-                                        System.Array.Resize(Of Double)(quality, count + 1)
-                                        System.Array.Resize(Of Double)(rssi, count + 1)
-                                        Application.DoEvents()
-                                        Thread.Sleep(200)
                                     End If
-                                End If
+                                Next
                             Next
                         Next
+                        avgqualityarray(i - 1) = avgquality
+                        avgrssiarray(i - 1) = avgrssi
                     Next
-                    avgqualityarray(i - 1) = avgquality
-                    avgrssiarray(i - 1) = avgrssi
-                Next
-            Else
-                MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if Teensy 3.2 is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Button1.Enabled = True
-                ComboBox1.Enabled = True
-                Exit Sub
-            End If
-            'avgqualityarray(avgqualityarray.Length - 1) = 100
-            'MsgBox(avgqualityarray(avgqualityarray.Length - 1))
-            'MsgBox(Array.IndexOf(avgqualityarray, avgqualityarray.Max()))
-            'myserialPort.Write("SET STATE" & (Array.IndexOf(avgqualityarray, avgqualityarray.Max()) + 1))
-            rssimax = avgrssiarray(0)
-            For i As Integer = 0 To avgrssiarray.Length - 1
-                If avgrssiarray(i) > rssimax Then
-                    rssiindex = New Integer(0) {}
-                    rssiindex(0) = i + 1
-                    rssimax = avgrssiarray(i)
-                ElseIf avgrssiarray(i) = rssimax Then
-                    System.Array.Resize(Of Integer)(rssiindex, rssiindex.Length + 1)
-                    rssiindex(rssiindex.Length - 1) = i + 1
+                Else
+                    MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if Teensy 3.2 is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Button1.Enabled = True
+                    Exit Sub
                 End If
-            Next
-            qualitymax = avgqualityarray(0)
-            For i As Integer = 0 To avgqualityarray.Length - 1
-                If avgqualityarray(i) > qualitymax Then
-                    qualityindex = New Integer(0) {}
-                    qualityindex(0) = i + 1
-                    qualitymax = avgqualityarray(i)
-                ElseIf avgqualityarray(i) = qualitymax Then
-                    System.Array.Resize(Of Integer)(qualityindex, qualityindex.Length + 1)
-                    qualityindex(qualityindex.Length - 1) = i + 1
-                End If
-            Next
-            Dim z As Integer = 0
-            While z <= rssiindex.Length - 1
-                For i As Integer = 0 To qualityindex.Length - 1
-                    If rssiindex(z) = qualityindex(i) Then
-                        'myserialPort.Write("SET STATE" & (Array.IndexOf(avgrssiarray, avgrssiarray.Max()) + 1))
-                        myserialPort.Write("SET STATE" & rssiindex(z))
-                        Thread.Sleep(25)
-                        fullstring += myserialPort.ReadLine()
-                        Thread.Sleep(25)
-                        TextBox9.Text = (rssiindex(z))
-                        Exit While
+                'avgqualityarray(avgqualityarray.Length - 1) = 100
+                'MsgBox(avgqualityarray(avgqualityarray.Length - 1))
+                'MsgBox(Array.IndexOf(avgqualityarray, avgqualityarray.Max()))
+                'myserialPort.Write("SET STATE" & (Array.IndexOf(avgqualityarray, avgqualityarray.Max()) + 1))
+                rssimax = avgrssiarray(0)
+                For i As Integer = 0 To avgrssiarray.Length - 1
+                    If avgrssiarray(i) > rssimax Then
+                        rssiindex = New Integer(0) {}
+                        rssiindex(0) = i + 1
+                        rssimax = avgrssiarray(i)
+                    ElseIf avgrssiarray(i) = rssimax Then
+                        System.Array.Resize(Of Integer)(rssiindex, rssiindex.Length + 1)
+                        rssiindex(rssiindex.Length - 1) = i + 1
                     End If
                 Next
-                z += 1
-            End While
+                qualitymax = avgqualityarray(0)
+                For i As Integer = 0 To avgqualityarray.Length - 1
+                    If avgqualityarray(i) > qualitymax Then
+                        qualityindex = New Integer(0) {}
+                        qualityindex(0) = i + 1
+                        qualitymax = avgqualityarray(i)
+                    ElseIf avgqualityarray(i) = qualitymax Then
+                        System.Array.Resize(Of Integer)(qualityindex, qualityindex.Length + 1)
+                        qualityindex(qualityindex.Length - 1) = i + 1
+                    End If
+                Next
+                Dim z As Integer = 0
+                While z <= rssiindex.Length - 1
+                    For i As Integer = 0 To qualityindex.Length - 1
+                        If rssiindex(z) = qualityindex(i) Then
+                            'myserialPort.Write("SET STATE" & (Array.IndexOf(avgrssiarray, avgrssiarray.Max()) + 1))
+                            myserialPort.Write("SET STATE" & rssiindex(z))
+                            Thread.Sleep(25)
+                            fullstring += myserialPort.ReadLine()
+                            Thread.Sleep(25)
+                            TextBox9.Text = (rssiindex(z))
+                            Exit While
+                        End If
+                    Next
+                    z += 1
+                End While
+            Else
+                timestamp = DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")    'Hebrew colon (׃) is from right to left
+                count = 0
+                quality = New Double(count) {}
+                rssi = New Double(count) {}
+                For j As Integer = 1 To 10
+                    For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                        wlanIface.Scan()
+                        Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+                        For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                            If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+                                Dim macAddr As Byte() = network.dot11Bssid
+                                Dim tMac As String = ""
+                                For k As Integer = 0 To macAddr.Length - 1
+                                    If tMac = "" Then
+                                        tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                    Else
+                                        tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                    End If
+                                Next
+                                If tMac.Replace(":", "") = GlobalVariables.macadd Then
+                                    count += 1
+                                    quality(count - 1) = network.linkQuality
+                                    rssi(count - 1) = network.rssi
+                                    avgquality = 0.0
+                                    avgrssi = 0.0
+                                    For Each n In quality
+                                        avgquality += n
+                                    Next
+                                    For Each n In rssi
+                                        avgrssi += n
+                                    Next
+                                    avgquality /= count
+                                    avgrssi /= count
+                                    avgquality = Math.Round(avgquality, 1)
+                                    avgrssi = Math.Round(avgrssi, 1)
+                                    fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & "None," & network.rssi & "," & network.linkQuality & "," & avgquality & vbNewLine
+                                    DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), "None", network.rssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
+                                    DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
+                                    System.Array.Resize(Of Double)(quality, count + 1)
+                                    System.Array.Resize(Of Double)(rssi, count + 1)
+                                    Application.DoEvents()
+                                    Thread.Sleep(200)
+                                End If
+                            End If
+                        Next
+                    Next
+                Next
+
+                fullstring += "No State selected" & vbNewLine
+                TextBox9.Text = "None"
+            End If
 
             wc.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)")
             wc.UseDefaultCredentials = True
             wc.Credentials = New NetworkCredential("admin", "admin")
-            'elapsedStartTime = DateTime.Now
+
             foundit = 0
-            fullstring += "Download Started..." & vbNewLine
+            fullstring += "Download Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
+            elapsedStartTime = DateTime.Now
             'If ComboBox1.SelectedIndex = 0 Then
-            '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/1mb.test"), tmp1)
+            '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1mb.test"), tmp1)
             'ElseIf ComboBox1.SelectedIndex = 1 Then
-            '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/10mb.test"), tmp2)
+            '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/10mb.test"), tmp2)
             'ElseIf ComboBox1.SelectedIndex = 2 Then
-            '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/100mb.test"), tmp3)
+            '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/100mb.test"), tmp3)
             'Else
-            '    wc.DownloadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Download_Files/1gb.test"), tmp4)
+            '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1gb.test"), tmp4)
             'End If
-            If ComboBox1.SelectedIndex = 0 Then
-                wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1mb.test"), tmp1)
-            ElseIf ComboBox1.SelectedIndex = 1 Then
-                wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/10mb.test"), tmp2)
-            ElseIf ComboBox1.SelectedIndex = 2 Then
-                wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/100mb.test"), tmp3)
+            If GlobalVariables.size = "1 MB" Then
+                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1)
+            ElseIf GlobalVariables.size = "10 MB" Then
+                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"), tmp2)
+            ElseIf GlobalVariables.size = "100 MB" Then
+                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "100mb.test"), tmp3)
             Else
-                wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1gb.test"), tmp4)
+                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
             End If
 
             myserialPort.Close()
@@ -371,7 +447,6 @@ Public Class Form3
             'End If
             myserialPort.Close()
             Button1.Enabled = True
-            ComboBox1.Enabled = True
             'Exit Sub
         End Try
 
@@ -427,38 +502,51 @@ Public Class Form3
         TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'ProgressBar1.Visible = False
         ProgressBar1.Value = 0
+        If foundit = 1 Then
+            fullstring += "Download aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
+            TextBox10.Text = "Aborted due to the set time limit of " & GlobalVariables.period
+        End If
 
-        'elapsedStartTime = DateTime.Now
         foundit = 0
-        fullstring += "Upload Started..." & vbNewLine
+        fullstring += "Upload Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
+        elapsedStartTime = DateTime.Now
         'If ComboBox1.SelectedIndex = 0 Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/1mb.test"), tmp1)
+        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1mb.test"), tmp1)
         'ElseIf ComboBox1.SelectedIndex = 1 Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/10mb.test"), tmp2)
+        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/10mb.test"), tmp2)
         'ElseIf ComboBox1.SelectedIndex = 2 Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/100mb.test"), tmp3)
+        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/100mb.test"), tmp3)
         'Else
-        '    wc.UploadFileAsync(New Uri("file://192.168.0.1/volume(sda1)/Upload_Files/1gb.test"), tmp4)
+        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1gb.test"), tmp4)
         'End If
-        If ComboBox1.SelectedIndex = 0 Then
-            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1mb.test"), tmp1)
-        ElseIf ComboBox1.SelectedIndex = 1 Then
-            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/10mb.test"), tmp2)
-        ElseIf ComboBox1.SelectedIndex = 2 Then
-            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/100mb.test"), tmp3)
+        If GlobalVariables.size = "1 MB" Then
+            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
+        ElseIf GlobalVariables.size = "10 MB" Then
+            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "10mb.test"), tmp2)
+        ElseIf GlobalVariables.size = "100 MB" Then
+            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "100mb.test"), tmp3)
         Else
-            wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1gb.test"), tmp4)
+            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1gb.test"), tmp4)
         End If
 
     End Sub
 
     Private Sub wc_DownloadProgressChanged(sender As Object, e As DownloadProgressChangedEventArgs) Handles wc.DownloadProgressChanged
-        If foundit = 0 Then
-            elapsedStartTime = DateTime.Now
+        'If foundit = 0 Then
+        '    elapsedStartTime = DateTime.Now
+        '    foundit = 1
+        '    fullstring += "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
+        'End If
+        If (GlobalVariables.period = "1 min" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 60)) Or (GlobalVariables.period = "2.5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 150)) Or (GlobalVariables.period = "5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 300)) Then
+            wc.CancelAsync()
             foundit = 1
-            fullstring += "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
+            Exit Sub
         End If
         download = CDbl(e.BytesReceived)
+        If GlobalVariables.detailed = True Then
+            'fullstring += download & " Bytes received. Download speed = " & Math.Round((download * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
+            fullstring += download / 1000000 & "," & Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) & "," & Math.Round((download * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & vbNewLine
+        End If
         ProgressBar1.Visible = True
         ProgressBar1.Value = e.ProgressPercentage
     End Sub
@@ -468,10 +556,15 @@ Public Class Form3
         'MsgBox("Upload completed.")
         'MsgBox("Total Bytes sent = " & (upload / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Upload Speed = " & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps")
         'fullstring += "Total Bytes sent = " & (upload / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Upload Speed = " & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps"
-        fullstring += (upload / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
+        fullstring += (upload / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
         TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'ProgressBar1.Visible = False
         ProgressBar1.Value = 0
+        If foundit = 1 Then
+            fullstring += "Upload aborted due to the set termination period of " & GlobalVariables.period
+            TextBox11.Text = "Aborted due to the set time limit of " & GlobalVariables.period
+        End If
+
         timestamp = timestamp & " to " & DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")
         If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")) Then
             System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")
@@ -481,7 +574,6 @@ Public Class Form3
         sw.Write(fullstring)
         sw.Close()
         Button1.Enabled = True
-        ComboBox1.Enabled = True
         myserialPort.Close()
         Application.DoEvents()  ' Give port time to close down
         Thread.Sleep(200)
@@ -489,12 +581,21 @@ Public Class Form3
     End Sub
 
     Private Sub wc_UploadProgressChanged(sender As Object, e As UploadProgressChangedEventArgs) Handles wc.UploadProgressChanged
-        If foundit = 0 Then
-            elapsedStartTime = DateTime.Now
+        'If foundit = 0 Then
+        '    elapsedStartTime = DateTime.Now
+        '    foundit = 1
+        '    fullstring += "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
+        'End If
+        If (GlobalVariables.period = "1 min" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 60)) Or (GlobalVariables.period = "2.5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 150)) Or (GlobalVariables.period = "5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 300)) Then
+            wc.CancelAsync()
             foundit = 1
-            fullstring += "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
+            Exit Sub
         End If
         upload = CDbl(e.BytesSent)
+        If GlobalVariables.detailed = True Then
+            'fullstring += upload & " Bytes sent. Upload speed = " & Math.Round((upload * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
+            fullstring += upload / 1000000 & "," & Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) & "," & Math.Round((upload * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & vbNewLine
+        End If
         ProgressBar1.Visible = True
         ProgressBar1.Value = e.ProgressPercentage
     End Sub
@@ -594,6 +695,17 @@ Public Class Form3
     'End Sub
 
     Private Sub Form3_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        Dim list1 As List(Of String) = New List(Of String)
+        list1.Add("Termination Period = " & GlobalVariables.period)
+        list1.Add("File Size = " & GlobalVariables.size)
+        list1.Add("Download Folder = " & GlobalVariables.dfolder)
+        list1.Add("Upload Folder = " & GlobalVariables.ufolder)
+        If GlobalVariables.detailed = True Then
+            list1.Add("Detailed Report = True")
+        Else
+            list1.Add("Detailed Report = False")
+        End If
+        File.WriteAllLines("config.txt", list1)
         If myserialPort.IsOpen() Then
             Try
                 myserialPort.Close()
@@ -603,6 +715,30 @@ Public Class Form3
             Application.DoEvents()  ' Give port time to close down
             Thread.Sleep(200)
         End If
+    End Sub
+
+    Private Sub NormalOperationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NormalOperationToolStripMenuItem.Click
+        If NormalOperationToolStripMenuItem.Checked = True Then
+            DisabledToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = False
+        Else
+            DisabledToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = True
+        End If
+    End Sub
+
+    Private Sub DisabledToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisabledToolStripMenuItem.Click
+        If DisabledToolStripMenuItem.Checked = True Then
+            DisabledToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = True
+        Else
+            DisabledToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = False
+        End If
+    End Sub
+
+    Private Sub OptionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OptionsToolStripMenuItem.Click
+        Form5.ShowDialog()
     End Sub
 
     'Dim SW As Stopwatch

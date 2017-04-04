@@ -1,0 +1,74 @@
+﻿Imports System.IO
+
+Public Class Form5
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        TextBox1.Text = "\\192.168.31.1\tddownload\TDTEMP\Download_Files\"
+        TextBox2.Text = "\\192.168.31.1\tddownload\TDTEMP\Upload_Files\"
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Try
+            If (Not Directory.Exists(TextBox1.Text)) Or (Not Directory.Exists(TextBox2.Text)) Then
+                MetroFramework.MetroMessageBox.Show(Me, "Unable to access " & TextBox1.Text & " Or " & TextBox2.Text & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End Try
+        GlobalVariables.period = ComboBox1.Text
+        GlobalVariables.size = ComboBox2.Text
+        GlobalVariables.dfolder = TextBox1.Text
+        GlobalVariables.ufolder = TextBox2.Text
+        If CheckBox1.CheckState = CheckState.Checked Then
+            GlobalVariables.detailed = True
+        Else
+            GlobalVariables.detailed = False
+        End If
+        GlobalVariables.okbutton = "ok"
+        If Not Me.IsDisposed() Then
+            Try
+                Me.Dispose()
+            Catch ex As Exception
+            End Try
+        End If
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        GlobalVariables.okbutton = "cancel"
+        If Not Me.IsDisposed() Then
+            Try
+                Me.Dispose()
+            Catch ex As Exception
+            End Try
+        End If
+    End Sub
+
+    Private Sub Form5_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        TextBox1.Text = GlobalVariables.dfolder
+        TextBox2.Text = GlobalVariables.ufolder
+        If GlobalVariables.detailed = True Then
+            CheckBox1.Checked = True
+        Else
+            CheckBox1.Checked = False
+        End If
+        If GlobalVariables.period = "2.5 mins" Then
+            ComboBox1.SelectedIndex = 2
+        ElseIf GlobalVariables.period = "1 min" Then
+            ComboBox1.SelectedIndex = 1
+        ElseIf GlobalVariables.period = "5 mins" Then
+            ComboBox1.SelectedIndex = 3
+        Else
+            ComboBox1.SelectedIndex = 0
+        End If
+        If GlobalVariables.size = "1 MB" Then
+            ComboBox2.SelectedIndex = 0
+        ElseIf GlobalVariables.size = "10 MB" Then
+            ComboBox2.SelectedIndex = 1
+        ElseIf GlobalVariables.size = "100 MB" Then
+            ComboBox2.SelectedIndex = 2
+        Else
+            ComboBox2.SelectedIndex = 3
+        End If
+    End Sub
+End Class

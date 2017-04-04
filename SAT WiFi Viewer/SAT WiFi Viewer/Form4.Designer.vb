@@ -49,12 +49,7 @@ Partial Class Form4
         Me.STATE9ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SpeedTestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SpeedTestStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.FileSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MBToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MBToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DetailedReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TextBox11 = New MetroFramework.Controls.MetroTextBox()
@@ -219,66 +214,66 @@ Partial Class Form4
         Me.NoneSelectedToolStripMenuItem.Checked = True
         Me.NoneSelectedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.NoneSelectedToolStripMenuItem.Name = "NoneSelectedToolStripMenuItem"
-        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.NoneSelectedToolStripMenuItem.Text = "None Selected"
         '
         'STATE1ToolStripMenuItem
         '
         Me.STATE1ToolStripMenuItem.Name = "STATE1ToolStripMenuItem"
-        Me.STATE1ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE1ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE1ToolStripMenuItem.Text = "STATE 1"
         '
         'STATE2ToolStripMenuItem
         '
         Me.STATE2ToolStripMenuItem.Name = "STATE2ToolStripMenuItem"
-        Me.STATE2ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE2ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE2ToolStripMenuItem.Text = "STATE 2"
         '
         'STATE3ToolStripMenuItem
         '
         Me.STATE3ToolStripMenuItem.Name = "STATE3ToolStripMenuItem"
-        Me.STATE3ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE3ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE3ToolStripMenuItem.Text = "STATE 3"
         '
         'STATE4ToolStripMenuItem
         '
         Me.STATE4ToolStripMenuItem.Name = "STATE4ToolStripMenuItem"
-        Me.STATE4ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE4ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE4ToolStripMenuItem.Text = "STATE 4"
         '
         'STATE5ToolStripMenuItem
         '
         Me.STATE5ToolStripMenuItem.Name = "STATE5ToolStripMenuItem"
-        Me.STATE5ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE5ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE5ToolStripMenuItem.Text = "STATE 5"
         '
         'STATE6ToolStripMenuItem
         '
         Me.STATE6ToolStripMenuItem.Name = "STATE6ToolStripMenuItem"
-        Me.STATE6ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE6ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE6ToolStripMenuItem.Text = "STATE 6"
         '
         'STATE7ToolStripMenuItem
         '
         Me.STATE7ToolStripMenuItem.Name = "STATE7ToolStripMenuItem"
-        Me.STATE7ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE7ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE7ToolStripMenuItem.Text = "STATE 7"
         '
         'STATE8ToolStripMenuItem
         '
         Me.STATE8ToolStripMenuItem.Name = "STATE8ToolStripMenuItem"
-        Me.STATE8ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE8ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE8ToolStripMenuItem.Text = "STATE 8"
         '
         'STATE9ToolStripMenuItem
         '
         Me.STATE9ToolStripMenuItem.Name = "STATE9ToolStripMenuItem"
-        Me.STATE9ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE9ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE9ToolStripMenuItem.Text = "STATE 9"
         '
         'SpeedTestToolStripMenuItem
         '
-        Me.SpeedTestToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SpeedTestStatusToolStripMenuItem, Me.FileSizeToolStripMenuItem, Me.DetailedReportToolStripMenuItem})
+        Me.SpeedTestToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SpeedTestStatusToolStripMenuItem, Me.OptionsToolStripMenuItem})
         Me.SpeedTestToolStripMenuItem.Name = "SpeedTestToolStripMenuItem"
         Me.SpeedTestToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
         Me.SpeedTestToolStripMenuItem.Text = "Speed Test"
@@ -289,46 +284,12 @@ Partial Class Form4
         Me.SpeedTestStatusToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
         Me.SpeedTestStatusToolStripMenuItem.Text = "Speed Test Status"
         '
-        'FileSizeToolStripMenuItem
+        'OptionsToolStripMenuItem
         '
-        Me.FileSizeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MBToolStripMenuItem, Me.MBToolStripMenuItem1, Me.MBToolStripMenuItem2, Me.GBToolStripMenuItem})
-        Me.FileSizeToolStripMenuItem.Enabled = False
-        Me.FileSizeToolStripMenuItem.Name = "FileSizeToolStripMenuItem"
-        Me.FileSizeToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
-        Me.FileSizeToolStripMenuItem.Text = "File Size"
-        '
-        'MBToolStripMenuItem
-        '
-        Me.MBToolStripMenuItem.Checked = True
-        Me.MBToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.MBToolStripMenuItem.Name = "MBToolStripMenuItem"
-        Me.MBToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
-        Me.MBToolStripMenuItem.Text = "1 MB"
-        '
-        'MBToolStripMenuItem1
-        '
-        Me.MBToolStripMenuItem1.Name = "MBToolStripMenuItem1"
-        Me.MBToolStripMenuItem1.Size = New System.Drawing.Size(113, 22)
-        Me.MBToolStripMenuItem1.Text = "10 MB"
-        '
-        'MBToolStripMenuItem2
-        '
-        Me.MBToolStripMenuItem2.Name = "MBToolStripMenuItem2"
-        Me.MBToolStripMenuItem2.Size = New System.Drawing.Size(113, 22)
-        Me.MBToolStripMenuItem2.Text = "100 MB"
-        '
-        'GBToolStripMenuItem
-        '
-        Me.GBToolStripMenuItem.Name = "GBToolStripMenuItem"
-        Me.GBToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
-        Me.GBToolStripMenuItem.Text = "1 GB"
-        '
-        'DetailedReportToolStripMenuItem
-        '
-        Me.DetailedReportToolStripMenuItem.Enabled = False
-        Me.DetailedReportToolStripMenuItem.Name = "DetailedReportToolStripMenuItem"
-        Me.DetailedReportToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
-        Me.DetailedReportToolStripMenuItem.Text = "Detailed Report"
+        Me.OptionsToolStripMenuItem.Enabled = False
+        Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
+        Me.OptionsToolStripMenuItem.Text = "Options"
         '
         'ToolStripMenuItem2
         '
@@ -961,13 +922,8 @@ Partial Class Form4
     Friend WithEvents STATE8ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents STATE9ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SpeedTestStatusToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents FileSizeToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MBToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MBToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents MBToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents GBToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Label12 As MetroFramework.Controls.MetroLabel
     Friend WithEvents Toggle1 As MetroFramework.Controls.MetroToggle
     Friend WithEvents ProgressBar1 As MetroFramework.Controls.MetroProgressBar
-    Friend WithEvents DetailedReportToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OptionsToolStripMenuItem As ToolStripMenuItem
 End Class
