@@ -48,9 +48,9 @@ Public Class Form5
         TextBox1.Text = GlobalVariables.dfolder
         TextBox2.Text = GlobalVariables.ufolder
         If GlobalVariables.detailed = True Then
-            CheckBox1.Checked = True
+            CheckBox1.CheckState = CheckState.Checked
         Else
-            CheckBox1.Checked = False
+            CheckBox1.CheckState = CheckState.Unchecked
         End If
         If GlobalVariables.period = "2.5 mins" Then
             ComboBox1.SelectedIndex = 2

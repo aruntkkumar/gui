@@ -99,4 +99,31 @@ Public Class Form2
         Return hex
     End Function
 
+    Private Sub TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox1.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Try
+                For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                    Dim profileName As String = GlobalVariables.ssidname
+                    Dim hexval As String = StringToHex(GlobalVariables.ssidname)
+
+                    Dim profileXml As String = String.Format("<?xml version=""1.0""?><WLANProfile xmlns=""http://www.microsoft.com/networking/WLAN/profile/v1""><name>{0}</name><SSIDConfig><SSID><hex>{1}</hex><name>{0}</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>WPA2PSK</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passPhrase</keyType><protected>false</protected><keyMaterial>{2}</keyMaterial></sharedKey></security></MSM></WLANProfile>", GlobalVariables.ssidname, hexval, TextBox1.Text)
+                    wlanIface.SetProfile(Wlan.WlanProfileFlags.AllUser, profileXml, True)
+                    wlanIface.Connect(Wlan.WlanConnectionMode.Profile, Wlan.Dot11BssType.Any, profileName)
+                    If GlobalVariables.debug = False Then
+                        Form3.Show()
+                    Else
+                        Form4.Show()
+                    End If
+                    Me.Close()
+                    Exit Sub
+                Next
+            Catch ex As Exception
+                If ex.Message.Contains("The network connection profile is corrupted") Then
+                    MetroFramework.MetroMessageBox.Show(Me, "Wrong Password. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            End Try
+        End If
+    End Sub
 End Class

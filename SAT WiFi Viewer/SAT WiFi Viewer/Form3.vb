@@ -87,7 +87,7 @@ Public Class Form3
                 GlobalVariables.size = values(1)
                 GlobalVariables.dfolder = values(2)
                 GlobalVariables.ufolder = values(3)
-                If values(4).ToLower = "disabled" Then
+                If values(4).ToLower = "false" Then
                     GlobalVariables.detailed = False
                 Else
                     GlobalVariables.detailed = True
@@ -152,6 +152,7 @@ Public Class Form3
             End If
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                 wlanIface.Scan()
+                Thread.Sleep(1000)
                 'If (wlanIface.InterfaceState.ToString() = "Disconnecting" Or wlanIface.InterfaceState.ToString() = "Disconnected") Then
                 '    MetroFramework.MetroMessageBox.Show(Me, "WiFi Connection lost. Please establish a connection and try again.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 '    Button1.Enabled = True
@@ -270,6 +271,7 @@ Public Class Form3
                         For j As Integer = 1 To 10
                             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                                 wlanIface.Scan()
+                                Thread.Sleep(1000)
                                 Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
                                 For Each network As Wlan.WlanBssEntry In wlanBssEntries
                                     If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
@@ -367,6 +369,7 @@ Public Class Form3
                 For j As Integer = 1 To 10
                     For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                         wlanIface.Scan()
+                        Thread.Sleep(1000)
                         Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
                         For Each network As Wlan.WlanBssEntry In wlanBssEntries
                             If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
@@ -739,6 +742,10 @@ Public Class Form3
 
     Private Sub OptionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OptionsToolStripMenuItem.Click
         Form5.ShowDialog()
+    End Sub
+
+    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
+        Me.Close()
     End Sub
 
     'Dim SW As Stopwatch
