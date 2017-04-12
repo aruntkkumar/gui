@@ -3,6 +3,7 @@ Imports System.Collections.ObjectModel
 Imports System.Net.NetworkInformation
 Imports System.IO
 Imports System.Threading
+Imports System.Text
 
 Public Class Form2
 
@@ -49,6 +50,42 @@ Public Class Form2
                 'If wlanIface.InterfaceState.ToString <> "Connected" Then
                 wlanIface.SetProfile(Wlan.WlanProfileFlags.AllUser, profileXml, True)
                 wlanIface.Connect(Wlan.WlanConnectionMode.Profile, Wlan.Dot11BssType.Any, profileName)
+                'MsgBox(wlanIface.InterfaceState.ToString())
+                Thread.Sleep(1000) 'Total 10 seconds maximum, including the for loop
+                For i As Integer = 1 To 9
+                    If (wlanIface.InterfaceState.ToString() = "Authenticating" Or wlanIface.InterfaceState.ToString() = "Associating") Then
+                        Thread.Sleep(1000)
+                    ElseIf (wlanIface.InterfaceState.ToString() = "Disassociating" Or wlanIface.InterfaceState.ToString() = "Disconnected") Then
+                        Exit For
+                    ElseIf (wlanIface.InterfaceState.ToString() = "Connected") Then
+                        If GlobalVariables.debug = False Then
+                            Form3.Show()
+                        Else
+                            Form4.Show()
+                        End If
+                        Me.Close()
+                        Exit Sub
+                    End If
+                Next
+                wlanIface.DeleteProfile(profileName)
+                'Dim proc As New Process
+                'proc.StartInfo.CreateNoWindow = True
+                'proc.StartInfo.FileName = "netsh"
+                'proc.StartInfo.Arguments = "wlan disconnect interface=""" & wlanIface.InterfaceName & """"
+                'proc.StartInfo.RedirectStandardOutput = True
+                'proc.StartInfo.UseShellExecute = False
+                'proc.Start()
+                'proc.WaitForExit()
+
+                'While (wlanIface.InterfaceState.ToString() = "Authenticating" Or wlanIface.InterfaceState.ToString() = "Associating")
+                '    MsgBox(wlanIface.InterfaceState.ToString())
+                'End While
+                'If (wlanIface.InterfaceState.ToString() = "Disconnecting" Or wlanIface.InterfaceState.ToString() = "Disconnected") Then
+                '    wlanIface.DeleteProfile(profileName)
+                '    'Exit Sub
+                'Else
+
+                'End If
                 'End If
                 'MetroFramework.MetroMessageBox.Show(Me, "Attempting to connect...", "Connection Status", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 'While (wlanIface.InterfaceState.ToString() = "Authenticating" Or wlanIface.InterfaceState.ToString() = "Associating")
@@ -59,14 +96,7 @@ Public Class Form2
                 '    MetroFramework.MetroMessageBox.Show(Me, "Unable to establish a connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 '    Exit Sub
                 'End If
-                If GlobalVariables.debug = False Then
-                    Form3.Show()
-                Else
-                    Form4.Show()
-                End If
 
-                Me.Close()
-                Exit Sub
 
                 'Dim proc As New Process
                 'proc.StartInfo.CreateNoWindow = True
@@ -77,6 +107,7 @@ Public Class Form2
                 'proc.Start()
                 'proc.WaitForExit()
             Next
+            MetroFramework.MetroMessageBox.Show(Me, "Wrong Password. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             If ex.Message.Contains("The network connection profile is corrupted") Then
                 MetroFramework.MetroMessageBox.Show(Me, "Wrong Password. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)

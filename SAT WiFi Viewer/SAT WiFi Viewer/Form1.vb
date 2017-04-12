@@ -53,6 +53,22 @@ Public Class Form1
             'proc.Start()
             'proc.WaitForExit()
 
+            'Dim profname As String
+            'Dim xml As String
+            'For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+            '    ' Retrieves XML configurations of existing profiles.
+            '    ' This can assist you in constructing your own XML configuration
+            '    ' (that is, it will give you an example to follow).
+            '    For Each profileInfo As Wlan.WlanProfileInfo In wlanIface.GetProfiles()
+            '        profname = profileInfo.profileName     ' this is typically the network's SSID
+            '        Xml = wlanIface.GetProfileXml(profileInfo.profileName)
+            '        MsgBox(profname)
+            '        MsgBox(Xml)
+            '        wlanIface.DeleteProfile(profname)
+            '        MsgBox(profname & " is deleted.")
+            '    Next
+            'Next
+
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                 wlanIface.Scan()
 
@@ -310,19 +326,11 @@ Testagain:
                     Dim name As String = profileInfo.profileName
                     Dim xml As String = wlanIface.GetProfileXml(profileInfo.profileName)
                     If name = GlobalVariables.ssidname Then 'Need to check the MAC address of the profileName
-                        'Try
-                        'If wlanIface.InterfaceState.ToString <> "Connected" Then)
-                        'checkagain:
-                        '                        If Wlan.WlanNotificationCodeAcm.ScanComplete Then
-                        '                            MsgBox("Scan Complete")
-                        '                        Else
-                        '                            GoTo checkagain
-                        '                        End If
                         wlanIface.SetProfile(Wlan.WlanProfileFlags.AllUser, xml, True)
                         wlanIface.Connect(Wlan.WlanConnectionMode.Profile, Wlan.Dot11BssType.Any, name)
                         'End If
                         Application.DoEvents()
-                        Thread.Sleep(100)
+                        Thread.Sleep(1000)
                         If DebugToolStripMenuItem.Checked = False Then
                             Form3.Show()
                         Else
@@ -409,7 +417,7 @@ Testagain:
                             wlanIface.Connect(Wlan.WlanConnectionMode.Profile, Wlan.Dot11BssType.Any, name)
                             'End If
                             Application.DoEvents()
-                            Thread.Sleep(100)
+                            Thread.Sleep(1000)
                             If DebugToolStripMenuItem.Checked = False Then
                                 Form3.Show()
                             Else
