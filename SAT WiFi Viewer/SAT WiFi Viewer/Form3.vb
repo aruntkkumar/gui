@@ -147,7 +147,7 @@ Public Class Form3
             'If (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Download_Files\")) Or (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Upload_Files\")) Then
             If (Not Directory.Exists(GlobalVariables.dfolder)) Or (Not Directory.Exists(GlobalVariables.ufolder)) Then
                 'MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.0.1\volume(sda1)\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                MetroFramework.MetroMessageBox.Show(Me, "Unable to access " & TextBox1.Text & " Or " & TextBox2.Text & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MetroFramework.MetroMessageBox.Show(Me, "Unable to access " & GlobalVariables.ssidname & " Or " & GlobalVariables.macadd & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
                 Exit Sub
             End If

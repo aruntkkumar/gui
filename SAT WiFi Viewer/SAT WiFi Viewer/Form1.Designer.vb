@@ -41,6 +41,7 @@ Partial Class Form1
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DemoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -194,7 +195,7 @@ Partial Class Form1
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebugToolStripMenuItem, Me.ToolStripMenuItem2, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebugToolStripMenuItem, Me.DemoToolStripMenuItem, Me.ToolStripMenuItem2, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -202,18 +203,24 @@ Partial Class Form1
         'DebugToolStripMenuItem
         '
         Me.DebugToolStripMenuItem.Name = "DebugToolStripMenuItem"
-        Me.DebugToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
+        Me.DebugToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.DebugToolStripMenuItem.Text = "Debug Mode"
+        '
+        'DemoToolStripMenuItem
+        '
+        Me.DemoToolStripMenuItem.Name = "DemoToolStripMenuItem"
+        Me.DemoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DemoToolStripMenuItem.Text = "Demo Mode"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(140, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'Form1
@@ -255,4 +262,5 @@ Partial Class Form1
     Friend WithEvents DebugToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
     Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DemoToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -331,10 +331,12 @@ Testagain:
                         'End If
                         Application.DoEvents()
                         Thread.Sleep(1000)
-                        If DebugToolStripMenuItem.Checked = False Then
-                            Form3.Show()
-                        Else
+                        If DebugToolStripMenuItem.Checked = True Then
                             Form4.Show()
+                        ElseIf DemoToolStripMenuItem.Checked = True Then
+                            Form6.Show()
+                        Else
+                            Form3.Show()
                         End If
                         Me.Close()
                         Me.Dispose()
@@ -387,9 +389,23 @@ Testagain:
         If DebugToolStripMenuItem.Checked = False Then
             DebugToolStripMenuItem.Checked = True
             GlobalVariables.debug = True
+            DemoToolStripMenuItem.Checked = False
+            GlobalVariables.demo = False
         Else
             DebugToolStripMenuItem.Checked = False
             GlobalVariables.debug = False
+        End If
+    End Sub
+
+    Private Sub DemoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DemoToolStripMenuItem.Click
+        If DemoToolStripMenuItem.Checked = False Then
+            DemoToolStripMenuItem.Checked = True
+            GlobalVariables.demo = True
+            DebugToolStripMenuItem.Checked = False
+            GlobalVariables.debug = False
+        Else
+            DemoToolStripMenuItem.Checked = False
+            GlobalVariables.demo = False
         End If
     End Sub
 
@@ -418,10 +434,12 @@ Testagain:
                             'End If
                             Application.DoEvents()
                             Thread.Sleep(1000)
-                            If DebugToolStripMenuItem.Checked = False Then
-                                Form3.Show()
-                            Else
+                            If DebugToolStripMenuItem.Checked = True Then
                                 Form4.Show()
+                            ElseIf DemoToolStripMenuItem.Checked = True Then
+                                Form6.Show()
+                            Else
+                                Form3.Show()
                             End If
                             Me.Close()
                             Me.Dispose()
@@ -443,7 +461,6 @@ Testagain:
             Me.Close()
         End If
     End Sub
-
 
     'Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
     '    'Me.Dispose()
@@ -478,6 +495,7 @@ Public Class GlobalVariables
     Public Shared ssidname As String = ""
     Public Shared macadd As String = ""
     Public Shared debug As Boolean = False
+    Public Shared demo As Boolean = False
     Public Shared dfolder As String = ""
     Public Shared ufolder As String = ""
     Public Shared period As String = ""

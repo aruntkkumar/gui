@@ -6,24 +6,26 @@ Imports System.Text
 Imports System.Threading
 Imports NativeWifi
 
-Public Class Form4
+Public Class Form6
 
     Dim fullstring As String
     Dim timestamp As String
     Dim frequency As Double
     Dim channelnumber As Integer
-    Dim datarate As Integer
-    Dim count As Integer
-    Dim quality() As Double
-    Dim avgquality As Double
-    Dim avgqualityarray(8) As Double
-    Dim qualitymax As Double
-    Dim qualityindex(-1) As Integer
-    Dim rssi() As Double
-    Dim avgrssi As Double
-    Dim avgrssiarray(8) As Double
-    Dim rssimax As Double
-    Dim rssiindex(-1) As Integer
+    'Dim datarate As Integer
+    'Dim count As Integer
+    'Dim quality() As Double
+    'Dim avgquality As Double
+    'Dim avgqualityarray(8) As Double
+    'Dim qualitymax As Double
+    'Dim qualityindex(-1) As Integer
+    'Dim rssi() As Double
+    'Dim avgrssi As Double
+    'Dim avgrssiarray(8) As Double
+    'Dim rssimax As Double
+    'Dim rssiindex(-1) As Integer
+    Dim quality As Double
+    Dim rssi As Double
     Dim bandwidth As Integer
     Dim foundit As Integer
     Dim download As Double
@@ -37,8 +39,10 @@ Public Class Form4
     Dim infoReader As System.IO.FileInfo
     Dim state As String
     Dim values() As String
+    Dim comread As String
+    Delegate Sub SetTextCallBack(ByVal [text] As String)
 
-    Private Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Form6_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             If System.IO.File.Exists("config.txt") Then
                 values = File.ReadAllLines("config.txt")
@@ -67,22 +71,43 @@ Public Class Form4
         End Try
     End Sub
 
-    Private Sub MonitorSSIDToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MonitorSSIDToolStripMenuItem.Click
-        If MonitorSSIDToolStripMenuItem.Checked = False Then
-            MonitorSSIDToolStripMenuItem.Checked = True
+    Private Sub Form6_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        Dim list1 As List(Of String) = New List(Of String)
+        list1.Add("Termination Period = " & GlobalVariables.period)
+        list1.Add("File Size = " & GlobalVariables.size)
+        list1.Add("Download Folder = " & GlobalVariables.dfolder)
+        list1.Add("Upload Folder = " & GlobalVariables.ufolder)
+        If GlobalVariables.detailed = True Then
+            list1.Add("Detailed Report = True")
         Else
-            MonitorSSIDToolStripMenuItem.Checked = False
+            list1.Add("Detailed Report = False")
+        End If
+        File.WriteAllLines("config.txt", list1)
+        If myserialPort.IsOpen() Then
+            Try
+                myserialPort.Close()
+            Catch ex As Exception
+            End Try
+            'Me.Dispose()
+            Application.DoEvents()  ' Give port time to close down
+            Thread.Sleep(200)
         End If
     End Sub
 
+    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
+        Me.Close()
+    End Sub
+
+    Private Sub OptionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OptionsToolStripMenuItem.Click
+        Form5.ShowDialog()
+    End Sub
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        TextBox6.Text = ""
+        TextBox7.Text = ""
+        TextBox8.Text = ""
+        Button1.Enabled = False
         Try
-            Button1.Enabled = False
-            MenuStrip1.Enabled = False
-            Application.DoEvents()
-            TextBox9.Text = ""
-            TextBox10.Text = ""
-            TextBox11.Text = ""
             Dim connectedSsids As Collection(Of [String]) = New Collection(Of String)()
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces        'Gets a list of all the connected SSIDs
                 wlanIface.Scan()
@@ -100,33 +125,25 @@ Public Class Form4
                         MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                     Button1.Enabled = True
-                    MenuStrip1.Enabled = True
                     Exit Sub
                 End Try
             Next
             If Not connectedSsids.Contains(GlobalVariables.ssidname) Then
                 MetroFramework.MetroMessageBox.Show(Me, "WiFi Connection to """ & GlobalVariables.ssidname & """ has been lost. Please establish a connection and try again.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
-                MenuStrip1.Enabled = True
                 Exit Sub
             End If
-            If SpeedTestStatusToolStripMenuItem.Checked = True Then
-                'If (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Download_Files\")) Or (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Upload_Files\")) Then
-                '    MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.31.1\tddownload\TDTEMP\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                If (Not Directory.Exists(GlobalVariables.dfolder)) Or (Not Directory.Exists(GlobalVariables.ufolder)) Then
-                    MetroFramework.MetroMessageBox.Show(Me, "Unable to access " & GlobalVariables.ssidname & " Or " & GlobalVariables.macadd & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Button1.Enabled = True
-                    MenuStrip1.Enabled = True
-                    Exit Sub
-                End If
+            If (Not Directory.Exists(GlobalVariables.dfolder)) Or (Not Directory.Exists(GlobalVariables.ufolder)) Then
+                MetroFramework.MetroMessageBox.Show(Me, "Unable to access " & GlobalVariables.ssidname & " Or " & GlobalVariables.macadd & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Button1.Enabled = True
+                Exit Sub
             End If
-            timestamp = DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")    'Hebrew colon (׃) is from right to left
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                 wlanIface.Scan()
                 Thread.Sleep(1000)
                 Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
                 For Each network As Wlan.WlanBssEntry In wlanBssEntries
-                    If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+                    If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then
                         Dim macAddr As Byte() = network.dot11Bssid
                         Dim tMac As String = ""
                         For i As Integer = 0 To macAddr.Length - 1
@@ -157,36 +174,32 @@ Public Class Form4
                                     End If
                                 End If
                             End If
-                            datarate = 0
-                            For i As Integer = 0 To network.wlanRateSet.Rates.Length + 10
-                                If network.wlanRateSet.GetRateInMbps(i) > datarate Then
-                                    datarate = network.wlanRateSet.GetRateInMbps(i)
-                                End If
-                            Next
+                            'datarate = 0
+                            'For i As Integer = 0 To network.wlanRateSet.Rates.Length + 10
+                            '    If network.wlanRateSet.GetRateInMbps(i) > datarate Then
+                            '        datarate = network.wlanRateSet.GetRateInMbps(i)
+                            '    End If
+                            'Next
                             bandwidth = 0
                             Try
                                 bandwidth = CInt(InputBox("Please enter the channel bandwidth in MHz.", "Bandwidth Information", 20))
                             Catch ex As Exception
                                 MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Button1.Enabled = True
-                                MenuStrip1.Enabled = True
                                 Exit Sub
                             End Try
                             If ((bandwidth = 20) Or (bandwidth = 22) Or (bandwidth = 40) Or (bandwidth = 80) Or (bandwidth = 160) Or (bandwidth = 2160) Or (bandwidth = 8000)) Then
                                 TextBox1.Text = GlobalVariables.ssidname
                                 TextBox2.Text = tMac
-                                TextBox3.Text = network.dot11BssPhyType
-                                TextBox4.Text = frequency
-                                TextBox5.Text = wlanIface.Channel
-                                TextBox6.Text = bandwidth
-                                TextBox7.Text = datarate
-                                TextBox8.Text = network.dot11BssType
-                                fullstring = "SSID = " & GlobalVariables.ssidname & vbNewLine & "MAC Address = " & tMac & vbNewLine & "PHY Type = " & network.dot11BssPhyType & vbNewLine & "Frequency = " & frequency & vbNewLine & "Channel = " & wlanIface.Channel & vbNewLine & "Bandwidth = " & bandwidth & vbNewLine & "Maximum Data Rate = " & datarate & vbNewLine & "BSS Type = " & network.dot11BssType & vbNewLine
+                                TextBox3.Text = frequency
+                                TextBox4.Text = wlanIface.Channel
+                                TextBox5.Text = bandwidth
+                                fullstring = "SSID = " & GlobalVariables.ssidname & vbNewLine & "MAC Address = " & tMac & vbNewLine & "Frequency = " & frequency & vbNewLine & "Channel = " & wlanIface.Channel & vbNewLine & "Bandwidth = " & bandwidth & vbNewLine
+                                fullstring += "Date & Time,RSSI,Signal Quality" & vbNewLine
                                 Exit For
                             Else
                                 MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Button1.Enabled = True
-                                MenuStrip1.Enabled = True
                                 Exit Sub
                             End If
                         End If
@@ -194,73 +207,134 @@ Public Class Form4
                 Next
             Next
 
-            DataGridView1.Rows.Clear()
-            If NoneSelectedToolStripMenuItem.Checked = False Then
-                myPort = IO.Ports.SerialPort.GetPortNames()
-                Dim x As New ComPortFinder
-                Dim list = x.ComPortNames("16C0", "0483")
-                For Each item As String In list
-                    For Each Str As String In myPort
-                        If Str.Contains(item) Then
-                            myserialPort.PortName = item
-                            myserialPort.BaudRate = 115200
-                            myserialPort.Parity = Parity.None
-                            myserialPort.DataBits = 8
-                            myserialPort.StopBits = StopBits.One
-                            myserialPort.Open()
-                        End If
-                    Next
+            myPort = IO.Ports.SerialPort.GetPortNames()
+            Dim x As New ComPortFinder
+            Dim list = x.ComPortNames("0403", "6001")
+            For Each item As String In list
+                For Each Str As String In myPort
+                    If Str.Contains(item) Then
+                        myserialPort.PortName = item
+                        myserialPort.BaudRate = 9600
+                        myserialPort.Parity = Parity.None
+                        myserialPort.DataBits = 8
+                        myserialPort.StopBits = StopBits.One
+                        myserialPort.Open()
+                    End If
                 Next
+            Next
 
-                If myserialPort.IsOpen Then
+            If myserialPort.IsOpen Then
+                RichTextBox1.Text = "Starting to test" & vbNewLine
+                myserialPort.Write(&HFF)
+                myserialPort.ReadLine()
+                myserialPort.ReadExisting()
+                Thread.Sleep(25)
+                If NormalOperationToolStripMenuItem.Checked = True Then
+                    myserialPort.Write(&H4E)        'Hex value for char 'N'
+                    myserialPort.ReadLine()
+                    myserialPort.ReadExisting()
+                    Thread.Sleep(25)
+                    RichTextBox1.Text &= "Date & Time | RSSI | Signal Quality" & vbNewLine
+                    For i As Integer = 0 To 4
+                        For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                            wlanIface.Scan()
+                            Thread.Sleep(1000)
+                            Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+                            For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                                If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+                                    Dim macAddr As Byte() = network.dot11Bssid
+                                    Dim tMac As String = ""
+                                    For k As Integer = 0 To macAddr.Length - 1
+                                        If tMac = "" Then
+                                            tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                        Else
+                                            tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                        End If
+                                    Next
+                                    If tMac.Replace(":", "") = GlobalVariables.macadd Then
+                                        quality = network.linkQuality
+                                        rssi = network.rssi
+                                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
+                                        RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " " & network.rssi & " " & network.linkQuality & vbNewLine
+                                        Application.DoEvents()
+                                        Thread.Sleep(100)
+                                    End If
+                                End If
+                            Next
+                        Next
+
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
+                        While (comread <> &H52)
+                        End While
+                        myserialPort.Write(rssi)
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
+                        While (comread <> &H4C)
+                        End While
+                        myserialPort.Write(quality)
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
+                    Next
+                    While (comread <> &H53)
+                    End While
+                    myserialPort.ReadLine()
+                    myserialPort.ReadExisting()
+                    TextBox6.Text = comread
+                Else
+                    myserialPort.Write(&H73)        'Hex value for char 's'
+                    myserialPort.ReadLine()
+                    myserialPort.ReadExisting()
+                    Thread.Sleep(25)
                     If STATE1ToolStripMenuItem.Checked = True Then
                         state = 1
-                        myserialPort.Write("SET STATE1")
+                        myserialPort.Write(&H1)
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
                     ElseIf STATE2ToolStripMenuItem.Checked = True Then
                         state = 2
-                        myserialPort.Write("SET STATE2")
+                        myserialPort.Write(&H2)
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
                     ElseIf STATE3ToolStripMenuItem.Checked = True Then
                         state = 3
-                        myserialPort.Write("SET STATE3")
+                        myserialPort.Write(&H3)
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
                     ElseIf STATE4ToolStripMenuItem.Checked = True Then
                         state = 4
-                        myserialPort.Write("SET STATE4")
+                        myserialPort.Write(&H4)
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
                     ElseIf STATE5ToolStripMenuItem.Checked = True Then
                         state = 5
-                        myserialPort.Write("SET STATE5")
+                        myserialPort.Write(&H5)
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
                     ElseIf STATE6ToolStripMenuItem.Checked = True Then
                         state = 6
-                        myserialPort.Write("SET STATE6")
+                        myserialPort.Write(&H6)
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
                     ElseIf STATE7ToolStripMenuItem.Checked = True Then
                         state = 7
-                        myserialPort.Write("SET STATE7")
+                        myserialPort.Write(&H7)
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
                     ElseIf STATE8ToolStripMenuItem.Checked = True Then
                         state = 8
-                        myserialPort.Write("SET STATE8")
+                        myserialPort.Write(&H8)
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
                     ElseIf STATE9ToolStripMenuItem.Checked = True Then
                         state = 9
-                        myserialPort.Write("SET STATE9")
+                        myserialPort.Write(&H9)
+                        myserialPort.ReadLine()
+                        myserialPort.ReadExisting()
                     End If
+                    RichTextBox1.Text &= "State " & state & "selected" & vbNewLine
                     Thread.Sleep(25)
-                    myserialPort.ReadLine()
-                    Thread.Sleep(25)
-                End If
-            Else
-                state = "None"
-            End If
-            TextBox9.Text = state
-            If state = "None" Then
-                fullstring += "No State selected" & vbNewLine
-            Else
-                fullstring += "STATE " & state & " selected" & vbNewLine
-            End If
-            count = 0
-            quality = New Double(count) {}
-            rssi = New Double(count) {}
-            If MonitorSSIDToolStripMenuItem.Checked = True Then
-                fullstring += "Date & Time,RSSI,Signal Quality,Avg Signal Quality" & vbNewLine
-                'First 10 times are compulsory
-                For j As Integer = 1 To 10
+                    RichTextBox1.Text &= "Date & Time | RSSI | Signal Quality" & vbNewLine
                     For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                         wlanIface.Scan()
                         Thread.Sleep(1000)
@@ -277,127 +351,82 @@ Public Class Form4
                                     End If
                                 Next
                                 If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                                    count += 1
-                                    quality(count - 1) = network.linkQuality
-                                    rssi(count - 1) = network.rssi
-                                    avgquality = 0.0
-                                    avgrssi = 0.0
-                                    For Each n In quality
-                                        avgquality += n
-                                    Next
-                                    For Each n In rssi
-                                        avgrssi += n
-                                    Next
-                                    avgquality /= count
-                                    avgrssi /= count
-                                    avgquality = Math.Round(avgquality, 1)
-                                    avgrssi = Math.Round(avgrssi, 1)
-                                    fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & "," & avgquality & vbNewLine
-                                    DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), network.rssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
-                                    DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
-                                    System.Array.Resize(Of Double)(quality, count + 1)
-                                    System.Array.Resize(Of Double)(rssi, count + 1)
+                                    quality = network.linkQuality
+                                    rssi = network.rssi
+                                    fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
+                                    RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " " & network.rssi & " " & network.linkQuality & vbNewLine
                                     Application.DoEvents()
-                                    Thread.Sleep(200)
+                                    Thread.Sleep(100)
                                 End If
                             End If
                         Next
                     Next
-                Next
-
-                Do
-                    For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
-                        wlanIface.Scan()
-                        Thread.Sleep(1000)
-                        Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
-                        For Each network As Wlan.WlanBssEntry In wlanBssEntries
-                            If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
-                                Dim macAddr As Byte() = network.dot11Bssid
-                                Dim tMac As String = ""
-                                For k As Integer = 0 To macAddr.Length - 1
-                                    If tMac = "" Then
-                                        tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                    Else
-                                        tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                    End If
-                                Next
-                                If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                                    count += 1
-                                    quality(count - 1) = network.linkQuality
-                                    rssi(count - 1) = network.rssi
-                                    avgquality = 0.0
-                                    avgrssi = 0.0
-                                    For Each n In quality
-                                        avgquality += n
-                                    Next
-                                    For Each n In rssi
-                                        avgrssi += n
-                                    Next
-                                    avgquality /= count
-                                    avgrssi /= count
-                                    avgquality = Math.Round(avgquality, 1)
-                                    avgrssi = Math.Round(avgrssi, 1)
-                                    fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & "," & avgquality & vbNewLine
-                                    DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), network.rssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
-                                    DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
-                                    System.Array.Resize(Of Double)(quality, count + 1)
-                                    System.Array.Resize(Of Double)(rssi, count + 1)
-                                    Application.DoEvents()
-                                    Thread.Sleep(200)
-                                End If
-                            End If
-                        Next
-                    Next
-                Loop Until Toggle1.Checked = False
-            End If
-
-            If SpeedTestStatusToolStripMenuItem.Checked = True Then
-                wc.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)")
-                wc.UseDefaultCredentials = True
-                wc.Credentials = New NetworkCredential("admin", "admin")
-                foundit = 0
-                fullstring += "Download Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
-                elapsedStartTime = DateTime.Now
-                'If MBToolStripMenuItem.Checked = True Then
-                '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1mb.test"), tmp1)
-                'ElseIf MBToolStripMenuItem1.Checked = True Then
-                '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/10mb.test"), tmp2)
-                'ElseIf MBToolStripMenuItem2.Checked = True Then
-                '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/100mb.test"), tmp3)
-                'Else
-                '    wc.DownloadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Download_Files/1gb.test"), tmp4)
-                'End If
-                If GlobalVariables.size = "1 MB" Then
-                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1)
-                ElseIf GlobalVariables.size = "10 MB" Then
-                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"), tmp2)
-                ElseIf GlobalVariables.size = "100 MB" Then
-                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "100mb.test"), tmp3)
-                Else
-                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
                 End If
             Else
+                MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if FT232RQ is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
-                MenuStrip1.Enabled = True
-                timestamp = timestamp & " to " & DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")
-                If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")) Then
-                    System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")
-                End If
-                Dim sw As New StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\" & timestamp & ".csv")
-                sw.Write(fullstring)
-                sw.Close()
-                myserialPort.Close()
-                Application.DoEvents()  ' Give port time to close down
-                Thread.Sleep(200)
-                MetroFramework.MetroMessageBox.Show(Me, "Test results are saved under """ & Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\"" as " & """" & timestamp & ".csv""", "TEST COMPLETE", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
             End If
-            'Application.DoEvents()
-            'Thread.Sleep(100)
 
+            'rssimax = avgrssiarray(0)
+            '    For i As Integer = 0 To avgrssiarray.Length - 1
+            '        If avgrssiarray(i) > rssimax Then
+            '            rssiindex = New Integer(0) {}
+            '            rssiindex(0) = i + 1
+            '            rssimax = avgrssiarray(i)
+            '        ElseIf avgrssiarray(i) = rssimax Then
+            '            System.Array.Resize(Of Integer)(rssiindex, rssiindex.Length + 1)
+            '            rssiindex(rssiindex.Length - 1) = i + 1
+            '        End If
+            '    Next
+            '    qualitymax = avgqualityarray(0)
+            'For i As Integer = 0 To avgqualityarray.Length - 1
+            '    If avgqualityarray(i) > qualitymax Then
+            '        qualityindex = New Integer(0) {}
+            '        qualityindex(0) = i + 1
+            '        qualitymax = avgqualityarray(i)
+            '    ElseIf avgqualityarray(i) = qualitymax Then
+            '        System.Array.Resize(Of Integer)(qualityindex, qualityindex.Length + 1)
+            '        qualityindex(qualityindex.Length - 1) = i + 1
+            '    End If
+            'Next
+            'Dim z As Integer = 0
+            'While z <= rssiindex.Length - 1
+            '    For i As Integer = 0 To qualityindex.Length - 1
+            '        If rssiindex(z) = qualityindex(i) Then
+            '            myserialPort.Write("SET STATE" & rssiindex(z))
+            '            Thread.Sleep(25)
+            '            fullstring += myserialPort.ReadLine()
+            '            Thread.Sleep(25)
+            '            TextBox6.Text = (rssiindex(z))
+            '            Exit While
+            '        End If
+            '    Next
+            '    z += 1
+            'End While
+
+            wc.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)")
+            wc.UseDefaultCredentials = True
+            wc.Credentials = New NetworkCredential("admin", "admin")
+
+            foundit = 0
+            fullstring += "Download Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
+            elapsedStartTime = DateTime.Now
+            If GlobalVariables.size = "1 MB" Then
+                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1)
+            ElseIf GlobalVariables.size = "10 MB" Then
+                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"), tmp2)
+            ElseIf GlobalVariables.size = "100 MB" Then
+                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "100mb.test"), tmp3)
+            Else
+                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
+            End If
+
+            myserialPort.Close()
         Catch ex As Exception
             MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            myserialPort.Close()
             Button1.Enabled = True
-            MenuStrip1.Enabled = True
         End Try
     End Sub
 
@@ -408,28 +437,17 @@ Public Class Form4
 
     Private Sub wc_DownloadFileCompleted(sender As Object, e As System.ComponentModel.AsyncCompletedEventArgs) Handles wc.DownloadFileCompleted
         Dim elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
-        'fullstring += "Total Bytes received = " & (download / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Download Speed = " & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
         fullstring += (download / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
-        TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
-        'ProgressBar1.Visible = False
+        TextBox7.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         ProgressBar1.Value = 0
         If foundit = 1 Then
             fullstring += "Download aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
-            TextBox10.Text = "Aborted due to the set time limit of " & GlobalVariables.period
+            TextBox7.Text = "Aborted due to the set time limit of " & GlobalVariables.period
         End If
 
         foundit = 0
         fullstring += "Upload Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
         elapsedStartTime = DateTime.Now
-        'If MBToolStripMenuItem.Checked = True Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1mb.test"), tmp1)
-        'ElseIf MBToolStripMenuItem1.Checked = True Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/10mb.test"), tmp2)
-        'ElseIf MBToolStripMenuItem2.Checked = True Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/100mb.test"), tmp3)
-        'Else
-        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1gb.test"), tmp4)
-        'End If
         If GlobalVariables.size = "1 MB" Then
             wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
         ElseIf GlobalVariables.size = "10 MB" Then
@@ -442,10 +460,6 @@ Public Class Form4
     End Sub
 
     Private Sub wc_DownloadProgressChanged(sender As Object, e As DownloadProgressChangedEventArgs) Handles wc.DownloadProgressChanged
-        'If foundit = 0 Then
-        '    elapsedStartTime = DateTime.Now
-        '    foundit = 1
-        'End If
         If (GlobalVariables.period = "1 min" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 60)) Or (GlobalVariables.period = "2.5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 150)) Or (GlobalVariables.period = "5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 300)) Then
             wc.CancelAsync()
             foundit = 1
@@ -453,7 +467,6 @@ Public Class Form4
         End If
         download = CDbl(e.BytesReceived)
         If GlobalVariables.detailed = True Then
-            'fullstring += download & " Bytes received. Download speed = " & Math.Round((download * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
             fullstring += download / 1000000 & "," & Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) & "," & Math.Round((download * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & vbNewLine
         End If
         ProgressBar1.Visible = True
@@ -462,14 +475,12 @@ Public Class Form4
 
     Private Sub wc_UploadFileCompleted(sender As Object, e As System.ComponentModel.AsyncCompletedEventArgs) Handles wc.UploadFileCompleted
         Dim elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
-        'fullstring += "Total Bytes sent = " & (upload / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Upload Speed = " & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps"
         fullstring += (upload / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
-        TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
-        'ProgressBar1.Visible = False
+        TextBox8.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         ProgressBar1.Value = 0
         If foundit = 1 Then
             fullstring += "Upload aborted due to the set termination period of " & GlobalVariables.period
-            TextBox11.Text = "Aborted due to the set time limit of " & GlobalVariables.period
+            TextBox8.Text = "Aborted due to the set time limit of " & GlobalVariables.period
         End If
 
         Button1.Enabled = True
@@ -488,10 +499,6 @@ Public Class Form4
     End Sub
 
     Private Sub wc_UploadProgressChanged(sender As Object, e As UploadProgressChangedEventArgs) Handles wc.UploadProgressChanged
-        'If foundit = 0 Then
-        '    elapsedStartTime = DateTime.Now
-        '    foundit = 1
-        'End If
         If (GlobalVariables.period = "1 min" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 60)) Or (GlobalVariables.period = "2.5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 150)) Or (GlobalVariables.period = "5 mins" AndAlso (Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) > 300)) Then
             wc.CancelAsync()
             foundit = 1
@@ -499,21 +506,23 @@ Public Class Form4
         End If
         upload = CDbl(e.BytesSent)
         If GlobalVariables.detailed = True Then
-            'fullstring += upload & " Bytes sent. Upload speed = " & Math.Round((upload * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
             fullstring += upload / 1000000 & "," & Math.Round((DateTime.Now.Subtract(elapsedStartTime).TotalSeconds), 2) & "," & Math.Round((upload * 8 / (DateTime.Now.Subtract(elapsedStartTime).TotalSeconds * 1000000)), 2) & vbNewLine
         End If
         ProgressBar1.Visible = True
         ProgressBar1.Value = e.ProgressPercentage
     End Sub
 
-    Private Sub SpeedTestStatusToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SpeedTestStatusToolStripMenuItem.Click
-        If SpeedTestStatusToolStripMenuItem.Checked = False Then
-            SpeedTestStatusToolStripMenuItem.Checked = True
-            OptionsToolStripMenuItem.Enabled = True
-        Else
-            SpeedTestStatusToolStripMenuItem.Checked = False
-            OptionsToolStripMenuItem.Enabled = False
-        End If
+    Private Sub NormalOperationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NormalOperationToolStripMenuItem.Click
+        STATE1ToolStripMenuItem.Checked = False
+        STATE2ToolStripMenuItem.Checked = False
+        STATE3ToolStripMenuItem.Checked = False
+        STATE4ToolStripMenuItem.Checked = False
+        STATE5ToolStripMenuItem.Checked = False
+        STATE6ToolStripMenuItem.Checked = False
+        STATE7ToolStripMenuItem.Checked = False
+        STATE8ToolStripMenuItem.Checked = False
+        STATE9ToolStripMenuItem.Checked = False
+        NormalOperationToolStripMenuItem.Checked = True
     End Sub
 
     Private Sub STATE1ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles STATE1ToolStripMenuItem.Click
@@ -527,7 +536,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
             STATE2ToolStripMenuItem.Checked = False
@@ -538,7 +547,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
 
@@ -553,7 +562,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
             STATE2ToolStripMenuItem.Checked = False
@@ -564,7 +573,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
 
@@ -579,7 +588,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
             STATE2ToolStripMenuItem.Checked = False
@@ -590,7 +599,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
 
@@ -605,7 +614,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
             STATE2ToolStripMenuItem.Checked = False
@@ -616,7 +625,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
 
@@ -631,7 +640,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
             STATE2ToolStripMenuItem.Checked = False
@@ -642,7 +651,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
 
@@ -657,7 +666,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
             STATE2ToolStripMenuItem.Checked = False
@@ -668,7 +677,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
 
@@ -683,7 +692,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = True
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
             STATE2ToolStripMenuItem.Checked = False
@@ -694,7 +703,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
 
@@ -709,7 +718,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = True
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
             STATE2ToolStripMenuItem.Checked = False
@@ -720,7 +729,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
 
@@ -735,7 +744,7 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = True
-            NoneSelectedToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
             STATE2ToolStripMenuItem.Checked = False
@@ -746,51 +755,26 @@ Public Class Form4
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
 
-    Private Sub NoneSelectedToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NoneSelectedToolStripMenuItem.Click
-        STATE1ToolStripMenuItem.Checked = False
-        STATE2ToolStripMenuItem.Checked = False
-        STATE3ToolStripMenuItem.Checked = False
-        STATE4ToolStripMenuItem.Checked = False
-        STATE5ToolStripMenuItem.Checked = False
-        STATE6ToolStripMenuItem.Checked = False
-        STATE7ToolStripMenuItem.Checked = False
-        STATE8ToolStripMenuItem.Checked = False
-        STATE9ToolStripMenuItem.Checked = False
-        NoneSelectedToolStripMenuItem.Checked = True
+    Private Sub SerialPort1_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
+        ReceivedText(myserialPort.ReadExisting())
     End Sub
 
-    Private Sub OptionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OptionsToolStripMenuItem.Click
-        Form5.ShowDialog()
+    Private Sub ReceivedText(ByVal [text] As String)
+        'If Me.RichTextBox1.InvokeRequired Then
+        '    Dim x As New SetTextCallBack(AddressOf ReceivedText)
+        '    Me.Invoke(x, New Object() {(text)})
+        'Else
+        '    Me.RichTextBox1.Text &= [text]
+        'End If
+        comread = [text]
     End Sub
 
-    Private Sub Form4_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        Dim list1 As List(Of String) = New List(Of String)
-        list1.Add("Termination Period = " & GlobalVariables.period)
-        list1.Add("File Size = " & GlobalVariables.size)
-        list1.Add("Download Folder = " & GlobalVariables.dfolder)
-        list1.Add("Upload Folder = " & GlobalVariables.ufolder)
-        If GlobalVariables.detailed = True Then
-            list1.Add("Detailed Report = True")
-        Else
-            list1.Add("Detailed Report = False")
-        End If
-        File.WriteAllLines("config.txt", list1)
-        If myserialPort.IsOpen() Then
-            Try
-                myserialPort.Close()
-            Catch ex As Exception
-            End Try
-            'Me.Dispose()
-            Application.DoEvents()  ' Give port time to close down
-            Thread.Sleep(200)
-        End If
-    End Sub
-
-    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
-        Me.Close()
+    Private Sub RichTextBox1_TextChanged(sender As Object, e As EventArgs) Handles RichTextBox1.TextChanged
+        RichTextBox1.SelectionStart = RichTextBox1.Text.Length
+        RichTextBox1.ScrollToCaret()
     End Sub
 End Class
