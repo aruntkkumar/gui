@@ -253,11 +253,11 @@ Public Class Form6
                                     Next
                                     If tMac.Replace(":", "") = GlobalVariables.macadd Then
                                         quality = network.linkQuality
-                                        rssi = network.rssi
+                                        rssi = Math.Abs(network.rssi)         'Absolute value of RSSI
                                         fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
                                         RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " " & network.rssi & " " & network.linkQuality & vbNewLine
                                         Application.DoEvents()
-                                        Thread.Sleep(100)
+                                        Thread.Sleep(200)
                                     End If
                                 End If
                             Next
@@ -351,12 +351,12 @@ Public Class Form6
                                     End If
                                 Next
                                 If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                                    quality = network.linkQuality
-                                    rssi = network.rssi
+                                    'quality = network.linkQuality  'Not necessary
+                                    'rssi = network.rssi
                                     fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
                                     RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " " & network.rssi & " " & network.linkQuality & vbNewLine
                                     Application.DoEvents()
-                                    Thread.Sleep(100)
+                                    Thread.Sleep(200)
                                 End If
                             End If
                         Next
