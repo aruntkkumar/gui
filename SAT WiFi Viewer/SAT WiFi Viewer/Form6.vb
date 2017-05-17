@@ -26,13 +26,15 @@ Public Class Form6
     'Dim rssiindex(-1) As Integer
     Dim quality As Double
     Dim rssi As Double
+    Dim qualityapprox As Integer
+    Dim rssiapprox As Integer
     Dim bandwidth As Integer
     Dim foundit As Integer
     Dim download As Double
     Dim upload As Double
     Dim elapsedStartTime As DateTime
     Dim myPort As Array
-    Dim myserialPort As New SerialPort
+    Dim myserialPort As New ExSerialPort
     'Dim url As Uri
     'Dim tmp As String
     Dim WithEvents wc As New WebClient
@@ -107,8 +109,9 @@ Public Class Form6
         TextBox7.Text = ""
         TextBox8.Text = ""
         Button1.Enabled = False
-        Try
-            Dim connectedSsids As Collection(Of [String]) = New Collection(Of String)()
+        MenuStrip1.Enabled = False
+        'Try
+        Dim connectedSsids As Collection(Of [String]) = New Collection(Of String)()
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces        'Gets a list of all the connected SSIDs
                 wlanIface.Scan()
                 Thread.Sleep(1000)
@@ -125,19 +128,25 @@ Public Class Form6
                         MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                     Button1.Enabled = True
+                    MenuStrip1.Enabled = True
                     Exit Sub
                 End Try
             Next
             If Not connectedSsids.Contains(GlobalVariables.ssidname) Then
                 MetroFramework.MetroMessageBox.Show(Me, "WiFi Connection to """ & GlobalVariables.ssidname & """ has been lost. Please establish a connection and try again.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
+                MenuStrip1.Enabled = True
                 Exit Sub
             End If
-            If (Not Directory.Exists(GlobalVariables.dfolder)) Or (Not Directory.Exists(GlobalVariables.ufolder)) Then
-                MetroFramework.MetroMessageBox.Show(Me, "Unable to access " & GlobalVariables.ssidname & " Or " & GlobalVariables.macadd & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Button1.Enabled = True
-                Exit Sub
+            If SpeedTestStatusToolStripMenuItem.Checked = True Then
+                If (Not Directory.Exists(GlobalVariables.dfolder)) Or (Not Directory.Exists(GlobalVariables.ufolder)) Then
+                    MetroFramework.MetroMessageBox.Show(Me, "Unable to access " & GlobalVariables.ssidname & " Or " & GlobalVariables.macadd & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Button1.Enabled = True
+                    MenuStrip1.Enabled = True
+                    Exit Sub
+                End If
             End If
+            timestamp = DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")    'Hebrew colon (׃) is from right to left
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                 wlanIface.Scan()
                 Thread.Sleep(1000)
@@ -186,6 +195,7 @@ Public Class Form6
                             Catch ex As Exception
                                 MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Button1.Enabled = True
+                                MenuStrip1.Enabled = True
                                 Exit Sub
                             End Try
                             If ((bandwidth = 20) Or (bandwidth = 22) Or (bandwidth = 40) Or (bandwidth = 80) Or (bandwidth = 160) Or (bandwidth = 2160) Or (bandwidth = 8000)) Then
@@ -200,6 +210,7 @@ Public Class Form6
                             Else
                                 MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Button1.Enabled = True
+                                MenuStrip1.Enabled = True
                                 Exit Sub
                             End If
                         End If
@@ -209,7 +220,7 @@ Public Class Form6
 
             myPort = IO.Ports.SerialPort.GetPortNames()
             Dim x As New ComPortFinder
-            Dim list = x.ComPortNames("0403", "6001")
+            Dim list = x.ComPortNames("0403", "6001") 'VID, PID for FT232RQ
             For Each item As String In list
                 For Each Str As String In myPort
                     If Str.Contains(item) Then
@@ -223,19 +234,34 @@ Public Class Form6
                 Next
             Next
 
+            If Not myserialPort.IsOpen Then
+                Dim list1 = x.ComPortNames("10C4", "EA60") 'VID, PID for CP2104
+                For Each item As String In list1
+                    For Each Str As String In myPort
+                        If Str.Contains(item) Then
+                            myserialPort.PortName = item
+                            myserialPort.BaudRate = 9600
+                            myserialPort.Parity = Parity.None
+                            myserialPort.DataBits = 8
+                            myserialPort.StopBits = StopBits.One
+                            myserialPort.Encoding = System.Text.Encoding.GetEncoding(28605)
+                            myserialPort.Open()
+                        End If
+                    Next
+                Next
+            End If
+
             If myserialPort.IsOpen Then
-                RichTextBox1.Text = "Starting to test" & vbNewLine
-                myserialPort.Write(&HFF)
-                myserialPort.ReadLine()
-                myserialPort.ReadExisting()
+                myserialPort.Write(Convert.ToChar(&HFF))
+                'RichTextBox1.Text &= myserialPort.ReadByte()   'Disabled in the firmware. Only enable when any data is being sent back.
                 Thread.Sleep(25)
                 If NormalOperationToolStripMenuItem.Checked = True Then
-                    myserialPort.Write(&H4E)        'Hex value for char 'N'
-                    myserialPort.ReadLine()
-                    myserialPort.ReadExisting()
+                    RichTextBox1.Text = "Starting to test..." & vbNewLine
+                    myserialPort.Write(Convert.ToChar(&H4E))       'Hex value for char 'N'
+                    'myserialPort.ReadByte()
                     Thread.Sleep(25)
                     RichTextBox1.Text &= "Date & Time | RSSI | Signal Quality" & vbNewLine
-                    For i As Integer = 0 To 4
+                    For i As Integer = 0 To 5
                         For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                             wlanIface.Scan()
                             Thread.Sleep(1000)
@@ -255,7 +281,7 @@ Public Class Form6
                                         quality = network.linkQuality
                                         rssi = Math.Abs(network.rssi)         'Absolute value of RSSI
                                         fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
-                                        RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " " & network.rssi & " " & network.linkQuality & vbNewLine
+                                        RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " | " & network.rssi & " | " & network.linkQuality & vbNewLine
                                         Application.DoEvents()
                                         Thread.Sleep(200)
                                     End If
@@ -263,76 +289,79 @@ Public Class Form6
                             Next
                         Next
 
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
-                        While (comread <> &H52)
-                        End While
-                        myserialPort.Write(rssi)
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
-                        While (comread <> &H4C)
-                        End While
-                        myserialPort.Write(quality)
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
-                    Next
-                    While (comread <> &H53)
-                    End While
-                    myserialPort.ReadLine()
-                    myserialPort.ReadExisting()
-                    TextBox6.Text = comread
+                    rssiapprox = CInt(rssi)
+                    qualityapprox = CInt(quality)
+                    myserialPort.Write(Convert.ToChar(&H52))    'Hex value for char 'R'
+                    Thread.Sleep(5)
+                    myserialPort.Write(Convert.ToChar(rssiapprox))
+                    Thread.Sleep(5)
+                    myserialPort.Write(Convert.ToChar(&H4C))   'Hex value for char 'L'
+                    Thread.Sleep(5)
+                    myserialPort.Write(Convert.ToChar(qualityapprox))
+                    Thread.Sleep(2)
+                Next
+                'While (comread <> &H53)
+                While (myserialPort.ReadByte() <> &H53)
+                    'myserialPort.ReadByte()
+                End While
+                Thread.Sleep(5)
+                foundit = myserialPort.ReadByte()
+                If foundit = &H1 Then
+                    TextBox6.Text = "1"
+                ElseIf foundit = &H2 Then
+                    TextBox6.Text = "2"
+                ElseIf foundit = &H3 Then
+                    TextBox6.Text = "3"
+                ElseIf foundit = &H4 Then
+                    TextBox6.Text = "4"
+                ElseIf foundit = &H5 Then
+                    TextBox6.Text = "5"
+                ElseIf foundit = &H6 Then
+                    TextBox6.Text = "6"
+                ElseIf foundit = &H7 Then
+                    TextBox6.Text = "7"
+                ElseIf foundit = &H8 Then
+                    TextBox6.Text = "8"
                 Else
-                    myserialPort.Write(&H73)        'Hex value for char 's'
-                    myserialPort.ReadLine()
-                    myserialPort.ReadExisting()
+                    TextBox6.Text = "9"
+                    End If
+                    RichTextBox1.Text &= "State " & TextBox6.Text & " selected." & vbNewLine
+                Else
+                    myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
+                    'RichTextBox1.Text &= myserialPort.ReadByte()
                     Thread.Sleep(25)
                     If STATE1ToolStripMenuItem.Checked = True Then
                         state = 1
-                        myserialPort.Write(&H1)
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
+                        myserialPort.Write(Convert.ToChar(&H1))        'Hex value for char '1'
                     ElseIf STATE2ToolStripMenuItem.Checked = True Then
                         state = 2
-                        myserialPort.Write(&H2)
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
+                        myserialPort.Write(Convert.ToChar(&H2))        'Hex value for char '2'
                     ElseIf STATE3ToolStripMenuItem.Checked = True Then
                         state = 3
-                        myserialPort.Write(&H3)
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
+                        myserialPort.Write(Convert.ToChar(&H3))        'Hex value for char '3'
                     ElseIf STATE4ToolStripMenuItem.Checked = True Then
                         state = 4
-                        myserialPort.Write(&H4)
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
+                        myserialPort.Write(Convert.ToChar(&H4))        'Hex value for char '4
                     ElseIf STATE5ToolStripMenuItem.Checked = True Then
                         state = 5
-                        myserialPort.Write(&H5)
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
+                        myserialPort.Write(Convert.ToChar(&H5))        'Hex value for char '5'
                     ElseIf STATE6ToolStripMenuItem.Checked = True Then
                         state = 6
-                        myserialPort.Write(&H6)
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
+                        myserialPort.Write(Convert.ToChar(&H6))        'Hex value for char '6'
                     ElseIf STATE7ToolStripMenuItem.Checked = True Then
                         state = 7
-                        myserialPort.Write(&H7)
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
+                        myserialPort.Write(Convert.ToChar(&H7))        'Hex value for char '7'
                     ElseIf STATE8ToolStripMenuItem.Checked = True Then
                         state = 8
-                        myserialPort.Write(&H8)
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
+                        myserialPort.Write(Convert.ToChar(&H8))        'Hex value for char '8'
                     ElseIf STATE9ToolStripMenuItem.Checked = True Then
                         state = 9
-                        myserialPort.Write(&H9)
-                        myserialPort.ReadLine()
-                        myserialPort.ReadExisting()
+                        myserialPort.Write(Convert.ToChar(&H9))        'Hex value for char '9'
                     End If
-                    RichTextBox1.Text &= "State " & state & "selected" & vbNewLine
+                    'RichTextBox1.Text &= myserialPort.ReadByte()
+                    Thread.Sleep(25)
+                    RichTextBox1.Text &= "State " & state & " selected." & vbNewLine
+                    TextBox6.Text = state
                     Thread.Sleep(25)
                     RichTextBox1.Text &= "Date & Time | RSSI | Signal Quality" & vbNewLine
                     For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
@@ -354,7 +383,7 @@ Public Class Form6
                                     'quality = network.linkQuality  'Not necessary
                                     'rssi = network.rssi
                                     fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
-                                    RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " " & network.rssi & " " & network.linkQuality & vbNewLine
+                                    RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " | " & network.rssi & " | " & network.linkQuality & vbNewLine
                                     Application.DoEvents()
                                     Thread.Sleep(200)
                                 End If
@@ -363,8 +392,9 @@ Public Class Form6
                     Next
                 End If
             Else
-                MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if FT232RQ is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if FT232RQ or CP2104 is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
+                MenuStrip1.Enabled = True
                 Exit Sub
             End If
 
@@ -404,30 +434,44 @@ Public Class Form6
             '    Next
             '    z += 1
             'End While
+            If SpeedTestStatusToolStripMenuItem.Checked = True Then
+                wc.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)")
+                wc.UseDefaultCredentials = True
+                wc.Credentials = New NetworkCredential("admin", "admin")
 
-            wc.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)")
-            wc.UseDefaultCredentials = True
-            wc.Credentials = New NetworkCredential("admin", "admin")
-
-            foundit = 0
-            fullstring += "Download Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
-            elapsedStartTime = DateTime.Now
-            If GlobalVariables.size = "1 MB" Then
-                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1)
-            ElseIf GlobalVariables.size = "10 MB" Then
-                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"), tmp2)
-            ElseIf GlobalVariables.size = "100 MB" Then
-                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "100mb.test"), tmp3)
+                foundit = 0
+                fullstring += "Download Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
+                elapsedStartTime = DateTime.Now
+                If GlobalVariables.size = "1 MB" Then
+                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1)
+                ElseIf GlobalVariables.size = "10 MB" Then
+                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"), tmp2)
+                ElseIf GlobalVariables.size = "100 MB" Then
+                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "100mb.test"), tmp3)
+                Else
+                    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
+                End If
             Else
-                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
+                Button1.Enabled = True
+                MenuStrip1.Enabled = True
+                timestamp = timestamp & " to " & DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")
+                If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")) Then
+                    System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")
+                End If
+                Dim sw As New StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\" & timestamp & ".csv")
+                sw.Write(fullstring)
+                sw.Close()
+                MetroFramework.MetroMessageBox.Show(Me, "Test results are saved under """ & Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\"" as " & """" & timestamp & ".csv""", "TEST COMPLETE", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
 
+
             myserialPort.Close()
-        Catch ex As Exception
-            MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            myserialPort.Close()
-            Button1.Enabled = True
-        End Try
+        'Catch ex As Exception
+        '    MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        '    myserialPort.Close()
+        '    Button1.Enabled = True
+        '    MenuStrip1.Enabled = True
+        'End Try
     End Sub
 
     Private tmp1 = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "1mb.test")
@@ -759,17 +803,17 @@ Public Class Form6
         End If
     End Sub
 
-    Private Sub SerialPort1_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
+    Private Sub SerialPort1_DataReceived(sender As Object, e As SerialDataReceivedEventArgs)
         ReceivedText(myserialPort.ReadExisting())
     End Sub
 
     Private Sub ReceivedText(ByVal [text] As String)
-        'If Me.RichTextBox1.InvokeRequired Then
-        '    Dim x As New SetTextCallBack(AddressOf ReceivedText)
-        '    Me.Invoke(x, New Object() {(text)})
-        'Else
-        '    Me.RichTextBox1.Text &= [text]
-        'End If
+        If Me.RichTextBox1.InvokeRequired Then
+            Dim x As New SetTextCallBack(AddressOf ReceivedText)
+            Me.Invoke(x, New Object() {(text)})
+        Else
+            Me.RichTextBox1.Text &= [text]
+        End If
         comread = [text]
     End Sub
 
@@ -777,4 +821,36 @@ Public Class Form6
         RichTextBox1.SelectionStart = RichTextBox1.Text.Length
         RichTextBox1.ScrollToCaret()
     End Sub
+
+    Private Sub SpeedTestStatusToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SpeedTestStatusToolStripMenuItem.Click
+        If SpeedTestStatusToolStripMenuItem.Checked = False Then
+            SpeedTestStatusToolStripMenuItem.Checked = True
+            OptionsToolStripMenuItem.Enabled = True
+        Else
+            SpeedTestStatusToolStripMenuItem.Checked = False
+            OptionsToolStripMenuItem.Enabled = False
+        End If
+    End Sub
+End Class
+
+Public Class ExSerialPort
+    Inherits SerialPort
+
+    Public Sub New()
+        MyBase.New()
+    End Sub
+
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Dim mytype As Type = GetType(SerialPort)
+        Dim field As Reflection.FieldInfo = mytype.GetField("internalSerialStream", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic)
+        Dim stream As Object = field.GetValue(Me)
+        If Not stream Is Nothing Then
+            Try
+                stream.Dispose()
+            Catch ex As Exception
+            End Try
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
 End Class

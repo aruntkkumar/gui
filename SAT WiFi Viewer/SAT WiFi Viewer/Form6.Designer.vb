@@ -22,7 +22,6 @@ Partial Class Form6
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form6))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -59,10 +58,10 @@ Partial Class Form6
         Me.TextBox2 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox1 = New MetroFramework.Controls.MetroTextBox()
         Me.Button1 = New MetroFramework.Controls.MetroButton()
-        Me.SerialPort1 = New System.IO.Ports.SerialPort(Me.components)
         Me.Label17 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
+        Me.SpeedTestStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -156,15 +155,16 @@ Partial Class Form6
         '
         'SpeedTestToolStripMenuItem
         '
-        Me.SpeedTestToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem})
+        Me.SpeedTestToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SpeedTestStatusToolStripMenuItem, Me.OptionsToolStripMenuItem})
         Me.SpeedTestToolStripMenuItem.Name = "SpeedTestToolStripMenuItem"
-        Me.SpeedTestToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
+        Me.SpeedTestToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.SpeedTestToolStripMenuItem.Text = "Speed Test"
         '
         'OptionsToolStripMenuItem
         '
+        Me.OptionsToolStripMenuItem.Enabled = False
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
         'ToolStripMenuItem2
@@ -560,9 +560,6 @@ Partial Class Form6
         Me.Button1.Text = "Start"
         Me.Button1.UseSelectable = True
         '
-        'SerialPort1
-        '
-        '
         'Label17
         '
         Me.Label17.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -602,6 +599,12 @@ Partial Class Form6
         Me.RichTextBox1.Size = New System.Drawing.Size(414, 242)
         Me.RichTextBox1.TabIndex = 198
         Me.RichTextBox1.Text = ""
+        '
+        'SpeedTestStatusToolStripMenuItem
+        '
+        Me.SpeedTestStatusToolStripMenuItem.Name = "SpeedTestStatusToolStripMenuItem"
+        Me.SpeedTestStatusToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
+        Me.SpeedTestStatusToolStripMenuItem.Text = "Speed Test Status"
         '
         'Form6
         '
@@ -669,7 +672,6 @@ Partial Class Form6
     Friend WithEvents TextBox2 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents TextBox1 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents Button1 As MetroFramework.Controls.MetroButton
-    Friend WithEvents SerialPort1 As IO.Ports.SerialPort
     Friend WithEvents Label17 As Label
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents RichTextBox1 As RichTextBox
@@ -684,4 +686,5 @@ Partial Class Form6
     Friend WithEvents STATE7ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents STATE8ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents STATE9ToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SpeedTestStatusToolStripMenuItem As ToolStripMenuItem
 End Class
