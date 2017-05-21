@@ -110,8 +110,8 @@ Public Class Form6
         TextBox8.Text = ""
         Button1.Enabled = False
         MenuStrip1.Enabled = False
-        'Try
-        Dim connectedSsids As Collection(Of [String]) = New Collection(Of String)()
+        Try
+            Dim connectedSsids As Collection(Of [String]) = New Collection(Of String)()
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces        'Gets a list of all the connected SSIDs
                 wlanIface.Scan()
                 Thread.Sleep(1000)
@@ -217,26 +217,39 @@ Public Class Form6
                     End If
                 Next
             Next
-
-            myPort = IO.Ports.SerialPort.GetPortNames()
-            Dim x As New ComPortFinder
-            Dim list = x.ComPortNames("0403", "6001") 'VID, PID for FT232RQ
-            For Each item As String In list
-                For Each Str As String In myPort
-                    If Str.Contains(item) Then
-                        myserialPort.PortName = item
-                        myserialPort.BaudRate = 9600
-                        myserialPort.Parity = Parity.None
-                        myserialPort.DataBits = 8
-                        myserialPort.StopBits = StopBits.One
-                        myserialPort.Open()
-                    End If
+            If NoneSelectedToolStripMenuItem.Checked = True Then
+                RichTextBox1.Text = "Date & Time | RSSI | Signal Quality" & vbNewLine
+                For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                    wlanIface.Scan()
+                    Thread.Sleep(1000)
+                    Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+                    For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                        If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+                            Dim macAddr As Byte() = network.dot11Bssid
+                            Dim tMac As String = ""
+                            For k As Integer = 0 To macAddr.Length - 1
+                                If tMac = "" Then
+                                    tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                Else
+                                    tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                End If
+                            Next
+                            If tMac.Replace(":", "") = GlobalVariables.macadd Then
+                                'quality = network.linkQuality  'Not necessary
+                                'rssi = network.rssi
+                                fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
+                                RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " | " & network.rssi & " | " & network.linkQuality & vbNewLine
+                                Application.DoEvents()
+                                Thread.Sleep(200)
+                            End If
+                        End If
+                    Next
                 Next
-            Next
-
-            If Not myserialPort.IsOpen Then
-                Dim list1 = x.ComPortNames("10C4", "EA60") 'VID, PID for CP2104
-                For Each item As String In list1
+            Else
+                myPort = IO.Ports.SerialPort.GetPortNames()
+                Dim x As New ComPortFinder
+                Dim list = x.ComPortNames("0403", "6001") 'VID, PID for FT232RQ
+                For Each item As String In list
                     For Each Str As String In myPort
                         If Str.Contains(item) Then
                             myserialPort.PortName = item
@@ -244,24 +257,141 @@ Public Class Form6
                             myserialPort.Parity = Parity.None
                             myserialPort.DataBits = 8
                             myserialPort.StopBits = StopBits.One
-                            myserialPort.Encoding = System.Text.Encoding.GetEncoding(28605)
                             myserialPort.Open()
                         End If
                     Next
                 Next
-            End If
 
-            If myserialPort.IsOpen Then
-                myserialPort.Write(Convert.ToChar(&HFF))
-                'RichTextBox1.Text &= myserialPort.ReadByte()   'Disabled in the firmware. Only enable when any data is being sent back.
-                Thread.Sleep(25)
-                If NormalOperationToolStripMenuItem.Checked = True Then
-                    RichTextBox1.Text = "Starting to test..." & vbNewLine
-                    myserialPort.Write(Convert.ToChar(&H4E))       'Hex value for char 'N'
-                    'myserialPort.ReadByte()
+                If Not myserialPort.IsOpen Then
+                    Dim list1 = x.ComPortNames("10C4", "EA60") 'VID, PID for CP2104
+                    For Each item As String In list1
+                        For Each Str As String In myPort
+                            If Str.Contains(item) Then
+                                myserialPort.PortName = item
+                                myserialPort.BaudRate = 9600
+                                myserialPort.Parity = Parity.None
+                                myserialPort.DataBits = 8
+                                myserialPort.StopBits = StopBits.One
+                                myserialPort.Encoding = System.Text.Encoding.GetEncoding(28605)
+                                myserialPort.Open()
+                            End If
+                        Next
+                    Next
+                End If
+
+                If myserialPort.IsOpen Then
+                    myserialPort.Write(Convert.ToChar(&HFF))
+                    'RichTextBox1.Text &= myserialPort.ReadByte()   'Disabled in the firmware. Only enable when any data is being sent back.
                     Thread.Sleep(25)
-                    RichTextBox1.Text &= "Date & Time | RSSI | Signal Quality" & vbNewLine
-                    For i As Integer = 0 To 5
+                    If NormalOperationToolStripMenuItem.Checked = True Then
+                        RichTextBox1.Text = "Starting to test..." & vbNewLine
+                        myserialPort.Write(Convert.ToChar(&H4E))       'Hex value for char 'N'
+                        'myserialPort.ReadByte()
+                        Thread.Sleep(25)
+                        RichTextBox1.Text &= "Date & Time | RSSI | Signal Quality" & vbNewLine
+                        For i As Integer = 0 To 5
+                            For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                                wlanIface.Scan()
+                                Thread.Sleep(1000)
+                                Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+                                For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                                    If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+                                        Dim macAddr As Byte() = network.dot11Bssid
+                                        Dim tMac As String = ""
+                                        For k As Integer = 0 To macAddr.Length - 1
+                                            If tMac = "" Then
+                                                tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                            Else
+                                                tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                            End If
+                                        Next
+                                        If tMac.Replace(":", "") = GlobalVariables.macadd Then
+                                            quality = network.linkQuality
+                                            rssi = Math.Abs(network.rssi)         'Absolute value of RSSI
+                                            fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
+                                            RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " | " & network.rssi & " | " & network.linkQuality & vbNewLine
+                                            Application.DoEvents()
+                                            Thread.Sleep(200)
+                                        End If
+                                    End If
+                                Next
+                            Next
+
+                            rssiapprox = CInt(rssi)
+                            qualityapprox = CInt(quality)
+                            myserialPort.Write(Convert.ToChar(&H52))    'Hex value for char 'R'
+                            Thread.Sleep(5)
+                            myserialPort.Write(Convert.ToChar(rssiapprox))
+                            Thread.Sleep(5)
+                            myserialPort.Write(Convert.ToChar(&H4C))   'Hex value for char 'L'
+                            Thread.Sleep(5)
+                            myserialPort.Write(Convert.ToChar(qualityapprox))
+                            Thread.Sleep(2)
+                        Next
+                        'While (comread <> &H53)
+                        While (myserialPort.ReadByte() <> &H53)
+                            'myserialPort.ReadByte()
+                        End While
+                        Thread.Sleep(5)
+                        foundit = myserialPort.ReadByte()
+                        If foundit = &H1 Then
+                            TextBox6.Text = "1"
+                        ElseIf foundit = &H2 Then
+                            TextBox6.Text = "2"
+                        ElseIf foundit = &H3 Then
+                            TextBox6.Text = "3"
+                        ElseIf foundit = &H4 Then
+                            TextBox6.Text = "4"
+                        ElseIf foundit = &H5 Then
+                            TextBox6.Text = "5"
+                        ElseIf foundit = &H6 Then
+                            TextBox6.Text = "6"
+                        ElseIf foundit = &H7 Then
+                            TextBox6.Text = "7"
+                        ElseIf foundit = &H8 Then
+                            TextBox6.Text = "8"
+                        Else
+                            TextBox6.Text = "9"
+                        End If
+                        RichTextBox1.Text &= "State " & TextBox6.Text & " selected." & vbNewLine
+                    Else
+                        myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
+                        'RichTextBox1.Text &= myserialPort.ReadByte()
+                        Thread.Sleep(25)
+                        If STATE1ToolStripMenuItem.Checked = True Then
+                            state = 1
+                            myserialPort.Write(Convert.ToChar(&H1))        'Hex value for char '1'
+                        ElseIf STATE2ToolStripMenuItem.Checked = True Then
+                            state = 2
+                            myserialPort.Write(Convert.ToChar(&H2))        'Hex value for char '2'
+                        ElseIf STATE3ToolStripMenuItem.Checked = True Then
+                            state = 3
+                            myserialPort.Write(Convert.ToChar(&H3))        'Hex value for char '3'
+                        ElseIf STATE4ToolStripMenuItem.Checked = True Then
+                            state = 4
+                            myserialPort.Write(Convert.ToChar(&H4))        'Hex value for char '4
+                        ElseIf STATE5ToolStripMenuItem.Checked = True Then
+                            state = 5
+                            myserialPort.Write(Convert.ToChar(&H5))        'Hex value for char '5'
+                        ElseIf STATE6ToolStripMenuItem.Checked = True Then
+                            state = 6
+                            myserialPort.Write(Convert.ToChar(&H6))        'Hex value for char '6'
+                        ElseIf STATE7ToolStripMenuItem.Checked = True Then
+                            state = 7
+                            myserialPort.Write(Convert.ToChar(&H7))        'Hex value for char '7'
+                        ElseIf STATE8ToolStripMenuItem.Checked = True Then
+                            state = 8
+                            myserialPort.Write(Convert.ToChar(&H8))        'Hex value for char '8'
+                        ElseIf STATE9ToolStripMenuItem.Checked = True Then
+                            state = 9
+                            myserialPort.Write(Convert.ToChar(&H9))        'Hex value for char '9'
+                        End If
+                        'RichTextBox1.Text &= myserialPort.ReadByte()
+                        Thread.Sleep(25)
+                        RichTextBox1.Text &= "State " & state & " selected." & vbNewLine
+                        TextBox6.Text = state
+                        Thread.Sleep(25)
+                        RichTextBox1.Text &= "Date & Time | RSSI | Signal Quality" & vbNewLine
                         For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                             wlanIface.Scan()
                             Thread.Sleep(1000)
@@ -278,8 +408,8 @@ Public Class Form6
                                         End If
                                     Next
                                     If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                                        quality = network.linkQuality
-                                        rssi = Math.Abs(network.rssi)         'Absolute value of RSSI
+                                        'quality = network.linkQuality  'Not necessary
+                                        'rssi = network.rssi
                                         fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
                                         RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " | " & network.rssi & " | " & network.linkQuality & vbNewLine
                                         Application.DoEvents()
@@ -288,116 +418,14 @@ Public Class Form6
                                 End If
                             Next
                         Next
-
-                    rssiapprox = CInt(rssi)
-                    qualityapprox = CInt(quality)
-                    myserialPort.Write(Convert.ToChar(&H52))    'Hex value for char 'R'
-                    Thread.Sleep(5)
-                    myserialPort.Write(Convert.ToChar(rssiapprox))
-                    Thread.Sleep(5)
-                    myserialPort.Write(Convert.ToChar(&H4C))   'Hex value for char 'L'
-                    Thread.Sleep(5)
-                    myserialPort.Write(Convert.ToChar(qualityapprox))
-                    Thread.Sleep(2)
-                Next
-                'While (comread <> &H53)
-                While (myserialPort.ReadByte() <> &H53)
-                    'myserialPort.ReadByte()
-                End While
-                Thread.Sleep(5)
-                foundit = myserialPort.ReadByte()
-                If foundit = &H1 Then
-                    TextBox6.Text = "1"
-                ElseIf foundit = &H2 Then
-                    TextBox6.Text = "2"
-                ElseIf foundit = &H3 Then
-                    TextBox6.Text = "3"
-                ElseIf foundit = &H4 Then
-                    TextBox6.Text = "4"
-                ElseIf foundit = &H5 Then
-                    TextBox6.Text = "5"
-                ElseIf foundit = &H6 Then
-                    TextBox6.Text = "6"
-                ElseIf foundit = &H7 Then
-                    TextBox6.Text = "7"
-                ElseIf foundit = &H8 Then
-                    TextBox6.Text = "8"
-                Else
-                    TextBox6.Text = "9"
                     End If
-                    RichTextBox1.Text &= "State " & TextBox6.Text & " selected." & vbNewLine
                 Else
-                    myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
-                    'RichTextBox1.Text &= myserialPort.ReadByte()
-                    Thread.Sleep(25)
-                    If STATE1ToolStripMenuItem.Checked = True Then
-                        state = 1
-                        myserialPort.Write(Convert.ToChar(&H1))        'Hex value for char '1'
-                    ElseIf STATE2ToolStripMenuItem.Checked = True Then
-                        state = 2
-                        myserialPort.Write(Convert.ToChar(&H2))        'Hex value for char '2'
-                    ElseIf STATE3ToolStripMenuItem.Checked = True Then
-                        state = 3
-                        myserialPort.Write(Convert.ToChar(&H3))        'Hex value for char '3'
-                    ElseIf STATE4ToolStripMenuItem.Checked = True Then
-                        state = 4
-                        myserialPort.Write(Convert.ToChar(&H4))        'Hex value for char '4
-                    ElseIf STATE5ToolStripMenuItem.Checked = True Then
-                        state = 5
-                        myserialPort.Write(Convert.ToChar(&H5))        'Hex value for char '5'
-                    ElseIf STATE6ToolStripMenuItem.Checked = True Then
-                        state = 6
-                        myserialPort.Write(Convert.ToChar(&H6))        'Hex value for char '6'
-                    ElseIf STATE7ToolStripMenuItem.Checked = True Then
-                        state = 7
-                        myserialPort.Write(Convert.ToChar(&H7))        'Hex value for char '7'
-                    ElseIf STATE8ToolStripMenuItem.Checked = True Then
-                        state = 8
-                        myserialPort.Write(Convert.ToChar(&H8))        'Hex value for char '8'
-                    ElseIf STATE9ToolStripMenuItem.Checked = True Then
-                        state = 9
-                        myserialPort.Write(Convert.ToChar(&H9))        'Hex value for char '9'
-                    End If
-                    'RichTextBox1.Text &= myserialPort.ReadByte()
-                    Thread.Sleep(25)
-                    RichTextBox1.Text &= "State " & state & " selected." & vbNewLine
-                    TextBox6.Text = state
-                    Thread.Sleep(25)
-                    RichTextBox1.Text &= "Date & Time | RSSI | Signal Quality" & vbNewLine
-                    For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
-                        wlanIface.Scan()
-                        Thread.Sleep(1000)
-                        Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
-                        For Each network As Wlan.WlanBssEntry In wlanBssEntries
-                            If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
-                                Dim macAddr As Byte() = network.dot11Bssid
-                                Dim tMac As String = ""
-                                For k As Integer = 0 To macAddr.Length - 1
-                                    If tMac = "" Then
-                                        tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                    Else
-                                        tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                    End If
-                                Next
-                                If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                                    'quality = network.linkQuality  'Not necessary
-                                    'rssi = network.rssi
-                                    fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
-                                    RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " | " & network.rssi & " | " & network.linkQuality & vbNewLine
-                                    Application.DoEvents()
-                                    Thread.Sleep(200)
-                                End If
-                            End If
-                        Next
-                    Next
+                    MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if FT232RQ or CP2104 is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Button1.Enabled = True
+                    MenuStrip1.Enabled = True
+                    Exit Sub
                 End If
-            Else
-                MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if FT232RQ or CP2104 is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Button1.Enabled = True
-                MenuStrip1.Enabled = True
-                Exit Sub
             End If
-
             'rssimax = avgrssiarray(0)
             '    For i As Integer = 0 To avgrssiarray.Length - 1
             '        If avgrssiarray(i) > rssimax Then
@@ -466,12 +494,12 @@ Public Class Form6
 
 
             myserialPort.Close()
-        'Catch ex As Exception
-        '    MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        '    myserialPort.Close()
-        '    Button1.Enabled = True
-        '    MenuStrip1.Enabled = True
-        'End Try
+        Catch ex As Exception
+            MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            myserialPort.Close()
+            Button1.Enabled = True
+            MenuStrip1.Enabled = True
+        End Try
     End Sub
 
     Private tmp1 = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "1mb.test")
@@ -566,6 +594,7 @@ Public Class Form6
         STATE7ToolStripMenuItem.Checked = False
         STATE8ToolStripMenuItem.Checked = False
         STATE9ToolStripMenuItem.Checked = False
+        NoneSelectedToolStripMenuItem.Checked = False
         NormalOperationToolStripMenuItem.Checked = True
     End Sub
 
@@ -580,6 +609,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
@@ -591,6 +621,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
@@ -606,6 +637,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
@@ -617,6 +649,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
@@ -632,6 +665,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
@@ -643,6 +677,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
@@ -658,6 +693,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
@@ -669,6 +705,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
@@ -684,6 +721,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
@@ -695,6 +733,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
@@ -710,6 +749,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
@@ -721,6 +761,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
@@ -736,6 +777,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = True
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
@@ -747,6 +789,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
@@ -762,6 +805,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = True
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
@@ -773,6 +817,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
@@ -788,6 +833,7 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = True
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
@@ -799,6 +845,35 @@ Public Class Form6
             STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
+            NormalOperationToolStripMenuItem.Checked = True
+        End If
+    End Sub
+
+    Private Sub NoneSelectedToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NoneSelectedToolStripMenuItem.Click
+        If NoneSelectedToolStripMenuItem.Checked = False Then
+            STATE1ToolStripMenuItem.Checked = False
+            STATE2ToolStripMenuItem.Checked = False
+            STATE3ToolStripMenuItem.Checked = False
+            STATE4ToolStripMenuItem.Checked = False
+            STATE5ToolStripMenuItem.Checked = False
+            STATE6ToolStripMenuItem.Checked = False
+            STATE7ToolStripMenuItem.Checked = False
+            STATE8ToolStripMenuItem.Checked = False
+            STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = True
+            NormalOperationToolStripMenuItem.Checked = False
+        Else
+            STATE1ToolStripMenuItem.Checked = False
+            STATE2ToolStripMenuItem.Checked = False
+            STATE3ToolStripMenuItem.Checked = False
+            STATE4ToolStripMenuItem.Checked = False
+            STATE5ToolStripMenuItem.Checked = False
+            STATE6ToolStripMenuItem.Checked = False
+            STATE7ToolStripMenuItem.Checked = False
+            STATE8ToolStripMenuItem.Checked = False
+            STATE9ToolStripMenuItem.Checked = False
+            NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = True
         End If
     End Sub
@@ -831,6 +906,8 @@ Public Class Form6
             OptionsToolStripMenuItem.Enabled = False
         End If
     End Sub
+
+
 End Class
 
 Public Class ExSerialPort

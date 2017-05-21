@@ -347,6 +347,7 @@ Public Class Form3
                         qualityindex(qualityindex.Length - 1) = i + 1
                     End If
                 Next
+                foundit = 0
                 Dim z As Integer = 0
                 While z <= rssiindex.Length - 1
                     For i As Integer = 0 To qualityindex.Length - 1
@@ -357,11 +358,19 @@ Public Class Form3
                             fullstring += myserialPort.ReadLine()
                             Thread.Sleep(25)
                             TextBox9.Text = (rssiindex(z))
+                            foundit = 1
                             Exit While
                         End If
                     Next
                     z += 1
                 End While
+                If foundit = 0 Then     'Condition when RSSI and Link Quality does not match.
+                    myserialPort.Write("SET STATE" & rssiindex(0))
+                    Thread.Sleep(25)
+                    fullstring += myserialPort.ReadLine()
+                    Thread.Sleep(25)
+                    TextBox9.Text = (rssiindex(0))
+                End If
             Else
                 timestamp = DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")    'Hebrew colon (׃) is from right to left
                 count = 0
