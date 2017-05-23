@@ -260,7 +260,9 @@ Public Class Form4
             If MonitorSSIDToolStripMenuItem.Checked = True Then
                 fullstring += "Date & Time,RSSI,Signal Quality,Avg Signal Quality" & vbNewLine
                 'First 10 times are compulsory
-                For j As Integer = 1 To 10
+                foundit = 0
+                While foundit < 10
+                    'For j As Integer = 1 To 10
                     For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                         wlanIface.Scan()
                         Thread.Sleep(1000)
@@ -299,12 +301,13 @@ Public Class Form4
                                     System.Array.Resize(Of Double)(rssi, count + 1)
                                     Application.DoEvents()
                                     Thread.Sleep(200)
+                                    foundit += 1
                                 End If
                             End If
                         Next
                     Next
-                Next
-
+                    'Next
+                End While
                 Do
                     For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                         wlanIface.Scan()

@@ -269,7 +269,9 @@ Public Class Form3
                         count = 0
                         quality = New Double(count) {}
                         rssi = New Double(count) {}
-                        For j As Integer = 1 To 10
+                        foundit = 0
+                        While foundit < 10
+                            'For j As Integer = 1 To 10
                             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                                 wlanIface.Scan()
                                 Thread.Sleep(1000)
@@ -308,11 +310,13 @@ Public Class Form3
                                             System.Array.Resize(Of Double)(rssi, count + 1)
                                             Application.DoEvents()
                                             Thread.Sleep(200)
+                                            foundit += 1
                                         End If
                                     End If
                                 Next
                             Next
-                        Next
+                            'Next
+                        End While
                         avgqualityarray(i - 1) = avgquality
                         avgrssiarray(i - 1) = avgrssi
                     Next
@@ -376,7 +380,9 @@ Public Class Form3
                 count = 0
                 quality = New Double(count) {}
                 rssi = New Double(count) {}
-                For j As Integer = 1 To 10
+                foundit = 0
+                While foundit < 10
+                    'For j As Integer = 1 To 10
                     For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                         wlanIface.Scan()
                         Thread.Sleep(1000)
@@ -415,12 +421,13 @@ Public Class Form3
                                     System.Array.Resize(Of Double)(rssi, count + 1)
                                     Application.DoEvents()
                                     Thread.Sleep(200)
+                                    foundit += 1
                                 End If
                             End If
                         Next
                     Next
-                Next
-
+                'Next
+                End While
                 fullstring += "No State selected" & vbNewLine
                 TextBox9.Text = "None"
             End If

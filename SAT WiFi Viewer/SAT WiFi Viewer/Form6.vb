@@ -289,7 +289,9 @@ Public Class Form6
                         'myserialPort.ReadByte()
                         Thread.Sleep(25)
                         RichTextBox1.Text &= "Date & Time | RSSI | Signal Quality" & vbNewLine
-                        For i As Integer = 0 To 5
+                        foundit = 0
+                        While foundit < 6
+                            'For i As Integer = 0 To 5
                             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                                 wlanIface.Scan()
                                 Thread.Sleep(1000)
@@ -312,6 +314,7 @@ Public Class Form6
                                             RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " | " & network.rssi & " | " & network.linkQuality & vbNewLine
                                             Application.DoEvents()
                                             Thread.Sleep(200)
+                                            foundit += 1
                                         End If
                                     End If
                                 Next
@@ -327,7 +330,9 @@ Public Class Form6
                             Thread.Sleep(5)
                             myserialPort.Write(Convert.ToChar(qualityapprox))
                             Thread.Sleep(2)
-                        Next
+                            'Next
+                        End While
+
                         'While (comread <> &H53)
                         While (myserialPort.ReadByte() <> &H53)
                             'myserialPort.ReadByte()
@@ -392,32 +397,36 @@ Public Class Form6
                         TextBox6.Text = state
                         Thread.Sleep(25)
                         RichTextBox1.Text &= "Date & Time | RSSI | Signal Quality" & vbNewLine
-                        For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
-                            wlanIface.Scan()
-                            Thread.Sleep(1000)
-                            Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
-                            For Each network As Wlan.WlanBssEntry In wlanBssEntries
-                                If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
-                                    Dim macAddr As Byte() = network.dot11Bssid
-                                    Dim tMac As String = ""
-                                    For k As Integer = 0 To macAddr.Length - 1
-                                        If tMac = "" Then
-                                            tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                        Else
-                                            tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                        foundit = 0
+                        While foundit < 1
+                            For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                                wlanIface.Scan()
+                                Thread.Sleep(1000)
+                                Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+                                For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                                    If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+                                        Dim macAddr As Byte() = network.dot11Bssid
+                                        Dim tMac As String = ""
+                                        For k As Integer = 0 To macAddr.Length - 1
+                                            If tMac = "" Then
+                                                tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                            Else
+                                                tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                            End If
+                                        Next
+                                        If tMac.Replace(":", "") = GlobalVariables.macadd Then
+                                            'quality = network.linkQuality  'Not necessary
+                                            'rssi = network.rssi
+                                            fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
+                                            RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " | " & network.rssi & " | " & network.linkQuality & vbNewLine
+                                            Application.DoEvents()
+                                            Thread.Sleep(200)
+                                            foundit += 1
                                         End If
-                                    Next
-                                    If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                                        'quality = network.linkQuality  'Not necessary
-                                        'rssi = network.rssi
-                                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
-                                        RichTextBox1.Text &= DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & " | " & network.rssi & " | " & network.linkQuality & vbNewLine
-                                        Application.DoEvents()
-                                        Thread.Sleep(200)
                                     End If
-                                End If
+                                Next
                             Next
-                        Next
+                        End While
                     End If
                 Else
                     MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if FT232RQ or CP2104 is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
