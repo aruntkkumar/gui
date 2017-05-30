@@ -3,6 +3,7 @@
     Dim test As Double
 
     Private Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        GlobalVariables.Markertrace = ""
         If (GlobalVariables.series.Length <> 0) Then
             For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
                 If GlobalVariables.series(i) = 1 Then
@@ -58,6 +59,7 @@
             End If
         End If
         GlobalVariables.Markertraceindex = ComboBox1.SelectedIndex
+        GlobalVariables.Markertrace = ComboBox1.SelectedItem.ToString()
         GlobalVariables.Markerfreq = test
         If Not Me.IsDisposed() Then
             Try

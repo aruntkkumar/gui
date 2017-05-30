@@ -3623,7 +3623,8 @@ Public Class Form1
         If GlobalVariables.Markertraceindex <> -1 Then
             Dim Datapoint As DataPoint = Nothing
             Dim j As Integer = 0
-            For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Points
+            For Each pt As DataPoint In Chart1.Series(GlobalVariables.Markertrace).Points
+                'For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Points
                 Datapoint = pt
                 If pt.XValue >= GlobalVariables.Markerfreq Then
                     Exit For
@@ -3631,7 +3632,8 @@ Public Class Form1
                 j += 1
             Next
             For i As Integer = 0 To checkboxnum - 1
-                If seriesname(i) = GlobalVariables.seriesnames(GlobalVariables.Markertraceindex) AndAlso seriespointindex(i) = j Then
+                If seriesname(i) = GlobalVariables.Markertrace AndAlso seriespointindex(i) = j Then
+                    'If seriesname(i) = GlobalVariables.seriesnames(GlobalVariables.Markertraceindex) AndAlso seriespointindex(i) = j Then
                     MetroFramework.MetroMessageBox.Show(Me, "The marker is already available in the list. Refer marker #" & i + 1 & ".", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
                 End If
@@ -3651,8 +3653,10 @@ Public Class Form1
             Datapoint.Label = checkboxnum
             Datapoint.MarkerStyle = MarkerStyle.Triangle
             Datapoint.MarkerSize = 10
-            Datapoint.MarkerColor = Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Color
-            seriesname(checkboxnum - 1) = GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)
+            Datapoint.MarkerColor = Chart1.Series(GlobalVariables.Markertrace).Color
+            seriesname(checkboxnum - 1) = GlobalVariables.Markertrace
+            'Datapoint.MarkerColor = Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Color
+            'seriesname(checkboxnum - 1) = GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)
             seriespointindex(checkboxnum - 1) = j
             ClearAllMarkersToolStripMenuItem.Enabled = True
             checkboxnum += 1
@@ -3720,6 +3724,7 @@ Public Class GlobalVariables
     Public Shared DeviceAddress() As String
     Public Shared Markertraceindex As Integer = -1
     Public Shared Markerfreq As Double = 0
+    Public Shared Markertrace As String = ""
 End Class
 
 
