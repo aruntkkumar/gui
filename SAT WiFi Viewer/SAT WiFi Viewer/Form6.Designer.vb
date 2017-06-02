@@ -36,6 +36,7 @@ Partial Class Form6
         Me.STATE7ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.STATE8ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.STATE9ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NoneSelectedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SpeedTestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SpeedTestStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -62,7 +63,6 @@ Partial Class Form6
         Me.Label17 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
-        Me.NoneSelectedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -89,7 +89,7 @@ Partial Class Form6
         '
         Me.AntennaStateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NormalOperationToolStripMenuItem, Me.STATE1ToolStripMenuItem, Me.STATE2ToolStripMenuItem, Me.STATE3ToolStripMenuItem, Me.STATE4ToolStripMenuItem, Me.STATE5ToolStripMenuItem, Me.STATE6ToolStripMenuItem, Me.STATE7ToolStripMenuItem, Me.STATE8ToolStripMenuItem, Me.STATE9ToolStripMenuItem, Me.NoneSelectedToolStripMenuItem})
         Me.AntennaStateToolStripMenuItem.Name = "AntennaStateToolStripMenuItem"
-        Me.AntennaStateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AntennaStateToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.AntennaStateToolStripMenuItem.Text = "Antenna State"
         '
         'NormalOperationToolStripMenuItem
@@ -154,11 +154,17 @@ Partial Class Form6
         Me.STATE9ToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.STATE9ToolStripMenuItem.Text = "STATE 9"
         '
+        'NoneSelectedToolStripMenuItem
+        '
+        Me.NoneSelectedToolStripMenuItem.Name = "NoneSelectedToolStripMenuItem"
+        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.NoneSelectedToolStripMenuItem.Text = "None Selected"
+        '
         'SpeedTestToolStripMenuItem
         '
         Me.SpeedTestToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SpeedTestStatusToolStripMenuItem, Me.OptionsToolStripMenuItem})
         Me.SpeedTestToolStripMenuItem.Name = "SpeedTestToolStripMenuItem"
-        Me.SpeedTestToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SpeedTestToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.SpeedTestToolStripMenuItem.Text = "Speed Test"
         '
         'SpeedTestStatusToolStripMenuItem
@@ -177,19 +183,19 @@ Partial Class Form6
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(145, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'ProgressBar1
         '
         Me.ProgressBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgressBar1.Location = New System.Drawing.Point(285, 368)
+        Me.ProgressBar1.Location = New System.Drawing.Point(285, 365)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(400, 28)
         Me.ProgressBar1.TabIndex = 195
@@ -560,7 +566,7 @@ Partial Class Form6
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.DisplayFocus = True
         Me.Button1.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button1.Location = New System.Drawing.Point(426, 413)
+        Me.Button1.Location = New System.Drawing.Point(426, 410)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(118, 38)
         Me.Button1.TabIndex = 171
@@ -575,7 +581,7 @@ Partial Class Form6
         Me.Label17.BackColor = System.Drawing.Color.Transparent
         Me.Label17.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label17.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
-        Me.Label17.Location = New System.Drawing.Point(501, 462)
+        Me.Label17.Location = New System.Drawing.Point(497, 459)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(459, 14)
         Me.Label17.TabIndex = 197
@@ -587,7 +593,7 @@ Partial Class Form6
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PictureBox1.Cursor = System.Windows.Forms.Cursors.Hand
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(869, 410)
+        Me.PictureBox1.Location = New System.Drawing.Point(865, 407)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(94, 49)
         Me.PictureBox1.TabIndex = 196
@@ -606,12 +612,6 @@ Partial Class Form6
         Me.RichTextBox1.Size = New System.Drawing.Size(414, 242)
         Me.RichTextBox1.TabIndex = 198
         Me.RichTextBox1.Text = ""
-        '
-        'NoneSelectedToolStripMenuItem
-        '
-        Me.NoneSelectedToolStripMenuItem.Name = "NoneSelectedToolStripMenuItem"
-        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
-        Me.NoneSelectedToolStripMenuItem.Text = "None Selected"
         '
         'Form6
         '

@@ -43,6 +43,7 @@ Public Class Form6
     Dim values() As String
     Dim comread As String
     Delegate Sub SetTextCallBack(ByVal [text] As String)
+    Dim dialog1 As SaveFileDialog = New SaveFileDialog()
 
     Private Sub Form6_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
@@ -61,7 +62,7 @@ Public Class Form6
                     GlobalVariables.detailed = True
                 End If
             Else
-                GlobalVariables.period = "Unlimited"
+                GlobalVariables.period = "1 min"
                 GlobalVariables.size = "1 MB"
                 GlobalVariables.dfolder = "\\192.168.31.1\tddownload\TDTEMP\Download_Files\"
                 GlobalVariables.ufolder = "\\192.168.31.1\tddownload\TDTEMP\Upload_Files\"
@@ -476,6 +477,13 @@ Public Class Form6
                 wc.UseDefaultCredentials = True
                 wc.Credentials = New NetworkCredential("admin", "admin")
 
+                wc.DownloadFile(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1) ' To Remove Latency
+
+                For i As Integer = 1 To 100
+                    Thread.Sleep(10)
+                    Application.DoEvents()
+                Next
+
                 foundit = 0
                 fullstring += "Download Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
                 elapsedStartTime = DateTime.Now
@@ -488,21 +496,42 @@ Public Class Form6
                 Else
                     wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
                 End If
-            Else
-                Button1.Enabled = True
-                MenuStrip1.Enabled = True
-                timestamp = timestamp & " to " & DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")
-                If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")) Then
-                    System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")
+                While wc.IsBusy
+                    Application.DoEvents()
+                End While
+
+                For i As Integer = 1 To 100
+                    Thread.Sleep(10)
+                    Application.DoEvents()
+                Next
+
+                foundit = 0
+                fullstring += "Upload Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
+                elapsedStartTime = DateTime.Now
+                If GlobalVariables.size = "1 MB" Then
+                    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
+                ElseIf GlobalVariables.size = "10 MB" Then
+                    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "10mb.test"), tmp2)
+                ElseIf GlobalVariables.size = "100 MB" Then
+                    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "100mb.test"), tmp3)
+                Else
+                    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1gb.test"), tmp4)
                 End If
-                Dim sw As New StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\" & timestamp & ".csv")
-                sw.Write(fullstring)
-                sw.Close()
-                MetroFramework.MetroMessageBox.Show(Me, "Test results are saved under """ & Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\"" as " & """" & timestamp & ".csv""", "TEST COMPLETE", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                While wc.IsBusy
+                    Application.DoEvents()
+                End While
             End If
 
-
+            Button1.Enabled = True
+            MenuStrip1.Enabled = True
             myserialPort.Close()
+            dialog1.Filter = "CSV (Comma delimited) (*.csv)|*.csv"
+            dialog1.FileName = ""
+            If dialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+                File.WriteAllText(dialog1.FileName, fullstring)
+            End If
+            Application.DoEvents()  ' Give port time to close down
+            Thread.Sleep(200)
         Catch ex As Exception
             MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             myserialPort.Close()
@@ -519,24 +548,12 @@ Public Class Form6
     Private Sub wc_DownloadFileCompleted(sender As Object, e As System.ComponentModel.AsyncCompletedEventArgs) Handles wc.DownloadFileCompleted
         Dim elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
         fullstring += (download / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
-        TextBox7.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         ProgressBar1.Value = 0
         If foundit = 1 Then
             fullstring += "Download aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
             TextBox7.Text = "Aborted due to the set time limit of " & GlobalVariables.period
-        End If
-
-        foundit = 0
-        fullstring += "Upload Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
-        elapsedStartTime = DateTime.Now
-        If GlobalVariables.size = "1 MB" Then
-            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
-        ElseIf GlobalVariables.size = "10 MB" Then
-            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "10mb.test"), tmp2)
-        ElseIf GlobalVariables.size = "100 MB" Then
-            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "100mb.test"), tmp3)
         Else
-            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1gb.test"), tmp4)
+            TextBox7.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         End If
     End Sub
 
@@ -557,26 +574,27 @@ Public Class Form6
     Private Sub wc_UploadFileCompleted(sender As Object, e As System.ComponentModel.AsyncCompletedEventArgs) Handles wc.UploadFileCompleted
         Dim elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
         fullstring += (upload / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
-        TextBox8.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         ProgressBar1.Value = 0
         If foundit = 1 Then
             fullstring += "Upload aborted due to the set termination period of " & GlobalVariables.period
             TextBox8.Text = "Aborted due to the set time limit of " & GlobalVariables.period
+        Else
+            TextBox8.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         End If
 
-        Button1.Enabled = True
-        MenuStrip1.Enabled = True
-        timestamp = timestamp & " to " & DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")
-        If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")) Then
-            System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")
-        End If
-        Dim sw As New StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\" & timestamp & ".csv")
-        sw.Write(fullstring)
-        sw.Close()
-        myserialPort.Close()
-        Application.DoEvents()  ' Give port time to close down
-        Thread.Sleep(200)
-        MetroFramework.MetroMessageBox.Show(Me, "Test results are saved under """ & Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\"" as " & """" & timestamp & ".csv""", "TEST COMPLETE", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'Button1.Enabled = True
+        'MenuStrip1.Enabled = True
+        'timestamp = timestamp & " to " & DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")
+        'If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")) Then
+        '    System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")
+        'End If
+        'Dim sw As New StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\" & timestamp & ".csv")
+        'sw.Write(fullstring)
+        'sw.Close()
+        'myserialPort.Close()
+        'Application.DoEvents()  ' Give port time to close down
+        'Thread.Sleep(200)
+        'MetroFramework.MetroMessageBox.Show(Me, "Test results are saved under """ & Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\"" as " & """" & timestamp & ".csv""", "TEST COMPLETE", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
     Private Sub wc_UploadProgressChanged(sender As Object, e As UploadProgressChangedEventArgs) Handles wc.UploadProgressChanged

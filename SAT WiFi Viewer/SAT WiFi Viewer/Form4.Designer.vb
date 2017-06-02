@@ -29,6 +29,12 @@ Partial Class Form4
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form4))
         Me.Button1 = New MetroFramework.Controls.MetroButton()
         Me.DataGridView1 = New MetroFramework.Controls.MetroGrid()
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MonitorSSIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -75,10 +81,6 @@ Partial Class Form4
         Me.ProgressBar1 = New MetroFramework.Controls.MetroProgressBar()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,7 +91,7 @@ Partial Class Form4
         Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button1.DisplayFocus = True
         Me.Button1.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button1.Location = New System.Drawing.Point(426, 511)
+        Me.Button1.Location = New System.Drawing.Point(456, 498)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(118, 38)
         Me.Button1.TabIndex = 132
@@ -119,7 +121,7 @@ Partial Class Form4
         DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column3, Me.Column4, Me.Column5})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column6, Me.Column3, Me.Column2, Me.Column4, Me.Column5})
         DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
         DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
@@ -131,7 +133,7 @@ Partial Class Form4
         Me.DataGridView1.EnableHeadersVisualStyles = False
         Me.DataGridView1.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
         Me.DataGridView1.GridColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.DataGridView1.Location = New System.Drawing.Point(507, 103)
+        Me.DataGridView1.Location = New System.Drawing.Point(495, 103)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
@@ -146,8 +148,56 @@ Partial Class Form4
         Me.DataGridView1.RowHeadersVisible = False
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(417, 335)
+        Me.DataGridView1.Size = New System.Drawing.Size(512, 335)
         Me.DataGridView1.TabIndex = 133
+        '
+        'Column1
+        '
+        Me.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Column1.HeaderText = "Date & Time"
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        Me.Column1.Width = 85
+        '
+        'Column6
+        '
+        Me.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Column6.HeaderText = "State"
+        Me.Column6.Name = "Column6"
+        Me.Column6.ReadOnly = True
+        Me.Column6.Width = 56
+        '
+        'Column3
+        '
+        Me.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Column3.HeaderText = "RSSI"
+        Me.Column3.Name = "Column3"
+        Me.Column3.ReadOnly = True
+        Me.Column3.Width = 52
+        '
+        'Column2
+        '
+        Me.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Column2.HeaderText = "Average RSSI"
+        Me.Column2.Name = "Column2"
+        Me.Column2.ReadOnly = True
+        Me.Column2.Width = 88
+        '
+        'Column4
+        '
+        Me.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Column4.HeaderText = "Signal Quality"
+        Me.Column4.Name = "Column4"
+        Me.Column4.ReadOnly = True
+        Me.Column4.Width = 94
+        '
+        'Column5
+        '
+        Me.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Column5.HeaderText = "Average Signal Quality"
+        Me.Column5.Name = "Column5"
+        Me.Column5.ReadOnly = True
+        Me.Column5.Width = 133
         '
         'MenuStrip1
         '
@@ -156,7 +206,7 @@ Partial Class Form4
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(20, 60)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(930, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(990, 24)
         Me.MenuStrip1.TabIndex = 134
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -185,61 +235,61 @@ Partial Class Form4
         Me.NoneSelectedToolStripMenuItem.Checked = True
         Me.NoneSelectedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.NoneSelectedToolStripMenuItem.Name = "NoneSelectedToolStripMenuItem"
-        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.NoneSelectedToolStripMenuItem.Text = "None Selected"
         '
         'STATE1ToolStripMenuItem
         '
         Me.STATE1ToolStripMenuItem.Name = "STATE1ToolStripMenuItem"
-        Me.STATE1ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE1ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE1ToolStripMenuItem.Text = "STATE 1"
         '
         'STATE2ToolStripMenuItem
         '
         Me.STATE2ToolStripMenuItem.Name = "STATE2ToolStripMenuItem"
-        Me.STATE2ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE2ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE2ToolStripMenuItem.Text = "STATE 2"
         '
         'STATE3ToolStripMenuItem
         '
         Me.STATE3ToolStripMenuItem.Name = "STATE3ToolStripMenuItem"
-        Me.STATE3ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE3ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE3ToolStripMenuItem.Text = "STATE 3"
         '
         'STATE4ToolStripMenuItem
         '
         Me.STATE4ToolStripMenuItem.Name = "STATE4ToolStripMenuItem"
-        Me.STATE4ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE4ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE4ToolStripMenuItem.Text = "STATE 4"
         '
         'STATE5ToolStripMenuItem
         '
         Me.STATE5ToolStripMenuItem.Name = "STATE5ToolStripMenuItem"
-        Me.STATE5ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE5ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE5ToolStripMenuItem.Text = "STATE 5"
         '
         'STATE6ToolStripMenuItem
         '
         Me.STATE6ToolStripMenuItem.Name = "STATE6ToolStripMenuItem"
-        Me.STATE6ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE6ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE6ToolStripMenuItem.Text = "STATE 6"
         '
         'STATE7ToolStripMenuItem
         '
         Me.STATE7ToolStripMenuItem.Name = "STATE7ToolStripMenuItem"
-        Me.STATE7ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE7ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE7ToolStripMenuItem.Text = "STATE 7"
         '
         'STATE8ToolStripMenuItem
         '
         Me.STATE8ToolStripMenuItem.Name = "STATE8ToolStripMenuItem"
-        Me.STATE8ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE8ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE8ToolStripMenuItem.Text = "STATE 8"
         '
         'STATE9ToolStripMenuItem
         '
         Me.STATE9ToolStripMenuItem.Name = "STATE9ToolStripMenuItem"
-        Me.STATE9ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.STATE9ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.STATE9ToolStripMenuItem.Text = "STATE 9"
         '
         'SpeedTestToolStripMenuItem
@@ -784,7 +834,7 @@ Partial Class Form4
         '
         Me.Toggle1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Toggle1.AutoSize = True
-        Me.Toggle1.Location = New System.Drawing.Point(195, 444)
+        Me.Toggle1.Location = New System.Drawing.Point(195, 448)
         Me.Toggle1.Name = "Toggle1"
         Me.Toggle1.Size = New System.Drawing.Size(80, 17)
         Me.Toggle1.TabIndex = 168
@@ -795,9 +845,9 @@ Partial Class Form4
         '
         Me.ProgressBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgressBar1.Location = New System.Drawing.Point(285, 466)
+        Me.ProgressBar1.Location = New System.Drawing.Point(299, 456)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(400, 28)
+        Me.ProgressBar1.Size = New System.Drawing.Size(460, 28)
         Me.ProgressBar1.TabIndex = 170
         '
         'Label17
@@ -807,7 +857,7 @@ Partial Class Form4
         Me.Label17.BackColor = System.Drawing.Color.Transparent
         Me.Label17.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label17.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
-        Me.Label17.Location = New System.Drawing.Point(504, 556)
+        Me.Label17.Location = New System.Drawing.Point(553, 545)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(459, 14)
         Me.Label17.TabIndex = 199
@@ -818,49 +868,17 @@ Partial Class Form4
         Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PictureBox1.Cursor = System.Windows.Forms.Cursors.Hand
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(872, 504)
+        Me.PictureBox1.Location = New System.Drawing.Point(921, 491)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(94, 49)
         Me.PictureBox1.TabIndex = 198
         Me.PictureBox1.TabStop = False
         '
-        'Column1
-        '
-        Me.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.Column1.HeaderText = "Date & Time"
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
-        Me.Column1.Width = 92
-        '
-        'Column3
-        '
-        Me.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.Column3.HeaderText = "RSSI"
-        Me.Column3.Name = "Column3"
-        Me.Column3.ReadOnly = True
-        Me.Column3.Width = 52
-        '
-        'Column4
-        '
-        Me.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.Column4.HeaderText = "Signal Quality"
-        Me.Column4.Name = "Column4"
-        Me.Column4.ReadOnly = True
-        Me.Column4.Width = 94
-        '
-        'Column5
-        '
-        Me.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.Column5.HeaderText = "Average Signal Quality"
-        Me.Column5.Name = "Column5"
-        Me.Column5.ReadOnly = True
-        Me.Column5.Width = 133
-        '
         'Form4
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.BackMaxSize = 30
-        Me.ClientSize = New System.Drawing.Size(970, 573)
+        Me.ClientSize = New System.Drawing.Size(1030, 573)
         Me.Controls.Add(Me.Label17)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.ProgressBar1)
@@ -955,7 +973,9 @@ Partial Class Form4
     Friend WithEvents Label17 As Label
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
+    Friend WithEvents Column6 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
+    Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
 End Class

@@ -38,6 +38,7 @@ Public Class Form3
     Dim WithEvents wc As New WebClient
     'Dim WithEvents myWebClient As New WebClient
     Dim values() As String
+    Dim dialog1 As SaveFileDialog = New SaveFileDialog()
 
     Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         '    'AddHandler System.Windows.Forms.Application.Idle, AddressOf Application_Idle
@@ -93,7 +94,7 @@ Public Class Form3
                     GlobalVariables.detailed = True
                 End If
             Else
-                GlobalVariables.period = "Unlimited"
+                GlobalVariables.period = "1 min"
                 GlobalVariables.size = "1 MB"
                 GlobalVariables.dfolder = "\\192.168.31.1\tddownload\TDTEMP\Download_Files\"
                 GlobalVariables.ufolder = "\\192.168.31.1\tddownload\TDTEMP\Upload_Files\"
@@ -116,6 +117,7 @@ Public Class Form3
         TextBox11.Text = ""
         'If Button1.Text = "Start" Then
         Button1.Enabled = False
+        MenuStrip1.Enabled = False
         'foundit = 0
         Try
             Dim connectedSsids As Collection(Of [String]) = New Collection(Of String)()
@@ -135,12 +137,14 @@ Public Class Form3
                         MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                     Button1.Enabled = True
+                    MenuStrip1.Enabled = True
                     Exit Sub
                 End Try
             Next
             If Not connectedSsids.Contains(GlobalVariables.ssidname) Then
                 MetroFramework.MetroMessageBox.Show(Me, "WiFi Connection to """ & GlobalVariables.ssidname & """ has been lost. Please establish a connection and try again.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
+                MenuStrip1.Enabled = True
                 Exit Sub
             End If
             'If (Not Directory.Exists("\\192.168.0.1\volume(sda1)\Download_Files\")) Or (Not Directory.Exists("\\192.168.0.1\volume(sda1)\Upload_Files\")) Then
@@ -149,6 +153,7 @@ Public Class Form3
                 'MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.0.1\volume(sda1)\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 MetroFramework.MetroMessageBox.Show(Me, "Unable to access " & GlobalVariables.ssidname & " Or " & GlobalVariables.macadd & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
+                MenuStrip1.Enabled = True
                 Exit Sub
             End If
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
@@ -209,6 +214,7 @@ Public Class Form3
                             Catch ex As Exception
                                 MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Button1.Enabled = True
+                                MenuStrip1.Enabled = True
                                 Exit Sub
                             End Try
                             If ((bandwidth = 20) Or (bandwidth = 22) Or (bandwidth = 40) Or (bandwidth = 80) Or (bandwidth = 160) Or (bandwidth = 2160) Or (bandwidth = 8000)) Then
@@ -228,6 +234,7 @@ Public Class Form3
                             Else
                                 MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Button1.Enabled = True
+                                MenuStrip1.Enabled = True
                                 Exit Sub
                             End If
                         End If
@@ -262,6 +269,7 @@ Public Class Form3
                 If myserialPort.IsOpen Then
                     timestamp = DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")    'Hebrew colon (׃) is from right to left
                     For i As Integer = 1 To 9
+                        'If i = 3 Or i = 5 Or i = 7 Then         'Outer CA, BA or Inner CA
                         myserialPort.Write("SET STATE" & i)
                         Thread.Sleep(25)
                         myserialPort.ReadLine()
@@ -319,10 +327,15 @@ Public Class Form3
                         End While
                         avgqualityarray(i - 1) = avgquality
                         avgrssiarray(i - 1) = avgrssi
+                        'Else
+                        '    avgqualityarray(i - 1) = 0.0
+                        '    avgrssiarray(i - 1) = -100.0
+                        'End If
                     Next
                 Else
                     MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if Teensy 3.2 is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Button1.Enabled = True
+                    MenuStrip1.Enabled = True
                     Exit Sub
                 End If
                 'avgqualityarray(avgqualityarray.Length - 1) = 100
@@ -368,12 +381,12 @@ Public Class Form3
                     Next
                     z += 1
                 End While
-                If foundit = 0 Then     'Condition when RSSI and Link Quality does not match.
-                    myserialPort.Write("SET STATE" & rssiindex(0))
+                If foundit = 0 Then     'Condition when RSSI and Link Quality does not match. 
+                    myserialPort.Write("SET STATE" & qualityindex(0))   ' Created Version 3.0 with option to check the best link quality than best RSSI.
                     Thread.Sleep(25)
                     fullstring += myserialPort.ReadLine()
                     Thread.Sleep(25)
-                    TextBox9.Text = (rssiindex(0))
+                    TextBox9.Text = (qualityindex(0))
                 End If
             Else
                 timestamp = DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")    'Hebrew colon (׃) is from right to left
@@ -436,6 +449,13 @@ Public Class Form3
             wc.UseDefaultCredentials = True
             wc.Credentials = New NetworkCredential("admin", "admin")
 
+            wc.DownloadFile(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1) ' To Remove Latency
+
+            For i As Integer = 1 To 100
+                Thread.Sleep(10)
+                Application.DoEvents()
+            Next
+
             foundit = 0
             fullstring += "Download Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
             elapsedStartTime = DateTime.Now
@@ -457,8 +477,51 @@ Public Class Form3
             Else
                 wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
             End If
+            While wc.IsBusy
+                Application.DoEvents()
+            End While
 
+            For i As Integer = 1 To 100
+                Thread.Sleep(10)
+                Application.DoEvents()
+            Next
+
+            foundit = 0
+            fullstring += "Upload Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
+            elapsedStartTime = DateTime.Now
+            'If ComboBox1.SelectedIndex = 0 Then
+            '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1mb.test"), tmp1)
+            'ElseIf ComboBox1.SelectedIndex = 1 Then
+            '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/10mb.test"), tmp2)
+            'ElseIf ComboBox1.SelectedIndex = 2 Then
+            '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/100mb.test"), tmp3)
+            'Else
+            '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1gb.test"), tmp4)
+            'End If
+            If GlobalVariables.size = "1 MB" Then
+                wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
+            ElseIf GlobalVariables.size = "10 MB" Then
+                wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "10mb.test"), tmp2)
+            ElseIf GlobalVariables.size = "100 MB" Then
+                wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "100mb.test"), tmp3)
+            Else
+                wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1gb.test"), tmp4)
+            End If
+            While wc.IsBusy
+                Application.DoEvents()
+            End While
+
+            dialog1.Filter = "CSV (Comma delimited) (*.csv)|*.csv"
+            dialog1.FileName = ""
+            If dialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+                File.WriteAllText(dialog1.FileName, fullstring)
+            End If
+
+            Button1.Enabled = True
+            MenuStrip1.Enabled = True
             myserialPort.Close()
+            Application.DoEvents()  ' Give port time to close down
+            Thread.Sleep(200)
         Catch ex As Exception
             'If ex.Message.Contains("The group or resource is not in the correct state to perform the requested operation") Then
             'MetroFramework.MetroMessageBox.Show(Me, "WiFi Connection to """ & GlobalVariables.ssidname & """ has been lost. Please establish a connection and try again.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -467,6 +530,7 @@ Public Class Form3
             'End If
             myserialPort.Close()
             Button1.Enabled = True
+            MenuStrip1.Enabled = True
             'Exit Sub
         End Try
 
@@ -519,35 +583,36 @@ Public Class Form3
         'MsgBox("Total Bytes received = " & (download / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Download Speed = " & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps")
         'fullstring += "Total Bytes received = " & (download / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Download Speed = " & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps" & vbNewLine
         fullstring += (download / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
-        TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'ProgressBar1.Visible = False
         ProgressBar1.Value = 0
         If foundit = 1 Then
             fullstring += "Download aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
             TextBox10.Text = "Aborted due to the set time limit of " & GlobalVariables.period
+        Else
+            TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         End If
 
-        foundit = 0
-        fullstring += "Upload Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
-        elapsedStartTime = DateTime.Now
-        'If ComboBox1.SelectedIndex = 0 Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1mb.test"), tmp1)
-        'ElseIf ComboBox1.SelectedIndex = 1 Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/10mb.test"), tmp2)
-        'ElseIf ComboBox1.SelectedIndex = 2 Then
-        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/100mb.test"), tmp3)
+        'foundit = 0
+        'fullstring += "Upload Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
+        'elapsedStartTime = DateTime.Now
+        ''If ComboBox1.SelectedIndex = 0 Then
+        ''    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1mb.test"), tmp1)
+        ''ElseIf ComboBox1.SelectedIndex = 1 Then
+        ''    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/10mb.test"), tmp2)
+        ''ElseIf ComboBox1.SelectedIndex = 2 Then
+        ''    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/100mb.test"), tmp3)
+        ''Else
+        ''    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1gb.test"), tmp4)
+        ''End If
+        'If GlobalVariables.size = "1 MB" Then
+        '    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
+        'ElseIf GlobalVariables.size = "10 MB" Then
+        '    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "10mb.test"), tmp2)
+        'ElseIf GlobalVariables.size = "100 MB" Then
+        '    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "100mb.test"), tmp3)
         'Else
-        '    wc.UploadFileAsync(New Uri("file://192.168.31.1/tddownload/TDTEMP/Upload_Files/1gb.test"), tmp4)
+        '    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1gb.test"), tmp4)
         'End If
-        If GlobalVariables.size = "1 MB" Then
-            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
-        ElseIf GlobalVariables.size = "10 MB" Then
-            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "10mb.test"), tmp2)
-        ElseIf GlobalVariables.size = "100 MB" Then
-            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "100mb.test"), tmp3)
-        Else
-            wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1gb.test"), tmp4)
-        End If
 
     End Sub
 
@@ -577,27 +642,29 @@ Public Class Form3
         'MsgBox("Total Bytes sent = " & (upload / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Upload Speed = " & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps")
         'fullstring += "Total Bytes sent = " & (upload / 1000000) & " MB. Seconds taken = " & Math.Round(elapsedtime.TotalSeconds, 2) & ". Upload Speed = " & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & "Mbps"
         fullstring += (upload / 1000000) & "," & Math.Round(elapsedtime.TotalSeconds, 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
-        TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'ProgressBar1.Visible = False
         ProgressBar1.Value = 0
         If foundit = 1 Then
             fullstring += "Upload aborted due to the set termination period of " & GlobalVariables.period
             TextBox11.Text = "Aborted due to the set time limit of " & GlobalVariables.period
+        Else
+            TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         End If
 
-        timestamp = timestamp & " to " & DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")
-        If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")) Then
-            System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")
-        End If
-        'File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\" & timestamp & ".txt", fullstring)
-        Dim sw As New StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\" & timestamp & ".csv")
-        sw.Write(fullstring)
-        sw.Close()
-        Button1.Enabled = True
-        myserialPort.Close()
-        Application.DoEvents()  ' Give port time to close down
-        Thread.Sleep(200)
-        MetroFramework.MetroMessageBox.Show(Me, "Test results are saved under """ & Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\"" as " & """" & timestamp & ".csv""", "TEST COMPLETE", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'timestamp = timestamp & " to " & DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")
+        'If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")) Then
+        '    System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\")
+        'End If
+        ''File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\" & timestamp & ".txt", fullstring)
+        'Dim sw As New StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\" & timestamp & ".csv")
+        'sw.Write(fullstring)
+        'sw.Close()
+
+        'Button1.Enabled = True
+        'myserialPort.Close()
+        'Application.DoEvents()  ' Give port time to close down
+        'Thread.Sleep(200)
+        'MetroFramework.MetroMessageBox.Show(Me, "Test results are saved under """ & Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT WiFi Data Logger\"" as " & """" & timestamp & ".csv""", "TEST COMPLETE", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
     Private Sub wc_UploadProgressChanged(sender As Object, e As UploadProgressChangedEventArgs) Handles wc.UploadProgressChanged
