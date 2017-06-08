@@ -975,7 +975,7 @@ Public Class Form4
         ProgressBar1.Value = 0
         If foundit = 1 Then
             fullstring += "Download aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
-            TextBox10.Text = "Aborted due to the set time limit of " & GlobalVariables.period
+            TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & " (Aborted due to the set time limit of " & GlobalVariables.period & ")"
         Else
             TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         End If
@@ -1031,7 +1031,7 @@ Public Class Form4
         ProgressBar1.Value = 0
         If foundit = 1 Then
             fullstring += "Upload aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
-            TextBox11.Text = "Aborted due to the set time limit of " & GlobalVariables.period
+            TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & " (Aborted due to the set time limit of " & GlobalVariables.period & ")"
         Else
             TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         End If
@@ -1403,10 +1403,10 @@ Public Class Form4
             Catch ex As Exception
             End Try
             'Me.Dispose()
+            wc.CancelAsync()
             Application.DoEvents()  ' Give port time to close down
             Thread.Sleep(200)
             BackgroundWorker1.Dispose()
-            wc.Dispose()
         End If
     End Sub
 
