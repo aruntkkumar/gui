@@ -205,17 +205,20 @@ Partial Class Form1
         Me.DebugToolStripMenuItem.Name = "DebugToolStripMenuItem"
         Me.DebugToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.DebugToolStripMenuItem.Text = "Debug Mode"
+        Me.DebugToolStripMenuItem.Visible = False
         '
         'DemoToolStripMenuItem
         '
         Me.DemoToolStripMenuItem.Name = "DemoToolStripMenuItem"
         Me.DemoToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.DemoToolStripMenuItem.Text = "Demo Mode"
+        Me.DemoToolStripMenuItem.Visible = False
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(140, 6)
+        Me.ToolStripMenuItem2.Visible = False
         '
         'ExitToolStripMenuItem
         '

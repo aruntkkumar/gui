@@ -151,96 +151,100 @@ Public Class Form3
             'If (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Download_Files\")) Or (Not Directory.Exists("\\192.168.31.1\tddownload\TDTEMP\Upload_Files\")) Then
             If (Not Directory.Exists(GlobalVariables.dfolder)) Or (Not Directory.Exists(GlobalVariables.ufolder)) Then
                 'MetroFramework.MetroMessageBox.Show(Me, "Unable to access \\192.168.0.1\volume(sda1)\. Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                MetroFramework.MetroMessageBox.Show(Me, "Unable to access " & GlobalVariables.ssidname & " Or " & GlobalVariables.macadd & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MetroFramework.MetroMessageBox.Show(Me, "Unable to access the network storage of " & GlobalVariables.ssidname & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
                 MenuStrip1.Enabled = True
                 Exit Sub
             End If
-            For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
-                wlanIface.Scan()
-                Thread.Sleep(1000)
-                'If (wlanIface.InterfaceState.ToString() = "Disconnecting" Or wlanIface.InterfaceState.ToString() = "Disconnected") Then
-                '    MetroFramework.MetroMessageBox.Show(Me, "WiFi Connection lost. Please establish a connection and try again.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                '    Button1.Enabled = True
-                '    ComboBox1.Enabled = True
-                '    Exit Sub
-                'End If
-                Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
-                For Each network As Wlan.WlanBssEntry In wlanBssEntries
-                    If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
-                        Dim macAddr As Byte() = network.dot11Bssid
-                        Dim tMac As String = ""
-                        For i As Integer = 0 To macAddr.Length - 1
-                            If tMac = "" Then
-                                tMac += macAddr(i).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                            Else
-                                tMac += ":" & macAddr(i).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                            End If
-                        Next
-                        If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                            'foundit = 1
-                            frequency = network.chCenterFrequency / 1000000
-                            If frequency > 5.0 Then
-                                If frequency >= 5.745 Then
-                                    channelnumber = 149 + ((frequency - 5.745) * 200)
-                                ElseIf frequency >= 5.5 Then
-                                    channelnumber = 100 + ((frequency - 5.5) * 200)
+            foundit = 0
+            While foundit < 1
+                For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                    wlanIface.Scan()
+                    Thread.Sleep(1000)
+                    'If (wlanIface.InterfaceState.ToString() = "Disconnecting" Or wlanIface.InterfaceState.ToString() = "Disconnected") Then
+                    '    MetroFramework.MetroMessageBox.Show(Me, "WiFi Connection lost. Please establish a connection and try again.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    '    Button1.Enabled = True
+                    '    ComboBox1.Enabled = True
+                    '    Exit Sub
+                    'End If
+                    Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+                    For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                        If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+                            Dim macAddr As Byte() = network.dot11Bssid
+                            Dim tMac As String = ""
+                            For i As Integer = 0 To macAddr.Length - 1
+                                If tMac = "" Then
+                                    tMac += macAddr(i).ToString("x2").PadLeft(2, "0"c).ToUpper()
                                 Else
-                                    channelnumber = 36 + ((frequency - 5.18) * 200)
-                                End If
-                            Else
-                                If frequency > 3.0 Then
-                                    channelnumber = 0
-                                Else
-                                    If frequency = 2.484 Then
-                                        channelnumber = 14
-                                    Else
-                                        channelnumber = (frequency - 2.407) / 0.005
-                                    End If
-                                End If
-                            End If
-                            datarate = 0
-                            For i As Integer = 0 To network.wlanRateSet.Rates.Length + 10
-                                If network.wlanRateSet.GetRateInMbps(i) > datarate Then
-                                    datarate = network.wlanRateSet.GetRateInMbps(i)
+                                    tMac += ":" & macAddr(i).ToString("x2").PadLeft(2, "0"c).ToUpper()
                                 End If
                             Next
-                            'If DataGridView2.RowCount > 0 Then
-                            '    DataGridView2.Rows.Clear()
-                            'End If
-                            bandwidth = 0
-                            Try
-                                bandwidth = CInt(InputBox("Please enter the channel bandwidth in MHz.", "Bandwidth Information", 20))
-                            Catch ex As Exception
-                                MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                Button1.Enabled = True
-                                MenuStrip1.Enabled = True
-                                Exit Sub
-                            End Try
-                            If ((bandwidth = 20) Or (bandwidth = 22) Or (bandwidth = 40) Or (bandwidth = 80) Or (bandwidth = 160) Or (bandwidth = 2160) Or (bandwidth = 8000)) Then
-                                'DataGridView2.Rows.Add(GlobalVariables.ssidname, tMac, network.dot11BssPhyType, frequency, wlanIface.Channel, bandwidth, datarate, network.dot11BssType)
-                                TextBox1.Text = GlobalVariables.ssidname
-                                TextBox2.Text = tMac
-                                TextBox3.Text = network.dot11BssPhyType
-                                TextBox4.Text = frequency
-                                TextBox5.Text = wlanIface.Channel
-                                TextBox6.Text = bandwidth
-                                TextBox7.Text = datarate
-                                TextBox8.Text = network.dot11BssType
-                                fullstring = "SSID = " & GlobalVariables.ssidname & vbNewLine & "MAC Address = " & tMac & vbNewLine & "PHY Type = " & network.dot11BssPhyType & vbNewLine & "Frequency = " & frequency & vbNewLine & "Channel = " & wlanIface.Channel & vbNewLine & "Bandwidth = " & bandwidth & vbNewLine & "Maximum Data Rate = " & datarate & vbNewLine & "BSS Type = " & network.dot11BssType & vbNewLine
-                                'fullstring += GlobalVariables.ssidname & " | " & tMac & " | " & network.dot11BssPhyType & " | " & frequency & " | " & wlanIface.Channel & " | " & bandwidth & " | " & datarate & " | " & network.dot11BssType & vbNewLine
-                                fullstring += "Date & Time,State,RSSI,Signal Quality,Avg Signal Quality" & vbNewLine
-                                Exit For
-                            Else
-                                MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                Button1.Enabled = True
-                                MenuStrip1.Enabled = True
-                                Exit Sub
+                            If tMac.Replace(":", "") = GlobalVariables.macadd Then
+                                'foundit = 1
+                                frequency = network.chCenterFrequency / 1000000
+                                If frequency > 5.0 Then
+                                    If frequency >= 5.745 Then
+                                        channelnumber = 149 + ((frequency - 5.745) * 200)
+                                    ElseIf frequency >= 5.5 Then
+                                        channelnumber = 100 + ((frequency - 5.5) * 200)
+                                    Else
+                                        channelnumber = 36 + ((frequency - 5.18) * 200)
+                                    End If
+                                Else
+                                    If frequency > 3.0 Then
+                                        channelnumber = 0
+                                    Else
+                                        If frequency = 2.484 Then
+                                            channelnumber = 14
+                                        Else
+                                            channelnumber = (frequency - 2.407) / 0.005
+                                        End If
+                                    End If
+                                End If
+                                datarate = 0
+                                For i As Integer = 0 To network.wlanRateSet.Rates.Length + 10
+                                    If network.wlanRateSet.GetRateInMbps(i) > datarate Then
+                                        datarate = network.wlanRateSet.GetRateInMbps(i)
+                                    End If
+                                Next
+                                'If DataGridView2.RowCount > 0 Then
+                                '    DataGridView2.Rows.Clear()
+                                'End If
+                                bandwidth = 0
+                                Try
+                                    bandwidth = CInt(InputBox("Please enter the channel bandwidth in MHz.", "Bandwidth Information", 20))
+                                Catch ex As Exception
+                                    MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                    Button1.Enabled = True
+                                    MenuStrip1.Enabled = True
+                                    Exit Sub
+                                End Try
+                                If ((bandwidth = 20) Or (bandwidth = 22) Or (bandwidth = 40) Or (bandwidth = 80) Or (bandwidth = 160) Or (bandwidth = 2160) Or (bandwidth = 8000)) Then
+                                    'DataGridView2.Rows.Add(GlobalVariables.ssidname, tMac, network.dot11BssPhyType, frequency, wlanIface.Channel, bandwidth, datarate, network.dot11BssType)
+                                    TextBox1.Text = GlobalVariables.ssidname
+                                    TextBox2.Text = tMac
+                                    TextBox3.Text = network.dot11BssPhyType
+                                    TextBox4.Text = frequency
+                                    TextBox5.Text = wlanIface.Channel
+                                    TextBox6.Text = bandwidth
+                                    TextBox7.Text = datarate
+                                    TextBox8.Text = network.dot11BssType
+                                    fullstring = "SSID = " & GlobalVariables.ssidname & vbNewLine & "MAC Address = " & tMac & vbNewLine & "PHY Type = " & network.dot11BssPhyType & vbNewLine & "Frequency = " & frequency & vbNewLine & "Channel = " & wlanIface.Channel & vbNewLine & "Bandwidth = " & bandwidth & vbNewLine & "Maximum Data Rate = " & datarate & vbNewLine & "BSS Type = " & network.dot11BssType & vbNewLine
+                                    'fullstring += GlobalVariables.ssidname & " | " & tMac & " | " & network.dot11BssPhyType & " | " & frequency & " | " & wlanIface.Channel & " | " & bandwidth & " | " & datarate & " | " & network.dot11BssType & vbNewLine
+                                    fullstring += "Date & Time,State,RSSI,Signal Quality,Avg Signal Quality" & vbNewLine
+                                    foundit += 1
+                                    Exit For
+                                Else
+                                    MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                    Button1.Enabled = True
+                                    MenuStrip1.Enabled = True
+                                    Exit Sub
+                                End If
                             End If
                         End If
-                    End If
+                    Next
                 Next
-            Next
+            End While
             'If foundit = 0 Then
             '    MetroFramework.MetroMessageBox.Show(Me, "WiFi Connection to """ & GlobalVariables.ssidname & """ has been lost. Please establish a connection and try again.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             '    Button1.Enabled = True
@@ -254,16 +258,18 @@ Public Class Form3
                 Dim x As New ComPortFinder
                 Dim list = x.ComPortNames("16C0", "0483")
                 For Each item As String In list
-                    For Each Str As String In myPort
-                        If Str.Contains(item) Then
-                            myserialPort.PortName = item
-                            myserialPort.BaudRate = 115200
-                            myserialPort.Parity = Parity.None
-                            myserialPort.DataBits = 8
-                            myserialPort.StopBits = StopBits.One
-                            myserialPort.Open()
-                        End If
-                    Next
+                    If item <> Nothing Then
+                        For Each Str As String In myPort
+                            If Str.Contains(item) Then
+                                myserialPort.PortName = item
+                                myserialPort.BaudRate = 115200
+                                myserialPort.Parity = Parity.None
+                                myserialPort.DataBits = 8
+                                myserialPort.StopBits = StopBits.One
+                                myserialPort.Open()
+                            End If
+                        Next
+                    End If
                 Next
 
                 If myserialPort.IsOpen Then

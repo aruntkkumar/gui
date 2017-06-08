@@ -37,6 +37,7 @@ Partial Class Form5
         Me.ComboBox2 = New MetroFramework.Controls.MetroComboBox()
         Me.Button1 = New MetroFramework.Controls.MetroButton()
         Me.Button2 = New MetroFramework.Controls.MetroButton()
+        Me.CheckBox2 = New MetroFramework.Controls.MetroCheckBox()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -45,6 +46,7 @@ Partial Class Form5
         Me.Panel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.CheckBox2)
         Me.Panel1.Controls.Add(Me.Button3)
         Me.Panel1.Controls.Add(Me.TextBox2)
         Me.Panel1.Controls.Add(Me.TextBox1)
@@ -241,6 +243,17 @@ Partial Class Form5
         Me.Button2.Text = "Cancel"
         Me.Button2.UseSelectable = True
         '
+        'CheckBox2
+        '
+        Me.CheckBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.Location = New System.Drawing.Point(372, 149)
+        Me.CheckBox2.Name = "CheckBox2"
+        Me.CheckBox2.Size = New System.Drawing.Size(105, 15)
+        Me.CheckBox2.TabIndex = 82
+        Me.CheckBox2.Text = "Download Only"
+        Me.CheckBox2.UseSelectable = True
+        '
         'Form5
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -282,4 +295,5 @@ Partial Class Form5
     Friend WithEvents ComboBox2 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents Button1 As MetroFramework.Controls.MetroButton
     Friend WithEvents Button2 As MetroFramework.Controls.MetroButton
+    Friend WithEvents CheckBox2 As MetroFramework.Controls.MetroCheckBox
 End Class

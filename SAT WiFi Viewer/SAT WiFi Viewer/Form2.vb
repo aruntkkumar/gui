@@ -58,13 +58,13 @@ Public Class Form2
                     ElseIf (wlanIface.InterfaceState.ToString() = "Disassociating" Or wlanIface.InterfaceState.ToString() = "Disconnected") Then
                         Exit For
                     ElseIf (wlanIface.InterfaceState.ToString() = "Connected") Then
-                        If GlobalVariables.debug = True Then
-                            Form4.Show()
-                        ElseIf GlobalVariables.demo = True Then
-                            Form6.Show()
-                        Else
-                            Form3.Show()
-                        End If
+                        'If GlobalVariables.debug = True Then
+                        Form4.Show()
+                        'ElseIf GlobalVariables.demo = True Then
+                        '    Form6.Show()
+                        'Else
+                        '    Form3.Show()
+                        'End If
                         Me.Close()
                         Exit Sub
                     End If
@@ -142,13 +142,13 @@ Public Class Form2
                     Dim profileXml As String = String.Format("<?xml version=""1.0""?><WLANProfile xmlns=""http://www.microsoft.com/networking/WLAN/profile/v1""><name>{0}</name><SSIDConfig><SSID><hex>{1}</hex><name>{0}</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>WPA2PSK</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passPhrase</keyType><protected>false</protected><keyMaterial>{2}</keyMaterial></sharedKey></security></MSM></WLANProfile>", GlobalVariables.ssidname, hexval, TextBox1.Text)
                     wlanIface.SetProfile(Wlan.WlanProfileFlags.AllUser, profileXml, True)
                     wlanIface.Connect(Wlan.WlanConnectionMode.Profile, Wlan.Dot11BssType.Any, profileName)
-                    If GlobalVariables.debug = True Then
-                        Form4.Show()
-                    ElseIf GlobalVariables.demo = True Then
-                        Form6.Show()
-                    Else
-                        Form3.Show()
-                    End If
+                    'If GlobalVariables.debug = True Then
+                    Form4.Show()
+                    'ElseIf GlobalVariables.demo = True Then
+                    '    Form6.Show()
+                    'Else
+                    '    Form3.Show()
+                    'End If
                     Me.Close()
                     Exit Sub
                 Next

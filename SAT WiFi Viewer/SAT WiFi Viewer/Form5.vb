@@ -35,6 +35,11 @@ Public Class Form5
         Else
             GlobalVariables.detailed = False
         End If
+        If CheckBox2.CheckState = CheckState.Checked Then
+            GlobalVariables.downloadonly = True
+        Else
+            GlobalVariables.downloadonly = False
+        End If
         GlobalVariables.okbutton = "ok"
         If Not Me.IsDisposed() Then
             Try
@@ -82,8 +87,10 @@ Public Class Form5
         Else
             ComboBox2.SelectedIndex = 3
         End If
-        'If GlobalVariables.debug = True Then
-        '    CheckBox1.Visible = False
-        'End If
+        If GlobalVariables.downloadonly = True Then
+            CheckBox2.CheckState = CheckState.Checked
+        Else
+            CheckBox2.CheckState = CheckState.Unchecked
+        End If
     End Sub
 End Class

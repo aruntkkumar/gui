@@ -40,6 +40,7 @@ Partial Class Form4
         Me.MonitorSSIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AntennaStateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NoneSelectedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NormalOperationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.STATE1ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.STATE2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.STATE3ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -54,6 +55,10 @@ Partial Class Form4
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ConnectivityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DevicesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TeensyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.WLANBSRev02ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TextBox11 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox10 = New MetroFramework.Controls.MetroTextBox()
         Me.Label11 = New MetroFramework.Controls.MetroLabel()
@@ -81,6 +86,10 @@ Partial Class Form4
         Me.ProgressBar1 = New MetroFramework.Controls.MetroProgressBar()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Label13 = New MetroFramework.Controls.MetroLabel()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.SaveAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,7 +100,7 @@ Partial Class Form4
         Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button1.DisplayFocus = True
         Me.Button1.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button1.Location = New System.Drawing.Point(456, 498)
+        Me.Button1.Location = New System.Drawing.Point(471, 516)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(118, 38)
         Me.Button1.TabIndex = 132
@@ -106,7 +115,8 @@ Partial Class Form4
         Me.DataGridView1.AllowUserToResizeRows = False
         DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.DataGridView1.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
-        Me.DataGridView1.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.DataGridView1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.DataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.DataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None
@@ -203,7 +213,7 @@ Partial Class Form4
         '
         Me.MenuStrip1.BackColor = System.Drawing.SystemColors.Window
         Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ConnectivityToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(20, 60)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(990, 24)
@@ -212,7 +222,7 @@ Partial Class Form4
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MonitorSSIDToolStripMenuItem, Me.AntennaStateToolStripMenuItem, Me.SpeedTestToolStripMenuItem, Me.ToolStripMenuItem2, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveAsToolStripMenuItem, Me.ToolStripMenuItem3, Me.MonitorSSIDToolStripMenuItem, Me.AntennaStateToolStripMenuItem, Me.SpeedTestToolStripMenuItem, Me.ToolStripMenuItem2, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -225,7 +235,7 @@ Partial Class Form4
         '
         'AntennaStateToolStripMenuItem
         '
-        Me.AntennaStateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NoneSelectedToolStripMenuItem, Me.STATE1ToolStripMenuItem, Me.STATE2ToolStripMenuItem, Me.STATE3ToolStripMenuItem, Me.STATE4ToolStripMenuItem, Me.STATE5ToolStripMenuItem, Me.STATE6ToolStripMenuItem, Me.STATE7ToolStripMenuItem, Me.STATE8ToolStripMenuItem, Me.STATE9ToolStripMenuItem})
+        Me.AntennaStateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NoneSelectedToolStripMenuItem, Me.NormalOperationToolStripMenuItem, Me.STATE1ToolStripMenuItem, Me.STATE2ToolStripMenuItem, Me.STATE3ToolStripMenuItem, Me.STATE4ToolStripMenuItem, Me.STATE5ToolStripMenuItem, Me.STATE6ToolStripMenuItem, Me.STATE7ToolStripMenuItem, Me.STATE8ToolStripMenuItem, Me.STATE9ToolStripMenuItem})
         Me.AntennaStateToolStripMenuItem.Name = "AntennaStateToolStripMenuItem"
         Me.AntennaStateToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
         Me.AntennaStateToolStripMenuItem.Text = "Antenna State"
@@ -235,61 +245,67 @@ Partial Class Form4
         Me.NoneSelectedToolStripMenuItem.Checked = True
         Me.NoneSelectedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.NoneSelectedToolStripMenuItem.Name = "NoneSelectedToolStripMenuItem"
-        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.NoneSelectedToolStripMenuItem.Text = "None Selected"
+        '
+        'NormalOperationToolStripMenuItem
+        '
+        Me.NormalOperationToolStripMenuItem.Name = "NormalOperationToolStripMenuItem"
+        Me.NormalOperationToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.NormalOperationToolStripMenuItem.Text = "Normal Operation"
         '
         'STATE1ToolStripMenuItem
         '
         Me.STATE1ToolStripMenuItem.Name = "STATE1ToolStripMenuItem"
-        Me.STATE1ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE1ToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.STATE1ToolStripMenuItem.Text = "STATE 1"
         '
         'STATE2ToolStripMenuItem
         '
         Me.STATE2ToolStripMenuItem.Name = "STATE2ToolStripMenuItem"
-        Me.STATE2ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE2ToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.STATE2ToolStripMenuItem.Text = "STATE 2"
         '
         'STATE3ToolStripMenuItem
         '
         Me.STATE3ToolStripMenuItem.Name = "STATE3ToolStripMenuItem"
-        Me.STATE3ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE3ToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.STATE3ToolStripMenuItem.Text = "STATE 3"
         '
         'STATE4ToolStripMenuItem
         '
         Me.STATE4ToolStripMenuItem.Name = "STATE4ToolStripMenuItem"
-        Me.STATE4ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE4ToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.STATE4ToolStripMenuItem.Text = "STATE 4"
         '
         'STATE5ToolStripMenuItem
         '
         Me.STATE5ToolStripMenuItem.Name = "STATE5ToolStripMenuItem"
-        Me.STATE5ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE5ToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.STATE5ToolStripMenuItem.Text = "STATE 5"
         '
         'STATE6ToolStripMenuItem
         '
         Me.STATE6ToolStripMenuItem.Name = "STATE6ToolStripMenuItem"
-        Me.STATE6ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE6ToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.STATE6ToolStripMenuItem.Text = "STATE 6"
         '
         'STATE7ToolStripMenuItem
         '
         Me.STATE7ToolStripMenuItem.Name = "STATE7ToolStripMenuItem"
-        Me.STATE7ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE7ToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.STATE7ToolStripMenuItem.Text = "STATE 7"
         '
         'STATE8ToolStripMenuItem
         '
         Me.STATE8ToolStripMenuItem.Name = "STATE8ToolStripMenuItem"
-        Me.STATE8ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE8ToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.STATE8ToolStripMenuItem.Text = "STATE 8"
         '
         'STATE9ToolStripMenuItem
         '
         Me.STATE9ToolStripMenuItem.Name = "STATE9ToolStripMenuItem"
-        Me.STATE9ToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.STATE9ToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.STATE9ToolStripMenuItem.Text = "STATE 9"
         '
         'SpeedTestToolStripMenuItem
@@ -322,6 +338,34 @@ Partial Class Form4
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
+        '
+        'ConnectivityToolStripMenuItem
+        '
+        Me.ConnectivityToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DevicesToolStripMenuItem})
+        Me.ConnectivityToolStripMenuItem.Name = "ConnectivityToolStripMenuItem"
+        Me.ConnectivityToolStripMenuItem.Size = New System.Drawing.Size(86, 20)
+        Me.ConnectivityToolStripMenuItem.Text = "Connectivity"
+        '
+        'DevicesToolStripMenuItem
+        '
+        Me.DevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TeensyToolStripMenuItem, Me.WLANBSRev02ToolStripMenuItem})
+        Me.DevicesToolStripMenuItem.Name = "DevicesToolStripMenuItem"
+        Me.DevicesToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
+        Me.DevicesToolStripMenuItem.Text = "Devices"
+        '
+        'TeensyToolStripMenuItem
+        '
+        Me.TeensyToolStripMenuItem.Enabled = False
+        Me.TeensyToolStripMenuItem.Name = "TeensyToolStripMenuItem"
+        Me.TeensyToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.TeensyToolStripMenuItem.Text = "Arduino Teensy 3.2"
+        '
+        'WLANBSRev02ToolStripMenuItem
+        '
+        Me.WLANBSRev02ToolStripMenuItem.Enabled = False
+        Me.WLANBSRev02ToolStripMenuItem.Name = "WLANBSRev02ToolStripMenuItem"
+        Me.WLANBSRev02ToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.WLANBSRev02ToolStripMenuItem.Text = "WLAN BS Rev. 02"
         '
         'TextBox11
         '
@@ -820,7 +864,8 @@ Partial Class Form4
         '
         'Label12
         '
-        Me.Label12.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label12.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label12.AutoSize = True
         Me.Label12.FontSize = MetroFramework.MetroLabelSize.Small
         Me.Label12.FontWeight = MetroFramework.MetroLabelWeight.Regular
@@ -832,7 +877,8 @@ Partial Class Form4
         '
         'Toggle1
         '
-        Me.Toggle1.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Toggle1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Toggle1.AutoSize = True
         Me.Toggle1.Location = New System.Drawing.Point(195, 448)
         Me.Toggle1.Name = "Toggle1"
@@ -843,9 +889,8 @@ Partial Class Form4
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgressBar1.Location = New System.Drawing.Point(299, 456)
+        Me.ProgressBar1.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.ProgressBar1.Location = New System.Drawing.Point(299, 474)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(460, 28)
         Me.ProgressBar1.TabIndex = 170
@@ -857,7 +902,7 @@ Partial Class Form4
         Me.Label17.BackColor = System.Drawing.Color.Transparent
         Me.Label17.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label17.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
-        Me.Label17.Location = New System.Drawing.Point(553, 545)
+        Me.Label17.Location = New System.Drawing.Point(553, 564)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(459, 14)
         Me.Label17.TabIndex = 199
@@ -868,17 +913,48 @@ Partial Class Form4
         Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PictureBox1.Cursor = System.Windows.Forms.Cursors.Hand
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(921, 491)
+        Me.PictureBox1.Location = New System.Drawing.Point(921, 510)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(94, 49)
         Me.PictureBox1.TabIndex = 198
         Me.PictureBox1.TabStop = False
         '
+        'Label13
+        '
+        Me.Label13.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label13.AutoSize = True
+        Me.Label13.FontSize = MetroFramework.MetroLabelSize.Small
+        Me.Label13.FontWeight = MetroFramework.MetroLabelWeight.Regular
+        Me.Label13.Location = New System.Drawing.Point(299, 448)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(112, 15)
+        Me.Label13.TabIndex = 200
+        Me.Label13.Text = "Download Progress:"
+        Me.Label13.Visible = False
+        '
+        'BackgroundWorker1
+        '
+        Me.BackgroundWorker1.WorkerReportsProgress = True
+        Me.BackgroundWorker1.WorkerSupportsCancellation = True
+        '
+        'SaveAsToolStripMenuItem
+        '
+        Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
+        Me.SaveAsToolStripMenuItem.Text = "Save As"
+        '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(193, 6)
+        '
         'Form4
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.BackMaxSize = 30
-        Me.ClientSize = New System.Drawing.Size(1030, 573)
+        Me.ClientSize = New System.Drawing.Size(1030, 592)
+        Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.Label17)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.ProgressBar1)
@@ -978,4 +1054,13 @@ Partial Class Form4
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
+    Friend WithEvents NormalOperationToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Label13 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents ConnectivityToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DevicesToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TeensyToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents WLANBSRev02ToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents SaveAsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
 End Class
