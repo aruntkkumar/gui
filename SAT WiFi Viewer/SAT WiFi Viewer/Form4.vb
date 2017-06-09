@@ -429,8 +429,8 @@ Public Class Form4
                                 If STATE1ToolStripMenuItem.Checked = True Then
                                     state = 1
                                     TextBox9.Text = state
-                                    'TextBox10.Text = ""
-                                    'TextBox11.Text = ""
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     myserialPort.Write("SET STATE1")
                                     Thread.Sleep(25)
                                     myserialPort.ReadLine()
@@ -442,8 +442,8 @@ Public Class Form4
                                 If STATE2ToolStripMenuItem.Checked = True Then
                                     state = 2
                                     TextBox9.Text = state
-                                    'TextBox10.Text = ""
-                                    'TextBox11.Text = ""
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     myserialPort.Write("SET STATE2")
                                     Thread.Sleep(25)
                                     myserialPort.ReadLine()
@@ -455,8 +455,8 @@ Public Class Form4
                                 If STATE3ToolStripMenuItem.Checked = True Then
                                     state = 3
                                     TextBox9.Text = state
-                                    'TextBox10.Text = ""
-                                    'TextBox11.Text = ""
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     myserialPort.Write("SET STATE3")
                                     Thread.Sleep(25)
                                     myserialPort.ReadLine()
@@ -468,8 +468,8 @@ Public Class Form4
                                 If STATE4ToolStripMenuItem.Checked = True Then
                                     state = 4
                                     TextBox9.Text = state
-                                    'TextBox10.Text = ""
-                                    'TextBox11.Text = ""
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     myserialPort.Write("SET STATE4")
                                     Thread.Sleep(25)
                                     myserialPort.ReadLine()
@@ -481,8 +481,8 @@ Public Class Form4
                                 If STATE5ToolStripMenuItem.Checked = True Then
                                     state = 5
                                     TextBox9.Text = state
-                                    'TextBox10.Text = ""
-                                    'TextBox11.Text = ""
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     myserialPort.Write("SET STATE5")
                                     Thread.Sleep(25)
                                     myserialPort.ReadLine()
@@ -494,8 +494,8 @@ Public Class Form4
                                 If STATE6ToolStripMenuItem.Checked = True Then
                                     state = 6
                                     TextBox9.Text = state
-                                    'TextBox10.Text = ""
-                                    'TextBox11.Text = ""
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     myserialPort.Write("SET STATE6")
                                     Thread.Sleep(25)
                                     myserialPort.ReadLine()
@@ -507,8 +507,8 @@ Public Class Form4
                                 If STATE7ToolStripMenuItem.Checked = True Then
                                     state = 7
                                     TextBox9.Text = state
-                                    'TextBox10.Text = ""
-                                    'TextBox11.Text = ""
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     myserialPort.Write("SET STATE7")
                                     Thread.Sleep(25)
                                     myserialPort.ReadLine()
@@ -520,8 +520,8 @@ Public Class Form4
                                 If STATE8ToolStripMenuItem.Checked = True Then
                                     state = 8
                                     TextBox9.Text = state
-                                    'TextBox10.Text = ""
-                                    'TextBox11.Text = ""
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     myserialPort.Write("SET STATE8")
                                     Thread.Sleep(25)
                                     myserialPort.ReadLine()
@@ -533,8 +533,8 @@ Public Class Form4
                                 If STATE9ToolStripMenuItem.Checked = True Then
                                     state = 9
                                     TextBox9.Text = state
-                                    'TextBox10.Text = ""
-                                    'TextBox11.Text = ""
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     myserialPort.Write("SET STATE9")
                                     Thread.Sleep(25)
                                     myserialPort.ReadLine()
@@ -630,6 +630,8 @@ Public Class Form4
                                     myserialPort.Write(Convert.ToChar(&H1))        'Hex value for char '1'
                                     Thread.Sleep(25)
                                     TextBox9.Text = state
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     Thread.Sleep(25)
                                     fullstring += "STATE " & state & " selected" & vbNewLine
                                     MonitorSSID()
@@ -642,6 +644,8 @@ Public Class Form4
                                     myserialPort.Write(Convert.ToChar(&H2))        'Hex value for char '2'
                                     Thread.Sleep(25)
                                     TextBox9.Text = state
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     Thread.Sleep(25)
                                     fullstring += "STATE " & state & " selected" & vbNewLine
                                     MonitorSSID()
@@ -654,6 +658,8 @@ Public Class Form4
                                     myserialPort.Write(Convert.ToChar(&H3))        'Hex value for char '3'
                                     Thread.Sleep(25)
                                     TextBox9.Text = state
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     Thread.Sleep(25)
                                     fullstring += "STATE " & state & " selected" & vbNewLine
                                     MonitorSSID()
@@ -666,6 +672,8 @@ Public Class Form4
                                     myserialPort.Write(Convert.ToChar(&H4))        'Hex value for char '4'
                                     Thread.Sleep(25)
                                     TextBox9.Text = state
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     Thread.Sleep(25)
                                     fullstring += "STATE " & state & " selected" & vbNewLine
                                     MonitorSSID()
@@ -678,6 +686,8 @@ Public Class Form4
                                     myserialPort.Write(Convert.ToChar(&H5))        'Hex value for char '5'
                                     Thread.Sleep(25)
                                     TextBox9.Text = state
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     Thread.Sleep(25)
                                     fullstring += "STATE " & state & " selected" & vbNewLine
                                     MonitorSSID()
@@ -690,6 +700,8 @@ Public Class Form4
                                     myserialPort.Write(Convert.ToChar(&H6))        'Hex value for char '6'
                                     Thread.Sleep(25)
                                     TextBox9.Text = state
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     Thread.Sleep(25)
                                     fullstring += "STATE " & state & " selected" & vbNewLine
                                     MonitorSSID()
@@ -702,6 +714,8 @@ Public Class Form4
                                     myserialPort.Write(Convert.ToChar(&H7))        'Hex value for char '7'
                                     Thread.Sleep(25)
                                     TextBox9.Text = state
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     Thread.Sleep(25)
                                     fullstring += "STATE " & state & " selected" & vbNewLine
                                     MonitorSSID()
@@ -714,6 +728,8 @@ Public Class Form4
                                     myserialPort.Write(Convert.ToChar(&H8))        'Hex value for char '8'
                                     Thread.Sleep(25)
                                     TextBox9.Text = state
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     Thread.Sleep(25)
                                     fullstring += "STATE " & state & " selected" & vbNewLine
                                     MonitorSSID()
@@ -726,6 +742,8 @@ Public Class Form4
                                     myserialPort.Write(Convert.ToChar(&H9))        'Hex value for char '9'
                                     Thread.Sleep(25)
                                     TextBox9.Text = state
+                                    TextBox10.Text = ""
+                                    TextBox11.Text = ""
                                     Thread.Sleep(25)
                                     fullstring += "STATE " & state & " selected" & vbNewLine
                                     MonitorSSID()
@@ -1111,253 +1129,100 @@ Public Class Form4
     Private Sub STATE1ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles STATE1ToolStripMenuItem.Click
         If STATE1ToolStripMenuItem.Checked = False Then
             STATE1ToolStripMenuItem.Checked = True
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
             NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
             STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
-            NormalOperationToolStripMenuItem.Checked = False
         End If
+        NoneSelectCheck()
     End Sub
 
     Private Sub STATE2ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles STATE2ToolStripMenuItem.Click
         If STATE2ToolStripMenuItem.Checked = False Then
-            STATE1ToolStripMenuItem.Checked = False
             STATE2ToolStripMenuItem.Checked = True
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
             NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
-            STATE1ToolStripMenuItem.Checked = False
             STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
-            NormalOperationToolStripMenuItem.Checked = False
         End If
+        NoneSelectCheck()
     End Sub
 
     Private Sub STATE3ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles STATE3ToolStripMenuItem.Click
         If STATE3ToolStripMenuItem.Checked = False Then
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
             STATE3ToolStripMenuItem.Checked = True
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
             NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
             STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
-            NormalOperationToolStripMenuItem.Checked = False
         End If
+        NoneSelectCheck()
     End Sub
 
     Private Sub STATE4ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles STATE4ToolStripMenuItem.Click
         If STATE4ToolStripMenuItem.Checked = False Then
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
             STATE4ToolStripMenuItem.Checked = True
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
             NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
             STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
-            NormalOperationToolStripMenuItem.Checked = False
         End If
+        NoneSelectCheck()
     End Sub
 
     Private Sub STATE5ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles STATE5ToolStripMenuItem.Click
         If STATE5ToolStripMenuItem.Checked = False Then
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
             STATE5ToolStripMenuItem.Checked = True
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
             NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
             STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
-            NormalOperationToolStripMenuItem.Checked = False
         End If
+        NoneSelectCheck()
     End Sub
 
     Private Sub STATE6ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles STATE6ToolStripMenuItem.Click
         If STATE6ToolStripMenuItem.Checked = False Then
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
             STATE6ToolStripMenuItem.Checked = True
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
             NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
             STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
-            NormalOperationToolStripMenuItem.Checked = False
         End If
+        NoneSelectCheck()
     End Sub
 
     Private Sub STATE7ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles STATE7ToolStripMenuItem.Click
         If STATE7ToolStripMenuItem.Checked = False Then
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
             STATE7ToolStripMenuItem.Checked = True
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
             NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
             STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
-            NormalOperationToolStripMenuItem.Checked = False
         End If
+        NoneSelectCheck()
     End Sub
 
     Private Sub STATE8ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles STATE8ToolStripMenuItem.Click
         If STATE8ToolStripMenuItem.Checked = False Then
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = True
-            STATE9ToolStripMenuItem.Checked = False
             NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
             STATE8ToolStripMenuItem.Checked = False
-            STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
-            NormalOperationToolStripMenuItem.Checked = False
         End If
+        NoneSelectCheck()
     End Sub
 
     Private Sub STATE9ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles STATE9ToolStripMenuItem.Click
         If STATE9ToolStripMenuItem.Checked = False Then
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = True
             NoneSelectedToolStripMenuItem.Checked = False
             NormalOperationToolStripMenuItem.Checked = False
         Else
-            STATE1ToolStripMenuItem.Checked = False
-            STATE2ToolStripMenuItem.Checked = False
-            STATE3ToolStripMenuItem.Checked = False
-            STATE4ToolStripMenuItem.Checked = False
-            STATE5ToolStripMenuItem.Checked = False
-            STATE6ToolStripMenuItem.Checked = False
-            STATE7ToolStripMenuItem.Checked = False
-            STATE8ToolStripMenuItem.Checked = False
             STATE9ToolStripMenuItem.Checked = False
-            NoneSelectedToolStripMenuItem.Checked = True
-            NormalOperationToolStripMenuItem.Checked = False
         End If
+        NoneSelectCheck()
     End Sub
 
     Private Sub NoneSelectedToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NoneSelectedToolStripMenuItem.Click
@@ -1566,6 +1431,7 @@ Public Class Form4
             wc.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)")
             wc.UseDefaultCredentials = True
             wc.Credentials = New NetworkCredential("admin", "admin")
+            wc.CachePolicy = New System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
 
             wc.DownloadFile(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1) ' To Remove Latency
 
