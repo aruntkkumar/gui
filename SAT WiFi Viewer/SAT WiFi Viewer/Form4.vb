@@ -119,7 +119,7 @@ Public Class Form4
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
             Button1.Enabled = False
-            MenuStrip1.Enabled = False
+            'MenuStrip1.Enabled = False
             Application.DoEvents()
             TextBox9.Text = ""
             TextBox10.Text = ""
@@ -127,7 +127,7 @@ Public Class Form4
             Dim connectedSsids As Collection(Of [String]) = New Collection(Of String)()
             For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces        'Gets a list of all the connected SSIDs
                 wlanIface.Scan()
-                Thread.Sleep(1000)
+                Thread.Sleep(100)
                 Try
                     Dim ssid As Wlan.Dot11Ssid = wlanIface.CurrentConnection.wlanAssociationAttributes.dot11Ssid
                     connectedSsids.Add(New [String](Encoding.ASCII.GetChars(ssid.SSID, 0, CInt(ssid.SSIDLength))))
@@ -141,14 +141,14 @@ Public Class Form4
                         MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                     Button1.Enabled = True
-                    MenuStrip1.Enabled = True
+                    'MenuStrip1.Enabled = True
                     Exit Sub
                 End Try
             Next
             If Not connectedSsids.Contains(GlobalVariables.ssidname) Then
                 MetroFramework.MetroMessageBox.Show(Me, "WiFi Connection to """ & GlobalVariables.ssidname & """ has been lost. Please establish a connection and try again.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
-                MenuStrip1.Enabled = True
+                'MenuStrip1.Enabled = True
                 Exit Sub
             End If
             If SpeedTestStatusToolStripMenuItem.Checked = True Then
@@ -157,7 +157,7 @@ Public Class Form4
                 If (Not Directory.Exists(GlobalVariables.dfolder)) Or (Not Directory.Exists(GlobalVariables.ufolder)) Then
                     MetroFramework.MetroMessageBox.Show(Me, "Unable to access the network storage of " & GlobalVariables.ssidname & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Button1.Enabled = True
-                    MenuStrip1.Enabled = True
+                    'MenuStrip1.Enabled = True
                     Exit Sub
                 End If
             End If
@@ -165,13 +165,13 @@ Public Class Form4
                 If TeensyToolStripMenuItem.Enabled = False AndAlso WLANBSRev02ToolStripMenuItem.Enabled = False Then
                     MetroFramework.MetroMessageBox.Show(Me, "No active devices found. Please connect a supported device for testing the selected states.", "Device Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Button1.Enabled = True
-                    MenuStrip1.Enabled = True
+                    'MenuStrip1.Enabled = True
                     Exit Sub
                 End If
                 If TeensyToolStripMenuItem.Checked = False AndAlso WLANBSRev02ToolStripMenuItem.Checked = False Then
                     MetroFramework.MetroMessageBox.Show(Me, "Please select an active device from the Devices list for testing the selected states.", "Device Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Button1.Enabled = True
-                    MenuStrip1.Enabled = True
+                    'MenuStrip1.Enabled = True
                     Exit Sub
                 End If
             End If
@@ -180,7 +180,7 @@ Public Class Form4
             While foundit < 1
                 For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                     wlanIface.Scan()
-                    Thread.Sleep(1000)
+                    'Thread.Sleep(100)
                     Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
                     For Each network As Wlan.WlanBssEntry In wlanBssEntries
                         If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
@@ -226,7 +226,7 @@ Public Class Form4
                                 Catch ex As Exception
                                     MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     Button1.Enabled = True
-                                    MenuStrip1.Enabled = True
+                                    'MenuStrip1.Enabled = True
                                     Exit Sub
                                 End Try
                                 If ((bandwidth = 20) Or (bandwidth = 22) Or (bandwidth = 40) Or (bandwidth = 80) Or (bandwidth = 160) Or (bandwidth = 2160) Or (bandwidth = 8000)) Then
@@ -244,7 +244,7 @@ Public Class Form4
                                 Else
                                     MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     Button1.Enabled = True
-                                    MenuStrip1.Enabled = True
+                                    'MenuStrip1.Enabled = True
                                     Exit Sub
                                 End If
                             End If
@@ -253,6 +253,62 @@ Public Class Form4
                 Next
             End While
             DataGridView1.Rows.Clear()
+            If NoneSelectedToolStripMenuItem.Checked = False Then
+                myPort = IO.Ports.SerialPort.GetPortNames()
+                Dim x As New ComPortFinder
+                Dim list As List(Of String)
+                If TeensyToolStripMenuItem.Checked = True Then
+                    list = x.ComPortNames("16C0", "0483")
+                    For Each item As String In list
+                        If item <> Nothing Then
+                            For Each Str As String In myPort
+                                If Str.Contains(item) Then
+                                    myserialPort.PortName = item
+                                    myserialPort.BaudRate = 115200
+                                    myserialPort.Parity = Parity.None
+                                    myserialPort.DataBits = 8
+                                    myserialPort.StopBits = StopBits.One
+                                    myserialPort.Open()
+                                End If
+                            Next
+                        End If
+                    Next
+                Else
+                    list = x.ComPortNames("0403", "6001") 'VID, PID for FT232RQ
+                    For Each item As String In list
+                        If item <> Nothing Then
+                            For Each Str As String In myPort
+                                If Str.Contains(item) Then
+                                    myserialPort.PortName = item
+                                    myserialPort.BaudRate = 9600
+                                    myserialPort.Parity = Parity.None
+                                    myserialPort.DataBits = 8
+                                    myserialPort.StopBits = StopBits.One
+                                    myserialPort.Open()
+                                End If
+                            Next
+                        End If
+                    Next
+                    If Not myserialPort.IsOpen Then
+                        list = x.ComPortNames("10C4", "EA60") 'VID, PID for CP2104
+                        For Each item As String In list
+                            If item <> Nothing Then
+                                For Each Str As String In myPort
+                                    If Str.Contains(item) Then
+                                        myserialPort.PortName = item
+                                        myserialPort.BaudRate = 9600
+                                        myserialPort.Parity = Parity.None
+                                        myserialPort.DataBits = 8
+                                        myserialPort.StopBits = StopBits.One
+                                        myserialPort.Encoding = System.Text.Encoding.GetEncoding(28605)
+                                        myserialPort.Open()
+                                    End If
+                                Next
+                            End If
+                        Next
+                    End If
+                End If
+            End If
             Do
                 TextBox9.Text = ""
                 TextBox10.Text = ""
@@ -264,60 +320,6 @@ Public Class Form4
                     MonitorSSID()
                     SpeedTest()
                 Else
-                    myPort = IO.Ports.SerialPort.GetPortNames()
-                    Dim x As New ComPortFinder
-                    Dim list As List(Of String)
-                    If TeensyToolStripMenuItem.Checked = True Then
-                        list = x.ComPortNames("16C0", "0483")
-                        For Each item As String In list
-                            If item <> Nothing Then
-                                For Each Str As String In myPort
-                                    If Str.Contains(item) Then
-                                        myserialPort.PortName = item
-                                        myserialPort.BaudRate = 115200
-                                        myserialPort.Parity = Parity.None
-                                        myserialPort.DataBits = 8
-                                        myserialPort.StopBits = StopBits.One
-                                        myserialPort.Open()
-                                    End If
-                                Next
-                            End If
-                        Next
-                    Else
-                        list = x.ComPortNames("0403", "6001") 'VID, PID for FT232RQ
-                        For Each item As String In list
-                            If item <> Nothing Then
-                                For Each Str As String In myPort
-                                    If Str.Contains(item) Then
-                                        myserialPort.PortName = item
-                                        myserialPort.BaudRate = 9600
-                                        myserialPort.Parity = Parity.None
-                                        myserialPort.DataBits = 8
-                                        myserialPort.StopBits = StopBits.One
-                                        myserialPort.Open()
-                                    End If
-                                Next
-                            End If
-                        Next
-                        If Not myserialPort.IsOpen Then
-                            list = x.ComPortNames("10C4", "EA60") 'VID, PID for CP2104
-                            For Each item As String In list
-                                If item <> Nothing Then
-                                    For Each Str As String In myPort
-                                        If Str.Contains(item) Then
-                                            myserialPort.PortName = item
-                                            myserialPort.BaudRate = 9600
-                                            myserialPort.Parity = Parity.None
-                                            myserialPort.DataBits = 8
-                                            myserialPort.StopBits = StopBits.One
-                                            myserialPort.Encoding = System.Text.Encoding.GetEncoding(28605)
-                                            myserialPort.Open()
-                                        End If
-                                    Next
-                                End If
-                            Next
-                        End If
-                    End If
                     If myserialPort.IsOpen Then
                         If TeensyToolStripMenuItem.Checked = True Then
                             If NormalOperationToolStripMenuItem.Checked = True Then
@@ -333,9 +335,11 @@ Public Class Form4
                                     While foundit < 10
                                         For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                                             wlanIface.Scan()
-                                            Thread.Sleep(1000)
+                                            Application.DoEvents()
+                                            Thread.Sleep(1)
                                             Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
                                             For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                                                Application.DoEvents()
                                                 If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
                                                     Dim macAddr As Byte() = network.dot11Bssid
                                                     Dim tMac As String = ""
@@ -368,7 +372,7 @@ Public Class Form4
                                                         System.Array.Resize(Of Double)(quality, count + 1)
                                                         System.Array.Resize(Of Double)(rssi, count + 1)
                                                         Application.DoEvents()
-                                                        Thread.Sleep(200)
+                                                        'Thread.Sleep(200)
                                                         foundit += 1
                                                     End If
                                                 End If
@@ -557,9 +561,11 @@ Public Class Form4
                                 While foundit < 6
                                     For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                                         wlanIface.Scan()
-                                        Thread.Sleep(1000)
+                                        Application.DoEvents()
+                                        Thread.Sleep(1)
                                         Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
                                         For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                                            Application.DoEvents()
                                             If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
                                                 Dim macAddr As Byte() = network.dot11Bssid
                                                 Dim tMac As String = ""
@@ -577,7 +583,7 @@ Public Class Form4
                                                     DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), "Unknown", network.rssi, network.rssi, network.linkQuality, network.linkQuality)
                                                     DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
                                                     Application.DoEvents()
-                                                    Thread.Sleep(200)
+                                                    'Thread.Sleep(200)
                                                     foundit += 1
                                                 End If
                                             End If
@@ -754,13 +760,13 @@ Public Class Form4
                     Else
                         MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if Teensy 3.2 is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Button1.Enabled = True
-                        MenuStrip1.Enabled = True
+                        'MenuStrip1.Enabled = True
                         Exit Sub
                     End If
                 End If
             Loop Until Toggle1.Checked = False
             Button1.Enabled = True
-            MenuStrip1.Enabled = True
+            'MenuStrip1.Enabled = True
             'dialog1.Filter = "CSV (Comma delimited) (*.csv)|*.csv"
             'dialog1.FileName = ""
             'If dialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
@@ -976,7 +982,7 @@ Public Class Form4
         Catch ex As Exception
             MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Button1.Enabled = True
-            MenuStrip1.Enabled = True
+            'MenuStrip1.Enabled = True
         End Try
     End Sub
 
@@ -1287,9 +1293,11 @@ Public Class Form4
                 While foundit < 1
                     For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                         wlanIface.Scan()
-                        Thread.Sleep(1000)
+                        Application.DoEvents()
+                        Thread.Sleep(1)
                         Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
                         For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                            Application.DoEvents()
                             If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
                                 Dim macAddr As Byte() = network.dot11Bssid
                                 Dim tMac As String = ""
@@ -1307,7 +1315,7 @@ Public Class Form4
                                     DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, network.rssi, network.linkQuality, network.linkQuality)
                                     DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
                                     Application.DoEvents()
-                                    Thread.Sleep(200)
+                                    'Thread.Sleep(200)
                                     foundit += 1
                                 End If
                             End If
@@ -1324,9 +1332,11 @@ Public Class Form4
                 While foundit < 10
                     For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                         wlanIface.Scan()
-                        Thread.Sleep(1000)
+                        Application.DoEvents()
+                        Thread.Sleep(1)
                         Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
                         For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                            Application.DoEvents()
                             If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
                                 Dim macAddr As Byte() = network.dot11Bssid
                                 Dim tMac As String = ""
@@ -1364,7 +1374,7 @@ Public Class Form4
                                     System.Array.Resize(Of Double)(quality, count + 1)
                                     System.Array.Resize(Of Double)(rssi, count + 1)
                                     Application.DoEvents()
-                                    Thread.Sleep(200)
+                                    'Thread.Sleep(200)
                                     foundit += 1
                                 End If
                             End If

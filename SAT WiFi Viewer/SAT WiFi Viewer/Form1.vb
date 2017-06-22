@@ -197,17 +197,17 @@ Testagain:
                 'Dim wlan As New WlanClient()
                 'For Each wlanIface As WlanClient.WlanInterface In wlan1.Interfaces
                 For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
-                    If counter = 10 Then
-                        wlanIface.Scan()
-                        '                        AddHandler wlanIface.WlanNotification, AddressOf wlanIface_WlanNotification
-                        'checkagain2:
-                        '                        If Wlan.WlanNotificationCodeAcm.ScanComplete Then
-                        '                            'MsgBox("Scan Complete")
-                        '                        Else
-                        '                            GoTo checkagain2
-                        '                        End If
-                        counter = 0
-                    End If
+                    'If counter = 10 Then
+                    wlanIface.Scan()
+                    '                        AddHandler wlanIface.WlanNotification, AddressOf wlanIface_WlanNotification
+                    'checkagain2:
+                    '                        If Wlan.WlanNotificationCodeAcm.ScanComplete Then
+                    '                            'MsgBox("Scan Complete")
+                    '                        Else
+                    '                            GoTo checkagain2
+                    '                        End If
+                    'counter = 0
+                    'End If
 
                     'Dim proc As New Process
                     'proc.StartInfo.CreateNoWindow = True
@@ -302,10 +302,15 @@ Testagain:
                 'End Using
                 counter += 1
             Catch ex As Exception
-                MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                'If ex.Message.Contains("The group or resource is not in the correct state to perform the requested operation") Or ex.Message.Contains("Element not found") Then
+                '    Exit Sub
+                'Else
+                'MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+                'End If
             End Try
             Application.DoEvents()
-            Thread.Sleep(100)
+            'Thread.Sleep(100)
         Else
             Exit Sub
         End If
