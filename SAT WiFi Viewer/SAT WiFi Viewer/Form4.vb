@@ -42,6 +42,11 @@ Public Class Form4
     Dim rssiapprox As Integer
     Dim qualityvalue As Double
     Dim rssivalue As Double
+    Dim states(-1) As String
+    Dim rssis(-1) As Double
+    Dim links(-1) As Double
+    Dim downloads(-1) As Double
+    Dim uploads(-1) As Double
 
     Private Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
@@ -119,7 +124,7 @@ Public Class Form4
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
             Button1.Enabled = False
-            'MenuStrip1.Enabled = False
+            MenuStrip1.Enabled = False
             Application.DoEvents()
             TextBox9.Text = ""
             TextBox10.Text = ""
@@ -141,14 +146,14 @@ Public Class Form4
                         MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                     Button1.Enabled = True
-                    'MenuStrip1.Enabled = True
+                    MenuStrip1.Enabled = True
                     Exit Sub
                 End Try
             Next
             If Not connectedSsids.Contains(GlobalVariables.ssidname) Then
                 MetroFramework.MetroMessageBox.Show(Me, "WiFi Connection to """ & GlobalVariables.ssidname & """ has been lost. Please establish a connection and try again.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Button1.Enabled = True
-                'MenuStrip1.Enabled = True
+                MenuStrip1.Enabled = True
                 Exit Sub
             End If
             If SpeedTestStatusToolStripMenuItem.Checked = True Then
@@ -157,7 +162,7 @@ Public Class Form4
                 If (Not Directory.Exists(GlobalVariables.dfolder)) Or (Not Directory.Exists(GlobalVariables.ufolder)) Then
                     MetroFramework.MetroMessageBox.Show(Me, "Unable to access the network storage of " & GlobalVariables.ssidname & ". Kindly verify if the network is available and try again.", "Network Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Button1.Enabled = True
-                    'MenuStrip1.Enabled = True
+                    MenuStrip1.Enabled = True
                     Exit Sub
                 End If
             End If
@@ -165,13 +170,13 @@ Public Class Form4
                 If TeensyToolStripMenuItem.Enabled = False AndAlso WLANBSRev02ToolStripMenuItem.Enabled = False Then
                     MetroFramework.MetroMessageBox.Show(Me, "No active devices found. Please connect a supported device for testing the selected states.", "Device Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Button1.Enabled = True
-                    'MenuStrip1.Enabled = True
+                    MenuStrip1.Enabled = True
                     Exit Sub
                 End If
                 If TeensyToolStripMenuItem.Checked = False AndAlso WLANBSRev02ToolStripMenuItem.Checked = False Then
                     MetroFramework.MetroMessageBox.Show(Me, "Please select an active device from the Devices list for testing the selected states.", "Device Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Button1.Enabled = True
-                    'MenuStrip1.Enabled = True
+                    MenuStrip1.Enabled = True
                     Exit Sub
                 End If
             End If
@@ -226,7 +231,7 @@ Public Class Form4
                                 Catch ex As Exception
                                     MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     Button1.Enabled = True
-                                    'MenuStrip1.Enabled = True
+                                    MenuStrip1.Enabled = True
                                     Exit Sub
                                 End Try
                                 If ((bandwidth = 20) Or (bandwidth = 22) Or (bandwidth = 40) Or (bandwidth = 80) Or (bandwidth = 160) Or (bandwidth = 2160) Or (bandwidth = 8000)) Then
@@ -244,7 +249,7 @@ Public Class Form4
                                 Else
                                     MetroFramework.MetroMessageBox.Show(Me, "No relevant data provided. Kindly try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     Button1.Enabled = True
-                                    'MenuStrip1.Enabled = True
+                                    MenuStrip1.Enabled = True
                                     Exit Sub
                                 End If
                             End If
@@ -309,6 +314,11 @@ Public Class Form4
                     End If
                 End If
             End If
+            states = New String(-1) {}
+            rssis = New Double(-1) {}
+            links = New Double(-1) {}
+            downloads = New Double(-1) {}
+            uploads = New Double(-1) {}
             Do
                 TextBox9.Text = ""
                 TextBox10.Text = ""
@@ -316,6 +326,8 @@ Public Class Form4
                 If NoneSelectedToolStripMenuItem.Checked = True Then
                     state = "None"
                     TextBox9.Text = "None"
+                    System.Array.Resize(states, states.Length + 1)
+                    states(states.Length - 1) = "None"
                     fullstring += "No State selected" & vbNewLine
                     MonitorSSID()
                     SpeedTest()
@@ -323,6 +335,8 @@ Public Class Form4
                     If myserialPort.IsOpen Then
                         If TeensyToolStripMenuItem.Checked = True Then
                             If NormalOperationToolStripMenuItem.Checked = True Then
+                                rssiindex = New Integer(-1) {}
+                                qualityindex = New Integer(-1) {}
                                 For i As Integer = 1 To 9
                                     myserialPort.Write("SET STATE" & i)
                                     Thread.Sleep(25)
@@ -414,138 +428,72 @@ Public Class Form4
                                             fullstring += myserialPort.ReadLine()
                                             Thread.Sleep(25)
                                             TextBox9.Text = (rssiindex(z))
+                                            state = (rssiindex(z))
                                             foundit = 1
                                             Exit While
                                         End If
                                     Next
                                     z += 1
                                 End While
-                                If foundit = 0 Then                                     'Condition when RSSI and Link Quality does not match. 
-                                    myserialPort.Write("SET STATE" & qualityindex(0))   'Created Version 3.0 with option to check the best link quality than best RSSI.
+                                If foundit = 0 Then                                     'Condition when RSSI and Link Quality does not match.
+                                    rssimax = avgrssiarray(qualityindex(0) - 1)
+                                    state = qualityindex(0)
+                                    For i As Integer = 0 To qualityindex.Length - 1
+                                        If avgrssiarray(qualityindex(i) - 1) > rssimax Then
+                                            rssimax = avgrssiarray(qualityindex(i) - 1)
+                                            state = qualityindex(i)
+                                        End If
+                                    Next
+                                    myserialPort.Write("SET STATE" & state)   'Created Version 3.0 with option to check the best link quality than best RSSI.
                                     Thread.Sleep(25)
                                     fullstring += myserialPort.ReadLine()
                                     Thread.Sleep(25)
-                                    TextBox9.Text = (qualityindex(0))
+                                    TextBox9.Text = (state)
                                 End If
+                                System.Array.Resize(states, states.Length + 1)  'Summary Details Size Reallocation
+                                System.Array.Resize(rssis, rssis.Length + 1)
+                                System.Array.Resize(links, links.Length + 1)
+                                states(states.Length - 1) = "STATE" & state       'Summary Details
+                                rssis(rssis.Length - 1) = avgrssiarray(state - 1)
+                                links(links.Length - 1) = avgqualityarray(state - 1)
                                 Thread.Sleep(200)
                                 SpeedTest()
                             Else
                                 If STATE1ToolStripMenuItem.Checked = True Then
                                     state = 1
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    myserialPort.Write("SET STATE1")
-                                    Thread.Sleep(25)
-                                    myserialPort.ReadLine()
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    TeensyStateTest()
                                 End If
                                 If STATE2ToolStripMenuItem.Checked = True Then
                                     state = 2
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    myserialPort.Write("SET STATE2")
-                                    Thread.Sleep(25)
-                                    myserialPort.ReadLine()
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    TeensyStateTest()
                                 End If
                                 If STATE3ToolStripMenuItem.Checked = True Then
                                     state = 3
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    myserialPort.Write("SET STATE3")
-                                    Thread.Sleep(25)
-                                    myserialPort.ReadLine()
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    TeensyStateTest()
                                 End If
                                 If STATE4ToolStripMenuItem.Checked = True Then
                                     state = 4
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    myserialPort.Write("SET STATE4")
-                                    Thread.Sleep(25)
-                                    myserialPort.ReadLine()
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    TeensyStateTest()
                                 End If
                                 If STATE5ToolStripMenuItem.Checked = True Then
                                     state = 5
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    myserialPort.Write("SET STATE5")
-                                    Thread.Sleep(25)
-                                    myserialPort.ReadLine()
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    TeensyStateTest()
                                 End If
                                 If STATE6ToolStripMenuItem.Checked = True Then
                                     state = 6
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    myserialPort.Write("SET STATE6")
-                                    Thread.Sleep(25)
-                                    myserialPort.ReadLine()
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    TeensyStateTest()
                                 End If
                                 If STATE7ToolStripMenuItem.Checked = True Then
                                     state = 7
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    myserialPort.Write("SET STATE7")
-                                    Thread.Sleep(25)
-                                    myserialPort.ReadLine()
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    TeensyStateTest()
                                 End If
                                 If STATE8ToolStripMenuItem.Checked = True Then
                                     state = 8
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    myserialPort.Write("SET STATE8")
-                                    Thread.Sleep(25)
-                                    myserialPort.ReadLine()
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    TeensyStateTest()
                                 End If
                                 If STATE9ToolStripMenuItem.Checked = True Then
                                     state = 9
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    myserialPort.Write("SET STATE9")
-                                    Thread.Sleep(25)
-                                    myserialPort.ReadLine()
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    TeensyStateTest()
                                 End If
                             End If
                         Else
@@ -553,6 +501,8 @@ Public Class Form4
                             'myserialPort.ReadByte()   'Disabled in the firmware. Only enable when any data is being sent back.
                             Thread.Sleep(25)
                             If NormalOperationToolStripMenuItem.Checked = True Then
+                                avgrssiarray = New Double(8) {}
+                                avgqualityarray = New Double(8) {}
                                 myserialPort.Write(Convert.ToChar(&H4E))       'Hex value for char 'N'
                                 'myserialPort.ReadByte()
                                 Thread.Sleep(25)
@@ -577,6 +527,8 @@ Public Class Form4
                                                     End If
                                                 Next
                                                 If tMac.Replace(":", "") = GlobalVariables.macadd Then
+                                                    avgrssiarray(foundit) = (network.rssi)
+                                                    avgqualityarray(foundit) = network.linkQuality
                                                     qualityvalue = network.linkQuality
                                                     rssivalue = Math.Abs(network.rssi)         'Absolute value of RSSI
                                                     fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & network.rssi & "," & network.linkQuality & vbNewLine
@@ -593,180 +545,107 @@ Public Class Form4
                                     rssiapprox = CInt(rssivalue)
                                     qualityapprox = CInt(qualityvalue)
                                     myserialPort.Write(Convert.ToChar(&H52))    'Hex value for char 'R'
-                                    Thread.Sleep(5)
+                                    Thread.Sleep(10)
                                     myserialPort.Write(Convert.ToChar(rssiapprox))
-                                    Thread.Sleep(5)
+                                    Thread.Sleep(10)
                                     myserialPort.Write(Convert.ToChar(&H4C))   'Hex value for char 'L'
-                                    Thread.Sleep(5)
+                                    Thread.Sleep(10)
                                     myserialPort.Write(Convert.ToChar(qualityapprox))
-                                    Thread.Sleep(2)
+                                    Thread.Sleep(10)
                                 End While
 
                                 While (myserialPort.ReadByte() <> &H53)
                                     'myserialPort.ReadByte()
                                 End While
-                                Thread.Sleep(5)
+                                Thread.Sleep(10)
+                                System.Array.Resize(rssis, rssis.Length + 1)
+                                System.Array.Resize(links, links.Length + 1)
                                 foundit = myserialPort.ReadByte()
                                 If foundit = &H1 Then
                                     TextBox9.Text = "1"
                                 ElseIf foundit = &H2 Then
                                     TextBox9.Text = "2"
+                                    rssis(rssis.Length - 1) = avgrssiarray(3)
+                                    links(links.Length - 1) = avgqualityarray(3)
                                 ElseIf foundit = &H3 Then
                                     TextBox9.Text = "3"
+                                    rssis(rssis.Length - 1) = avgrssiarray(5)
+                                    links(links.Length - 1) = avgqualityarray(5)
                                 ElseIf foundit = &H4 Then
                                     TextBox9.Text = "4"
+                                    rssis(rssis.Length - 1) = avgrssiarray(1)
+                                    links(links.Length - 1) = avgqualityarray(1)
                                 ElseIf foundit = &H5 Then
                                     TextBox9.Text = "5"
+                                    rssis(rssis.Length - 1) = avgrssiarray(0)
+                                    links(links.Length - 1) = avgqualityarray(0)
                                 ElseIf foundit = &H6 Then
                                     TextBox9.Text = "6"
+                                    rssis(rssis.Length - 1) = avgrssiarray(2)
+                                    links(links.Length - 1) = avgqualityarray(2)
                                 ElseIf foundit = &H7 Then
                                     TextBox9.Text = "7"
                                 ElseIf foundit = &H8 Then
                                     TextBox9.Text = "8"
+                                    rssis(rssis.Length - 1) = avgrssiarray(4)
+                                    links(links.Length - 1) = avgqualityarray(4)
                                 Else
                                     TextBox9.Text = "9"
                                 End If
                                 fullstring += "State " & TextBox9.Text & " selected." & vbNewLine
+                                state = TextBox9.Text
+                                System.Array.Resize(states, states.Length + 1)
+                                states(states.Length - 1) = "STATE" & state
                                 SpeedTest()
                             Else
                                 If STATE1ToolStripMenuItem.Checked = True Then
-                                    myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
-                                    Thread.Sleep(25)
                                     state = 1
-                                    myserialPort.Write(Convert.ToChar(&H1))        'Hex value for char '1'
-                                    Thread.Sleep(25)
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    WLANBSStateTest()
                                 End If
                                 If STATE2ToolStripMenuItem.Checked = True Then
-                                    myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
-                                    Thread.Sleep(25)
                                     state = 2
-                                    myserialPort.Write(Convert.ToChar(&H2))        'Hex value for char '2'
-                                    Thread.Sleep(25)
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    WLANBSStateTest()
                                 End If
                                 If STATE3ToolStripMenuItem.Checked = True Then
-                                    myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
-                                    Thread.Sleep(25)
                                     state = 3
-                                    myserialPort.Write(Convert.ToChar(&H3))        'Hex value for char '3'
-                                    Thread.Sleep(25)
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    WLANBSStateTest()
                                 End If
                                 If STATE4ToolStripMenuItem.Checked = True Then
-                                    myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
-                                    Thread.Sleep(25)
                                     state = 4
-                                    myserialPort.Write(Convert.ToChar(&H4))        'Hex value for char '4'
-                                    Thread.Sleep(25)
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    WLANBSStateTest()
                                 End If
                                 If STATE5ToolStripMenuItem.Checked = True Then
-                                    myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
-                                    Thread.Sleep(25)
                                     state = 5
-                                    myserialPort.Write(Convert.ToChar(&H5))        'Hex value for char '5'
-                                    Thread.Sleep(25)
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    WLANBSStateTest()
                                 End If
                                 If STATE6ToolStripMenuItem.Checked = True Then
-                                    myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
-                                    Thread.Sleep(25)
                                     state = 6
-                                    myserialPort.Write(Convert.ToChar(&H6))        'Hex value for char '6'
-                                    Thread.Sleep(25)
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    WLANBSStateTest()
                                 End If
                                 If STATE7ToolStripMenuItem.Checked = True Then
-                                    myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
-                                    Thread.Sleep(25)
                                     state = 7
-                                    myserialPort.Write(Convert.ToChar(&H7))        'Hex value for char '7'
-                                    Thread.Sleep(25)
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    WLANBSStateTest()
                                 End If
                                 If STATE8ToolStripMenuItem.Checked = True Then
-                                    myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
-                                    Thread.Sleep(25)
                                     state = 8
-                                    myserialPort.Write(Convert.ToChar(&H8))        'Hex value for char '8'
-                                    Thread.Sleep(25)
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    WLANBSStateTest()
                                 End If
                                 If STATE9ToolStripMenuItem.Checked = True Then
-                                    myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
-                                    Thread.Sleep(25)
                                     state = 9
-                                    myserialPort.Write(Convert.ToChar(&H9))        'Hex value for char '9'
-                                    Thread.Sleep(25)
-                                    TextBox9.Text = state
-                                    TextBox10.Text = ""
-                                    TextBox11.Text = ""
-                                    Thread.Sleep(25)
-                                    fullstring += "STATE " & state & " selected" & vbNewLine
-                                    MonitorSSID()
-                                    SpeedTest()
+                                    WLANBSStateTest()
                                 End If
                             End If
                         End If
                     Else
                         MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if Teensy 3.2 is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Button1.Enabled = True
-                        'MenuStrip1.Enabled = True
+                        MenuStrip1.Enabled = True
                         Exit Sub
                     End If
                 End If
             Loop Until Toggle1.Checked = False
             Button1.Enabled = True
-            'MenuStrip1.Enabled = True
+            MenuStrip1.Enabled = True
             'dialog1.Filter = "CSV (Comma delimited) (*.csv)|*.csv"
             'dialog1.FileName = ""
             'If dialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
@@ -775,6 +654,26 @@ Public Class Form4
             myserialPort.Close()
             Application.DoEvents()  ' Give port time to close down
             Thread.Sleep(200)
+            fullstring += vbNewLine & "TEST RESULT SUMMARY" & vbNewLine & "STATE,AVG. RSSI,AVG. LINK QUALITY,AVG. DOWNLOAD,AVG. UPLOAD" & vbNewLine
+            For i As Integer = 0 To states.Length - 1
+                fullstring += states(i) & ","
+                If i <= rssis.Length - 1 Then
+                    fullstring += rssis(i) & "," & links(i) & ","
+                Else
+                    fullstring += ",,"
+                End If
+                If i <= downloads.Length - 1 Then
+                    fullstring += downloads(i) & ","
+                Else
+                    fullstring += ","
+                End If
+                If i <= uploads.Length - 1 Then
+                    fullstring += uploads(i) & ","
+                Else
+                    fullstring += ","
+                End If
+                fullstring += vbNewLine
+            Next
 
             'If NoneSelectedToolStripMenuItem.Checked = False Then
             '    myPort = IO.Ports.SerialPort.GetPortNames()
@@ -982,7 +881,7 @@ Public Class Form4
         Catch ex As Exception
             MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Button1.Enabled = True
-            'MenuStrip1.Enabled = True
+            MenuStrip1.Enabled = True
         End Try
     End Sub
 
@@ -1003,7 +902,8 @@ Public Class Form4
         Else
             TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         End If
-
+        System.Array.Resize(downloads, downloads.Length + 1)
+        downloads(downloads.Length - 1) = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'foundit = 0
         'fullstring += "State " & state & " upload Started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
         'elapsedStartTime = DateTime.Now
@@ -1059,7 +959,8 @@ Public Class Form4
         Else
             TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         End If
-
+        System.Array.Resize(uploads, uploads.Length + 1)
+        uploads(uploads.Length - 1) = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
         'Button1.Enabled = True
         'MenuStrip1.Enabled = True
         'timestamp = timestamp & " to " & DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")
@@ -1312,6 +1213,10 @@ Public Class Form4
                                     'quality = network.linkQuality  'Not necessary
                                     'rssi = network.rssi
                                     fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & state & "," & network.rssi & "," & network.linkQuality & vbNewLine
+                                    System.Array.Resize(rssis, rssis.Length + 1)
+                                    System.Array.Resize(links, links.Length + 1)
+                                    rssis(rssis.Length - 1) = network.rssi
+                                    links(links.Length - 1) = network.linkQuality
                                     DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, network.rssi, network.linkQuality, network.linkQuality)
                                     DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
                                     Application.DoEvents()
@@ -1381,6 +1286,10 @@ Public Class Form4
                         Next
                     Next
                 End While
+                System.Array.Resize(rssis, rssis.Length + 1)
+                System.Array.Resize(links, links.Length + 1)
+                rssis(rssis.Length - 1) = avgrssi
+                links(links.Length - 1) = avgquality
                 'Do
                 '    For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
                 '        wlanIface.Scan()
@@ -1501,6 +1410,38 @@ Public Class Form4
         End If
         Return 0
     End Function
+
+    Sub TeensyStateTest()
+        TextBox9.Text = state
+        TextBox10.Text = ""
+        TextBox11.Text = ""
+        myserialPort.Write("SET STATE" & state)
+        Thread.Sleep(25)
+        myserialPort.ReadLine()
+        Thread.Sleep(25)
+        fullstring += "STATE " & state & " selected" & vbNewLine
+        System.Array.Resize(states, states.Length + 1)
+        states(states.Length - 1) = "STATE" & state
+        MonitorSSID()
+        SpeedTest()
+    End Sub
+
+    Sub WLANBSStateTest()
+        myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
+        Thread.Sleep(25)
+        'myserialPort.Write(Convert.ToChar(&H1))        'Hex value for char '1'
+        myserialPort.Write(Convert.ToChar(state))
+        Thread.Sleep(25)
+        TextBox9.Text = state
+        TextBox10.Text = ""
+        TextBox11.Text = ""
+        Thread.Sleep(25)
+        fullstring += "STATE " & state & " selected" & vbNewLine
+        System.Array.Resize(states, states.Length + 1)
+        states(states.Length - 1) = "STATE" & state
+        MonitorSSID()
+        SpeedTest()
+    End Sub
 
     Private Sub TeensyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TeensyToolStripMenuItem.Click
         If TeensyToolStripMenuItem.Checked = False Then
