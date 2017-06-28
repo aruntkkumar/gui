@@ -37,6 +37,8 @@ Partial Class Form4
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         Me.MonitorSSIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AntennaStateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NoneSelectedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -88,8 +90,8 @@ Partial Class Form4
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Label13 = New MetroFramework.Controls.MetroLabel()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
-        Me.SaveAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ChangeSSIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -222,10 +224,21 @@ Partial Class Form4
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveAsToolStripMenuItem, Me.ToolStripMenuItem3, Me.MonitorSSIDToolStripMenuItem, Me.AntennaStateToolStripMenuItem, Me.SpeedTestToolStripMenuItem, Me.ToolStripMenuItem2, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveAsToolStripMenuItem, Me.ToolStripMenuItem3, Me.MonitorSSIDToolStripMenuItem, Me.AntennaStateToolStripMenuItem, Me.SpeedTestToolStripMenuItem, Me.ToolStripMenuItem2, Me.ChangeSSIDToolStripMenuItem, Me.ToolStripSeparator1, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
+        '
+        'SaveAsToolStripMenuItem
+        '
+        Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
+        Me.SaveAsToolStripMenuItem.Text = "Save As"
+        '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(193, 6)
         '
         'MonitorSSIDToolStripMenuItem
         '
@@ -938,16 +951,16 @@ Partial Class Form4
         Me.BackgroundWorker1.WorkerReportsProgress = True
         Me.BackgroundWorker1.WorkerSupportsCancellation = True
         '
-        'SaveAsToolStripMenuItem
+        'ToolStripSeparator1
         '
-        Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
-        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
-        Me.SaveAsToolStripMenuItem.Text = "Save As"
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(193, 6)
         '
-        'ToolStripMenuItem3
+        'ChangeSSIDToolStripMenuItem
         '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(193, 6)
+        Me.ChangeSSIDToolStripMenuItem.Name = "ChangeSSIDToolStripMenuItem"
+        Me.ChangeSSIDToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
+        Me.ChangeSSIDToolStripMenuItem.Text = "Change SSID"
         '
         'Form4
         '
@@ -1063,4 +1076,6 @@ Partial Class Form4
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
     Friend WithEvents SaveAsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
+    Friend WithEvents ChangeSSIDToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
 End Class

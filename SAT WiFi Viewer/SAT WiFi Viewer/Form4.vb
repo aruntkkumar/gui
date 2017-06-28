@@ -47,6 +47,17 @@ Public Class Form4
     Dim links(-1) As Double
     Dim downloads(-1) As Double
     Dim uploads(-1) As Double
+    Dim URI As String
+    Dim oRequest As FileWebRequest
+    Dim oResponse As WebResponse
+    Dim responseStream As Stream
+    Dim fs As FileStream
+    Dim buffer(65536) As Byte
+    Dim read As Integer
+    Dim elapsedtime As TimeSpan
+    Dim tmp As Object
+    Dim sizeselect As String
+    Dim newone As Integer
 
     Private Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
@@ -183,7 +194,10 @@ Public Class Form4
             timestamp = DateTime.Now.ToString("dd.MM.yyyy_ss׃mm׃HH")    'Hebrew colon (׃) is from right to left
             foundit = 0
             While foundit < 1
-                For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+            For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                If Me.IsDisposed Then
+                    Exit Sub
+                Else
                     wlanIface.Scan()
                     'Thread.Sleep(100)
                     Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
@@ -255,8 +269,9 @@ Public Class Form4
                             End If
                         End If
                     Next
-                Next
-            End While
+                End If
+            Next
+        End While
             DataGridView1.Rows.Clear()
             If NoneSelectedToolStripMenuItem.Checked = False Then
                 myPort = IO.Ports.SerialPort.GetPortNames()
@@ -319,35 +334,44 @@ Public Class Form4
             links = New Double(-1) {}
             downloads = New Double(-1) {}
             uploads = New Double(-1) {}
-            Do
-                TextBox9.Text = ""
-                TextBox10.Text = ""
-                TextBox11.Text = ""
-                If NoneSelectedToolStripMenuItem.Checked = True Then
-                    state = "None"
-                    TextBox9.Text = "None"
-                    System.Array.Resize(states, states.Length + 1)
-                    states(states.Length - 1) = "None"
-                    fullstring += "No State selected" & vbNewLine
-                    MonitorSSID()
-                    SpeedTest()
-                Else
-                    If myserialPort.IsOpen Then
-                        If TeensyToolStripMenuItem.Checked = True Then
-                            If NormalOperationToolStripMenuItem.Checked = True Then
-                                rssiindex = New Integer(-1) {}
-                                qualityindex = New Integer(-1) {}
-                                For i As Integer = 1 To 9
-                                    myserialPort.Write("SET STATE" & i)
-                                    Thread.Sleep(25)
-                                    myserialPort.ReadLine()
-                                    Thread.Sleep(25)
-                                    count = 0
-                                    quality = New Double(count) {}
-                                    rssi = New Double(count) {}
-                                    foundit = 0
-                                    While foundit < 10
-                                        For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+            newone = 0
+        Do
+            If Me.IsDisposed Then
+                Exit Sub
+            Else
+                Application.DoEvents()
+            End If
+            TextBox9.Text = ""
+            TextBox10.Text = ""
+            TextBox11.Text = ""
+            If NoneSelectedToolStripMenuItem.Checked = True Then
+                state = "None"
+                TextBox9.Text = "None"
+                System.Array.Resize(states, states.Length + 1)
+                states(states.Length - 1) = "None"
+                fullstring += "No State selected" & vbNewLine
+                MonitorSSID()
+                SpeedTest()
+            Else
+                If myserialPort.IsOpen Then
+                    If TeensyToolStripMenuItem.Checked = True Then
+                        If NormalOperationToolStripMenuItem.Checked = True Then
+                            rssiindex = New Integer(-1) {}
+                            qualityindex = New Integer(-1) {}
+                            For i As Integer = 1 To 9
+                                myserialPort.Write("SET STATE" & i)
+                                Thread.Sleep(25)
+                                myserialPort.ReadLine()
+                                Thread.Sleep(25)
+                                count = 0
+                                quality = New Double(count) {}
+                                rssi = New Double(count) {}
+                                foundit = 0
+                                While foundit < 10
+                                    For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                                        If Me.IsDisposed Then
+                                            Exit Sub
+                                        Else
                                             wlanIface.Scan()
                                             Application.DoEvents()
                                             Thread.Sleep(1)
@@ -391,125 +415,129 @@ Public Class Form4
                                                     End If
                                                 End If
                                             Next
-                                        Next
-                                    End While
-                                    avgqualityarray(i - 1) = avgquality
-                                    avgrssiarray(i - 1) = avgrssi
-                                Next
-                                rssimax = avgrssiarray(0)
-                                For i As Integer = 0 To avgrssiarray.Length - 1
-                                    If avgrssiarray(i) > rssimax Then
-                                        rssiindex = New Integer(0) {}
-                                        rssiindex(0) = i + 1
-                                        rssimax = avgrssiarray(i)
-                                    ElseIf avgrssiarray(i) = rssimax Then
-                                        System.Array.Resize(Of Integer)(rssiindex, rssiindex.Length + 1)
-                                        rssiindex(rssiindex.Length - 1) = i + 1
-                                    End If
-                                Next
-                                qualitymax = avgqualityarray(0)
-                                For i As Integer = 0 To avgqualityarray.Length - 1
-                                    If avgqualityarray(i) > qualitymax Then
-                                        qualityindex = New Integer(0) {}
-                                        qualityindex(0) = i + 1
-                                        qualitymax = avgqualityarray(i)
-                                    ElseIf avgqualityarray(i) = qualitymax Then
-                                        System.Array.Resize(Of Integer)(qualityindex, qualityindex.Length + 1)
-                                        qualityindex(qualityindex.Length - 1) = i + 1
-                                    End If
-                                Next
-                                foundit = 0
-                                Dim z As Integer = 0
-                                While z <= rssiindex.Length - 1
-                                    For i As Integer = 0 To qualityindex.Length - 1
-                                        If rssiindex(z) = qualityindex(i) Then
-                                            myserialPort.Write("SET STATE" & rssiindex(z))
-                                            Thread.Sleep(25)
-                                            fullstring += myserialPort.ReadLine()
-                                            Thread.Sleep(25)
-                                            TextBox9.Text = (rssiindex(z))
-                                            state = (rssiindex(z))
-                                            foundit = 1
-                                            Exit While
                                         End If
                                     Next
-                                    z += 1
                                 End While
-                                If foundit = 0 Then                                     'Condition when RSSI and Link Quality does not match.
-                                    rssimax = avgrssiarray(qualityindex(0) - 1)
-                                    state = qualityindex(0)
-                                    For i As Integer = 0 To qualityindex.Length - 1
-                                        If avgrssiarray(qualityindex(i) - 1) > rssimax Then
-                                            rssimax = avgrssiarray(qualityindex(i) - 1)
-                                            state = qualityindex(i)
-                                        End If
-                                    Next
-                                    myserialPort.Write("SET STATE" & state)   'Created Version 3.0 with option to check the best link quality than best RSSI.
-                                    Thread.Sleep(25)
-                                    fullstring += myserialPort.ReadLine()
-                                    Thread.Sleep(25)
-                                    TextBox9.Text = (state)
+                                avgqualityarray(i - 1) = avgquality
+                                avgrssiarray(i - 1) = avgrssi
+                            Next
+                            rssimax = avgrssiarray(0)
+                            For i As Integer = 0 To avgrssiarray.Length - 1
+                                If avgrssiarray(i) > rssimax Then
+                                    rssiindex = New Integer(0) {}
+                                    rssiindex(0) = i + 1
+                                    rssimax = avgrssiarray(i)
+                                ElseIf avgrssiarray(i) = rssimax Then
+                                    System.Array.Resize(Of Integer)(rssiindex, rssiindex.Length + 1)
+                                    rssiindex(rssiindex.Length - 1) = i + 1
                                 End If
-                                System.Array.Resize(states, states.Length + 1)  'Summary Details Size Reallocation
-                                System.Array.Resize(rssis, rssis.Length + 1)
-                                System.Array.Resize(links, links.Length + 1)
-                                states(states.Length - 1) = "STATE" & state       'Summary Details
-                                rssis(rssis.Length - 1) = avgrssiarray(state - 1)
-                                links(links.Length - 1) = avgqualityarray(state - 1)
-                                Thread.Sleep(200)
-                                SpeedTest()
-                            Else
-                                If STATE1ToolStripMenuItem.Checked = True Then
-                                    state = 1
-                                    TeensyStateTest()
+                            Next
+                            qualitymax = avgqualityarray(0)
+                            For i As Integer = 0 To avgqualityarray.Length - 1
+                                If avgqualityarray(i) > qualitymax Then
+                                    qualityindex = New Integer(0) {}
+                                    qualityindex(0) = i + 1
+                                    qualitymax = avgqualityarray(i)
+                                ElseIf avgqualityarray(i) = qualitymax Then
+                                    System.Array.Resize(Of Integer)(qualityindex, qualityindex.Length + 1)
+                                    qualityindex(qualityindex.Length - 1) = i + 1
                                 End If
-                                If STATE2ToolStripMenuItem.Checked = True Then
-                                    state = 2
-                                    TeensyStateTest()
-                                End If
-                                If STATE3ToolStripMenuItem.Checked = True Then
-                                    state = 3
-                                    TeensyStateTest()
-                                End If
-                                If STATE4ToolStripMenuItem.Checked = True Then
-                                    state = 4
-                                    TeensyStateTest()
-                                End If
-                                If STATE5ToolStripMenuItem.Checked = True Then
-                                    state = 5
-                                    TeensyStateTest()
-                                End If
-                                If STATE6ToolStripMenuItem.Checked = True Then
-                                    state = 6
-                                    TeensyStateTest()
-                                End If
-                                If STATE7ToolStripMenuItem.Checked = True Then
-                                    state = 7
-                                    TeensyStateTest()
-                                End If
-                                If STATE8ToolStripMenuItem.Checked = True Then
-                                    state = 8
-                                    TeensyStateTest()
-                                End If
-                                If STATE9ToolStripMenuItem.Checked = True Then
-                                    state = 9
-                                    TeensyStateTest()
-                                End If
-                            End If
-                        Else
-                            myserialPort.Write(Convert.ToChar(&HFF))
-                            'myserialPort.ReadByte()   'Disabled in the firmware. Only enable when any data is being sent back.
-                            Thread.Sleep(25)
-                            If NormalOperationToolStripMenuItem.Checked = True Then
-                                avgrssiarray = New Double(8) {}
-                                avgqualityarray = New Double(8) {}
-                                myserialPort.Write(Convert.ToChar(&H4E))       'Hex value for char 'N'
-                                'myserialPort.ReadByte()
+                            Next
+                            foundit = 0
+                            Dim z As Integer = 0
+                            While z <= rssiindex.Length - 1
+                                For i As Integer = 0 To qualityindex.Length - 1
+                                    If rssiindex(z) = qualityindex(i) Then
+                                        myserialPort.Write("SET STATE" & rssiindex(z))
+                                        Thread.Sleep(25)
+                                        fullstring += myserialPort.ReadLine()
+                                        Thread.Sleep(25)
+                                        TextBox9.Text = (rssiindex(z))
+                                        state = (rssiindex(z))
+                                        foundit = 1
+                                        Exit While
+                                    End If
+                                Next
+                                z += 1
+                            End While
+                            If foundit = 0 Then                                     'Condition when RSSI and Link Quality does not match.
+                                rssimax = avgrssiarray(qualityindex(0) - 1)
+                                state = qualityindex(0)
+                                For i As Integer = 0 To qualityindex.Length - 1
+                                    If avgrssiarray(qualityindex(i) - 1) > rssimax Then
+                                        rssimax = avgrssiarray(qualityindex(i) - 1)
+                                        state = qualityindex(i)
+                                    End If
+                                Next
+                                myserialPort.Write("SET STATE" & state)   'Created Version 3.0 with option to check the best link quality than best RSSI.
                                 Thread.Sleep(25)
-                                fullstring += "Date & Time,RSSI,Signal Quality" & vbNewLine
-                                foundit = 0
-                                While foundit < 6
-                                    For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                                fullstring += myserialPort.ReadLine()
+                                Thread.Sleep(25)
+                                TextBox9.Text = (state)
+                            End If
+                            System.Array.Resize(states, states.Length + 1)  'Summary Details Size Reallocation
+                            System.Array.Resize(rssis, rssis.Length + 1)
+                            System.Array.Resize(links, links.Length + 1)
+                            states(states.Length - 1) = "STATE" & state       'Summary Details
+                            rssis(rssis.Length - 1) = avgrssiarray(state - 1)
+                            links(links.Length - 1) = avgqualityarray(state - 1)
+                            Thread.Sleep(200)
+                            SpeedTest()
+                        Else
+                            If STATE1ToolStripMenuItem.Checked = True Then
+                                state = 1
+                                TeensyStateTest()
+                            End If
+                            If STATE2ToolStripMenuItem.Checked = True Then
+                                state = 2
+                                TeensyStateTest()
+                            End If
+                            If STATE3ToolStripMenuItem.Checked = True Then
+                                state = 3
+                                TeensyStateTest()
+                            End If
+                            If STATE4ToolStripMenuItem.Checked = True Then
+                                state = 4
+                                TeensyStateTest()
+                            End If
+                            If STATE5ToolStripMenuItem.Checked = True Then
+                                state = 5
+                                TeensyStateTest()
+                            End If
+                            If STATE6ToolStripMenuItem.Checked = True Then
+                                state = 6
+                                TeensyStateTest()
+                            End If
+                            If STATE7ToolStripMenuItem.Checked = True Then
+                                state = 7
+                                TeensyStateTest()
+                            End If
+                            If STATE8ToolStripMenuItem.Checked = True Then
+                                state = 8
+                                TeensyStateTest()
+                            End If
+                            If STATE9ToolStripMenuItem.Checked = True Then
+                                state = 9
+                                TeensyStateTest()
+                            End If
+                        End If
+                    Else
+                        myserialPort.Write(Convert.ToChar(&HFF))
+                        'myserialPort.ReadByte()   'Disabled in the firmware. Only enable when any data is being sent back.
+                        Thread.Sleep(25)
+                        If NormalOperationToolStripMenuItem.Checked = True Then
+                            avgrssiarray = New Double(8) {}
+                            avgqualityarray = New Double(8) {}
+                            myserialPort.Write(Convert.ToChar(&H4E))       'Hex value for char 'N'
+                            'myserialPort.ReadByte()
+                            Thread.Sleep(25)
+                            fullstring += "Date & Time,RSSI,Signal Quality" & vbNewLine
+                            foundit = 0
+                            While foundit < 6
+                                For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                                    If Me.IsDisposed Then
+                                        Exit Sub
+                                    Else
                                         wlanIface.Scan()
                                         Application.DoEvents()
                                         Thread.Sleep(1)
@@ -540,111 +568,112 @@ Public Class Form4
                                                 End If
                                             End If
                                         Next
-                                    Next
+                                    End If
+                                Next
 
-                                    rssiapprox = CInt(rssivalue)
-                                    qualityapprox = CInt(qualityvalue)
-                                    myserialPort.Write(Convert.ToChar(&H52))    'Hex value for char 'R'
-                                    Thread.Sleep(10)
-                                    myserialPort.Write(Convert.ToChar(rssiapprox))
-                                    Thread.Sleep(10)
-                                    myserialPort.Write(Convert.ToChar(&H4C))   'Hex value for char 'L'
-                                    Thread.Sleep(10)
-                                    myserialPort.Write(Convert.ToChar(qualityapprox))
-                                    Thread.Sleep(10)
-                                End While
-
-                                While (myserialPort.ReadByte() <> &H53)
-                                    'myserialPort.ReadByte()
-                                End While
+                                rssiapprox = CInt(rssivalue)
+                                qualityapprox = CInt(qualityvalue)
+                                myserialPort.Write(Convert.ToChar(&H52))    'Hex value for char 'R'
                                 Thread.Sleep(10)
-                                System.Array.Resize(rssis, rssis.Length + 1)
-                                System.Array.Resize(links, links.Length + 1)
-                                foundit = myserialPort.ReadByte()
-                                If foundit = &H1 Then
-                                    TextBox9.Text = "1"
-                                ElseIf foundit = &H2 Then
-                                    TextBox9.Text = "2"
-                                    rssis(rssis.Length - 1) = avgrssiarray(3)
-                                    links(links.Length - 1) = avgqualityarray(3)
-                                ElseIf foundit = &H3 Then
-                                    TextBox9.Text = "3"
-                                    rssis(rssis.Length - 1) = avgrssiarray(5)
-                                    links(links.Length - 1) = avgqualityarray(5)
-                                ElseIf foundit = &H4 Then
-                                    TextBox9.Text = "4"
-                                    rssis(rssis.Length - 1) = avgrssiarray(1)
-                                    links(links.Length - 1) = avgqualityarray(1)
-                                ElseIf foundit = &H5 Then
-                                    TextBox9.Text = "5"
-                                    rssis(rssis.Length - 1) = avgrssiarray(0)
-                                    links(links.Length - 1) = avgqualityarray(0)
-                                ElseIf foundit = &H6 Then
-                                    TextBox9.Text = "6"
-                                    rssis(rssis.Length - 1) = avgrssiarray(2)
-                                    links(links.Length - 1) = avgqualityarray(2)
-                                ElseIf foundit = &H7 Then
-                                    TextBox9.Text = "7"
-                                ElseIf foundit = &H8 Then
-                                    TextBox9.Text = "8"
-                                    rssis(rssis.Length - 1) = avgrssiarray(4)
-                                    links(links.Length - 1) = avgqualityarray(4)
-                                Else
-                                    TextBox9.Text = "9"
-                                End If
-                                fullstring += "State " & TextBox9.Text & " selected." & vbNewLine
-                                state = TextBox9.Text
-                                System.Array.Resize(states, states.Length + 1)
-                                states(states.Length - 1) = "STATE" & state
-                                SpeedTest()
+                                myserialPort.Write(Convert.ToChar(rssiapprox))
+                                Thread.Sleep(10)
+                                myserialPort.Write(Convert.ToChar(&H4C))   'Hex value for char 'L'
+                                Thread.Sleep(10)
+                                myserialPort.Write(Convert.ToChar(qualityapprox))
+                                Thread.Sleep(10)
+                            End While
+
+                            While (myserialPort.ReadByte() <> &H53)
+                                'myserialPort.ReadByte()
+                            End While
+                            Thread.Sleep(10)
+                            System.Array.Resize(rssis, rssis.Length + 1)
+                            System.Array.Resize(links, links.Length + 1)
+                            foundit = myserialPort.ReadByte()
+                            If foundit = &H1 Then
+                                TextBox9.Text = "1"
+                            ElseIf foundit = &H2 Then
+                                TextBox9.Text = "2"
+                                rssis(rssis.Length - 1) = avgrssiarray(3)
+                                links(links.Length - 1) = avgqualityarray(3)
+                            ElseIf foundit = &H3 Then
+                                TextBox9.Text = "3"
+                                rssis(rssis.Length - 1) = avgrssiarray(5)
+                                links(links.Length - 1) = avgqualityarray(5)
+                            ElseIf foundit = &H4 Then
+                                TextBox9.Text = "4"
+                                rssis(rssis.Length - 1) = avgrssiarray(1)
+                                links(links.Length - 1) = avgqualityarray(1)
+                            ElseIf foundit = &H5 Then
+                                TextBox9.Text = "5"
+                                rssis(rssis.Length - 1) = avgrssiarray(0)
+                                links(links.Length - 1) = avgqualityarray(0)
+                            ElseIf foundit = &H6 Then
+                                TextBox9.Text = "6"
+                                rssis(rssis.Length - 1) = avgrssiarray(2)
+                                links(links.Length - 1) = avgqualityarray(2)
+                            ElseIf foundit = &H7 Then
+                                TextBox9.Text = "7"
+                            ElseIf foundit = &H8 Then
+                                TextBox9.Text = "8"
+                                rssis(rssis.Length - 1) = avgrssiarray(4)
+                                links(links.Length - 1) = avgqualityarray(4)
                             Else
-                                If STATE1ToolStripMenuItem.Checked = True Then
-                                    state = 1
-                                    WLANBSStateTest()
-                                End If
-                                If STATE2ToolStripMenuItem.Checked = True Then
-                                    state = 2
-                                    WLANBSStateTest()
-                                End If
-                                If STATE3ToolStripMenuItem.Checked = True Then
-                                    state = 3
-                                    WLANBSStateTest()
-                                End If
-                                If STATE4ToolStripMenuItem.Checked = True Then
-                                    state = 4
-                                    WLANBSStateTest()
-                                End If
-                                If STATE5ToolStripMenuItem.Checked = True Then
-                                    state = 5
-                                    WLANBSStateTest()
-                                End If
-                                If STATE6ToolStripMenuItem.Checked = True Then
-                                    state = 6
-                                    WLANBSStateTest()
-                                End If
-                                If STATE7ToolStripMenuItem.Checked = True Then
-                                    state = 7
-                                    WLANBSStateTest()
-                                End If
-                                If STATE8ToolStripMenuItem.Checked = True Then
-                                    state = 8
-                                    WLANBSStateTest()
-                                End If
-                                If STATE9ToolStripMenuItem.Checked = True Then
-                                    state = 9
-                                    WLANBSStateTest()
-                                End If
+                                TextBox9.Text = "9"
+                            End If
+                            fullstring += "State " & TextBox9.Text & " selected." & vbNewLine
+                            state = TextBox9.Text
+                            System.Array.Resize(states, states.Length + 1)
+                            states(states.Length - 1) = "STATE" & state
+                            SpeedTest()
+                        Else
+                            If STATE1ToolStripMenuItem.Checked = True Then
+                                state = 1
+                                WLANBSStateTest()
+                            End If
+                            If STATE2ToolStripMenuItem.Checked = True Then
+                                state = 2
+                                WLANBSStateTest()
+                            End If
+                            If STATE3ToolStripMenuItem.Checked = True Then
+                                state = 3
+                                WLANBSStateTest()
+                            End If
+                            If STATE4ToolStripMenuItem.Checked = True Then
+                                state = 4
+                                WLANBSStateTest()
+                            End If
+                            If STATE5ToolStripMenuItem.Checked = True Then
+                                state = 5
+                                WLANBSStateTest()
+                            End If
+                            If STATE6ToolStripMenuItem.Checked = True Then
+                                state = 6
+                                WLANBSStateTest()
+                            End If
+                            If STATE7ToolStripMenuItem.Checked = True Then
+                                state = 7
+                                WLANBSStateTest()
+                            End If
+                            If STATE8ToolStripMenuItem.Checked = True Then
+                                state = 8
+                                WLANBSStateTest()
+                            End If
+                            If STATE9ToolStripMenuItem.Checked = True Then
+                                state = 9
+                                WLANBSStateTest()
                             End If
                         End If
-                    Else
-                        MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if Teensy 3.2 is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Button1.Enabled = True
-                        MenuStrip1.Enabled = True
-                        Exit Sub
                     End If
+                Else
+                    MetroFramework.MetroMessageBox.Show(Me, "No supported COM Ports available. Please check if Teensy 3.2 is connected and try again.", "COM Port Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Button1.Enabled = True
+                    MenuStrip1.Enabled = True
+                    Exit Sub
                 End If
-            Loop Until Toggle1.Checked = False
-            Button1.Enabled = True
+            End If
+        Loop Until Toggle1.Checked = False
+        Button1.Enabled = True
             MenuStrip1.Enabled = True
             'dialog1.Filter = "CSV (Comma delimited) (*.csv)|*.csv"
             'dialog1.FileName = ""
@@ -1186,45 +1215,49 @@ Public Class Form4
         Me.Close()
     End Sub
 
-    Function MonitorSSID()
+    Sub MonitorSSID()
         If MonitorSSIDToolStripMenuItem.Checked = True Then
             If WLANBSRev02ToolStripMenuItem.Checked = True Then
                 fullstring += "Date & Time,State,RSSI,Signal Quality" & vbNewLine
                 foundit = 0
                 While foundit < 1
                     For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
-                        wlanIface.Scan()
-                        Application.DoEvents()
-                        Thread.Sleep(1)
-                        Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
-                        For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                        If Me.IsDisposed Then
+                            Exit Sub
+                        Else
+                            wlanIface.Scan()
                             Application.DoEvents()
-                            If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
-                                Dim macAddr As Byte() = network.dot11Bssid
-                                Dim tMac As String = ""
-                                For k As Integer = 0 To macAddr.Length - 1
-                                    If tMac = "" Then
-                                        tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                    Else
-                                        tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                            Thread.Sleep(1)
+                            Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+                            For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                                Application.DoEvents()
+                                If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+                                    Dim macAddr As Byte() = network.dot11Bssid
+                                    Dim tMac As String = ""
+                                    For k As Integer = 0 To macAddr.Length - 1
+                                        If tMac = "" Then
+                                            tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                        Else
+                                            tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                        End If
+                                    Next
+                                    If tMac.Replace(":", "") = GlobalVariables.macadd Then
+                                        'quality = network.linkQuality  'Not necessary
+                                        'rssi = network.rssi
+                                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & state & "," & network.rssi & "," & network.linkQuality & vbNewLine
+                                        System.Array.Resize(rssis, rssis.Length + 1)
+                                        System.Array.Resize(links, links.Length + 1)
+                                        rssis(rssis.Length - 1) = network.rssi
+                                        links(links.Length - 1) = network.linkQuality
+                                        DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, network.rssi, network.linkQuality, network.linkQuality)
+                                        DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
+                                        Application.DoEvents()
+                                        'Thread.Sleep(200)
+                                        foundit += 1
                                     End If
-                                Next
-                                If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                                    'quality = network.linkQuality  'Not necessary
-                                    'rssi = network.rssi
-                                    fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & state & "," & network.rssi & "," & network.linkQuality & vbNewLine
-                                    System.Array.Resize(rssis, rssis.Length + 1)
-                                    System.Array.Resize(links, links.Length + 1)
-                                    rssis(rssis.Length - 1) = network.rssi
-                                    links(links.Length - 1) = network.linkQuality
-                                    DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, network.rssi, network.linkQuality, network.linkQuality)
-                                    DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
-                                    Application.DoEvents()
-                                    'Thread.Sleep(200)
-                                    foundit += 1
                                 End If
-                            End If
-                        Next
+                            Next
+                        End If
                     Next
                 End While
             Else
@@ -1236,54 +1269,58 @@ Public Class Form4
                 foundit = 0
                 While foundit < 10
                     For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
-                        wlanIface.Scan()
-                        Application.DoEvents()
-                        Thread.Sleep(1)
-                        Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
-                        For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                        If Me.IsDisposed Then
+                            Exit Sub
+                        Else
+                            wlanIface.Scan()
                             Application.DoEvents()
-                            If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
-                                Dim macAddr As Byte() = network.dot11Bssid
-                                Dim tMac As String = ""
-                                For k As Integer = 0 To macAddr.Length - 1
-                                    If tMac = "" Then
-                                        tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                    Else
-                                        tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                    End If
-                                Next
-                                If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                                    count += 1
-                                    quality(count - 1) = network.linkQuality
-                                    rssi(count - 1) = network.rssi
-                                    avgquality = 0.0
-                                    avgrssi = 0.0
-                                    For Each n In quality
-                                        avgquality += n
+                            Thread.Sleep(1)
+                            Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+                            For Each network As Wlan.WlanBssEntry In wlanBssEntries
+                                Application.DoEvents()
+                                If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+                                    Dim macAddr As Byte() = network.dot11Bssid
+                                    Dim tMac As String = ""
+                                    For k As Integer = 0 To macAddr.Length - 1
+                                        If tMac = "" Then
+                                            tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                        Else
+                                            tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                        End If
                                     Next
-                                    For Each n In rssi
-                                        avgrssi += n
-                                    Next
-                                    avgquality /= count
-                                    avgrssi /= count
-                                    avgquality = Math.Round(avgquality, 1)
-                                    avgrssi = Math.Round(avgrssi, 1)
-                                    If state = "None" Then
-                                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
-                                        DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
-                                    Else
-                                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & "STATE" & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
-                                        DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), "STATE" & state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
+                                    If tMac.Replace(":", "") = GlobalVariables.macadd Then
+                                        count += 1
+                                        quality(count - 1) = network.linkQuality
+                                        rssi(count - 1) = network.rssi
+                                        avgquality = 0.0
+                                        avgrssi = 0.0
+                                        For Each n In quality
+                                            avgquality += n
+                                        Next
+                                        For Each n In rssi
+                                            avgrssi += n
+                                        Next
+                                        avgquality /= count
+                                        avgrssi /= count
+                                        avgquality = Math.Round(avgquality, 1)
+                                        avgrssi = Math.Round(avgrssi, 1)
+                                        If state = "None" Then
+                                            fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
+                                            DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
+                                        Else
+                                            fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & "STATE" & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
+                                            DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), "STATE" & state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
+                                        End If
+                                        DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
+                                        System.Array.Resize(Of Double)(quality, count + 1)
+                                        System.Array.Resize(Of Double)(rssi, count + 1)
+                                        Application.DoEvents()
+                                        'Thread.Sleep(200)
+                                        foundit += 1
                                     End If
-                                    DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
-                                    System.Array.Resize(Of Double)(quality, count + 1)
-                                    System.Array.Resize(Of Double)(rssi, count + 1)
-                                    Application.DoEvents()
-                                    'Thread.Sleep(200)
-                                    foundit += 1
                                 End If
-                            End If
-                        Next
+                            Next
+                        End If
                     Next
                 End While
                 System.Array.Resize(rssis, rssis.Length + 1)
@@ -1342,74 +1379,268 @@ Public Class Form4
                 'End If
             End If
         End If
-        Return 0
-    End Function
+    End Sub
 
-    Function SpeedTest()
+    Sub SpeedTest()
         If SpeedTestStatusToolStripMenuItem.Checked = True Then
-            wc.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)")
-            wc.UseDefaultCredentials = True
-            wc.Credentials = New NetworkCredential("admin", "admin")
-            wc.CachePolicy = New System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
 
-            wc.DownloadFile(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1) ' To Remove Latency
-
-            For i As Integer = 1 To 100
-                Thread.Sleep(10)
+            tmp = tmp1                                                  ' To Remove Latency
+            sizeselect = "1mb.test"
+            URI = "file:" & GlobalVariables.dfolder.Replace("\", "/") & sizeselect
+            oRequest = CType(FileWebRequest.Create(URI), FileWebRequest)
+            oRequest.Credentials = New NetworkCredential("admin", "admin")
+            oRequest.Timeout = 10000
+            oResponse = CType(oRequest.GetResponse, WebResponse)
+            responseStream = oResponse.GetResponseStream()
+            buffer = New Byte(FileLen(tmp) / 100) {}
+            If Me.IsDisposed Then
+                Exit Sub
+            Else
+                fs = New FileStream(tmp, FileMode.Create, FileAccess.Write)
+            End If
+            Do
+                If Me.IsDisposed Then
+                    Exit Sub
+                End If
+                read = responseStream.Read(buffer, 0, buffer.Length)
+                fs.Write(buffer, 0, read)
                 Application.DoEvents()
-            Next
-            File.Delete(tmp1)
+            Loop Until read = 0
+            responseStream.Close()
+            fs.Flush()
+            fs.Close()
+            responseStream.Close()
+            oResponse.Close()
+            buffer = Nothing
+
+            If GlobalVariables.size = "1 MB" Then                       ' Download Loop
+                tmp = tmp1
+                sizeselect = "1mb.test"
+            ElseIf GlobalVariables.size = "10 MB" Then
+                tmp = tmp2
+                sizeselect = "10mb.test"
+            ElseIf GlobalVariables.size = "100 MB" Then
+                tmp = tmp3
+                sizeselect = "100mb.test"
+            Else
+                tmp = tmp4
+                sizeselect = "1gb.test"
+            End If
+
+            ProgressBar1.Value = 0.0
             Label13.Visible = True
             Label13.Text = "Download Progress:"
             foundit = 0
             fullstring += "State " & state & " download started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
-            elapsedStartTime = DateTime.Now
-            If GlobalVariables.size = "1 MB" Then
-                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1)
-            ElseIf GlobalVariables.size = "10 MB" Then
-                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"), tmp2)
-            ElseIf GlobalVariables.size = "100 MB" Then
-                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "100mb.test"), tmp3)
+            URI = "file:" & GlobalVariables.dfolder.Replace("\", "/") & sizeselect
+            oRequest = CType(FileWebRequest.Create(URI), FileWebRequest)
+            oRequest.Credentials = New NetworkCredential("admin", "admin")
+            oRequest.Timeout = 10000
+            oResponse = CType(oRequest.GetResponse, WebResponse)
+            responseStream = oResponse.GetResponseStream()
+            If newone = 0 AndAlso GlobalVariables.size <> "1 MB" Then
+                buffer = New Byte(FileLen(tmp) / 100) {}
             Else
-                wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
+                buffer = New Byte(FileLen(tmp) / 1000) {}
             End If
-            While wc.IsBusy
+            newone = 1
+            If Me.IsDisposed Then
+                Exit Sub
+            Else
+                fs = New FileStream(tmp, FileMode.Create, FileAccess.Write)
+            End If
+            elapsedStartTime = DateTime.Now
+            Do
+                If Me.IsDisposed Then
+                    Exit Sub
+                End If
+                read = responseStream.Read(buffer, 0, buffer.Length)
+                fs.Write(buffer, 0, read)
+                ProgressBar1.Value = (FileLen(tmp) / FileLen(GlobalVariables.dfolder & sizeselect)) * 100.0
                 Application.DoEvents()
-            End While
+                download = FileLen(tmp)
+                elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
+                If (GlobalVariables.period = "1 min" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 60)) Or (GlobalVariables.period = "2.5 mins" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 150)) Or (GlobalVariables.period = "5 mins" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 300)) Then
+                    foundit = 1
+                    Exit Do
+                End If
+                If GlobalVariables.detailed = True Then
+                    fullstring += download / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
+                End If
+            Loop Until read = 0
+            fullstring += download / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
+            If foundit = 1 Then
+                fullstring += "Download aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
+                TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & " (Aborted due to the set time limit of " & GlobalVariables.period & ")"
+            Else
+                TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
+            End If
+            System.Array.Resize(downloads, downloads.Length + 1)
+            downloads(downloads.Length - 1) = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
+            ProgressBar1.Value = 0.0
+            responseStream.Close()
+            fs.Flush()
+            fs.Close()
+            responseStream.Close()
+            oResponse.Close()
+            buffer = Nothing
             Label13.Visible = False
-            For i As Integer = 1 To 100
+            For i As Integer = 1 To 50
                 Thread.Sleep(10)
                 Application.DoEvents()
             Next
 
-            If GlobalVariables.downloadonly = False Then
+            If GlobalVariables.downloadonly = False Then                        ' Upload Loop
                 Label13.Visible = True
                 Label13.Text = "Upload Progress:"
                 foundit = 0
                 fullstring += "State " & state & " upload started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
-                elapsedStartTime = DateTime.Now
-                If GlobalVariables.size = "1 MB" Then
-                    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
-                ElseIf GlobalVariables.size = "10 MB" Then
-                    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "10mb.test"), tmp2)
-                ElseIf GlobalVariables.size = "100 MB" Then
-                    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "100mb.test"), tmp3)
+                URI = GlobalVariables.ufolder & sizeselect
+                oRequest = CType(FileWebRequest.Create(tmp), FileWebRequest)
+                oRequest.Credentials = New NetworkCredential("admin", "admin")
+                oRequest.Timeout = 10000
+                oResponse = CType(oRequest.GetResponse, WebResponse)
+                responseStream = oResponse.GetResponseStream()
+                buffer = New Byte(FileLen(tmp) / 100) {}
+                If Me.IsDisposed Then
+                    Exit Sub
                 Else
-                    wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1gb.test"), tmp4)
+                    fs = New FileStream(URI, FileMode.Create, FileAccess.Write)
                 End If
-                While wc.IsBusy
+                elapsedStartTime = DateTime.Now
+                Do
+                    If Me.IsDisposed Then
+                        Exit Sub
+                    End If
+                    read = responseStream.Read(buffer, 0, buffer.Length)
+                    fs.Write(buffer, 0, read)
+                    ProgressBar1.Value = (FileLen(URI) / FileLen(GlobalVariables.dfolder & sizeselect)) * 100.0
                     Application.DoEvents()
-                End While
+                    upload = FileLen(URI)
+                    elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
+                    If (GlobalVariables.period = "1 min" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 60)) Or (GlobalVariables.period = "2.5 mins" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 150)) Or (GlobalVariables.period = "5 mins" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 300)) Then
+                        foundit = 1
+                        Exit Do
+                    End If
+                    If GlobalVariables.detailed = True Then
+                        fullstring += upload / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
+                    End If
+                Loop Until read = 0
+                fullstring += upload / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
+                If foundit = 1 Then
+                    fullstring += "Upload aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
+                    TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & " (Aborted due to the set time limit of " & GlobalVariables.period & ")"
+                Else
+                    TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
+                End If
+                System.Array.Resize(uploads, uploads.Length + 1)
+                uploads(uploads.Length - 1) = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
+                ProgressBar1.Value = 0.0
+                responseStream.Close()
+                fs.Flush()
+                fs.Close()
+                responseStream.Close()
+                oResponse.Close()
+                buffer = Nothing
                 Label13.Visible = False
-                For i As Integer = 1 To 100
+                For i As Integer = 1 To 50
                     Thread.Sleep(10)
                     Application.DoEvents()
                 Next
-
             End If
+
+            'Dim URI As String = "file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"
+            'Dim oRequest As FileWebRequest = CType(FileWebRequest.Create(URI), FileWebRequest)
+            'oRequest.Credentials = New NetworkCredential("admin", "admin")
+            'oRequest.Timeout = 10000
+            'Using oResponse As WebResponse = CType(oRequest.GetResponse, WebResponse)
+            '    Using responseStream As IO.Stream = oResponse.GetResponseStream
+            '        Using fs As New FileStream(tmp2, FileMode.Create, FileAccess.Write)
+            '            Dim buffer(10240) As Byte
+            '            Dim read As Integer
+            '            ProgressBar1.Value = 0.0
+            '            Do
+            '                If Me.IsDisposed Then
+            '                    Exit Sub
+            '                End If
+            '                read = responseStream.Read(buffer, 0, buffer.Length)
+            '                fs.Write(buffer, 0, read)
+            '                ProgressBar1.Value = (FileLen(tmp2) / FileLen(GlobalVariables.dfolder & "10mb.test")) * 100.0
+            '                Application.DoEvents()
+            '            Loop Until read = 0
+            '            'MsgBox("Download Completed")
+            '            ProgressBar1.Value = 0.0
+            '            responseStream.Close()
+            '            fs.Flush()
+            '            fs.Close()
+            '        End Using
+            '        responseStream.Close()
+            '    End Using
+            '    oResponse.Close()
+            'End Using
+
+            'wc.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)")
+            'wc.UseDefaultCredentials = True
+            'wc.Credentials = New NetworkCredential("admin", "admin")
+            'wc.CachePolicy = New System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
+
+            'wc.DownloadFile(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1) ' To Remove Latency
+
+            'For i As Integer = 1 To 100
+            '    Thread.Sleep(10)
+            '    Application.DoEvents()
+            'Next
+            'File.Delete(tmp1)
+            'Label13.Visible = True
+            'Label13.Text = "Download Progress:"
+            'foundit = 0
+            'fullstring += "State " & state & " download started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
+            'elapsedStartTime = DateTime.Now
+            'If GlobalVariables.size = "1 MB" Then
+            '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1)
+            'ElseIf GlobalVariables.size = "10 MB" Then
+            '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"), tmp2)
+            'ElseIf GlobalVariables.size = "100 MB" Then
+            '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "100mb.test"), tmp3)
+            'Else
+            '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
+            'End If
+            'While wc.IsBusy
+            '    Application.DoEvents()
+            'End While
+            'Label13.Visible = False
+            'For i As Integer = 1 To 100
+            '    Thread.Sleep(10)
+            '    Application.DoEvents()
+            'Next
+
+            'If GlobalVariables.downloadonly = False Then
+            '    Label13.Visible = True
+            '    Label13.Text = "Upload Progress:"
+            '    foundit = 0
+            '    fullstring += "State " & state & " upload started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
+            '    elapsedStartTime = DateTime.Now
+            '    If GlobalVariables.size = "1 MB" Then
+            '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
+            '    ElseIf GlobalVariables.size = "10 MB" Then
+            '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "10mb.test"), tmp2)
+            '    ElseIf GlobalVariables.size = "100 MB" Then
+            '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "100mb.test"), tmp3)
+            '    Else
+            '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1gb.test"), tmp4)
+            '    End If
+            '    While wc.IsBusy
+            '        Application.DoEvents()
+            '    End While
+            '    Label13.Visible = False
+            '    For i As Integer = 1 To 100
+            '        Thread.Sleep(10)
+            '        Application.DoEvents()
+            '    Next
+
+            'End If
         End If
-        Return 0
-    End Function
+    End Sub
 
     Sub TeensyStateTest()
         TextBox9.Text = state
@@ -1535,5 +1766,11 @@ Public Class Form4
         Catch ex As Exception
             MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
+    End Sub
+
+    Private Sub ChangeSSIDToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ChangeSSIDToolStripMenuItem.Click
+        Form1.Show()
+        Me.Close()
+        Me.Dispose()
     End Sub
 End Class
