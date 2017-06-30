@@ -909,8 +909,13 @@ Public Class Form4
 
         Catch ex As Exception
             MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Button1.Enabled = True
-        MenuStrip1.Enabled = True
+            Button1.Enabled = True
+            MenuStrip1.Enabled = True
+        Finally
+            Try
+                myserialPort.Close()
+            Catch ex As Exception
+            End Try
         End Try
     End Sub
 
@@ -1382,121 +1387,13 @@ Public Class Form4
     End Sub
 
     Sub SpeedTest()
-        If SpeedTestStatusToolStripMenuItem.Checked = True Then
+        Try
+            If SpeedTestStatusToolStripMenuItem.Checked = True Then
 
-            tmp = tmp1                                                  ' To Remove Latency
-            sizeselect = "1mb.test"
-            URI = "file:" & GlobalVariables.dfolder.Replace("\", "/") & sizeselect
-            oRequest = CType(FileWebRequest.Create(URI), FileWebRequest)
-            oRequest.Credentials = New NetworkCredential("admin", "admin")
-            oRequest.Timeout = 10000
-            oResponse = CType(oRequest.GetResponse, WebResponse)
-            responseStream = oResponse.GetResponseStream()
-            buffer = New Byte(FileLen(GlobalVariables.dfolder & sizeselect) / 100) {}
-            If Me.IsDisposed Then
-                Exit Sub
-            Else
-                fs = New FileStream(tmp, FileMode.Create, FileAccess.Write)
-            End If
-            Do
-                If Me.IsDisposed Then
-                    Exit Sub
-                End If
-                read = responseStream.Read(buffer, 0, buffer.Length)
-                fs.Write(buffer, 0, read)
-                Application.DoEvents()
-            Loop Until read = 0
-            responseStream.Close()
-            fs.Flush()
-            fs.Close()
-            responseStream.Close()
-            oResponse.Close()
-            buffer = Nothing
-
-            If GlobalVariables.size = "1 MB" Then                       ' Download Loop
-                tmp = tmp1
+                tmp = tmp1                                                  ' To Remove Latency
                 sizeselect = "1mb.test"
-            ElseIf GlobalVariables.size = "10 MB" Then
-                tmp = tmp2
-                sizeselect = "10mb.test"
-            ElseIf GlobalVariables.size = "100 MB" Then
-                tmp = tmp3
-                sizeselect = "100mb.test"
-            Else
-                tmp = tmp4
-                sizeselect = "1gb.test"
-            End If
-
-            ProgressBar1.Value = 0.0
-            Label13.Visible = True
-            Label13.Text = "Download Progress:"
-            foundit = 0
-            fullstring += "State " & state & " download started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
-            URI = "file:" & GlobalVariables.dfolder.Replace("\", "/") & sizeselect
-            oRequest = CType(FileWebRequest.Create(URI), FileWebRequest)
-            oRequest.Credentials = New NetworkCredential("admin", "admin")
-            oRequest.Timeout = 10000
-            oResponse = CType(oRequest.GetResponse, WebResponse)
-            responseStream = oResponse.GetResponseStream()
-            If newone = 0 AndAlso GlobalVariables.size <> "1 MB" Then
-                buffer = New Byte(FileLen(GlobalVariables.dfolder & sizeselect) / 100) {}
-            Else
-                buffer = New Byte(FileLen(GlobalVariables.dfolder & sizeselect) / 1000) {}
-            End If
-            newone = 1
-            If Me.IsDisposed Then
-                Exit Sub
-            Else
-                fs = New FileStream(tmp, FileMode.Create, FileAccess.Write)
-            End If
-            elapsedStartTime = DateTime.Now
-            Do
-                If Me.IsDisposed Then
-                    Exit Sub
-                End If
-                read = responseStream.Read(buffer, 0, buffer.Length)
-                fs.Write(buffer, 0, read)
-                ProgressBar1.Value = (FileLen(tmp) / FileLen(GlobalVariables.dfolder & sizeselect)) * 100.0
-                Application.DoEvents()
-                download = FileLen(tmp)
-                elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
-                If (GlobalVariables.period = "1 min" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 60)) Or (GlobalVariables.period = "2.5 mins" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 150)) Or (GlobalVariables.period = "5 mins" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 300)) Then
-                    foundit = 1
-                    Exit Do
-                End If
-                If GlobalVariables.detailed = True Then
-                    fullstring += download / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
-                End If
-            Loop Until read = 0
-            fullstring += download / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
-            If foundit = 1 Then
-                fullstring += "Download aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
-                TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & " (Aborted due to the set time limit of " & GlobalVariables.period & ")"
-            Else
-                TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
-            End If
-            System.Array.Resize(downloads, downloads.Length + 1)
-            downloads(downloads.Length - 1) = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
-            ProgressBar1.Value = 0.0
-            responseStream.Close()
-            fs.Flush()
-            fs.Close()
-            responseStream.Close()
-            oResponse.Close()
-            buffer = Nothing
-            Label13.Visible = False
-            For i As Integer = 1 To 50
-                Thread.Sleep(10)
-                Application.DoEvents()
-            Next
-
-            If GlobalVariables.downloadonly = False Then                        ' Upload Loop
-                Label13.Visible = True
-                Label13.Text = "Upload Progress:"
-                foundit = 0
-                fullstring += "State " & state & " upload started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
-                URI = GlobalVariables.ufolder & sizeselect
-                oRequest = CType(FileWebRequest.Create(tmp), FileWebRequest)
+                URI = "file:" & GlobalVariables.dfolder.Replace("\", "/") & sizeselect
+                oRequest = CType(FileWebRequest.Create(URI), FileWebRequest)
                 oRequest.Credentials = New NetworkCredential("admin", "admin")
                 oRequest.Timeout = 10000
                 oResponse = CType(oRequest.GetResponse, WebResponse)
@@ -1505,7 +1402,57 @@ Public Class Form4
                 If Me.IsDisposed Then
                     Exit Sub
                 Else
-                    fs = New FileStream(URI, FileMode.Create, FileAccess.Write)
+                    fs = New FileStream(tmp, FileMode.Create, FileAccess.Write)
+                End If
+                Do
+                    If Me.IsDisposed Then
+                        Exit Sub
+                    End If
+                    read = responseStream.Read(buffer, 0, buffer.Length)
+                    fs.Write(buffer, 0, read)
+                    Application.DoEvents()
+                Loop Until read = 0
+                fs.Flush()
+                fs.Close()
+                responseStream.Close()
+                oResponse.Close()
+                buffer = Nothing
+
+                If GlobalVariables.size = "1 MB" Then                       ' Download Loop
+                    tmp = tmp1
+                    sizeselect = "1mb.test"
+                ElseIf GlobalVariables.size = "10 MB" Then
+                    tmp = tmp2
+                    sizeselect = "10mb.test"
+                ElseIf GlobalVariables.size = "100 MB" Then
+                    tmp = tmp3
+                    sizeselect = "100mb.test"
+                Else
+                    tmp = tmp4
+                    sizeselect = "1gb.test"
+                End If
+
+                ProgressBar1.Value = 0.0
+                Label13.Visible = True
+                Label13.Text = "Download Progress:"
+                foundit = 0
+                fullstring += "State " & state & " download started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
+                URI = "file:" & GlobalVariables.dfolder.Replace("\", "/") & sizeselect
+                oRequest = CType(FileWebRequest.Create(URI), FileWebRequest)
+                oRequest.Credentials = New NetworkCredential("admin", "admin")
+                oRequest.Timeout = 10000
+                oResponse = CType(oRequest.GetResponse, WebResponse)
+                responseStream = oResponse.GetResponseStream()
+                If newone = 0 AndAlso GlobalVariables.size <> "1 MB" Then
+                    buffer = New Byte(FileLen(GlobalVariables.dfolder & sizeselect) / 100) {}
+                Else
+                    buffer = New Byte(FileLen(GlobalVariables.dfolder & sizeselect) / 1000) {}
+                End If
+                newone = 1
+                If Me.IsDisposed Then
+                    Exit Sub
+                Else
+                    fs = New FileStream(tmp, FileMode.Create, FileAccess.Write)
                 End If
                 elapsedStartTime = DateTime.Now
                 Do
@@ -1514,29 +1461,28 @@ Public Class Form4
                     End If
                     read = responseStream.Read(buffer, 0, buffer.Length)
                     fs.Write(buffer, 0, read)
-                    ProgressBar1.Value = (FileLen(URI) / FileLen(GlobalVariables.dfolder & sizeselect)) * 100.0
+                    ProgressBar1.Value = (FileLen(tmp) / FileLen(GlobalVariables.dfolder & sizeselect)) * 100.0
                     Application.DoEvents()
-                    upload = FileLen(URI)
+                    download = FileLen(tmp)
                     elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
                     If (GlobalVariables.period = "1 min" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 60)) Or (GlobalVariables.period = "2.5 mins" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 150)) Or (GlobalVariables.period = "5 mins" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 300)) Then
                         foundit = 1
                         Exit Do
                     End If
                     If GlobalVariables.detailed = True Then
-                        fullstring += upload / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
+                        fullstring += download / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
                     End If
                 Loop Until read = 0
-                fullstring += upload / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
+                fullstring += download / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
                 If foundit = 1 Then
-                    fullstring += "Upload aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
-                    TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & " (Aborted due to the set time limit of " & GlobalVariables.period & ")"
+                    fullstring += "Download aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
+                    TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & " (Aborted due to the set time limit of " & GlobalVariables.period & ")"
                 Else
-                    TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
+                    TextBox10.Text = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
                 End If
-                System.Array.Resize(uploads, uploads.Length + 1)
-                uploads(uploads.Length - 1) = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
+                System.Array.Resize(downloads, downloads.Length + 1)
+                downloads(downloads.Length - 1) = Math.Round((download * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
                 ProgressBar1.Value = 0.0
-                responseStream.Close()
                 fs.Flush()
                 fs.Close()
                 responseStream.Close()
@@ -1547,99 +1493,177 @@ Public Class Form4
                     Thread.Sleep(10)
                     Application.DoEvents()
                 Next
+
+                If GlobalVariables.downloadonly = False Then                        ' Upload Loop
+                    Label13.Visible = True
+                    Label13.Text = "Upload Progress:"
+                    foundit = 0
+                    fullstring += "State " & state & " upload started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
+                    URI = GlobalVariables.ufolder & sizeselect
+                    oRequest = CType(FileWebRequest.Create(tmp), FileWebRequest)
+                    oRequest.Credentials = New NetworkCredential("admin", "admin")
+                    oRequest.Timeout = 10000
+                    oResponse = CType(oRequest.GetResponse, WebResponse)
+                    responseStream = oResponse.GetResponseStream()
+                    buffer = New Byte(FileLen(GlobalVariables.dfolder & sizeselect) / 100) {}
+                    If Me.IsDisposed Then
+                        Exit Sub
+                    Else
+                        fs = New FileStream(URI, FileMode.Create, FileAccess.Write)
+                    End If
+                    elapsedStartTime = DateTime.Now
+                    Do
+                        If Me.IsDisposed Then
+                            Exit Sub
+                        End If
+                        read = responseStream.Read(buffer, 0, buffer.Length)
+                        fs.Write(buffer, 0, read)
+                        ProgressBar1.Value = (FileLen(URI) / FileLen(GlobalVariables.dfolder & sizeselect)) * 100.0
+                        Application.DoEvents()
+                        upload = FileLen(URI)
+                        elapsedtime = DateTime.Now.Subtract(elapsedStartTime)
+                        If (GlobalVariables.period = "1 min" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 60)) Or (GlobalVariables.period = "2.5 mins" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 150)) Or (GlobalVariables.period = "5 mins" AndAlso (Math.Round((elapsedtime.TotalSeconds), 2) > 300)) Then
+                            foundit = 1
+                            Exit Do
+                        End If
+                        If GlobalVariables.detailed = True Then
+                            fullstring += upload / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
+                        End If
+                    Loop Until read = 0
+                    fullstring += upload / 1000000 & "," & Math.Round((elapsedtime.TotalSeconds), 2) & "," & Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & vbNewLine
+                    If foundit = 1 Then
+                        fullstring += "Upload aborted due to the set termination period of " & GlobalVariables.period & vbNewLine
+                        TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2) & " (Aborted due to the set time limit of " & GlobalVariables.period & ")"
+                    Else
+                        TextBox11.Text = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
+                    End If
+                    System.Array.Resize(uploads, uploads.Length + 1)
+                    uploads(uploads.Length - 1) = Math.Round((upload * 8 / (elapsedtime.TotalSeconds * 1000000)), 2)
+                    ProgressBar1.Value = 0.0
+                    responseStream.Close()
+                    fs.Flush()
+                    fs.Close()
+                    responseStream.Close()
+                    oResponse.Close()
+                    buffer = Nothing
+                    Label13.Visible = False
+                    For i As Integer = 1 To 50
+                        Thread.Sleep(10)
+                        Application.DoEvents()
+                    Next
+                End If
+
+                'Dim URI As String = "file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"
+                'Dim oRequest As FileWebRequest = CType(FileWebRequest.Create(URI), FileWebRequest)
+                'oRequest.Credentials = New NetworkCredential("admin", "admin")
+                'oRequest.Timeout = 10000
+                'Using oResponse As WebResponse = CType(oRequest.GetResponse, WebResponse)
+                '    Using responseStream As IO.Stream = oResponse.GetResponseStream
+                '        Using fs As New FileStream(tmp2, FileMode.Create, FileAccess.Write)
+                '            Dim buffer(10240) As Byte
+                '            Dim read As Integer
+                '            ProgressBar1.Value = 0.0
+                '            Do
+                '                If Me.IsDisposed Then
+                '                    Exit Sub
+                '                End If
+                '                read = responseStream.Read(buffer, 0, buffer.Length)
+                '                fs.Write(buffer, 0, read)
+                '                ProgressBar1.Value = (FileLen(tmp2) / FileLen(GlobalVariables.dfolder & "10mb.test")) * 100.0
+                '                Application.DoEvents()
+                '            Loop Until read = 0
+                '            'MsgBox("Download Completed")
+                '            ProgressBar1.Value = 0.0
+                '            responseStream.Close()
+                '            fs.Flush()
+                '            fs.Close()
+                '        End Using
+                '        responseStream.Close()
+                '    End Using
+                '    oResponse.Close()
+                'End Using
+
+                'wc.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)")
+                'wc.UseDefaultCredentials = True
+                'wc.Credentials = New NetworkCredential("admin", "admin")
+                'wc.CachePolicy = New System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
+
+                'wc.DownloadFile(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1) ' To Remove Latency
+
+                'For i As Integer = 1 To 100
+                '    Thread.Sleep(10)
+                '    Application.DoEvents()
+                'Next
+                'File.Delete(tmp1)
+                'Label13.Visible = True
+                'Label13.Text = "Download Progress:"
+                'foundit = 0
+                'fullstring += "State " & state & " download started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
+                'elapsedStartTime = DateTime.Now
+                'If GlobalVariables.size = "1 MB" Then
+                '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1)
+                'ElseIf GlobalVariables.size = "10 MB" Then
+                '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"), tmp2)
+                'ElseIf GlobalVariables.size = "100 MB" Then
+                '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "100mb.test"), tmp3)
+                'Else
+                '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
+                'End If
+                'While wc.IsBusy
+                '    Application.DoEvents()
+                'End While
+                'Label13.Visible = False
+                'For i As Integer = 1 To 100
+                '    Thread.Sleep(10)
+                '    Application.DoEvents()
+                'Next
+
+                'If GlobalVariables.downloadonly = False Then
+                '    Label13.Visible = True
+                '    Label13.Text = "Upload Progress:"
+                '    foundit = 0
+                '    fullstring += "State " & state & " upload started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
+                '    elapsedStartTime = DateTime.Now
+                '    If GlobalVariables.size = "1 MB" Then
+                '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
+                '    ElseIf GlobalVariables.size = "10 MB" Then
+                '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "10mb.test"), tmp2)
+                '    ElseIf GlobalVariables.size = "100 MB" Then
+                '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "100mb.test"), tmp3)
+                '    Else
+                '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1gb.test"), tmp4)
+                '    End If
+                '    While wc.IsBusy
+                '        Application.DoEvents()
+                '    End While
+                '    Label13.Visible = False
+                '    For i As Integer = 1 To 100
+                '        Thread.Sleep(10)
+                '        Application.DoEvents()
+                '    Next
+
+                'End If
             End If
-
-            'Dim URI As String = "file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"
-            'Dim oRequest As FileWebRequest = CType(FileWebRequest.Create(URI), FileWebRequest)
-            'oRequest.Credentials = New NetworkCredential("admin", "admin")
-            'oRequest.Timeout = 10000
-            'Using oResponse As WebResponse = CType(oRequest.GetResponse, WebResponse)
-            '    Using responseStream As IO.Stream = oResponse.GetResponseStream
-            '        Using fs As New FileStream(tmp2, FileMode.Create, FileAccess.Write)
-            '            Dim buffer(10240) As Byte
-            '            Dim read As Integer
-            '            ProgressBar1.Value = 0.0
-            '            Do
-            '                If Me.IsDisposed Then
-            '                    Exit Sub
-            '                End If
-            '                read = responseStream.Read(buffer, 0, buffer.Length)
-            '                fs.Write(buffer, 0, read)
-            '                ProgressBar1.Value = (FileLen(tmp2) / FileLen(GlobalVariables.dfolder & "10mb.test")) * 100.0
-            '                Application.DoEvents()
-            '            Loop Until read = 0
-            '            'MsgBox("Download Completed")
-            '            ProgressBar1.Value = 0.0
-            '            responseStream.Close()
-            '            fs.Flush()
-            '            fs.Close()
-            '        End Using
-            '        responseStream.Close()
-            '    End Using
-            '    oResponse.Close()
-            'End Using
-
-            'wc.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0)")
-            'wc.UseDefaultCredentials = True
-            'wc.Credentials = New NetworkCredential("admin", "admin")
-            'wc.CachePolicy = New System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
-
-            'wc.DownloadFile(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1) ' To Remove Latency
-
-            'For i As Integer = 1 To 100
-            '    Thread.Sleep(10)
-            '    Application.DoEvents()
-            'Next
-            'File.Delete(tmp1)
-            'Label13.Visible = True
-            'Label13.Text = "Download Progress:"
-            'foundit = 0
-            'fullstring += "State " & state & " download started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Download Speed (Mbps)" & vbNewLine
-            'elapsedStartTime = DateTime.Now
-            'If GlobalVariables.size = "1 MB" Then
-            '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1mb.test"), tmp1)
-            'ElseIf GlobalVariables.size = "10 MB" Then
-            '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "10mb.test"), tmp2)
-            'ElseIf GlobalVariables.size = "100 MB" Then
-            '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "100mb.test"), tmp3)
-            'Else
-            '    wc.DownloadFileAsync(New Uri("file:" & GlobalVariables.dfolder.Replace("\", "/") & "1gb.test"), tmp4)
-            'End If
-            'While wc.IsBusy
-            '    Application.DoEvents()
-            'End While
-            'Label13.Visible = False
-            'For i As Integer = 1 To 100
-            '    Thread.Sleep(10)
-            '    Application.DoEvents()
-            'Next
-
-            'If GlobalVariables.downloadonly = False Then
-            '    Label13.Visible = True
-            '    Label13.Text = "Upload Progress:"
-            '    foundit = 0
-            '    fullstring += "State " & state & " upload started..." & vbNewLine & "Total Bytes (MB),Time taken (s), Avg. Upload Speed (Mbps)" & vbNewLine
-            '    elapsedStartTime = DateTime.Now
-            '    If GlobalVariables.size = "1 MB" Then
-            '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1mb.test"), tmp1)
-            '    ElseIf GlobalVariables.size = "10 MB" Then
-            '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "10mb.test"), tmp2)
-            '    ElseIf GlobalVariables.size = "100 MB" Then
-            '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "100mb.test"), tmp3)
-            '    Else
-            '        wc.UploadFileAsync(New Uri("file:" & GlobalVariables.ufolder.Replace("\", "/") & "1gb.test"), tmp4)
-            '    End If
-            '    While wc.IsBusy
-            '        Application.DoEvents()
-            '    End While
-            '    Label13.Visible = False
-            '    For i As Integer = 1 To 100
-            '        Thread.Sleep(10)
-            '        Application.DoEvents()
-            '    Next
-
-            'End If
-        End If
+        Catch ex As Exception
+            MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ProgressBar1.Value = 0.0
+            buffer = Nothing
+            Label13.Visible = False
+        Finally
+            Try
+                fs.Flush()
+                fs.Close()
+            Catch ex As Exception
+            End Try
+            Try
+                responseStream.Close()
+            Catch ex As Exception
+            End Try
+            Try
+                oResponse.Close()
+            Catch ex As Exception
+            End Try
+        End Try
     End Sub
 
     Sub TeensyStateTest()
@@ -1661,7 +1685,27 @@ Public Class Form4
         myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
         Thread.Sleep(25)
         'myserialPort.Write(Convert.ToChar(&H1))        'Hex value for char '1'
-        myserialPort.Write(Convert.ToChar(state))
+        'myserialPort.Write(Convert.ToChar(state))
+        Select Case (state)
+            Case 1
+                myserialPort.Write(Convert.ToChar(&H1))        'Hex value for char '1'
+            Case 2
+                myserialPort.Write(Convert.ToChar(&H2))        'Hex value for char '2'
+            Case 3
+                myserialPort.Write(Convert.ToChar(&H3))        'Hex value for char '3'
+            Case 4
+                myserialPort.Write(Convert.ToChar(&H4))        'Hex value for char '4'
+            Case 5
+                myserialPort.Write(Convert.ToChar(&H5))        'Hex value for char '5'
+            Case 6
+                myserialPort.Write(Convert.ToChar(&H6))        'Hex value for char '6'
+            Case 7
+                myserialPort.Write(Convert.ToChar(&H7))        'Hex value for char '7'
+            Case 8
+                myserialPort.Write(Convert.ToChar(&H8))        'Hex value for char '8'
+            Case 9
+                myserialPort.Write(Convert.ToChar(&H9))        'Hex value for char '9'
+        End Select
         Thread.Sleep(25)
         TextBox9.Text = state
         TextBox10.Text = ""
