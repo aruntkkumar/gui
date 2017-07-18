@@ -1395,7 +1395,7 @@ Public Class Form4
                 URI = "file:" & GlobalVariables.dfolder.Replace("\", "/") & sizeselect
                 oRequest = CType(FileWebRequest.Create(URI), FileWebRequest)
                 oRequest.Credentials = New NetworkCredential("admin", "admin")
-                oRequest.Timeout = 10000
+                oRequest.Timeout = 60000
                 oResponse = CType(oRequest.GetResponse, WebResponse)
                 responseStream = oResponse.GetResponseStream()
                 buffer = New Byte(FileLen(GlobalVariables.dfolder & sizeselect) / 100) {}
@@ -1440,7 +1440,7 @@ Public Class Form4
                 URI = "file:" & GlobalVariables.dfolder.Replace("\", "/") & sizeselect
                 oRequest = CType(FileWebRequest.Create(URI), FileWebRequest)
                 oRequest.Credentials = New NetworkCredential("admin", "admin")
-                oRequest.Timeout = 10000
+                oRequest.Timeout = 60000
                 oResponse = CType(oRequest.GetResponse, WebResponse)
                 responseStream = oResponse.GetResponseStream()
                 If newone = 0 AndAlso GlobalVariables.size <> "1 MB" Then
@@ -1514,6 +1514,14 @@ Public Class Form4
                     elapsedStartTime = DateTime.Now
                     Do
                         If Me.IsDisposed Then
+                            responseStream.Close()
+                            fs.Flush()
+                            fs.Close()
+                            responseStream.Close()
+                            oResponse.Close()
+                            buffer = Nothing
+                            Label13.Visible = False
+                            File.Delete(URI)
                             Exit Sub
                         End If
                         read = responseStream.Read(buffer, 0, buffer.Length)
@@ -1547,6 +1555,7 @@ Public Class Form4
                     oResponse.Close()
                     buffer = Nothing
                     Label13.Visible = False
+                    File.Delete(URI)
                     For i As Integer = 1 To 50
                         Thread.Sleep(10)
                         Application.DoEvents()
