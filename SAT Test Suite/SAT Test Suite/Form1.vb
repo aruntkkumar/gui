@@ -226,7 +226,7 @@ Public Class Form1
         dialog.RestoreDirectory = True
         dialog.FileName = ""
         If dialog.ShowDialog() = DialogResult.OK Then
-            If ComparisonModeToolStripMenuItem.Checked = False Or (ComparisonModeToolStripMenuItem.Checked = True AndAlso compare = 1) Then
+            If ComparisonModeToolStripMenuItem.Checked = False Then 'Or (ComparisonModeToolStripMenuItem.Checked = True AndAlso compare = 1) Then
                 colourcounter = 1
                 ClearMarkers()
                 Chart1.Series.Clear()
@@ -787,6 +787,7 @@ Public Class Form1
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
         If device = False Then
             dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp"
+            dialog1.FilterIndex = 3
         Else
             If ports = 1 Then
                 dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp|Touchstone (*.s1p)|*.s1p"
@@ -797,8 +798,8 @@ Public Class Form1
             Else
                 dialog1.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp|Touchstone (*.s4p)|*.s4p"
             End If
+            dialog1.FilterIndex = 5
         End If
-        dialog1.FilterIndex = 3
         dialog1.FileName = ""
 
         Dim graph As Graphics = Nothing         ' Image capture if the CheckedListBox is not empty
@@ -2915,6 +2916,7 @@ Public Class Form1
             Erase table
             newtoolbar = True
             device = True
+            compare = 1
         Catch ex As Exception
             If ex.Message.Contains("HRESULT") Then  'Previous value was If ex.Message = "HRESULT = 80040000" Then
                 MetroFramework.MetroMessageBox.Show(Me, "Error while connecting to Agilent N5230A NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -3298,6 +3300,7 @@ Public Class Form1
             End If
             newtoolbar = True
             device = True
+            compare = 1
         Catch ex As Exception
             If ex.Message.Contains("HRESULT") Then  'Previous value was If ex.Message = "HRESULT = 80040011" Then
                 MetroFramework.MetroMessageBox.Show(Me, "Error while connecting to Rohde && Schwarz ZVL6 NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
