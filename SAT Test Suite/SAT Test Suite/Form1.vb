@@ -226,7 +226,7 @@ Public Class Form1
         dialog.RestoreDirectory = True
         dialog.FileName = ""
         If dialog.ShowDialog() = DialogResult.OK Then
-            If ComparisonModeToolStripMenuItem.Checked = False Then 'Or (ComparisonModeToolStripMenuItem.Checked = True AndAlso compare = 1) Then
+            If ComparisonModeToolStripMenuItem.Checked = False Or (ComparisonModeToolStripMenuItem.Checked = True AndAlso compare = 1 AndAlso device = False) Then
                 colourcounter = 1
                 ClearMarkers()
                 Chart1.Series.Clear()
