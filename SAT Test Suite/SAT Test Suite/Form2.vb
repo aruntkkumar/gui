@@ -83,6 +83,10 @@
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        OKButton()
+    End Sub
+
+    Sub OKButton()
         GlobalVariables.DeviceAddress(0) = DataGridView1.Item(1, 0).Value.ToString()
         GlobalVariables.DeviceAddress(1) = DataGridView1.Item(1, 1).Value.ToString()
         If TextBox1.Text = "" Then     'Check if TextBox1 is empty
@@ -400,5 +404,59 @@
         GlobalVariables.yaxismax = 0
         GlobalVariables.yaxismin = -30.0
         GlobalVariables.yaxisint = 3.0
+    End Sub
+
+    Private Sub TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox1.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            OKButton()
+        End If
+    End Sub
+
+    Private Sub TextBox2_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox2.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            OKButton()
+        End If
+    End Sub
+
+    Private Sub TextBox5_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox5.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            OKButton()
+        End If
+    End Sub
+
+    Private Sub TextBox3_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox3.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            OKButton()
+        End If
+    End Sub
+
+    Private Sub TextBox4_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox4.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            OKButton()
+        End If
+    End Sub
+
+    Private Sub TextBox6_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox6.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            OKButton()
+        End If
+    End Sub
+
+    Private Sub TextBox7_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox7.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            OKButton()
+        End If
+    End Sub
+
+    Private Sub TextBox8_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox8.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            OKButton()
+        End If
+    End Sub
+
+    Private Sub TextBox9_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox9.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            OKButton()
+        End If
     End Sub
 End Class

@@ -31,6 +31,7 @@ Partial Class Form2
         Me.TabControl1 = New MetroFramework.Controls.MetroTabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Button3 = New MetroFramework.Controls.MetroButton()
         Me.CheckBox3 = New MetroFramework.Controls.MetroCheckBox()
         Me.TextBox9 = New MetroFramework.Controls.MetroTextBox()
         Me.Label10 = New MetroFramework.Controls.MetroLabel()
@@ -62,7 +63,6 @@ Partial Class Form2
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Button1 = New MetroFramework.Controls.MetroButton()
         Me.Button2 = New MetroFramework.Controls.MetroButton()
-        Me.Button3 = New MetroFramework.Controls.MetroButton()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -128,6 +128,18 @@ Partial Class Form2
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(498, 311)
         Me.Panel1.TabIndex = 4
+        '
+        'Button3
+        '
+        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button3.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button3.FontWeight = MetroFramework.MetroButtonWeight.Regular
+        Me.Button3.Location = New System.Drawing.Point(191, 263)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(115, 38)
+        Me.Button3.TabIndex = 27
+        Me.Button3.Text = "Reset to Default"
+        Me.Button3.UseSelectable = True
         '
         'CheckBox3
         '
@@ -661,18 +673,6 @@ Partial Class Form2
         Me.Button2.TabIndex = 26
         Me.Button2.Text = "Cancel"
         Me.Button2.UseSelectable = True
-        '
-        'Button3
-        '
-        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button3.FontSize = MetroFramework.MetroButtonSize.Medium
-        Me.Button3.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button3.Location = New System.Drawing.Point(191, 263)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(115, 38)
-        Me.Button3.TabIndex = 27
-        Me.Button3.Text = "Reset to Default"
-        Me.Button3.UseSelectable = True
         '
         'Form2
         '

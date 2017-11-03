@@ -242,6 +242,8 @@ Public Class Form1
                 Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
                 Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
                 Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
+                checkboxnum = 1
+                TextBox1.Text = ""
             End If
             extension = System.IO.Path.GetExtension(dialog.FileName)
             Try
@@ -251,7 +253,7 @@ Public Class Form1
                 Exit Sub
             End Try
             column = ((Math.Pow(ports, 2) * 2) + 1)
-            checkboxnum = 1
+
             'y2max1 = 0
             'y2min1 = 0
             'x2max = 0
@@ -1117,6 +1119,7 @@ Public Class Form1
                     Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.False
                     frequnit = "ghz"
                     checkboxnum = 1
+                    TextBox1.Text = ""
                     'x2max = 0
                     'Else
                 End If
@@ -2754,6 +2757,7 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
             column = ((Math.Pow(ports, 2) * 2) + 1)
             checkboxnum = 1
+            TextBox1.Text = ""
             'y2max1 = 0
             'y2min1 = 0
             'x2max = 0
@@ -3192,6 +3196,7 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
+            TextBox1.Text = ""
             'If GlobalVariables.autobutton = True Then
             '    xaxisadjust()
             'End If
