@@ -10,6 +10,9 @@
                     ComboBox1.Items.Add(GlobalVariables.seriesnames(i))
                 End If
             Next
+            If GlobalVariables.series.Length > 1 Then
+                ComboBox1.Items.Add("ALL")
+            End If
         Else
             TextBox1.Enabled = False
         End If
@@ -66,6 +69,44 @@
                 Me.Dispose()
             Catch ex As Exception
             End Try
+        End If
+    End Sub
+
+    Private Sub TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox1.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            If ComboBox1.SelectedIndex = -1 Then
+                If (GlobalVariables.series.Length = 0) Then
+                    MyBase.Close()
+                    Exit Sub
+                Else
+                    MetroFramework.MetroMessageBox.Show(Me, "No trace selected. Please select one from a drop down list.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+            End If
+            If TextBox1.Text = "" Then
+                MetroFramework.MetroMessageBox.Show(Me, "No frequency value. Please enter the frequency in the textbox provided.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            Else
+                Try
+                    test = CDbl(TextBox1.Text)
+                Catch ex As Exception
+                    MetroFramework.MetroMessageBox.Show(Me, "Invalid data. Please enter a valid frequency value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End Try
+                If test < 0.0 Then
+                    MetroFramework.MetroMessageBox.Show(Me, "Invalid data. Please enter a valid frequency value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+            End If
+            GlobalVariables.Markertraceindex = ComboBox1.SelectedIndex
+            GlobalVariables.Markertrace = ComboBox1.SelectedItem.ToString()
+            GlobalVariables.Markerfreq = test
+            If Not Me.IsDisposed() Then
+                Try
+                    Me.Dispose()
+                Catch ex As Exception
+                End Try
+            End If
         End If
     End Sub
 End Class

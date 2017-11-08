@@ -3629,47 +3629,90 @@ Public Class Form1
         GlobalVariables.Markertraceindex = -1
         Form4.ShowDialog()
         If GlobalVariables.Markertraceindex <> -1 Then
-            Dim Datapoint As DataPoint = Nothing
-            Dim j As Integer = 0
-            For Each pt As DataPoint In Chart1.Series(GlobalVariables.Markertrace).Points
-                'For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Points
-                Datapoint = pt
-                If pt.XValue >= GlobalVariables.Markerfreq Then
-                    Exit For
-                End If
-                j += 1
-            Next
-            For i As Integer = 0 To checkboxnum - 1
-                If seriesname(i) = GlobalVariables.Markertrace AndAlso seriespointindex(i) = j Then
-                    'If seriesname(i) = GlobalVariables.seriesnames(GlobalVariables.Markertraceindex) AndAlso seriespointindex(i) = j Then
-                    MetroFramework.MetroMessageBox.Show(Me, "The marker is already available in the list. Refer marker #" & i + 1 & ".", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Exit Sub
-                End If
-            Next
-            If checkboxnum > 20 Then
-                checkboxnum = 1
-                CheckedListBox1.Items.Clear()
-                For i As Integer = 0 To 19
-                    Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
-                    Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
+            If GlobalVariables.Markertrace = "ALL" Then
+                For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
+                    Dim Datapoint As DataPoint = Nothing
+                    Dim j As Integer = 0
+                    For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(i)).Points
+                        Datapoint = pt
+                        If pt.XValue >= GlobalVariables.Markerfreq Then
+                            Exit For
+                        End If
+                        j += 1
+                    Next
+                    For a As Integer = 0 To checkboxnum - 1
+                        If seriesname(a) = GlobalVariables.seriesnames(i) AndAlso seriespointindex(a) = j Then
+                            GoTo NextValue
+                        End If
+                    Next
+
+                    If checkboxnum > 20 Then
+                        checkboxnum = 1
+                        CheckedListBox1.Items.Clear()
+                        For k As Integer = 0 To 19
+                            Chart1.Series(seriesname(k)).Points.Item(seriespointindex(k)).Label = ""
+                            Chart1.Series(seriesname(k)).Points.Item(seriespointindex(k)).MarkerStyle = MarkerStyle.None
+                        Next
+                        ClearAllMarkersToolStripMenuItem.Enabled = False
+                    End If
+                    RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(Datapoint.XValue, 3) & ", Y=" & Math.Round(Datapoint.YValues(0), 3), isChecked:=True)
+                    AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                    Datapoint.Label = checkboxnum
+                    Datapoint.MarkerStyle = MarkerStyle.Triangle
+                    Datapoint.MarkerSize = 10
+                    Datapoint.MarkerColor = Chart1.Series(GlobalVariables.seriesnames(i)).Color
+                    seriesname(checkboxnum - 1) = GlobalVariables.seriesnames(i)
+                    seriespointindex(checkboxnum - 1) = j
+                    ClearAllMarkersToolStripMenuItem.Enabled = True
+                    checkboxnum += 1
+                    prevxval = Datapoint.XValue
+                    prevyval = Datapoint.YValues(0)
+NextValue:
                 Next
-                ClearAllMarkersToolStripMenuItem.Enabled = False
+            Else
+                Dim Datapoint As DataPoint = Nothing
+                Dim j As Integer = 0
+                For Each pt As DataPoint In Chart1.Series(GlobalVariables.Markertrace).Points
+                    'For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Points
+                    Datapoint = pt
+                    If pt.XValue >= GlobalVariables.Markerfreq Then
+                        Exit For
+                    End If
+                    j += 1
+                Next
+                For i As Integer = 0 To checkboxnum - 1
+                    If seriesname(i) = GlobalVariables.Markertrace AndAlso seriespointindex(i) = j Then
+                        'If seriesname(i) = GlobalVariables.seriesnames(GlobalVariables.Markertraceindex) AndAlso seriespointindex(i) = j Then
+                        MetroFramework.MetroMessageBox.Show(Me, "The marker is already available in the list. Refer marker #" & i + 1 & ".", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Exit Sub
+                    End If
+                Next
+                If checkboxnum > 20 Then
+                    checkboxnum = 1
+                    CheckedListBox1.Items.Clear()
+                    For i As Integer = 0 To 19
+                        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
+                        Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
+                    Next
+                    ClearAllMarkersToolStripMenuItem.Enabled = False
+                End If
+                RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(Datapoint.XValue, 3) & ", Y=" & Math.Round(Datapoint.YValues(0), 3), isChecked:=True)
+                AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                Datapoint.Label = checkboxnum
+                Datapoint.MarkerStyle = MarkerStyle.Triangle
+                Datapoint.MarkerSize = 10
+                Datapoint.MarkerColor = Chart1.Series(GlobalVariables.Markertrace).Color
+                seriesname(checkboxnum - 1) = GlobalVariables.Markertrace
+                'Datapoint.MarkerColor = Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Color
+                'seriesname(checkboxnum - 1) = GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)
+                seriespointindex(checkboxnum - 1) = j
+                ClearAllMarkersToolStripMenuItem.Enabled = True
+                checkboxnum += 1
+                prevxval = Datapoint.XValue
+                prevyval = Datapoint.YValues(0)
             End If
-            RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-            CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(Datapoint.XValue, 3) & ", Y=" & Math.Round(Datapoint.YValues(0), 3), isChecked:=True)
-            AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-            Datapoint.Label = checkboxnum
-            Datapoint.MarkerStyle = MarkerStyle.Triangle
-            Datapoint.MarkerSize = 10
-            Datapoint.MarkerColor = Chart1.Series(GlobalVariables.Markertrace).Color
-            seriesname(checkboxnum - 1) = GlobalVariables.Markertrace
-            'Datapoint.MarkerColor = Chart1.Series(GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)).Color
-            'seriesname(checkboxnum - 1) = GlobalVariables.seriesnames(GlobalVariables.Markertraceindex)
-            seriespointindex(checkboxnum - 1) = j
-            ClearAllMarkersToolStripMenuItem.Enabled = True
-            checkboxnum += 1
-            prevxval = Datapoint.XValue
-            prevyval = Datapoint.YValues(0)
         End If
     End Sub
 
