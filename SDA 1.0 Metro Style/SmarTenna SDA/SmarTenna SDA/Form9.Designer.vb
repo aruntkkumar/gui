@@ -387,9 +387,9 @@ Partial Class Form9
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(95, 213)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(107, 19)
+        Me.Label10.Size = New System.Drawing.Size(91, 19)
         Me.Label10.TabIndex = 90
-        Me.Label10.Text = "LM8335 address:"
+        Me.Label10.Text = "Slave address:"
         '
         'Label11
         '
@@ -492,7 +492,7 @@ Partial Class Form9
         Me.ComboBox3.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox3.FormattingEnabled = True
         Me.ComboBox3.ItemHeight = 19
-        Me.ComboBox3.Items.AddRange(New Object() {"1 (ADR = Low)", "9 (ADR = High)"})
+        Me.ComboBox3.Items.AddRange(New Object() {"1 (ADR = Low); LM8335", "9 (ADR = High); LM8335", "6 (UID = Low); SONY CXM3664XR", "7 (UID - High); SONY CXM3664XR"})
         Me.ComboBox3.Location = New System.Drawing.Point(273, 213)
         Me.ComboBox3.MaxDropDownItems = 20
         Me.ComboBox3.Name = "ComboBox3"

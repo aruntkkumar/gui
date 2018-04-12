@@ -27,9 +27,6 @@ C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarT
 C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\SmarTenna SDA.exe
 C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\SmarTenna SDA.pdb
 C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\SmarTenna SDA.xml
-C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\MetroFramework.Design.dll
-C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\MetroFramework.dll
-C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\bin\Debug\MetroFramework.Fonts.dll
 C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna SDA.vbprojResolveAssemblyReference.cache
 C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form1.resources
 C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form2.resources
