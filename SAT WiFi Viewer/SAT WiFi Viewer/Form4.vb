@@ -1222,168 +1222,168 @@ Public Class Form4
 
     Sub MonitorSSID()
         If MonitorSSIDToolStripMenuItem.Checked = True Then
-            If WLANBSRev02ToolStripMenuItem.Checked = True Then
-                fullstring += "Date & Time,State,RSSI,Signal Quality" & vbNewLine
-                foundit = 0
-                While foundit < 1
-                    For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
-                        If Me.IsDisposed Then
-                            Exit Sub
-                        Else
-                            wlanIface.Scan()
+            'If WLANBSRev02ToolStripMenuItem.Checked = True Then
+            '    fullstring += "Date & Time,State,RSSI,Signal Quality" & vbNewLine
+            '    foundit = 0
+            '    While foundit < 1
+            '        For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+            '            If Me.IsDisposed Then
+            '                Exit Sub
+            '            Else
+            '                wlanIface.Scan()
+            '                Application.DoEvents()
+            '                Thread.Sleep(1)
+            '                Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+            '                For Each network As Wlan.WlanBssEntry In wlanBssEntries
+            '                    Application.DoEvents()
+            '                    If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+            '                        Dim macAddr As Byte() = network.dot11Bssid
+            '                        Dim tMac As String = ""
+            '                        For k As Integer = 0 To macAddr.Length - 1
+            '                            If tMac = "" Then
+            '                                tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+            '                            Else
+            '                                tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+            '                            End If
+            '                        Next
+            '                        If tMac.Replace(":", "") = GlobalVariables.macadd Then
+            '                            'quality = network.linkQuality  'Not necessary
+            '                            'rssi = network.rssi
+            '                            fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & state & "," & network.rssi & "," & network.linkQuality & vbNewLine
+            '                            System.Array.Resize(rssis, rssis.Length + 1)
+            '                            System.Array.Resize(links, links.Length + 1)
+            '                            rssis(rssis.Length - 1) = network.rssi
+            '                            links(links.Length - 1) = network.linkQuality
+            '                            DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, network.rssi, network.linkQuality, network.linkQuality)
+            '                            DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
+            '                            Application.DoEvents()
+            '                            'Thread.Sleep(200)
+            '                            foundit += 1
+            '                        End If
+            '                    End If
+            '                Next
+            '            End If
+            '        Next
+            '    End While
+            'Else
+            count = 0
+            quality = New Double(count) {}
+            rssi = New Double(count) {}
+            fullstring += "Date & Time,State,RSSI,Avg RSSI,Signal Quality,Avg Signal Quality" & vbNewLine
+            'First 10 times are compulsory. Changed to 10 and 0 from Do While Loop.(Previously, 9 plus 1 from Do While Loop). 
+            foundit = 0
+            While foundit < 10
+                For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+                    If Me.IsDisposed Then
+                        Exit Sub
+                    Else
+                        wlanIface.Scan()
+                        Application.DoEvents()
+                        Thread.Sleep(1)
+                        Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+                        For Each network As Wlan.WlanBssEntry In wlanBssEntries
                             Application.DoEvents()
-                            Thread.Sleep(1)
-                            Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
-                            For Each network As Wlan.WlanBssEntry In wlanBssEntries
-                                Application.DoEvents()
-                                If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
-                                    Dim macAddr As Byte() = network.dot11Bssid
-                                    Dim tMac As String = ""
-                                    For k As Integer = 0 To macAddr.Length - 1
-                                        If tMac = "" Then
-                                            tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                        Else
-                                            tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                        End If
-                                    Next
-                                    If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                                        'quality = network.linkQuality  'Not necessary
-                                        'rssi = network.rssi
-                                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & state & "," & network.rssi & "," & network.linkQuality & vbNewLine
-                                        System.Array.Resize(rssis, rssis.Length + 1)
-                                        System.Array.Resize(links, links.Length + 1)
-                                        rssis(rssis.Length - 1) = network.rssi
-                                        links(links.Length - 1) = network.linkQuality
-                                        DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, network.rssi, network.linkQuality, network.linkQuality)
-                                        DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
-                                        Application.DoEvents()
-                                        'Thread.Sleep(200)
-                                        foundit += 1
+                            If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+                                Dim macAddr As Byte() = network.dot11Bssid
+                                Dim tMac As String = ""
+                                For k As Integer = 0 To macAddr.Length - 1
+                                    If tMac = "" Then
+                                        tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+                                    Else
+                                        tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
                                     End If
-                                End If
-                            Next
-                        End If
-                    Next
-                End While
-            Else
-                count = 0
-                quality = New Double(count) {}
-                rssi = New Double(count) {}
-                fullstring += "Date & Time,State,RSSI,Avg RSSI,Signal Quality,Avg Signal Quality" & vbNewLine
-                'First 10 times are compulsory. Changed to 10 and 0 from Do While Loop.(Previously, 9 plus 1 from Do While Loop). 
-                foundit = 0
-                While foundit < 10
-                    For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
-                        If Me.IsDisposed Then
-                            Exit Sub
-                        Else
-                            wlanIface.Scan()
-                            Application.DoEvents()
-                            Thread.Sleep(1)
-                            Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
-                            For Each network As Wlan.WlanBssEntry In wlanBssEntries
-                                Application.DoEvents()
-                                If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
-                                    Dim macAddr As Byte() = network.dot11Bssid
-                                    Dim tMac As String = ""
-                                    For k As Integer = 0 To macAddr.Length - 1
-                                        If tMac = "" Then
-                                            tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                        Else
-                                            tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                                        End If
+                                Next
+                                If tMac.Replace(":", "") = GlobalVariables.macadd Then
+                                    count += 1
+                                    quality(count - 1) = network.linkQuality
+                                    rssi(count - 1) = network.rssi
+                                    avgquality = 0.0
+                                    avgrssi = 0.0
+                                    For Each n In quality
+                                        avgquality += n
                                     Next
-                                    If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                                        count += 1
-                                        quality(count - 1) = network.linkQuality
-                                        rssi(count - 1) = network.rssi
-                                        avgquality = 0.0
-                                        avgrssi = 0.0
-                                        For Each n In quality
-                                            avgquality += n
-                                        Next
-                                        For Each n In rssi
-                                            avgrssi += n
-                                        Next
-                                        avgquality /= count
-                                        avgrssi /= count
-                                        avgquality = Math.Round(avgquality, 1)
-                                        avgrssi = Math.Round(avgrssi, 1)
-                                        If state = "None" Then
-                                            fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
-                                            DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
-                                        Else
-                                            fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & "STATE" & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
-                                            DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), "STATE" & state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
-                                        End If
-                                        DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
-                                        System.Array.Resize(Of Double)(quality, count + 1)
-                                        System.Array.Resize(Of Double)(rssi, count + 1)
-                                        Application.DoEvents()
-                                        'Thread.Sleep(200)
-                                        foundit += 1
+                                    For Each n In rssi
+                                        avgrssi += n
+                                    Next
+                                    avgquality /= count
+                                    avgrssi /= count
+                                    avgquality = Math.Round(avgquality, 1)
+                                    avgrssi = Math.Round(avgrssi, 1)
+                                    If state = "None" Then
+                                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
+                                        DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
+                                    Else
+                                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & "STATE" & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
+                                        DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), "STATE" & state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
                                     End If
+                                    DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
+                                    System.Array.Resize(Of Double)(quality, count + 1)
+                                    System.Array.Resize(Of Double)(rssi, count + 1)
+                                    Application.DoEvents()
+                                    'Thread.Sleep(200)
+                                    foundit += 1
                                 End If
-                            Next
-                        End If
-                    Next
-                End While
-                System.Array.Resize(rssis, rssis.Length + 1)
-                System.Array.Resize(links, links.Length + 1)
-                rssis(rssis.Length - 1) = avgrssi
-                links(links.Length - 1) = avgquality
-                'Do
-                '    For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
-                '        wlanIface.Scan()
-                '        Thread.Sleep(1000)
-                '        Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
-                '        For Each network As Wlan.WlanBssEntry In wlanBssEntries
-                '            If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
-                '                Dim macAddr As Byte() = network.dot11Bssid
-                '                Dim tMac As String = ""
-                '                For k As Integer = 0 To macAddr.Length - 1
-                '                    If tMac = "" Then
-                '                        tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                '                    Else
-                '                        tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
-                '                    End If
-                '                Next
-                '                If tMac.Replace(":", "") = GlobalVariables.macadd Then
-                '                    count += 1
-                '                    quality(count - 1) = network.linkQuality
-                '                    rssi(count - 1) = network.rssi
-                '                    avgquality = 0.0
-                '                    avgrssi = 0.0
-                '                    For Each n In quality
-                '                        avgquality += n
-                '                    Next
-                '                    For Each n In rssi
-                '                        avgrssi += n
-                '                    Next
-                '                    avgquality /= count
-                '                    avgrssi /= count
-                '                    avgquality = Math.Round(avgquality, 1)
-                '                    avgrssi = Math.Round(avgrssi, 1)
-                '                    If state = "None" Then
-                '                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
-                '                        DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
-                '                    Else
-                '                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & "STATE" & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
-                '                        DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), "STATE" & state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
-                '                    End If
-                '                    DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
-                '                    System.Array.Resize(Of Double)(quality, count + 1)
-                '                    System.Array.Resize(Of Double)(rssi, count + 1)
-                '                    Application.DoEvents()
-                '                    Thread.Sleep(200)
-                '                End If
-                '            End If
-                '        Next
-                '    Next
-                'Loop Until Toggle1.Checked = False
-                'End If
-            End If
+                            End If
+                        Next
+                    End If
+                Next
+            End While
+            System.Array.Resize(rssis, rssis.Length + 1)
+            System.Array.Resize(links, links.Length + 1)
+            rssis(rssis.Length - 1) = avgrssi
+            links(links.Length - 1) = avgquality
+            'Do
+            '    For Each wlanIface As WlanClient.WlanInterface In WiFi.client.Interfaces
+            '        wlanIface.Scan()
+            '        Thread.Sleep(1000)
+            '        Dim wlanBssEntries As Wlan.WlanBssEntry() = wlanIface.GetNetworkBssList()
+            '        For Each network As Wlan.WlanBssEntry In wlanBssEntries
+            '            If (Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, CInt(network.dot11Ssid.SSIDLength)) = GlobalVariables.ssidname) Then 'AndAlso (getMACaddress(network.dot11Bssid) = GlobalVariables.macadd) Then
+            '                Dim macAddr As Byte() = network.dot11Bssid
+            '                Dim tMac As String = ""
+            '                For k As Integer = 0 To macAddr.Length - 1
+            '                    If tMac = "" Then
+            '                        tMac += macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+            '                    Else
+            '                        tMac += ":" & macAddr(k).ToString("x2").PadLeft(2, "0"c).ToUpper()
+            '                    End If
+            '                Next
+            '                If tMac.Replace(":", "") = GlobalVariables.macadd Then
+            '                    count += 1
+            '                    quality(count - 1) = network.linkQuality
+            '                    rssi(count - 1) = network.rssi
+            '                    avgquality = 0.0
+            '                    avgrssi = 0.0
+            '                    For Each n In quality
+            '                        avgquality += n
+            '                    Next
+            '                    For Each n In rssi
+            '                        avgrssi += n
+            '                    Next
+            '                    avgquality /= count
+            '                    avgrssi /= count
+            '                    avgquality = Math.Round(avgquality, 1)
+            '                    avgrssi = Math.Round(avgrssi, 1)
+            '                    If state = "None" Then
+            '                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
+            '                        DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
+            '                    Else
+            '                        fullstring += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff") & "," & "STATE" & state & "," & network.rssi & "," & avgrssi & "," & network.linkQuality & "," & avgquality & vbNewLine
+            '                        DataGridView1.Rows.Add(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff"), "STATE" & state, network.rssi, avgrssi, network.linkQuality, avgquality) ', download / 8000000, Math.Round((download / (8000000 * totaltime)), 2))
+            '                    End If
+            '                    DataGridView1.FirstDisplayedScrollingRowIndex = DataGridView1.RowCount - 1
+            '                    System.Array.Resize(Of Double)(quality, count + 1)
+            '                    System.Array.Resize(Of Double)(rssi, count + 1)
+            '                    Application.DoEvents()
+            '                    Thread.Sleep(200)
+            '                End If
+            '            End If
+            '        Next
+            '    Next
+            'Loop Until Toggle1.Checked = False
+            'End If
         End If
+        'End If
     End Sub
 
     Sub SpeedTest()
