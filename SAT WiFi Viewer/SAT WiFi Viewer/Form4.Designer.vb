@@ -56,6 +56,8 @@ Partial Class Form4
         Me.SpeedTestStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ChangeSSIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConnectivityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DevicesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -90,8 +92,6 @@ Partial Class Form4
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Label13 = New MetroFramework.Controls.MetroLabel()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ChangeSSIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -346,6 +346,17 @@ Partial Class Form4
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(193, 6)
         '
+        'ChangeSSIDToolStripMenuItem
+        '
+        Me.ChangeSSIDToolStripMenuItem.Name = "ChangeSSIDToolStripMenuItem"
+        Me.ChangeSSIDToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
+        Me.ChangeSSIDToolStripMenuItem.Text = "Change SSID"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(193, 6)
+        '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
@@ -363,7 +374,7 @@ Partial Class Form4
         '
         Me.DevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TeensyToolStripMenuItem, Me.WLANBSRev02ToolStripMenuItem})
         Me.DevicesToolStripMenuItem.Name = "DevicesToolStripMenuItem"
-        Me.DevicesToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
+        Me.DevicesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.DevicesToolStripMenuItem.Text = "Devices"
         '
         'TeensyToolStripMenuItem
@@ -950,17 +961,6 @@ Partial Class Form4
         '
         Me.BackgroundWorker1.WorkerReportsProgress = True
         Me.BackgroundWorker1.WorkerSupportsCancellation = True
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(193, 6)
-        '
-        'ChangeSSIDToolStripMenuItem
-        '
-        Me.ChangeSSIDToolStripMenuItem.Name = "ChangeSSIDToolStripMenuItem"
-        Me.ChangeSSIDToolStripMenuItem.Size = New System.Drawing.Size(196, 22)
-        Me.ChangeSSIDToolStripMenuItem.Text = "Change SSID"
         '
         'Form4
         '
