@@ -355,10 +355,6 @@ Public Class Form4
                     SpeedTest()
                 Else
                     If myserialPort.IsOpen Then
-                        If WLANBSRev02ToolStripMenuItem.Checked = True Then 'WLAN BS start criteria. Send 255
-                            myserialPort.Write(Convert.ToChar(&HFF))
-                            Thread.Sleep(25)
-                        End If
                         If NormalOperationToolStripMenuItem.Checked = True Then
                             rssiindex = New Integer(-1) {}
                             qualityindex = New Integer(-1) {}
@@ -1900,6 +1896,8 @@ Public Class Form4
             myserialPort.ReadLine()
             Thread.Sleep(25)
         Else
+            myserialPort.Write(Convert.ToChar(&HFF))        'Hex value for 255 decimal (0xFF)
+            Thread.Sleep(25)
             myserialPort.Write(Convert.ToChar(&H73))        'Hex value for char 's'
             Thread.Sleep(25)
             Select Case (a)
@@ -1924,6 +1922,10 @@ Public Class Form4
             End Select
             Thread.Sleep(25)
         End If
+        'For j As Integer = 1 To 1500 'Added routine to wait for 15 seconds.
+        '    Thread.Sleep(10)
+        '    Application.DoEvents()
+        'Next
         If NormalOperationToolStripMenuItem.Checked = False Then
             TextBox9.Text = a
             TextBox10.Text = ""
