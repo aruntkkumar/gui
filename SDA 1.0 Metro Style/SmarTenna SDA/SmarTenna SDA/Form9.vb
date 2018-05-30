@@ -673,11 +673,11 @@ Public Class Form9
                             SerialReset()
                             Exit Sub
                         End Try
-                        Button5.Enabled = False
+                        'Button5.Enabled = False
                         'RadioButton1.Enabled = False
                         'RadioButton2.Enabled = False
-                        ComboBox3.Enabled = False
-                        ComboBox4.Enabled = False
+                        'ComboBox3.Enabled = False
+                        'ComboBox4.Enabled = False
                         Button2.Enabled = True
                     End If
                 End If

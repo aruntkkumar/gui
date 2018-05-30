@@ -98,7 +98,7 @@ Partial Class Form8
         Me.MetroLabel1.AutoSize = True
         Me.MetroLabel1.Location = New System.Drawing.Point(31, 58)
         Me.MetroLabel1.Name = "MetroLabel1"
-        Me.MetroLabel1.Size = New System.Drawing.Size(721, 100)
+        Me.MetroLabel1.Size = New System.Drawing.Size(676, 95)
         Me.MetroLabel1.TabIndex = 12
         Me.MetroLabel1.Text = "SmarTenna ® SDA Version 1.0" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Copyright © 2013-2016 SMART ANTENNA TECHNOLOGIES LIM" &
     "ITED, Company No: 8482911. All Rights Reserved." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Follow us on:"
