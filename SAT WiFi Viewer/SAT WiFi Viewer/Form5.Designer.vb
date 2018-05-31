@@ -24,6 +24,7 @@ Partial Class Form5
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form5))
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.CheckBox2 = New MetroFramework.Controls.MetroCheckBox()
         Me.Button3 = New MetroFramework.Controls.MetroButton()
         Me.TextBox2 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox1 = New MetroFramework.Controls.MetroTextBox()
@@ -37,7 +38,6 @@ Partial Class Form5
         Me.ComboBox2 = New MetroFramework.Controls.MetroComboBox()
         Me.Button1 = New MetroFramework.Controls.MetroButton()
         Me.Button2 = New MetroFramework.Controls.MetroButton()
-        Me.CheckBox2 = New MetroFramework.Controls.MetroCheckBox()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -57,6 +57,17 @@ Partial Class Form5
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(498, 179)
         Me.Panel1.TabIndex = 5
+        '
+        'CheckBox2
+        '
+        Me.CheckBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.Location = New System.Drawing.Point(372, 149)
+        Me.CheckBox2.Name = "CheckBox2"
+        Me.CheckBox2.Size = New System.Drawing.Size(105, 15)
+        Me.CheckBox2.TabIndex = 82
+        Me.CheckBox2.Text = "Download Only"
+        Me.CheckBox2.UseSelectable = True
         '
         'Button3
         '
@@ -242,17 +253,6 @@ Partial Class Form5
         Me.Button2.TabIndex = 81
         Me.Button2.Text = "Cancel"
         Me.Button2.UseSelectable = True
-        '
-        'CheckBox2
-        '
-        Me.CheckBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
-        Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(372, 149)
-        Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(105, 15)
-        Me.CheckBox2.TabIndex = 82
-        Me.CheckBox2.Text = "Download Only"
-        Me.CheckBox2.UseSelectable = True
         '
         'Form5
         '

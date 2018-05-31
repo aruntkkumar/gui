@@ -26,6 +26,7 @@ Partial Class Form6
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AntennaStateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NoneSelectedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NormalOperationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.STATE1ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.STATE2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -36,7 +37,6 @@ Partial Class Form6
         Me.STATE7ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.STATE8ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.STATE9ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.NoneSelectedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SpeedTestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SpeedTestStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -89,8 +89,16 @@ Partial Class Form6
         '
         Me.AntennaStateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NoneSelectedToolStripMenuItem, Me.NormalOperationToolStripMenuItem, Me.STATE1ToolStripMenuItem, Me.STATE2ToolStripMenuItem, Me.STATE3ToolStripMenuItem, Me.STATE4ToolStripMenuItem, Me.STATE5ToolStripMenuItem, Me.STATE6ToolStripMenuItem, Me.STATE7ToolStripMenuItem, Me.STATE8ToolStripMenuItem, Me.STATE9ToolStripMenuItem})
         Me.AntennaStateToolStripMenuItem.Name = "AntennaStateToolStripMenuItem"
-        Me.AntennaStateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AntennaStateToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.AntennaStateToolStripMenuItem.Text = "Antenna State"
+        '
+        'NoneSelectedToolStripMenuItem
+        '
+        Me.NoneSelectedToolStripMenuItem.Checked = True
+        Me.NoneSelectedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.NoneSelectedToolStripMenuItem.Name = "NoneSelectedToolStripMenuItem"
+        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.NoneSelectedToolStripMenuItem.Text = "None Selected"
         '
         'NormalOperationToolStripMenuItem
         '
@@ -152,19 +160,11 @@ Partial Class Form6
         Me.STATE9ToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.STATE9ToolStripMenuItem.Text = "STATE 9"
         '
-        'NoneSelectedToolStripMenuItem
-        '
-        Me.NoneSelectedToolStripMenuItem.Checked = True
-        Me.NoneSelectedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.NoneSelectedToolStripMenuItem.Name = "NoneSelectedToolStripMenuItem"
-        Me.NoneSelectedToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
-        Me.NoneSelectedToolStripMenuItem.Text = "None Selected"
-        '
         'SpeedTestToolStripMenuItem
         '
         Me.SpeedTestToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SpeedTestStatusToolStripMenuItem, Me.OptionsToolStripMenuItem})
         Me.SpeedTestToolStripMenuItem.Name = "SpeedTestToolStripMenuItem"
-        Me.SpeedTestToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SpeedTestToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.SpeedTestToolStripMenuItem.Text = "Speed Test"
         '
         'SpeedTestStatusToolStripMenuItem
@@ -183,12 +183,12 @@ Partial Class Form6
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(145, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'ProgressBar1

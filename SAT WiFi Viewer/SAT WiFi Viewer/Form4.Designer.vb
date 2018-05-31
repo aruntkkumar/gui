@@ -374,7 +374,7 @@ Partial Class Form4
         '
         Me.DevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TeensyToolStripMenuItem, Me.WLANBSRev02ToolStripMenuItem})
         Me.DevicesToolStripMenuItem.Name = "DevicesToolStripMenuItem"
-        Me.DevicesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DevicesToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
         Me.DevicesToolStripMenuItem.Text = "Devices"
         '
         'TeensyToolStripMenuItem
