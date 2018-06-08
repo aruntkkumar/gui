@@ -1047,6 +1047,19 @@ Public Class Form9
         'RadioButton2.Enabled = True
         RadioButton1.Checked = False
         RadioButton2.Checked = False
+        ComboBox5.Enabled = True
+        ComboBox6.Enabled = True
+        ComboBox7.Enabled = True
+        ComboBox8.Enabled = True
+        ComboBox9.Enabled = True
+        ComboBox10.Enabled = True
+        ComboBox11.Enabled = True
+        ComboBox12.Enabled = True
+        TextBox2.Enabled = True
+        TextBox3.Enabled = True
+        TextBox3.Text = ""
+        Toggle1.Enabled = True
+        Toggle2.Enabled = True
         ComboBox1.Items.Clear()
         myPort = IO.Ports.SerialPort.GetPortNames()
         ComboBox1.Items.AddRange(myPort)
