@@ -38,31 +38,35 @@
         If (GlobalVariables.series.Length = 0) Then
             CheckBox1.Enabled = False
             CheckBox2.Enabled = False
+            CheckBox4.Enabled = False
+            TextBox10.Enabled = False
         Else
             CheckBox1.Enabled = True
-                CheckBox2.Enabled = True
-                RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-                'If (GlobalVariables.ports = 0) Then                     'Bug found. If no S parameters are there, then it is Length-1. Else it is Length-2
-                '    For i As Integer = 0 To GlobalVariables.seriesnames.Length - 2
-                '        'If GlobalVariables.seriesnames(i) <> "" Then
-                '        If GlobalVariables.series(i) = 1 Then
-                '            CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=True)
-                '        Else
-                '            CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=False)
-                '        End If
-                '        'End If
-                '    Next
-                'Else
-                For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
-                    'If GlobalVariables.seriesnames(i) <> "" Then
-                    If GlobalVariables.series(i) = 1 Then
-                        CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=True)
-                    Else
-                        CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=False)
-                    End If
-                    'End If
-                Next
-                AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+            CheckBox2.Enabled = True
+            CheckBox4.Enabled = True
+            TextBox10.Enabled = True
+            RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+            'If (GlobalVariables.ports = 0) Then                     'Bug found. If no S parameters are there, then it is Length-1. Else it is Length-2
+            '    For i As Integer = 0 To GlobalVariables.seriesnames.Length - 2
+            '        'If GlobalVariables.seriesnames(i) <> "" Then
+            '        If GlobalVariables.series(i) = 1 Then
+            '            CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=True)
+            '        Else
+            '            CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=False)
+            '        End If
+            '        'End If
+            '    Next
+            'Else
+            For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
+                'If GlobalVariables.seriesnames(i) <> "" Then
+                If GlobalVariables.series(i) = 1 Then
+                    CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=True)
+                Else
+                    CheckedListBox1.Items.Add(GlobalVariables.seriesnames(i), isChecked:=False)
+                End If
+                'End If
+            Next
+            AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
             End If
         'End If
         If GlobalVariables.autobutton = True Then
@@ -77,6 +81,7 @@
         'Me.DataGridView1.Rows.Add("Agilent Technologies N5230A", "TCPIP0:: 10.1.100.174::hpib7,16::INSTR")
         Me.DataGridView1.Rows.Add(GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0))
         Me.DataGridView1.Rows.Add(GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1))
+        'Me.DataGridView1.Rows.Add(GlobalVariables.DeviceName(2), GlobalVariables.DeviceAddress(2)) 'Temporarily disabled
         AddHandler DataGridView1.CellValueChanged, AddressOf DataGridView1_CellValueChanged
         pos = 1
         TabControl1.SelectedTab = TabPage1
@@ -89,6 +94,7 @@
     Sub OKButton()
         GlobalVariables.DeviceAddress(0) = DataGridView1.Item(1, 0).Value.ToString()
         GlobalVariables.DeviceAddress(1) = DataGridView1.Item(1, 1).Value.ToString()
+        'GlobalVariables.DeviceAddress(2) = DataGridView1.Item(1, 2).Value.ToString() 'Temporarily disabled
         If TextBox1.Text = "" Then     'Check if TextBox1 is empty
             MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as X-axis maximum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
@@ -341,6 +347,10 @@
         RemoveHandler CheckBox2.CheckedChanged, AddressOf CheckBox2_CheckedChanged
         CheckBox2.Checked = False
         AddHandler CheckBox2.CheckedChanged, AddressOf CheckBox2_CheckedChanged
+
+        RemoveHandler CheckBox4.CheckedChanged, AddressOf CheckBox4_CheckedChanged
+        CheckBox4.Checked = False
+        AddHandler CheckBox4.CheckedChanged, AddressOf CheckBox4_CheckedChanged
     End Sub
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
@@ -356,6 +366,39 @@
         RemoveHandler CheckBox1.CheckedChanged, AddressOf CheckBox1_CheckedChanged
         CheckBox1.Checked = False
         AddHandler CheckBox1.CheckedChanged, AddressOf CheckBox1_CheckedChanged
+
+        RemoveHandler CheckBox4.CheckedChanged, AddressOf CheckBox4_CheckedChanged
+        CheckBox4.Checked = False
+        AddHandler CheckBox4.CheckedChanged, AddressOf CheckBox4_CheckedChanged
+    End Sub
+
+    Private Sub CheckBox4_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox4.CheckedChanged
+        For i As Integer = 0 To CheckedListBox1.Items.Count - 1
+            If TextBox10.Text = "" Then
+                RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                CheckedListBox1.SetItemCheckState(i, CheckState.Checked)
+                AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+            ElseIf CheckedListBox1.Items.Item(i).ToLower.Contains(TextBox10.Text.ToLower) Then
+                RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                CheckedListBox1.SetItemCheckState(i, CheckState.Checked)
+                AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+            Else
+                RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                CheckedListBox1.SetItemCheckState(i, CheckState.Unchecked)
+                AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+            End If
+        Next
+        RemoveHandler CheckBox2.CheckedChanged, AddressOf CheckBox2_CheckedChanged
+        CheckBox2.Checked = False
+        AddHandler CheckBox2.CheckedChanged, AddressOf CheckBox2_CheckedChanged
+
+        RemoveHandler CheckBox1.CheckedChanged, AddressOf CheckBox1_CheckedChanged
+        CheckBox1.Checked = False
+        AddHandler CheckBox1.CheckedChanged, AddressOf CheckBox1_CheckedChanged
+
+        RemoveHandler CheckBox4.CheckedChanged, AddressOf CheckBox4_CheckedChanged
+        CheckBox4.Checked = True
+        AddHandler CheckBox4.CheckedChanged, AddressOf CheckBox4_CheckedChanged
     End Sub
 
     Private Sub CheckedListBox1_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CheckedListBox1.ItemCheck
@@ -388,6 +431,9 @@
             If DataGridView1.Item(1, 1).Value = "" Then
                 DataGridView1.Item(1, 1).Value = GlobalVariables.DeviceAddress(1)
             End If
+            'If DataGridView1.Item(1, 2).Value = "" Then    'Temporarily disabled
+            '    DataGridView1.Item(1, 2).Value = GlobalVariables.DeviceAddress(2)
+            'End If
         End If
     End Sub
 
@@ -459,4 +505,5 @@
             OKButton()
         End If
     End Sub
+
 End Class

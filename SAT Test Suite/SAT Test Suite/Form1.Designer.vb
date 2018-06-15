@@ -48,16 +48,32 @@ Partial Class Form1
         Me.ClearChartAreaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ChartTypeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LogMagToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LinearMagToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PhaseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UnwrappedPhaseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PolarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SmithChartToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InverseSmithChartToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GroupDelayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SWRToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RealToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ImaginaryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConnectivityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ScanMyDevicesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FirstDevice = New System.Windows.Forms.ToolStripMenuItem()
         Me.SecondDevice = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ThirdDevice = New System.Windows.Forms.ToolStripMenuItem()
         Me.DeviceOptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabControl1 = New MetroFramework.Controls.MetroTabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TextBox1 = New System.Windows.Forms.RichTextBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
+        Me.Toggle1 = New MetroFramework.Controls.MetroToggle()
+        Me.Label1 = New System.Windows.Forms.Label()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
@@ -86,7 +102,7 @@ Partial Class Form1
         Me.label3.Name = "label3"
         Me.label3.Size = New System.Drawing.Size(46, 15)
         Me.label3.TabIndex = 16
-        Me.label3.Text = "Ver. 2.1"
+        Me.label3.Text = "Ver. 3.0"
         '
         'Chart1
         '
@@ -181,7 +197,7 @@ Partial Class Form1
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddMarkerToolStripMenuItem, Me.ComparisonModeToolStripMenuItem, Me.ToolStripMenuItem4, Me.ClearSelectedMarkerToolStripMenuItem, Me.ClearAllMarkersToolStripMenuItem, Me.ClearChartAreaToolStripMenuItem, Me.ToolStripMenuItem3, Me.OptionsToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddMarkerToolStripMenuItem, Me.ComparisonModeToolStripMenuItem, Me.ToolStripMenuItem4, Me.ClearSelectedMarkerToolStripMenuItem, Me.ClearAllMarkersToolStripMenuItem, Me.ClearChartAreaToolStripMenuItem, Me.ToolStripMenuItem3, Me.OptionsToolStripMenuItem, Me.ToolStripMenuItem5, Me.ChartTypeToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
@@ -232,6 +248,86 @@ Partial Class Form1
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
+        'ToolStripMenuItem5
+        '
+        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(185, 6)
+        '
+        'ChartTypeToolStripMenuItem
+        '
+        Me.ChartTypeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LogMagToolStripMenuItem, Me.LinearMagToolStripMenuItem, Me.PhaseToolStripMenuItem, Me.UnwrappedPhaseToolStripMenuItem, Me.PolarToolStripMenuItem, Me.SmithChartToolStripMenuItem, Me.InverseSmithChartToolStripMenuItem, Me.GroupDelayToolStripMenuItem, Me.SWRToolStripMenuItem, Me.RealToolStripMenuItem, Me.ImaginaryToolStripMenuItem})
+        Me.ChartTypeToolStripMenuItem.Name = "ChartTypeToolStripMenuItem"
+        Me.ChartTypeToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.ChartTypeToolStripMenuItem.Text = "Chart Format"
+        '
+        'LogMagToolStripMenuItem
+        '
+        Me.LogMagToolStripMenuItem.Checked = True
+        Me.LogMagToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.LogMagToolStripMenuItem.Name = "LogMagToolStripMenuItem"
+        Me.LogMagToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.LogMagToolStripMenuItem.Text = "Log Mag"
+        '
+        'LinearMagToolStripMenuItem
+        '
+        Me.LinearMagToolStripMenuItem.Name = "LinearMagToolStripMenuItem"
+        Me.LinearMagToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.LinearMagToolStripMenuItem.Text = "Linear Mag"
+        '
+        'PhaseToolStripMenuItem
+        '
+        Me.PhaseToolStripMenuItem.Name = "PhaseToolStripMenuItem"
+        Me.PhaseToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.PhaseToolStripMenuItem.Text = "Phase"
+        '
+        'UnwrappedPhaseToolStripMenuItem
+        '
+        Me.UnwrappedPhaseToolStripMenuItem.Name = "UnwrappedPhaseToolStripMenuItem"
+        Me.UnwrappedPhaseToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.UnwrappedPhaseToolStripMenuItem.Text = "Unwrapped Phase"
+        '
+        'PolarToolStripMenuItem
+        '
+        Me.PolarToolStripMenuItem.Name = "PolarToolStripMenuItem"
+        Me.PolarToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.PolarToolStripMenuItem.Text = "Polar"
+        '
+        'SmithChartToolStripMenuItem
+        '
+        Me.SmithChartToolStripMenuItem.Name = "SmithChartToolStripMenuItem"
+        Me.SmithChartToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.SmithChartToolStripMenuItem.Text = "Smith Chart"
+        '
+        'InverseSmithChartToolStripMenuItem
+        '
+        Me.InverseSmithChartToolStripMenuItem.Name = "InverseSmithChartToolStripMenuItem"
+        Me.InverseSmithChartToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.InverseSmithChartToolStripMenuItem.Text = "Inverse Smith Chart"
+        '
+        'GroupDelayToolStripMenuItem
+        '
+        Me.GroupDelayToolStripMenuItem.Name = "GroupDelayToolStripMenuItem"
+        Me.GroupDelayToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.GroupDelayToolStripMenuItem.Text = "Group Delay"
+        '
+        'SWRToolStripMenuItem
+        '
+        Me.SWRToolStripMenuItem.Name = "SWRToolStripMenuItem"
+        Me.SWRToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.SWRToolStripMenuItem.Text = "SWR"
+        '
+        'RealToolStripMenuItem
+        '
+        Me.RealToolStripMenuItem.Name = "RealToolStripMenuItem"
+        Me.RealToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.RealToolStripMenuItem.Text = "Real"
+        '
+        'ImaginaryToolStripMenuItem
+        '
+        Me.ImaginaryToolStripMenuItem.Name = "ImaginaryToolStripMenuItem"
+        Me.ImaginaryToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.ImaginaryToolStripMenuItem.Text = "Imaginary"
+        '
         'ConnectivityToolStripMenuItem
         '
         Me.ConnectivityToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ScanMyDevicesToolStripMenuItem, Me.DeviceOptionsToolStripMenuItem})
@@ -241,7 +337,7 @@ Partial Class Form1
         '
         'ScanMyDevicesToolStripMenuItem
         '
-        Me.ScanMyDevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FirstDevice, Me.SecondDevice})
+        Me.ScanMyDevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FirstDevice, Me.SecondDevice, Me.ThirdDevice})
         Me.ScanMyDevicesToolStripMenuItem.Name = "ScanMyDevicesToolStripMenuItem"
         Me.ScanMyDevicesToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
         Me.ScanMyDevicesToolStripMenuItem.Text = "My Devices"
@@ -257,6 +353,12 @@ Partial Class Form1
         Me.SecondDevice.Name = "SecondDevice"
         Me.SecondDevice.Size = New System.Drawing.Size(326, 22)
         Me.SecondDevice.Text = "Rohde && Schwarz ZVL6"
+        '
+        'ThirdDevice
+        '
+        Me.ThirdDevice.Name = "ThirdDevice"
+        Me.ThirdDevice.Size = New System.Drawing.Size(326, 22)
+        Me.ThirdDevice.Text = "Keysight E5071C ENA Vector Network Analyzer"
         '
         'DeviceOptionsToolStripMenuItem
         '
@@ -329,11 +431,36 @@ Partial Class Form1
         Me.CheckedListBox1.Size = New System.Drawing.Size(608, 90)
         Me.CheckedListBox1.TabIndex = 23
         '
+        'Toggle1
+        '
+        Me.Toggle1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Toggle1.AutoSize = True
+        Me.Toggle1.Location = New System.Drawing.Point(753, 463)
+        Me.Toggle1.Name = "Toggle1"
+        Me.Toggle1.Size = New System.Drawing.Size(80, 17)
+        Me.Toggle1.TabIndex = 125
+        Me.Toggle1.Text = "Off"
+        Me.Toggle1.UseSelectable = True
+        '
+        'Label1
+        '
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label1.Font = New System.Drawing.Font("Calibri", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.Label1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
+        Me.Label1.Location = New System.Drawing.Point(692, 464)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(57, 15)
+        Me.Label1.TabIndex = 126
+        Me.Label1.Text = "Live Feed"
+        '
         'Form1
         '
+        Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.BackMaxSize = 30
         Me.ClientSize = New System.Drawing.Size(856, 573)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Toggle1)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Chart1)
         Me.Controls.Add(Me.label3)
@@ -388,4 +515,20 @@ Partial Class Form1
     Friend WithEvents ComparisonModeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ClearChartAreaToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AddMarkerToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem5 As ToolStripSeparator
+    Friend WithEvents ChartTypeToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents LogMagToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents LinearMagToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PhaseToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents UnwrappedPhaseToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PolarToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SmithChartToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents InverseSmithChartToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents GroupDelayToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SWRToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RealToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ImaginaryToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ThirdDevice As ToolStripMenuItem
+    Friend WithEvents Toggle1 As MetroFramework.Controls.MetroToggle
+    Private WithEvents Label1 As Label
 End Class

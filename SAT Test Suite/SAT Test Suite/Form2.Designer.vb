@@ -53,6 +53,8 @@ Partial Class Form2
         Me.Label3 = New MetroFramework.Controls.MetroLabel()
         Me.Label2 = New MetroFramework.Controls.MetroLabel()
         Me.MetroPanel1 = New MetroFramework.Controls.MetroPanel()
+        Me.TextBox10 = New MetroFramework.Controls.MetroTextBox()
+        Me.CheckBox4 = New MetroFramework.Controls.MetroCheckBox()
         Me.CheckBox2 = New MetroFramework.Controls.MetroCheckBox()
         Me.CheckBox1 = New MetroFramework.Controls.MetroCheckBox()
         Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
@@ -523,6 +525,8 @@ Partial Class Form2
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MetroPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.MetroPanel1.Controls.Add(Me.TextBox10)
+        Me.MetroPanel1.Controls.Add(Me.CheckBox4)
         Me.MetroPanel1.Controls.Add(Me.CheckBox2)
         Me.MetroPanel1.Controls.Add(Me.CheckBox1)
         Me.MetroPanel1.Controls.Add(Me.CheckedListBox1)
@@ -537,6 +541,47 @@ Partial Class Form2
         Me.MetroPanel1.VerticalScrollbarBarColor = True
         Me.MetroPanel1.VerticalScrollbarHighlightOnWheel = False
         Me.MetroPanel1.VerticalScrollbarSize = 10
+        '
+        'TextBox10
+        '
+        Me.TextBox10.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        '
+        '
+        '
+        Me.TextBox10.CustomButton.Image = Nothing
+        Me.TextBox10.CustomButton.Location = New System.Drawing.Point(42, 2)
+        Me.TextBox10.CustomButton.Name = ""
+        Me.TextBox10.CustomButton.Size = New System.Drawing.Size(15, 15)
+        Me.TextBox10.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+        Me.TextBox10.CustomButton.TabIndex = 1
+        Me.TextBox10.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+        Me.TextBox10.CustomButton.UseSelectable = True
+        Me.TextBox10.CustomButton.Visible = False
+        Me.TextBox10.Lines = New String(-1) {}
+        Me.TextBox10.Location = New System.Drawing.Point(281, 161)
+        Me.TextBox10.MaxLength = 32767
+        Me.TextBox10.Name = "TextBox10"
+        Me.TextBox10.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextBox10.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.TextBox10.SelectedText = ""
+        Me.TextBox10.SelectionLength = 0
+        Me.TextBox10.SelectionStart = 0
+        Me.TextBox10.Size = New System.Drawing.Size(60, 20)
+        Me.TextBox10.TabIndex = 28
+        Me.TextBox10.UseSelectable = True
+        Me.TextBox10.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+        Me.TextBox10.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
+        '
+        'CheckBox4
+        '
+        Me.CheckBox4.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.CheckBox4.AutoSize = True
+        Me.CheckBox4.Location = New System.Drawing.Point(145, 163)
+        Me.CheckBox4.Name = "CheckBox4"
+        Me.CheckBox4.Size = New System.Drawing.Size(130, 15)
+        Me.CheckBox4.TabIndex = 14
+        Me.CheckBox4.Text = "Check all with name"
+        Me.CheckBox4.UseSelectable = True
         '
         'CheckBox2
         '
@@ -571,7 +616,7 @@ Partial Class Form2
         Me.CheckedListBox1.FormattingEnabled = True
         Me.CheckedListBox1.Location = New System.Drawing.Point(34, 50)
         Me.CheckedListBox1.Name = "CheckedListBox1"
-        Me.CheckedListBox1.Size = New System.Drawing.Size(427, 92)
+        Me.CheckedListBox1.Size = New System.Drawing.Size(427, 74)
         Me.CheckedListBox1.TabIndex = 11
         '
         'Label11
@@ -732,4 +777,6 @@ Partial Class Form2
     Friend WithEvents Button1 As MetroFramework.Controls.MetroButton
     Friend WithEvents Button2 As MetroFramework.Controls.MetroButton
     Friend WithEvents Button3 As MetroFramework.Controls.MetroButton
+    Friend WithEvents CheckBox4 As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents TextBox10 As MetroFramework.Controls.MetroTextBox
 End Class
