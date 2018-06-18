@@ -3069,33 +3069,33 @@ Endfilename:
 
                 'If ComparisonModeToolStripMenuItem.Checked = True Then '(Permanently enabled Comparison Mode)
                 z = GlobalVariables.seriesnames.Length
-                If matrix = "lower" Or matrix = "upper" Then
-                    If z = 0 Then
-                        GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
-                        GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
-                    Else
-                        System.Array.Resize(Of String)(GlobalVariables.seriesnames, (z + (ports * (ports + 1) / 2)))   'Need to one more than the normal ReDim Preserve
-                        System.Array.Resize(Of Integer)(GlobalVariables.series, (z + (ports * (ports + 1) / 2)))
-                    End If
+                'If matrix = "lower" Or matrix = "upper" Then
+                '    If z = 0 Then
+                '        GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
+                '        GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
+                '    Else
+                '        System.Array.Resize(Of String)(GlobalVariables.seriesnames, (z + (ports * (ports + 1) / 2)))   'Need to one more than the normal ReDim Preserve
+                '        System.Array.Resize(Of Integer)(GlobalVariables.series, (z + (ports * (ports + 1) / 2)))
+                '    End If
 
-                Else
-                    If z = 0 Then
-                        GlobalVariables.seriesnames = New String((ports * ports) - 1) {}
-                        GlobalVariables.series = New Integer((ports * ports) - 1) {}
-                    Else
-                        System.Array.Resize(Of String)(GlobalVariables.seriesnames, (z + ((ports * ports))))  'Need to one more than the normal ReDim Preserve
-                        System.Array.Resize(Of Integer)(GlobalVariables.series, (z + (ports * ports)))
-                    End If
-
-                End If
                 'Else
-                '    If matrix <> "lower" Or matrix <> "upper" Then
+                '    If z = 0 Then
                 '        GlobalVariables.seriesnames = New String((ports * ports) - 1) {}
                 '        GlobalVariables.series = New Integer((ports * ports) - 1) {}
                 '    Else
-                '        GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
-                '        GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
+                '        System.Array.Resize(Of String)(GlobalVariables.seriesnames, (z + ((ports * ports))))  'Need to one more than the normal ReDim Preserve
+                '        System.Array.Resize(Of Integer)(GlobalVariables.series, (z + (ports * ports)))
                 '    End If
+
+                'End If
+                'Else
+                If matrix <> "lower" Or matrix <> "upper" Then
+                    GlobalVariables.seriesnames = New String((ports * ports) - 1) {}
+                    GlobalVariables.series = New Integer((ports * ports) - 1) {}
+                Else
+                    GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
+                    GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
+                End If
                 'End If
                 'ymax = 0
                 'ymin = 0
