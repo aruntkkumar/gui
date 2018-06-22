@@ -65,6 +65,7 @@ Partial Class Form2
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Button1 = New MetroFramework.Controls.MetroButton()
         Me.Button2 = New MetroFramework.Controls.MetroButton()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -525,6 +526,7 @@ Partial Class Form2
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MetroPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.MetroPanel1.Controls.Add(Me.Label6)
         Me.MetroPanel1.Controls.Add(Me.TextBox10)
         Me.MetroPanel1.Controls.Add(Me.CheckBox4)
         Me.MetroPanel1.Controls.Add(Me.CheckBox2)
@@ -558,7 +560,7 @@ Partial Class Form2
         Me.TextBox10.CustomButton.UseSelectable = True
         Me.TextBox10.CustomButton.Visible = False
         Me.TextBox10.Lines = New String(-1) {}
-        Me.TextBox10.Location = New System.Drawing.Point(281, 161)
+        Me.TextBox10.Location = New System.Drawing.Point(281, 150)
         Me.TextBox10.MaxLength = 32767
         Me.TextBox10.Name = "TextBox10"
         Me.TextBox10.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -576,7 +578,7 @@ Partial Class Form2
         '
         Me.CheckBox4.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.CheckBox4.AutoSize = True
-        Me.CheckBox4.Location = New System.Drawing.Point(145, 163)
+        Me.CheckBox4.Location = New System.Drawing.Point(145, 152)
         Me.CheckBox4.Name = "CheckBox4"
         Me.CheckBox4.Size = New System.Drawing.Size(130, 15)
         Me.CheckBox4.TabIndex = 14
@@ -587,7 +589,7 @@ Partial Class Form2
         '
         Me.CheckBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(375, 163)
+        Me.CheckBox2.Location = New System.Drawing.Point(375, 152)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(86, 15)
         Me.CheckBox2.TabIndex = 13
@@ -598,7 +600,7 @@ Partial Class Form2
         '
         Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(34, 163)
+        Me.CheckBox1.Location = New System.Drawing.Point(34, 152)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(73, 15)
         Me.CheckBox1.TabIndex = 12
@@ -719,6 +721,17 @@ Partial Class Form2
         Me.Button2.Text = "Cancel"
         Me.Button2.UseSelectable = True
         '
+        'Label6
+        '
+        Me.Label6.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(154, 175)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(176, 13)
+        Me.Label6.TabIndex = 29
+        Me.Label6.Text = "(Use ""|"" to separate multiple entries)"
+        '
         'Form2
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -779,4 +792,5 @@ Partial Class Form2
     Friend WithEvents Button3 As MetroFramework.Controls.MetroButton
     Friend WithEvents CheckBox4 As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents TextBox10 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents Label6 As Label
 End Class

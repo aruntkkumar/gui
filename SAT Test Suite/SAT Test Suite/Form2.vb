@@ -378,14 +378,19 @@
                 RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
                 CheckedListBox1.SetItemCheckState(i, CheckState.Checked)
                 AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-            ElseIf CheckedListBox1.Items.Item(i).ToLower.Contains(TextBox10.Text.ToLower) Then
-                RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-                CheckedListBox1.SetItemCheckState(i, CheckState.Checked)
-                AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
             Else
-                RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-                CheckedListBox1.SetItemCheckState(i, CheckState.Unchecked)
-                AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                For Each s As String In TextBox10.Text.ToLower.Split("|")
+                    If CheckedListBox1.Items.Item(i).ToLower.Contains(s) Then
+                        RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                        CheckedListBox1.SetItemCheckState(i, CheckState.Checked)
+                        AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                        Exit For
+                    Else
+                        RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                        CheckedListBox1.SetItemCheckState(i, CheckState.Unchecked)
+                        AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                    End If
+                Next
             End If
         Next
         RemoveHandler CheckBox2.CheckedChanged, AddressOf CheckBox2_CheckedChanged
