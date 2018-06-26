@@ -85,6 +85,27 @@
         AddHandler DataGridView1.CellValueChanged, AddressOf DataGridView1_CellValueChanged
         pos = 1
         TabControl1.SelectedTab = TabPage1
+        If GlobalVariables.chartformat = "logmag" Then
+            Label5.Text = "Primary Y-axis maximum (dB):"
+            Label6.Text = "Primary Y-axis minimum (dB):"
+            Label7.Text = "Primary Y-axis interval (dB):"
+        ElseIf GlobalVariables.chartformat = "linearmag" Then
+            Label5.Text = "Primary Y-axis maximum (val):"
+            Label6.Text = "Primary Y-axis minimum (val):"
+            Label7.Text = "Primary Y-axis interval (val):"
+        ElseIf GlobalVariables.chartformat = "phase" Then
+            Label5.Text = "Primary Y-axis maximum (deg):"
+            Label6.Text = "Primary Y-axis minimum (deg):"
+            Label7.Text = "Primary Y-axis interval (deg):"
+        ElseIf GlobalVariables.chartformat = "real" Then
+            Label5.Text = "Primary Y-axis maximum (val):"
+            Label6.Text = "Primary Y-axis minimum (val):"
+            Label7.Text = "Primary Y-axis interval (val):"
+        ElseIf GlobalVariables.chartformat = "imaginary" Then
+            Label5.Text = "Primary Y-axis maximum (val):"
+            Label6.Text = "Primary Y-axis minimum (val):"
+            Label7.Text = "Primary Y-axis interval (val):"
+        End If
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -443,18 +464,18 @@
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        TextBox1.Text = 3
+        TextBox1.Text = 6
         TextBox2.Text = 0.5
         TextBox5.Text = 0.1
         TextBox3.Text = 0
-        TextBox4.Text = -30
-        TextBox6.Text = 3
-        GlobalVariables.xaxismax = 3.0
+        TextBox4.Text = -40
+        TextBox6.Text = 2
+        GlobalVariables.xaxismax = 6.0
         GlobalVariables.xaxismin = 0.5
         GlobalVariables.xaxisint = 0.1
         GlobalVariables.yaxismax = 0
-        GlobalVariables.yaxismin = -30.0
-        GlobalVariables.yaxisint = 3.0
+        GlobalVariables.yaxismin = -40.0
+        GlobalVariables.yaxisint = 2.0
     End Sub
 
     Private Sub TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox1.KeyDown

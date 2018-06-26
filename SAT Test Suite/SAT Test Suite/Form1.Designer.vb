@@ -171,7 +171,7 @@ Partial Class Form1
         '
         Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
         Me.AddToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
-        Me.AddToolStripMenuItem.Text = "Add/New Data File"
+        Me.AddToolStripMenuItem.Text = "New Data File"
         '
         'ToolStripMenuItem1
         '
@@ -262,8 +262,6 @@ Partial Class Form1
         '
         'LogMagToolStripMenuItem
         '
-        Me.LogMagToolStripMenuItem.Checked = True
-        Me.LogMagToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.LogMagToolStripMenuItem.Name = "LogMagToolStripMenuItem"
         Me.LogMagToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
         Me.LogMagToolStripMenuItem.Text = "Log Mag"
@@ -285,36 +283,42 @@ Partial Class Form1
         Me.UnwrappedPhaseToolStripMenuItem.Name = "UnwrappedPhaseToolStripMenuItem"
         Me.UnwrappedPhaseToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
         Me.UnwrappedPhaseToolStripMenuItem.Text = "Unwrapped Phase"
+        Me.UnwrappedPhaseToolStripMenuItem.Visible = False
         '
         'PolarToolStripMenuItem
         '
         Me.PolarToolStripMenuItem.Name = "PolarToolStripMenuItem"
         Me.PolarToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
         Me.PolarToolStripMenuItem.Text = "Polar"
+        Me.PolarToolStripMenuItem.Visible = False
         '
         'SmithChartToolStripMenuItem
         '
         Me.SmithChartToolStripMenuItem.Name = "SmithChartToolStripMenuItem"
         Me.SmithChartToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
         Me.SmithChartToolStripMenuItem.Text = "Smith Chart"
+        Me.SmithChartToolStripMenuItem.Visible = False
         '
         'InverseSmithChartToolStripMenuItem
         '
         Me.InverseSmithChartToolStripMenuItem.Name = "InverseSmithChartToolStripMenuItem"
         Me.InverseSmithChartToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
         Me.InverseSmithChartToolStripMenuItem.Text = "Inverse Smith Chart"
+        Me.InverseSmithChartToolStripMenuItem.Visible = False
         '
         'GroupDelayToolStripMenuItem
         '
         Me.GroupDelayToolStripMenuItem.Name = "GroupDelayToolStripMenuItem"
         Me.GroupDelayToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
         Me.GroupDelayToolStripMenuItem.Text = "Group Delay"
+        Me.GroupDelayToolStripMenuItem.Visible = False
         '
         'SWRToolStripMenuItem
         '
         Me.SWRToolStripMenuItem.Name = "SWRToolStripMenuItem"
         Me.SWRToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
         Me.SWRToolStripMenuItem.Text = "SWR"
+        Me.SWRToolStripMenuItem.Visible = False
         '
         'RealToolStripMenuItem
         '

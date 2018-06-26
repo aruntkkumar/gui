@@ -50,8 +50,8 @@ Public Class Form1
     Private selectedSeries As DataVisualization.Charting.Series
     Dim prevxval As Double = 0
     Dim prevyval As Double = 0
-    Dim seriesname(20) As String
-    Dim seriespointindex(20) As Integer
+    Dim seriesname(50) As String
+    Dim seriespointindex(50) As Integer
     Dim line1 As String
     Dim line2 As String
     Dim eff1(1) As Double
@@ -110,7 +110,7 @@ Public Class Form1
         'Routine has been reactivated
         If System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt") Then
             values = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt").Split("|"c)
-            If (values.Length = 12) Then
+            If (values.Length = 13) Then
                 Try
                     GlobalVariables.xaxismax = CDbl(values(0))
                     GlobalVariables.xaxismin = CDbl(values(1))
@@ -119,20 +119,20 @@ Public Class Form1
                     GlobalVariables.yaxismin = CDbl(values(4))
                     GlobalVariables.yaxisint = CDbl(values(5))
                 Catch ex As Exception
-                    GlobalVariables.xaxismax = 3.0
+                    GlobalVariables.xaxismax = 6.0
                     GlobalVariables.xaxismin = 0.5
                     GlobalVariables.xaxisint = 0.1
                     GlobalVariables.yaxismax = 0
-                    GlobalVariables.yaxismin = -30.0
-                    GlobalVariables.yaxisint = 3.0
+                    GlobalVariables.yaxismin = -40.0
+                    GlobalVariables.yaxisint = 2.0
                 End Try
                 If (GlobalVariables.xaxismax < 0) Or (GlobalVariables.xaxismax > 100) Or (GlobalVariables.xaxismin < 0) Or (GlobalVariables.xaxismin > 100) Or (GlobalVariables.yaxismax < -1000) Or (GlobalVariables.yaxismax > 1000) Or (GlobalVariables.yaxismin < -1000) Or (GlobalVariables.yaxismin > 1000) Or (GlobalVariables.xaxisint > (GlobalVariables.xaxismax - GlobalVariables.xaxismin)) Or (GlobalVariables.xaxisint <= 0) Or (GlobalVariables.yaxisint > (GlobalVariables.yaxismax - GlobalVariables.yaxismin)) Or (GlobalVariables.yaxisint <= 0) Then
-                    GlobalVariables.xaxismax = 3.0
+                    GlobalVariables.xaxismax = 6.0
                     GlobalVariables.xaxismin = 0.5
                     GlobalVariables.xaxisint = 0.1
                     GlobalVariables.yaxismax = 0
-                    GlobalVariables.yaxismin = -30.0
-                    GlobalVariables.yaxisint = 3.0
+                    GlobalVariables.yaxismin = -40.0
+                    GlobalVariables.yaxisint = 2.0
                 End If
                 If values(7) = "" Then
                     GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
@@ -149,27 +149,34 @@ Public Class Form1
                 Else
                     GlobalVariables.DeviceAddress(2) = values(11)
                 End If
+                If values(12) = "" Then
+                    GlobalVariables.chartformat = "logmag"
+                Else
+                    GlobalVariables.chartformat = values(12)
+                End If
             Else
                 GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
                 GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.161::inst0::INSTR"
                 GlobalVariables.DeviceAddress(2) = "TCPIP0::XX.X.XXX.XXX::inst0::INSTR"
-                GlobalVariables.xaxismax = 3.0
+                GlobalVariables.xaxismax = 6.0
                 GlobalVariables.xaxismin = 0.5
                 GlobalVariables.xaxisint = 0.1
                 GlobalVariables.yaxismax = 0
-                GlobalVariables.yaxismin = -30.0
-                GlobalVariables.yaxisint = 3.0
+                GlobalVariables.yaxismin = -40.0
+                GlobalVariables.yaxisint = 2.0
+                GlobalVariables.chartformat = "logmag"
             End If
         Else
             GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
             GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.161::inst0::INSTR"
             GlobalVariables.DeviceAddress(2) = "TCPIP0::XX.X.XXX.XXX::inst0::INSTR"
-            GlobalVariables.xaxismax = 3.0
+            GlobalVariables.xaxismax = 6.0
             GlobalVariables.xaxismin = 0.5
             GlobalVariables.xaxisint = 0.1
             GlobalVariables.yaxismax = 0
-            GlobalVariables.yaxismin = -30.0
-            GlobalVariables.yaxisint = 3.0
+            GlobalVariables.yaxismin = -40.0
+            GlobalVariables.yaxisint = 2.0
+            GlobalVariables.chartformat = "logmag"
         End If
 
         dialog.InitialDirectory = "C:\"
@@ -184,11 +191,42 @@ Public Class Form1
         Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
         'Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0,,,.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
-        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
-        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
-        Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
-        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+        If GlobalVariables.chartformat = "logmag" Then
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+            LogMagToolStripMenuItem.Checked = True
+        ElseIf GlobalVariables.chartformat = "linearmag" Then
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
+            LinearMagToolStripMenuItem.Checked = True
+        ElseIf GlobalVariables.chartformat = "phase" Then
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
+            PhaseToolStripMenuItem.Checked = True
+        ElseIf GlobalVariables.chartformat = "real" Then
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
+            RealToolStripMenuItem.Checked = True
+        ElseIf GlobalVariables.chartformat = "imaginary" Then
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
+            ImaginaryToolStripMenuItem.Checked = True
+        End If
         Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.ChartAreas("ChartArea1").AxisY.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.Series(" ").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
@@ -199,7 +237,7 @@ Public Class Form1
 
         DeviceOptionsToolStripMenuItem.Visible = False 'Deactivated
         ToolStripMenuItem5.Visible = False   'Grey line separating Options and Chart Format (Temporarily deactivated for testing)
-        ChartTypeToolStripMenuItem.Visible = False  'Temporarily deactivated for testing
+        ChartTypeToolStripMenuItem.Visible = True  'Temporarily deactivated for testing
         TabControl1.SelectedTab = TabPage1
         ThirdDevice.Visible = False
         ComparisonModeToolStripMenuItem.Visible = False
@@ -214,7 +252,7 @@ Public Class Form1
         If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
             System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
         End If
-        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.xaxismax, GlobalVariables.xaxismin, GlobalVariables.xaxisint, GlobalVariables.yaxismax, GlobalVariables.yaxismin, GlobalVariables.yaxisint, GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1), GlobalVariables.DeviceName(2), GlobalVariables.DeviceAddress(2)}))
+        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.xaxismax, GlobalVariables.xaxismin, GlobalVariables.xaxisint, GlobalVariables.yaxismax, GlobalVariables.yaxismin, GlobalVariables.yaxisint, GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1), GlobalVariables.DeviceName(2), GlobalVariables.DeviceAddress(2), GlobalVariables.chartformat}))
 
         'If xlWorkBook Is Nothing Then
         Me.Close()
@@ -230,7 +268,7 @@ Public Class Form1
         If (Not System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")) Then
             System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\")
         End If
-        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.xaxismax, GlobalVariables.xaxismin, GlobalVariables.xaxisint, GlobalVariables.yaxismax, GlobalVariables.yaxismin, GlobalVariables.yaxisint, GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1), GlobalVariables.DeviceName(2), GlobalVariables.DeviceAddress(2)}))
+        File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SAT Test Suite\Data.txt", String.Join("|", New String() {GlobalVariables.xaxismax, GlobalVariables.xaxismin, GlobalVariables.xaxisint, GlobalVariables.yaxismax, GlobalVariables.yaxismin, GlobalVariables.yaxisint, GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0), GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1), GlobalVariables.DeviceName(2), GlobalVariables.DeviceAddress(2), GlobalVariables.chartformat}))
 
         'If xlWorkBook Is Nothing Then
         'Else
@@ -283,11 +321,37 @@ Checknextfilename:
             Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
             Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
-            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
-            Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
-            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+            If GlobalVariables.chartformat = "logmag" Then
+                Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+                Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+                Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+            ElseIf GlobalVariables.chartformat = "linearmag" Then
+                Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
+                Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
+            ElseIf GlobalVariables.chartformat = "phase" Then
+                Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
+                Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
+                Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
+            ElseIf GlobalVariables.chartformat = "real" Then
+                Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+                Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
+            ElseIf GlobalVariables.chartformat = "imaginary" Then
+                Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+                Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
+            End If
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
             checkboxnum = 1
             TextBox1.Text = ""
@@ -542,7 +606,7 @@ Checknextfilename:
                                 ElseIf PhaseToolStripMenuItem.Checked = True Then
                                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
                                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
-                                    Chart1.ChartAreas("ChartArea1").AxisY.Interval = 50
+                                    Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
                                     Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
                                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
                                     Select Case format
@@ -1120,6 +1184,11 @@ Checknextfilename:
                 End If
             End If
         End If
+        If LogMagToolStripMenuItem.Checked = False Then
+            GlobalVariables.yaxismax = yaxis(0)
+            GlobalVariables.yaxismin = yaxis(1)
+            GlobalVariables.yaxisint = yaxis(2)
+        End If
     End Sub
 
     Private Sub Chart1_MouseClick(sender As Object, e As MouseEventArgs) Handles Chart1.MouseClick
@@ -1138,10 +1207,10 @@ Checknextfilename:
                         Exit Sub
                     End If
                 Next
-                If checkboxnum > 20 Then
+                If checkboxnum > 50 Then
                     checkboxnum = 1
                     CheckedListBox1.Items.Clear()
-                    For i As Integer = 0 To 19
+                    For i As Integer = 0 To 49
                         Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
                         Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
                     Next
@@ -1249,7 +1318,11 @@ Endfilename:
             Exit Sub
             'GoTo Endfilename
         ElseIf line1.ToLower.Contains("hz") AndAlso line1.ToLower.Contains("db") Then
-            dbplot()
+            If LogMagToolStripMenuItem.Checked = True Then
+                dbplot()
+            Else
+                MetroFramework.MetroMessageBox.Show(Me, "Please select the Chart Format as ""Log Mag"" and try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
             Exit Sub
             'GoTo Endfilename
         ElseIf line1.ToLower.Contains("hz") Then
@@ -1726,7 +1799,7 @@ Endfilename:
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
         Else
             colourcounter = 1
@@ -1742,7 +1815,7 @@ Endfilename:
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             frequnit = "ghz"
             checkboxnum = 1
@@ -3115,14 +3188,106 @@ Endfilename:
                         For j As Integer = 0 To row - 1
                             Select Case parameter
                                 Case "s"
-                                    Select Case format
-                                        Case "db"
-                                            para1(j) = table(j, x)
-                                        Case "ma"
-                                            para1(j) = (20 * Math.Log10(table(j, x)))
-                                        Case "ri"
-                                            para1(j) = (10 * Math.Log10((Math.Pow(table(j, x), 2) + Math.Pow(table(j, x + 1), 2))))
-                                    End Select
+                                    If LogMagToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+                                        Select Case format
+                                            Case "db"
+                                                para1(j) = table(j, x)
+                                            Case "ma"
+                                                para1(j) = (20 * Math.Log10(table(j, x)))
+                                            Case "ri"
+                                                para1(j) = (10 * Math.Log10((Math.Pow(table(j, x), 2) + Math.Pow(table(j, x + 1), 2))))
+                                        End Select
+                                    ElseIf LinearMagToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
+                                        Select Case format
+                                            Case "db"
+                                                para1(j) = Math.Pow(10, (table(j, x) / 20))
+                                            Case "ma"
+                                                para1(j) = table(j, x)
+                                            Case "ri"
+                                                para1(j) = Math.Sqrt((Math.Pow(table(j, x), 2) + Math.Pow(table(j, x + 1), 2)))
+                                        End Select
+                                    ElseIf PhaseToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
+                                        Select Case format
+                                            Case "db"
+                                                para1(j) = table(j, x + 1)
+                                            Case "ma"
+                                                para1(j) = table(j, x + 1)
+                                            Case "ri"
+                                                para1(j) = Math.Atan2(table(j, x + 1), table(j, x)) * 180 / Math.PI
+                                        End Select
+                                    ElseIf UnwrappedPhaseToolStripMenuItem.Checked = True Then
+                                    ElseIf PolarToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0
+                                        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 360
+                                        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 45
+                                        'Chart1.ChartAreas("ChartArea1").AxisX.Crossing = 90
+                                        'Chart1.ChartAreas("ChartArea1").AlignmentOrientation = 
+                                        'Chart1.ChartAreas("ChartArea1").AxisX.IsReversed = True
+                                        Chart1.ChartAreas("ChartArea1").AxisX.Title = "Magnitude in value"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.2
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.2
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
+                                        Select Case format
+                                            Case "db"
+                                                freq1(j) = table(j, x + 1)
+                                                para1(j) = Math.Pow(10, (table(j, x) / 20))
+                                            Case "ma"
+                                                freq1(j) = table(j, x + 1)
+                                                para1(j) = table(j, x)
+                                            Case "ri"
+                                                freq1(j) = Math.Atan2(table(j, x + 1), table(j, x)) * 180 / Math.PI
+                                                para1(j) = Math.Sqrt((Math.Pow(table(j, x), 2) + Math.Pow(table(j, x + 1), 2)))
+                                        End Select
+                                    ElseIf SmithChartToolStripMenuItem.Checked = True Then
+                                    ElseIf InverseSmithChartToolStripMenuItem.Checked = True Then
+                                    ElseIf GroupDelayToolStripMenuItem.Checked = True Then
+                                    ElseIf SWRToolStripMenuItem.Checked = True Then
+                                    ElseIf RealToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
+                                        Select Case format
+                                            Case "db"
+                                                para1(j) = Math.Pow(10, (table(j, x) / 20)) * Math.Cos(table(j, x + 1) * Math.PI / 180)
+                                            Case "ma"
+                                                para1(j) = table(j, x) * Math.Cos(table(j, x + 1) * Math.PI / 180)
+                                            Case "ri"
+                                                para1(j) = table(j, x)
+                                        End Select
+                                    ElseIf ImaginaryToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
+                                        Select Case format
+                                            Case "db"
+                                                para1(j) = Math.Pow(10, (table(j, x) / 20)) * Math.Sin(table(j, x + 1) * Math.PI / 180)
+                                            Case "ma"
+                                                para1(j) = table(j, x) * Math.Sin(table(j, x + 1) * Math.PI / 180)
+                                            Case "ri"
+                                                para1(j) = table(j, x + 1)
+                                        End Select
+                                    End If
                                 Case "y"
                                 Case "z"
                                 Case "h"
@@ -3213,10 +3378,10 @@ Endfilename:
         'Next
         If livemarkername IsNot Nothing Then
             For k As Integer = 0 To livemarkername.Length - 1
-                If checkboxnum > 20 Then
+                If checkboxnum > 50 Then
                     checkboxnum = 1
                     CheckedListBox1.Items.Clear()
-                    For i As Integer = 0 To 19
+                    For i As Integer = 0 To 49
                         Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
                         Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
                     Next
@@ -3266,11 +3431,37 @@ Endfilename:
         'Chart1.ChartAreas("ChartArea1").AxisX.Crossing = GlobalVariables.xaxismin
         Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"  'Use a Comma to divide by 1000 or Use a % to Multiply by 100
         Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"        '.# to provide one decimal part; For 2 decimal part it is .##
-        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
-        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
-        Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
-        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+        If GlobalVariables.chartformat = "logmag" Then
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+        ElseIf GlobalVariables.chartformat = "linearmag" Then
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
+        ElseIf GlobalVariables.chartformat = "phase" Then
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
+        ElseIf GlobalVariables.chartformat = "real" Then
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
+        ElseIf GlobalVariables.chartformat = "imaginary" Then
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+            Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
+        End If
         Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.ChartAreas("ChartArea1").AxisY.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
         Chart1.Series(" ").ChartType = DataVisualization.Charting.SeriesChartType.FastLine
@@ -3489,11 +3680,37 @@ Endfilename:
                 Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
                 Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
                 Chart1.ChartAreas("ChartArea1").AxisY.Enabled = AxisEnabled.True
-                Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
-                Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
-                Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
-                Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+                If GlobalVariables.chartformat = "logmag" Then
+                    Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+                    Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+                    Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
+                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                    Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+                ElseIf GlobalVariables.chartformat = "linearmag" Then
+                    Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
+                    Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                    Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                    Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
+                ElseIf GlobalVariables.chartformat = "phase" Then
+                    Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
+                    Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
+                    Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
+                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                    Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
+                ElseIf GlobalVariables.chartformat = "real" Then
+                    Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+                    Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                    Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                    Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
+                ElseIf GlobalVariables.chartformat = "imaginary" Then
+                    Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+                    Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                    Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                    Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
+                End If
                 Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
                 TextBox1.Text = ""
                 'If GlobalVariables.autobutton = True Then
@@ -3508,6 +3725,22 @@ Endfilename:
                     For i As Integer = 0 To row - 1
                         If CStr(S11(i)) = "-Infinity" Then
                             S11(i) = -1000
+                        End If
+                        If LogMagToolStripMenuItem.Checked = True Then
+                        ElseIf LinearMagToolStripMenuItem.Checked = True Then
+                            S11(i) = Math.Pow(10, (S11(i) / 20))
+                        ElseIf PhaseToolStripMenuItem.Checked = True Then
+                            S11(i) = Ang11(i)
+                        ElseIf UnwrappedPhaseToolStripMenuItem.Checked = True Then
+                        ElseIf PolarToolStripMenuItem.Checked = True Then
+                        ElseIf SmithChartToolStripMenuItem.Checked = True Then
+                        ElseIf InverseSmithChartToolStripMenuItem.Checked = True Then
+                        ElseIf GroupDelayToolStripMenuItem.Checked = True Then
+                        ElseIf SWRToolStripMenuItem.Checked = True Then
+                        ElseIf RealToolStripMenuItem.Checked = True Then
+                            S11(i) = Math.Pow(10, (S11(i) / 20)) * Math.Cos(Ang11(i) * Math.PI / 180)
+                        ElseIf ImaginaryToolStripMenuItem.Checked = True Then
+                            S11(i) = Math.Pow(10, (S11(i) / 20)) * Math.Sin(Ang11(i) * Math.PI / 180)
                         End If
                     Next
                     'If ymax < S11.Max Then
@@ -3536,6 +3769,34 @@ Endfilename:
                         End If
                         If CStr(S22(i)) = "-Infinity" Then
                             S22(i) = -1000
+                        End If
+                        If LogMagToolStripMenuItem.Checked = True Then
+                        ElseIf LinearMagToolStripMenuItem.Checked = True Then
+                            S11(i) = Math.Pow(10, (S11(i) / 20))
+                            S12(i) = Math.Pow(10, (S12(i) / 20))
+                            S21(i) = Math.Pow(10, (S21(i) / 20))
+                            S22(i) = Math.Pow(10, (S22(i) / 20))
+                        ElseIf PhaseToolStripMenuItem.Checked = True Then
+                            S11(i) = Ang11(i)
+                            S12(i) = Ang12(i)
+                            S21(i) = Ang21(i)
+                            S22(i) = Ang22(i)
+                        ElseIf UnwrappedPhaseToolStripMenuItem.Checked = True Then
+                        ElseIf PolarToolStripMenuItem.Checked = True Then
+                        ElseIf SmithChartToolStripMenuItem.Checked = True Then
+                        ElseIf InverseSmithChartToolStripMenuItem.Checked = True Then
+                        ElseIf GroupDelayToolStripMenuItem.Checked = True Then
+                        ElseIf SWRToolStripMenuItem.Checked = True Then
+                        ElseIf RealToolStripMenuItem.Checked = True Then
+                            S11(i) = Math.Pow(10, (S11(i) / 20)) * Math.Cos(Ang11(i) * Math.PI / 180)
+                            S12(i) = Math.Pow(10, (S12(i) / 20)) * Math.Cos(Ang12(i) * Math.PI / 180)
+                            S21(i) = Math.Pow(10, (S21(i) / 20)) * Math.Cos(Ang21(i) * Math.PI / 180)
+                            S22(i) = Math.Pow(10, (S22(i) / 20)) * Math.Cos(Ang22(i) * Math.PI / 180)
+                        ElseIf ImaginaryToolStripMenuItem.Checked = True Then
+                            S11(i) = Math.Pow(10, (S11(i) / 20)) * Math.Sin(Ang11(i) * Math.PI / 180)
+                            S12(i) = Math.Pow(10, (S12(i) / 20)) * Math.Sin(Ang12(i) * Math.PI / 180)
+                            S21(i) = Math.Pow(10, (S21(i) / 20)) * Math.Sin(Ang21(i) * Math.PI / 180)
+                            S22(i) = Math.Pow(10, (S22(i) / 20)) * Math.Sin(Ang22(i) * Math.PI / 180)
                         End If
                         'Console.WriteLine(freq1(i) & " " & S11(i) & " " & S12(i) & " " & S21(i) & " " & S22(i))
                     Next
@@ -3963,10 +4224,10 @@ Endfilename:
                         End If
                     Next
 
-                    If checkboxnum > 20 Then
+                    If checkboxnum > 50 Then
                         checkboxnum = 1
                         CheckedListBox1.Items.Clear()
-                        For k As Integer = 0 To 19
+                        For k As Integer = 0 To 49
                             Chart1.Series(seriesname(k)).Points.Item(seriespointindex(k)).Label = ""
                             Chart1.Series(seriesname(k)).Points.Item(seriespointindex(k)).MarkerStyle = MarkerStyle.None
                         Next
@@ -4005,10 +4266,10 @@ NextValue:
                         Exit Sub
                     End If
                 Next
-                If checkboxnum > 20 Then
+                If checkboxnum > 50 Then
                     checkboxnum = 1
                     CheckedListBox1.Items.Clear()
-                    For i As Integer = 0 To 19
+                    For i As Integer = 0 To 49
                         Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).Label = ""
                         Chart1.Series(seriesname(i)).Points.Item(seriespointindex(i)).MarkerStyle = MarkerStyle.None
                     Next
@@ -4052,6 +4313,8 @@ NextValue:
             SWRToolStripMenuItem.Checked = False
             RealToolStripMenuItem.Checked = False
             ImaginaryToolStripMenuItem.Checked = False
+            GlobalVariables.chartformat = "logmag"
+            ClearAll()
         End If
     End Sub
 
@@ -4068,6 +4331,8 @@ NextValue:
             SWRToolStripMenuItem.Checked = False
             RealToolStripMenuItem.Checked = False
             ImaginaryToolStripMenuItem.Checked = False
+            GlobalVariables.chartformat = "linearmag"
+            ClearAll()
         End If
     End Sub
 
@@ -4084,6 +4349,8 @@ NextValue:
             SWRToolStripMenuItem.Checked = False
             RealToolStripMenuItem.Checked = False
             ImaginaryToolStripMenuItem.Checked = False
+            GlobalVariables.chartformat = "phase"
+            ClearAll()
         End If
     End Sub
 
@@ -4100,6 +4367,8 @@ NextValue:
             SWRToolStripMenuItem.Checked = False
             RealToolStripMenuItem.Checked = False
             ImaginaryToolStripMenuItem.Checked = False
+            GlobalVariables.chartformat = "unwrapped"
+            ClearAll()
         End If
     End Sub
 
@@ -4116,6 +4385,8 @@ NextValue:
             SWRToolStripMenuItem.Checked = False
             RealToolStripMenuItem.Checked = False
             ImaginaryToolStripMenuItem.Checked = False
+            GlobalVariables.chartformat = "polar"
+            ClearAll()
         End If
     End Sub
 
@@ -4132,6 +4403,8 @@ NextValue:
             SWRToolStripMenuItem.Checked = False
             RealToolStripMenuItem.Checked = False
             ImaginaryToolStripMenuItem.Checked = False
+            GlobalVariables.chartformat = "smith"
+            ClearAll()
         End If
     End Sub
 
@@ -4148,6 +4421,8 @@ NextValue:
             SWRToolStripMenuItem.Checked = False
             RealToolStripMenuItem.Checked = False
             ImaginaryToolStripMenuItem.Checked = False
+            GlobalVariables.chartformat = "inversesmith"
+            ClearAll()
         End If
     End Sub
 
@@ -4164,6 +4439,8 @@ NextValue:
             SWRToolStripMenuItem.Checked = False
             RealToolStripMenuItem.Checked = False
             ImaginaryToolStripMenuItem.Checked = False
+            GlobalVariables.chartformat = "groupdelay"
+            ClearAll()
         End If
     End Sub
 
@@ -4180,6 +4457,8 @@ NextValue:
             SWRToolStripMenuItem.Checked = True
             RealToolStripMenuItem.Checked = False
             ImaginaryToolStripMenuItem.Checked = False
+            GlobalVariables.chartformat = "swr"
+            ClearAll()
         End If
     End Sub
 
@@ -4196,6 +4475,8 @@ NextValue:
             SWRToolStripMenuItem.Checked = False
             RealToolStripMenuItem.Checked = True
             ImaginaryToolStripMenuItem.Checked = False
+            GlobalVariables.chartformat = "real"
+            ClearAll()
         End If
     End Sub
 
@@ -4212,6 +4493,8 @@ NextValue:
             SWRToolStripMenuItem.Checked = False
             RealToolStripMenuItem.Checked = False
             ImaginaryToolStripMenuItem.Checked = True
+            GlobalVariables.chartformat = "imaginary"
+            ClearAll()
         End If
     End Sub
 
@@ -4307,6 +4590,7 @@ Public Class GlobalVariables
     Public Shared Markertraceindex As Integer = -1
     Public Shared Markerfreq As Double = 0
     Public Shared Markertrace As String = ""
+    Public Shared chartformat As String = ""
 End Class
 
 

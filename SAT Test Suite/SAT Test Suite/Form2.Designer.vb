@@ -42,17 +42,18 @@ Partial Class Form2
         Me.TextBox6 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox5 = New MetroFramework.Controls.MetroTextBox()
         Me.Label7 = New MetroFramework.Controls.MetroLabel()
-        Me.MetroLabel2 = New MetroFramework.Controls.MetroLabel()
+        Me.Label4 = New MetroFramework.Controls.MetroLabel()
         Me.TextBox4 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox3 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox2 = New MetroFramework.Controls.MetroTextBox()
         Me.TextBox1 = New MetroFramework.Controls.MetroTextBox()
         Me.Label1 = New MetroFramework.Controls.MetroLabel()
-        Me.Label4 = New MetroFramework.Controls.MetroLabel()
         Me.Label5 = New MetroFramework.Controls.MetroLabel()
+        Me.Label6 = New MetroFramework.Controls.MetroLabel()
         Me.Label3 = New MetroFramework.Controls.MetroLabel()
         Me.Label2 = New MetroFramework.Controls.MetroLabel()
         Me.MetroPanel1 = New MetroFramework.Controls.MetroPanel()
+        Me.Label12 = New System.Windows.Forms.Label()
         Me.TextBox10 = New MetroFramework.Controls.MetroTextBox()
         Me.CheckBox4 = New MetroFramework.Controls.MetroCheckBox()
         Me.CheckBox2 = New MetroFramework.Controls.MetroCheckBox()
@@ -65,7 +66,6 @@ Partial Class Form2
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Button1 = New MetroFramework.Controls.MetroButton()
         Me.Button2 = New MetroFramework.Controls.MetroButton()
-        Me.Label6 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -117,14 +117,14 @@ Partial Class Form2
         Me.Panel1.Controls.Add(Me.TextBox6)
         Me.Panel1.Controls.Add(Me.TextBox5)
         Me.Panel1.Controls.Add(Me.Label7)
-        Me.Panel1.Controls.Add(Me.MetroLabel2)
+        Me.Panel1.Controls.Add(Me.Label4)
         Me.Panel1.Controls.Add(Me.TextBox4)
         Me.Panel1.Controls.Add(Me.TextBox3)
         Me.Panel1.Controls.Add(Me.TextBox2)
         Me.Panel1.Controls.Add(Me.TextBox1)
         Me.Panel1.Controls.Add(Me.Label1)
-        Me.Panel1.Controls.Add(Me.Label4)
         Me.Panel1.Controls.Add(Me.Label5)
+        Me.Panel1.Controls.Add(Me.Label6)
         Me.Panel1.Controls.Add(Me.Label3)
         Me.Panel1.Controls.Add(Me.Label2)
         Me.Panel1.Location = New System.Drawing.Point(5, 6)
@@ -338,20 +338,20 @@ Partial Class Form2
         '
         Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(229, 115)
+        Me.Label7.Location = New System.Drawing.Point(225, 115)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(171, 19)
         Me.Label7.TabIndex = 11
         Me.Label7.Text = "Primary Y-axis interval (dB):"
         '
-        'MetroLabel2
+        'Label4
         '
-        Me.MetroLabel2.AutoSize = True
-        Me.MetroLabel2.Location = New System.Drawing.Point(14, 115)
-        Me.MetroLabel2.Name = "MetroLabel2"
-        Me.MetroLabel2.Size = New System.Drawing.Size(129, 19)
-        Me.MetroLabel2.TabIndex = 10
-        Me.MetroLabel2.Text = "X-axis interval (GHz):"
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(14, 115)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(129, 19)
+        Me.Label4.TabIndex = 10
+        Me.Label4.Text = "X-axis interval (GHz):"
         '
         'TextBox4
         '
@@ -482,25 +482,25 @@ Partial Class Form2
         Me.Label1.TabIndex = 4
         Me.Label1.Text = "AXIS PARAMETERS"
         '
-        'Label4
-        '
-        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(229, 53)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(188, 19)
-        Me.Label4.TabIndex = 3
-        Me.Label4.Text = "Primary Y-axis maximum (dB):"
-        '
         'Label5
         '
         Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(229, 84)
+        Me.Label5.Location = New System.Drawing.Point(225, 53)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(185, 19)
-        Me.Label5.TabIndex = 2
-        Me.Label5.Text = "Primary Y-axis minimum (dB):"
+        Me.Label5.Size = New System.Drawing.Size(188, 19)
+        Me.Label5.TabIndex = 3
+        Me.Label5.Text = "Primary Y-axis maximum (dB):"
+        '
+        'Label6
+        '
+        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(225, 84)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(185, 19)
+        Me.Label6.TabIndex = 2
+        Me.Label6.Text = "Primary Y-axis minimum (dB):"
         '
         'Label3
         '
@@ -526,7 +526,7 @@ Partial Class Form2
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MetroPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.MetroPanel1.Controls.Add(Me.Label6)
+        Me.MetroPanel1.Controls.Add(Me.Label12)
         Me.MetroPanel1.Controls.Add(Me.TextBox10)
         Me.MetroPanel1.Controls.Add(Me.CheckBox4)
         Me.MetroPanel1.Controls.Add(Me.CheckBox2)
@@ -543,6 +543,17 @@ Partial Class Form2
         Me.MetroPanel1.VerticalScrollbarBarColor = True
         Me.MetroPanel1.VerticalScrollbarHighlightOnWheel = False
         Me.MetroPanel1.VerticalScrollbarSize = 10
+        '
+        'Label12
+        '
+        Me.Label12.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.Label12.AutoSize = True
+        Me.Label12.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.Label12.Location = New System.Drawing.Point(154, 175)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(176, 13)
+        Me.Label12.TabIndex = 29
+        Me.Label12.Text = "(Use ""|"" to separate multiple entries)"
         '
         'TextBox10
         '
@@ -637,9 +648,9 @@ Partial Class Form2
         Me.TabPage2.BackColor = System.Drawing.Color.Transparent
         Me.TabPage2.Controls.Add(Me.DataGridView1)
         Me.TabPage2.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
-        Me.TabPage2.Location = New System.Drawing.Point(4, 35)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 38)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Size = New System.Drawing.Size(508, 534)
+        Me.TabPage2.Size = New System.Drawing.Size(508, 531)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Devices"
         '
@@ -673,7 +684,7 @@ Partial Class Form2
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         DataGridViewCellStyle5.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.DataGridView1.RowsDefaultCellStyle = DataGridViewCellStyle5
-        Me.DataGridView1.Size = New System.Drawing.Size(500, 513)
+        Me.DataGridView1.Size = New System.Drawing.Size(500, 510)
         Me.DataGridView1.TabIndex = 5
         '
         'Device
@@ -721,17 +732,6 @@ Partial Class Form2
         Me.Button2.Text = "Cancel"
         Me.Button2.UseSelectable = True
         '
-        'Label6
-        '
-        Me.Label6.Anchor = System.Windows.Forms.AnchorStyles.Bottom
-        Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(154, 175)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(176, 13)
-        Me.Label6.TabIndex = 29
-        Me.Label6.Text = "(Use ""|"" to separate multiple entries)"
-        '
         'Form2
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -768,14 +768,14 @@ Partial Class Form2
     Friend WithEvents TextBox6 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents TextBox5 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents Label7 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents MetroLabel2 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents Label4 As MetroFramework.Controls.MetroLabel
     Friend WithEvents TextBox4 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents TextBox3 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents TextBox2 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents TextBox1 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents Label1 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents Label4 As MetroFramework.Controls.MetroLabel
     Friend WithEvents Label5 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents Label6 As MetroFramework.Controls.MetroLabel
     Friend WithEvents Label3 As MetroFramework.Controls.MetroLabel
     Friend WithEvents Label2 As MetroFramework.Controls.MetroLabel
     Friend WithEvents MetroPanel1 As MetroFramework.Controls.MetroPanel
@@ -792,5 +792,5 @@ Partial Class Form2
     Friend WithEvents Button3 As MetroFramework.Controls.MetroButton
     Friend WithEvents CheckBox4 As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents TextBox10 As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents Label6 As Label
+    Friend WithEvents Label12 As Label
 End Class
