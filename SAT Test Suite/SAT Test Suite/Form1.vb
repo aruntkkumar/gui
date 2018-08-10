@@ -145,7 +145,7 @@ Public Class Form1
                     GlobalVariables.DeviceAddress(1) = values(9)
                 End If
                 If values(11) = "" Then
-                    GlobalVariables.DeviceAddress(2) = "TCPIP0::XX.X.XXX.XXX::inst0::INSTR"
+                    GlobalVariables.DeviceAddress(2) = "USB0::0x0957::0x0D09::MY46528005::0::INSTR"
                 Else
                     GlobalVariables.DeviceAddress(2) = values(11)
                 End If
@@ -157,7 +157,7 @@ Public Class Form1
             Else
                 GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
                 GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.161::inst0::INSTR"
-                GlobalVariables.DeviceAddress(2) = "TCPIP0::XX.X.XXX.XXX::inst0::INSTR"
+                GlobalVariables.DeviceAddress(2) = "USB0::0x0957::0x0D09::MY46528005::0::INSTR"
                 GlobalVariables.xaxismax = 6.0
                 GlobalVariables.xaxismin = 0.5
                 GlobalVariables.xaxisint = 0.1
@@ -169,7 +169,7 @@ Public Class Form1
         Else
             GlobalVariables.DeviceAddress(0) = "TCPIP0::10.1.100.174::hpib7,16::INSTR"
             GlobalVariables.DeviceAddress(1) = "TCPIP0::10.1.100.161::inst0::INSTR"
-            GlobalVariables.DeviceAddress(2) = "TCPIP0::XX.X.XXX.XXX::inst0::INSTR"
+            GlobalVariables.DeviceAddress(2) = "USB0::0x0957::0x0D09::MY46528005::0::INSTR"
             GlobalVariables.xaxismax = 6.0
             GlobalVariables.xaxismin = 0.5
             GlobalVariables.xaxisint = 0.1
@@ -239,7 +239,7 @@ Public Class Form1
         ToolStripMenuItem5.Visible = False   'Grey line separating Options and Chart Format (Temporarily deactivated for testing)
         ChartTypeToolStripMenuItem.Visible = True  'Temporarily deactivated for testing
         TabControl1.SelectedTab = TabPage1
-        ThirdDevice.Visible = False
+        'ThirdDevice.Visible = False
         ComparisonModeToolStripMenuItem.Visible = False
         Label1.Visible = False      'Temporarily disabled for testing
         Toggle1.Visible = False
@@ -3903,7 +3903,375 @@ Endfilename:
     End Sub
 
     Private Sub ThirdDevice_Click(sender As Object, e As EventArgs) Handles ThirdDevice.Click
+        Dim livemarkername(-1) As String
+        Dim livemarkerlocation(-1) As Integer
+        Do
+            Try
+                Dim ioMgrexample As New Ivi.Visa.Interop.ResourceManager
 
+            Catch ex As Exception
+                MetroFramework.MetroMessageBox.Show(Me, "VISA COM and the required IVI drivers are missing. Kindly install the driver files before connecting to the Keysight E5071C ENA Vector Network Analyzer.", "Driver Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End Try
+            Dim ioMgr As New Ivi.Visa.Interop.ResourceManager
+            Dim instrument As New Ivi.Visa.Interop.FormattedIO488
+            Dim returnstring As String
+            readvalue = "c:\users\public\documents\"
+            Try
+                instrument.IO = ioMgr.Open(GlobalVariables.DeviceAddress(2))
+                instrument.IO.Timeout = 60000   'Changing the timeout to 1 minute
+                instrument.WriteString("*CLS", True)
+                instrument.WriteString(":MMEM:STOR:SNP:FORM DB", True)
+                instrument.WriteString(":FORM:DATA ASC", True)
+                instrument.WriteString(":CALC1:PAR:COUN?", True)
+                returnstring = instrument.ReadString()
+                returnstring = System.Text.RegularExpressions.Regex.Replace(returnstring, "\s{1,}", "") 'Removing the line feed
+                If returnstring = "+1" Then
+                    ports = 1
+                    instrument.WriteString(":MMEM:STOR:SNP:TYPE:S1P 1", True)
+                    instrument.WriteString(":MMEM:STOR:SNP """ & readvalue & "MyData.s1p""", True)
+                    instrument.WriteString(":MMEM:TRAN? """ & readvalue & "MyData.s1p""", True)
+                Else
+                    ports = 2
+                    instrument.WriteString(":MMEM:STOR:SNP:TYPE:S2P 1,2", True)
+                    instrument.WriteString(":MMEM:STOR:SNP """ & readvalue & "MyData.s2p""", True)
+                    instrument.WriteString(":MMEM:TRAN? """ & readvalue & "MyData.s2p""", True)
+                End If
+                devicedata = ""
+                matrix = "full"
+                Using sr As New StringReader(instrument.ReadString())
+                    While True
+                        line = sr.ReadLine()
+                        devicedata = devicedata & line & vbCrLf
+                        'Console.WriteLine(line)
+                        If line.Contains("!") Then      'This includes a line with # and ! appearing together
+                            'No action. This is for the first line that contains a number which could be a result of the previous computations
+                        ElseIf line.Contains("#") Then
+                            If line.ToLower.Contains("khz") Then
+                                frequnit = "khz"
+                            ElseIf line.ToLower.Contains("mhz") Then
+                                frequnit = "mhz"
+                            ElseIf line.ToLower.Contains("ghz") Then
+                                frequnit = "ghz"
+                            ElseIf line.ToLower.Contains("hz") Then
+                                frequnit = "hz"
+                            End If
+
+                            If line.ToLower.Contains("s") Then
+                                parameter = "s"
+                            ElseIf line.ToLower.Contains("y") Then
+                                parameter = "y"
+                            ElseIf line.ToLower.Contains("z") Then
+                                parameter = "z"
+                            ElseIf line.ToLower.Contains("h") Then
+                                parameter = "h"
+                            ElseIf line.ToLower.Contains("g") Then
+                                parameter = "g"
+                            End If
+
+                            If line.ToLower.Contains("ri") Then
+                                format = "ri"
+                            ElseIf line.ToLower.Contains("ma") Then
+                                format = "ma"
+                            ElseIf line.ToLower.Contains("db") Then
+                                format = "db"
+                            End If
+
+                        ElseIf line.ToLower.Contains("matrix format") Then
+                            If line.ToLower.Contains("lower") Then
+                                matrix = "lower"
+                            ElseIf line.ToLower.Contains("upper") Then
+                                matrix = "upper"
+                            End If
+                            'ElseIf line.Contains("!") Then
+                        ElseIf line = "" Then
+                        Else
+                            Exit While
+                        End If
+                    End While
+                    fullstring = sr.ReadToEnd()
+                    'Console.Write(fullstring)
+                    sr.Dispose()
+                End Using
+                instrument.IO.Timeout = 2000    'Reverting back the timeout to 2 seconds
+                If ports = 1 Then
+                    instrument.WriteString(":MMEM:DEL """ & readvalue & "MyData.s1p""", True)   'Deletes the file
+                Else
+                    instrument.WriteString(":MMEM:DEL """ & readvalue & "MyData.s2p""", True)   'Deletes the file
+                End If
+                colourcounter = 1
+                ClearMarkers()
+                Chart1.Series.Clear()
+                Chart1.ChartAreas("ChartArea1").AxisX.Minimum = GlobalVariables.xaxismin
+                Chart1.ChartAreas("ChartArea1").AxisX.Maximum = GlobalVariables.xaxismax
+                Chart1.ChartAreas("ChartArea1").AxisX.Interval = GlobalVariables.xaxisint
+                'Chart1.ChartAreas("ChartArea1").AxisX.Crossing = GlobalVariables.xaxismin
+                Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
+                Chart1.ChartAreas("ChartArea1").AxisX.Title = "Frequency in GHz"
+                Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+                Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+                Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+                Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
+                column = ((Math.Pow(ports, 2) * 2) + 1)
+                TextBox1.Text = ""
+                'y2max1 = 0
+                'y2min1 = 0
+                'x2max = 0
+                Erase names
+                names = New String(-1) {}
+                devicedata = devicedata & fullstring
+                devicedata = devicedata.Substring(devicedata.IndexOf("!"))  'Removing the extra numbers added in the start
+                fullstring = line & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
+                fullstring = System.Text.RegularExpressions.Regex.Replace(fullstring, "\s{1,}", ",")    'Replaces white spaces (Space, tab, linefeed, carriage-return, formfeed, vertical-tab, and newline characters) with a comma 
+
+                value = System.Text.RegularExpressions.Regex.Split(fullstring, ",")
+                row = (value.Length - 2) / column
+                table = New Double(row - 1, column - 1) {}
+                freq1 = New Double(row - 1) {}
+                para1 = New Double(row - 1) {}
+                x = 0
+                y = 0
+                For Each s As String In value
+                    If String.IsNullOrWhiteSpace(s) Then
+                    Else
+                        table(x, y) = CDbl(s)
+                        y += 1
+                        If y >= column Then
+                            y = 0
+                            x += 1
+                        End If
+                    End If
+                Next
+                fullstring = vbNullString   '   Releasing memory by setting values as Null
+                line = vbNullString
+                value = Nothing
+
+                Select Case frequnit
+                    Case "hz"
+                        For i As Integer = 0 To row - 1
+                            freq1(i) = table(i, 0) / 1000000000
+                        Next
+                    Case "khz"
+                        For i As Integer = 0 To row - 1
+                            freq1(i) = table(i, 0) / 1000000
+                        Next
+                    Case "mhz"
+                        For i As Integer = 0 To row - 1
+                            freq1(i) = table(i, 0) / 1000
+                        Next
+                    Case "ghz"
+                        For i As Integer = 0 To row - 1
+                            freq1(i) = table(i, 0)
+                        Next
+                End Select
+
+                'If ComparisonModeToolStripMenuItem.Checked = True Then '(Permanently enabled Comparison Mode)
+                z = GlobalVariables.seriesnames.Length
+                If matrix <> "lower" Or matrix <> "upper" Then
+                    GlobalVariables.seriesnames = New String((ports * ports) - 1) {}
+                    GlobalVariables.series = New Integer((ports * ports) - 1) {}
+                Else
+                    GlobalVariables.seriesnames = New String((ports * (ports + 1) / 2) - 1) {}
+                    GlobalVariables.series = New Integer((ports * (ports + 1) / 2) - 1) {}
+                End If
+                x = 1
+                y = 0
+                For a As Integer = 1 To ports
+                    For b As Integer = 1 To ports
+                        If matrix = "lower" Then
+                            If a < b Then
+                                Exit For
+                            End If
+                        ElseIf matrix = "upper" Then
+                            While a > b
+                                b += 1
+                            End While
+                        End If
+                        For j As Integer = 0 To row - 1
+                            Select Case parameter
+                                Case "s"
+                                    If LogMagToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
+                                        Select Case format
+                                            Case "db"
+                                                para1(j) = table(j, x)
+                                            Case "ma"
+                                                para1(j) = (20 * Math.Log10(table(j, x)))
+                                            Case "ri"
+                                                para1(j) = (10 * Math.Log10((Math.Pow(table(j, x), 2) + Math.Pow(table(j, x + 1), 2))))
+                                        End Select
+                                    ElseIf LinearMagToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
+                                        Select Case format
+                                            Case "db"
+                                                para1(j) = Math.Pow(10, (table(j, x) / 20))
+                                            Case "ma"
+                                                para1(j) = table(j, x)
+                                            Case "ri"
+                                                para1(j) = Math.Sqrt((Math.Pow(table(j, x), 2) + Math.Pow(table(j, x + 1), 2)))
+                                        End Select
+                                    ElseIf PhaseToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
+                                        Select Case format
+                                            Case "db"
+                                                para1(j) = table(j, x + 1)
+                                            Case "ma"
+                                                para1(j) = table(j, x + 1)
+                                            Case "ri"
+                                                para1(j) = Math.Atan2(table(j, x + 1), table(j, x)) * 180 / Math.PI
+                                        End Select
+                                    ElseIf UnwrappedPhaseToolStripMenuItem.Checked = True Then
+                                    ElseIf PolarToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisX.Minimum = 0
+                                        Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 360
+                                        Chart1.ChartAreas("ChartArea1").AxisX.Interval = 45
+                                        'Chart1.ChartAreas("ChartArea1").AxisX.Crossing = 90
+                                        'Chart1.ChartAreas("ChartArea1").AlignmentOrientation = 
+                                        'Chart1.ChartAreas("ChartArea1").AxisX.IsReversed = True
+                                        Chart1.ChartAreas("ChartArea1").AxisX.Title = "Magnitude in value"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.2
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.2
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
+                                        Select Case format
+                                            Case "db"
+                                                freq1(j) = table(j, x + 1)
+                                                para1(j) = Math.Pow(10, (table(j, x) / 20))
+                                            Case "ma"
+                                                freq1(j) = table(j, x + 1)
+                                                para1(j) = table(j, x)
+                                            Case "ri"
+                                                freq1(j) = Math.Atan2(table(j, x + 1), table(j, x)) * 180 / Math.PI
+                                                para1(j) = Math.Sqrt((Math.Pow(table(j, x), 2) + Math.Pow(table(j, x + 1), 2)))
+                                        End Select
+                                    ElseIf SmithChartToolStripMenuItem.Checked = True Then
+                                    ElseIf InverseSmithChartToolStripMenuItem.Checked = True Then
+                                    ElseIf GroupDelayToolStripMenuItem.Checked = True Then
+                                    ElseIf SWRToolStripMenuItem.Checked = True Then
+                                    ElseIf RealToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
+                                        Select Case format
+                                            Case "db"
+                                                para1(j) = Math.Pow(10, (table(j, x) / 20)) * Math.Cos(table(j, x + 1) * Math.PI / 180)
+                                            Case "ma"
+                                                para1(j) = table(j, x) * Math.Cos(table(j, x + 1) * Math.PI / 180)
+                                            Case "ri"
+                                                para1(j) = table(j, x)
+                                        End Select
+                                    ElseIf ImaginaryToolStripMenuItem.Checked = True Then
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
+                                        Select Case format
+                                            Case "db"
+                                                para1(j) = Math.Pow(10, (table(j, x) / 20)) * Math.Sin(table(j, x + 1) * Math.PI / 180)
+                                            Case "ma"
+                                                para1(j) = table(j, x) * Math.Sin(table(j, x + 1) * Math.PI / 180)
+                                            Case "ri"
+                                                para1(j) = table(j, x + 1)
+                                        End Select
+                                    End If
+                                Case "y"
+                                Case "z"
+                                Case "h"
+                                Case "g"
+                            End Select
+                            If CStr(para1(j)) = "-Infinity" Then
+                                para1(j) = -1000
+                            End If
+                        Next
+                        x += 2
+                        'If ymax < para1.Max Then
+                        '    ymax = para1.Max
+                        'End If
+                        'If ymin > para1.Min Then
+                        '    ymin = para1.Min
+                        'End If
+                        'If GlobalVariables.autobutton = True Then
+                        '    yaxisadjust()
+                        'End If
+
+                        'If firsttime = False Then
+                        '    Dim series1 As Microsoft.Office.Interop.Excel.Series = Chart1.Series("S(" & a & "," & b & ")")
+                        '    Chart1.Series.Remove(series1)
+                        'End If
+
+                        Chart1.Series.Add("S(" & a & "," & b & ")")
+                        Chart1.Series("S(" & a & "," & b & ")").ChartType = DataVisualization.Charting.SeriesChartType.Line
+                        Chart1.Series("S(" & a & "," & b & ")").BorderWidth = 2
+                        'Chart1.Series("S(" & a & "," & b & ")").Color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255))
+                        colourpicker()
+                        Chart1.Series("S(" & a & "," & b & ")").Color = c
+                        Chart1.Series("S(" & a & "," & b & ")").Points.DataBindXY(freq1, para1)
+                        GlobalVariables.seriesnames(y) = "S(" & a & "," & b & ")"
+                        GlobalVariables.series(y) = 1
+                        y += 1
+                    Next
+                Next
+                If GlobalVariables.autobutton = True Then
+                    axisvalues()
+                End If
+                Erase freq1         '   Releasing memory
+                Erase para1
+                Erase table
+                newtoolbar = True
+                device = True
+                compare = 1
+                firsttime = False
+                checkboxnum = 1
+                If Toggle1.Checked = True Then
+                    ThirdDevice.Checked = True
+                    AddMarker()
+                End If
+            Catch ex As Exception
+                If ex.Message.Contains("HRESULT") Then  'Previous value was If ex.Message = "HRESULT = 80040011" Then
+                    MetroFramework.MetroMessageBox.Show(Me, "Error while connecting to Keysight E5071C ENA Vector Network Analyzer. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Else
+                    MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+                'Finally
+                Try
+                    instrument.IO.Close()
+                Catch ea As Exception
+                End Try
+                Try
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
+                Catch ey As Exception
+                End Try
+                Try
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
+                Catch ez As Exception
+                End Try
+                SecondDevice.Checked = False
+                Exit Sub
+            End Try
+            System.Windows.Forms.Application.DoEvents()
+            If Me.IsDisposed Then
+                Exit Sub
+            End If
+        Loop Until Toggle1.Checked = False
+        ThirdDevice.Checked = False
     End Sub
 
     Sub colourpicker()

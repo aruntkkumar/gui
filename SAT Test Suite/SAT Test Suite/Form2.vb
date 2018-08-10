@@ -81,7 +81,7 @@
         'Me.DataGridView1.Rows.Add("Agilent Technologies N5230A", "TCPIP0:: 10.1.100.174::hpib7,16::INSTR")
         Me.DataGridView1.Rows.Add(GlobalVariables.DeviceName(0), GlobalVariables.DeviceAddress(0))
         Me.DataGridView1.Rows.Add(GlobalVariables.DeviceName(1), GlobalVariables.DeviceAddress(1))
-        'Me.DataGridView1.Rows.Add(GlobalVariables.DeviceName(2), GlobalVariables.DeviceAddress(2)) 'Temporarily disabled
+        Me.DataGridView1.Rows.Add(GlobalVariables.DeviceName(2), GlobalVariables.DeviceAddress(2)) 'Previously disabled
         AddHandler DataGridView1.CellValueChanged, AddressOf DataGridView1_CellValueChanged
         pos = 1
         TabControl1.SelectedTab = TabPage1
@@ -115,7 +115,7 @@
     Sub OKButton()
         GlobalVariables.DeviceAddress(0) = DataGridView1.Item(1, 0).Value.ToString()
         GlobalVariables.DeviceAddress(1) = DataGridView1.Item(1, 1).Value.ToString()
-        'GlobalVariables.DeviceAddress(2) = DataGridView1.Item(1, 2).Value.ToString() 'Temporarily disabled
+        GlobalVariables.DeviceAddress(2) = DataGridView1.Item(1, 2).Value.ToString() 'Temporarily activated
         If TextBox1.Text = "" Then     'Check if TextBox1 is empty
             MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid value as X-axis maximum.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
@@ -457,9 +457,9 @@
             If DataGridView1.Item(1, 1).Value = "" Then
                 DataGridView1.Item(1, 1).Value = GlobalVariables.DeviceAddress(1)
             End If
-            'If DataGridView1.Item(1, 2).Value = "" Then    'Temporarily disabled
-            '    DataGridView1.Item(1, 2).Value = GlobalVariables.DeviceAddress(2)
-            'End If
+            If DataGridView1.Item(1, 2).Value = "" Then    'Temporarily activated
+                DataGridView1.Item(1, 2).Value = GlobalVariables.DeviceAddress(2)
+            End If
         End If
     End Sub
 
