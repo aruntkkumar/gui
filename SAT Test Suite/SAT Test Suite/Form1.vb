@@ -195,35 +195,35 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             LogMagToolStripMenuItem.Checked = True
         ElseIf GlobalVariables.chartformat = "linearmag" Then
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
             LinearMagToolStripMenuItem.Checked = True
         ElseIf GlobalVariables.chartformat = "phase" Then
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
             PhaseToolStripMenuItem.Checked = True
         ElseIf GlobalVariables.chartformat = "real" Then
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
             RealToolStripMenuItem.Checked = True
         ElseIf GlobalVariables.chartformat = "imaginary" Then
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
             ImaginaryToolStripMenuItem.Checked = True
         End If
@@ -325,31 +325,31 @@ Checknextfilename:
                 Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
                 Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
                 Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                 Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             ElseIf GlobalVariables.chartformat = "linearmag" Then
                 Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
                 Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                 Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                 Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
             ElseIf GlobalVariables.chartformat = "phase" Then
                 Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
                 Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
                 Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
-                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                 Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
             ElseIf GlobalVariables.chartformat = "real" Then
                 Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
                 Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                 Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                 Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
             ElseIf GlobalVariables.chartformat = "imaginary" Then
                 Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
                 Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                 Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                 Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
             End If
             Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
@@ -579,7 +579,7 @@ Checknextfilename:
                                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
                                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
                                     Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
                                     Select Case format
                                         Case "db"
@@ -593,7 +593,7 @@ Checknextfilename:
                                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
                                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                                     Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
                                     Select Case format
                                         Case "db"
@@ -607,7 +607,7 @@ Checknextfilename:
                                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
                                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
                                     Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
-                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
                                     Select Case format
                                         Case "db"
@@ -629,7 +629,7 @@ Checknextfilename:
                                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0
                                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.2
                                     Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.2
-                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
                                     Select Case format
                                         Case "db"
@@ -650,7 +650,7 @@ Checknextfilename:
                                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
                                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                                     Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
                                     Select Case format
                                         Case "db"
@@ -664,7 +664,7 @@ Checknextfilename:
                                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
                                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                                     Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
                                     Select Case format
                                         Case "db"
@@ -1276,7 +1276,7 @@ Endfilename:
     End Sub
 
     Sub AddToolRoutine()
-        Dim stream As FileStream = File.Open(filename, FileMode.Open, FileAccess.Read)
+        Dim stream As FileStream = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
         If System.IO.Path.GetExtension(filename).ToLower() = ".xls" Then       ' Reading from a binary Excel file ('97-2003 format; *.xls)
             excelReader = ExcelReaderFactory.CreateBinaryReader(stream)
         ElseIf System.IO.Path.GetExtension(filename).ToLower() = ".xlsx" Then  ' Reading from a OpenXml Excel file (2007 format; *.xlsx)
@@ -1799,7 +1799,7 @@ Endfilename:
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
         Else
             colourcounter = 1
@@ -1815,7 +1815,7 @@ Endfilename:
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
             frequnit = "ghz"
             checkboxnum = 1
@@ -3049,7 +3049,7 @@ Endfilename:
                 Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
                 Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
                 Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                 Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
                 Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
                 column = ((Math.Pow(ports, 2) * 2) + 1)
@@ -3192,7 +3192,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
                                         Select Case format
                                             Case "db"
@@ -3206,7 +3206,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
                                         Select Case format
                                             Case "db"
@@ -3220,7 +3220,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
                                         Select Case format
                                             Case "db"
@@ -3242,7 +3242,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.2
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.2
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
                                         Select Case format
                                             Case "db"
@@ -3263,7 +3263,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
                                         Select Case format
                                             Case "db"
@@ -3277,7 +3277,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
                                         Select Case format
                                             Case "db"
@@ -3435,31 +3435,31 @@ Endfilename:
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
         ElseIf GlobalVariables.chartformat = "linearmag" Then
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
         ElseIf GlobalVariables.chartformat = "phase" Then
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
         ElseIf GlobalVariables.chartformat = "real" Then
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
         ElseIf GlobalVariables.chartformat = "imaginary" Then
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
             Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+            Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
             Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
         End If
         Chart1.ChartAreas("ChartArea1").AxisX.MajorGrid.LineDashStyle = DataVisualization.Charting.ChartDashStyle.Dash
@@ -3684,31 +3684,31 @@ Endfilename:
                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
                     Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
                 ElseIf GlobalVariables.chartformat = "linearmag" Then
                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                     Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
                 ElseIf GlobalVariables.chartformat = "phase" Then
                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
                     Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
-                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
                 ElseIf GlobalVariables.chartformat = "real" Then
                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                     Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
                 ElseIf GlobalVariables.chartformat = "imaginary" Then
                     Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
                     Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                     Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                    Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                     Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
                 End If
                 Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
@@ -4011,7 +4011,7 @@ Endfilename:
                 Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
                 Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
                 Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                 Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
                 Chart1.ChartAreas("ChartArea1").AxisY2.Enabled = AxisEnabled.False
                 column = ((Math.Pow(ports, 2) * 2) + 1)
@@ -4096,7 +4096,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = GlobalVariables.yaxismin
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = GlobalVariables.yaxismax
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = GlobalVariables.yaxisint
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in dB"
                                         Select Case format
                                             Case "db"
@@ -4110,7 +4110,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0.0
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Magnitude in value"
                                         Select Case format
                                             Case "db"
@@ -4124,7 +4124,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -200
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 200
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = 20
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
                                         Select Case format
                                             Case "db"
@@ -4146,7 +4146,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.2
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.2
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Phase in degree"
                                         Select Case format
                                             Case "db"
@@ -4167,7 +4167,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Real in value"
                                         Select Case format
                                             Case "db"
@@ -4181,7 +4181,7 @@ Endfilename:
                                         Chart1.ChartAreas("ChartArea1").AxisY.Minimum = -1.1
                                         Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 1.1
                                         Chart1.ChartAreas("ChartArea1").AxisY.Interval = 0.1
-                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.#}"
+                                        Chart1.ChartAreas("ChartArea1").AxisY.LabelStyle.Format = "{0:0.##}"
                                         Chart1.ChartAreas("ChartArea1").AxisY.Title = "Imaginary in value"
                                         Select Case format
                                             Case "db"
@@ -4898,6 +4898,45 @@ Checknextfilename2:
         End If
     End Sub
 
+    Private Sub TestModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TestModeToolStripMenuItem.Click
+        GlobalVariables.okbutton = "cancel"
+        'For Each name As String In TextBox1.Lines
+        '    If name <> "" Then
+        '        MsgBox(name.Split("\"c).Last())
+        '    End If
+        'Next
+        'For x = 0 To TextBox1.Lines.Length - 2
+        '    MsgBox(CInt(GlobalVariables.seriesnames(x).Split("#"c).Last()).ToString - 1)
+        '    MsgBox(TextBox1.Lines(CInt(GlobalVariables.seriesnames(x).Split("#"c).Last()).ToString - 1))
+        'Next
+        'Exit Sub
+        Form3.ShowDialog()
+        If GlobalVariables.okbutton = "ok" Then
+            GlobalVariables.dt = New Data.DataTable
+            GlobalVariables.dt.Columns.AddRange(New DataColumn() {New DataColumn("File Name", GetType(String)), New DataColumn("Series Name", GetType(String)), New DataColumn("Start Frequency (GHz)", GetType(Double)), New DataColumn("Stop Frequency (GHz)", GetType(Double)), New DataColumn("Test Result", GetType(String))})
+            For j As Integer = 0 To GlobalVariables.seriesnames.Length - 1
+                For i As Integer = 0 To GlobalVariables.teststring.Length - 1
+                    If GlobalVariables.seriesnames(j).ToLower.Contains(GlobalVariables.teststring(i).ToLower) Then
+                        For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
+                            If Math.Round(pt.XValue, 3) >= GlobalVariables.testxaxisstart(i) Then
+                                If Math.Round(pt.XValue, 3) <= GlobalVariables.testxaxisstop(i) Then
+                                    If (Math.Round(pt.YValues(0), 3) > GlobalVariables.testvaluemax(i)) Or (Math.Round(pt.YValues(0), 3) < GlobalVariables.testvaluemin(i)) Then
+                                        GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                                        'MsgBox(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last() & "," & GlobalVariables.seriesnames(j) & "," & GlobalVariables.testxaxisstart(i) & "," & GlobalVariables.testxaxisstop(i) & "," & "Fail")
+                                        Exit For
+                                    End If
+                                Else
+                                    Exit For
+                                End If
+                            End If
+                        Next
+                    End If
+                Next
+            Next
+            Form5.ShowDialog()
+        End If
+    End Sub
+
     'Private curPoint As DataPoint = Nothing
     'Private oldXY As Point = Nothing
 
@@ -4959,6 +4998,13 @@ Public Class GlobalVariables
     Public Shared Markerfreq As Double = 0
     Public Shared Markertrace As String = ""
     Public Shared chartformat As String = ""
+    Public Shared teststring() As String
+    Public Shared testxaxisstop() As Double
+    Public Shared testxaxisstart() As Double
+    Public Shared testvaluemax() As Double
+    Public Shared testvaluemin() As Double
+    Public Shared dt As System.Data.DataTable
+
 End Class
 
 
@@ -5087,7 +5133,7 @@ End Class
 '                            Case "ghz", "gHz", "ghZ", "gHZ", "Ghz", "GHz", "GhZ", "GHZ"
 '                                'Chart1.ChartAreas("ChartArea1").AxisX.Maximum = 6
 '                                'Chart1.ChartAreas("ChartArea1").AxisX.Interval = 0.5
-'                                Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.#}"
+'                                Chart1.ChartAreas("ChartArea1").AxisX.LabelStyle.Format = "{0:0.##}"
 '                                GoTo Freq_Format_Check_Exit
 '                        End Select
 '                    End If

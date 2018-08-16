@@ -61,6 +61,8 @@ Partial Class Form1
         Me.SWRToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RealToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImaginaryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripSeparator()
+        Me.TestModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConnectivityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ScanMyDevicesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FirstDevice = New System.Windows.Forms.ToolStripMenuItem()
@@ -102,7 +104,7 @@ Partial Class Form1
         Me.label3.Name = "label3"
         Me.label3.Size = New System.Drawing.Size(46, 15)
         Me.label3.TabIndex = 16
-        Me.label3.Text = "Ver. 3.0"
+        Me.label3.Text = "Ver. 4.0"
         '
         'Chart1
         '
@@ -197,7 +199,7 @@ Partial Class Form1
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddMarkerToolStripMenuItem, Me.ComparisonModeToolStripMenuItem, Me.ToolStripMenuItem4, Me.ClearSelectedMarkerToolStripMenuItem, Me.ClearAllMarkersToolStripMenuItem, Me.ClearChartAreaToolStripMenuItem, Me.ToolStripMenuItem3, Me.OptionsToolStripMenuItem, Me.ToolStripMenuItem5, Me.ChartTypeToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddMarkerToolStripMenuItem, Me.ComparisonModeToolStripMenuItem, Me.ToolStripMenuItem4, Me.ClearSelectedMarkerToolStripMenuItem, Me.ClearAllMarkersToolStripMenuItem, Me.ClearChartAreaToolStripMenuItem, Me.ToolStripMenuItem3, Me.OptionsToolStripMenuItem, Me.ToolStripMenuItem5, Me.ChartTypeToolStripMenuItem, Me.ToolStripMenuItem6, Me.TestModeToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
@@ -331,6 +333,17 @@ Partial Class Form1
         Me.ImaginaryToolStripMenuItem.Name = "ImaginaryToolStripMenuItem"
         Me.ImaginaryToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
         Me.ImaginaryToolStripMenuItem.Text = "Imaginary"
+        '
+        'ToolStripMenuItem6
+        '
+        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(185, 6)
+        '
+        'TestModeToolStripMenuItem
+        '
+        Me.TestModeToolStripMenuItem.Name = "TestModeToolStripMenuItem"
+        Me.TestModeToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.TestModeToolStripMenuItem.Text = "Test Mode"
         '
         'ConnectivityToolStripMenuItem
         '
@@ -535,4 +548,6 @@ Partial Class Form1
     Friend WithEvents ThirdDevice As ToolStripMenuItem
     Friend WithEvents Toggle1 As MetroFramework.Controls.MetroToggle
     Private WithEvents Label1 As Label
+    Friend WithEvents ToolStripMenuItem6 As ToolStripSeparator
+    Friend WithEvents TestModeToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -467,15 +467,38 @@
         TextBox1.Text = 6
         TextBox2.Text = 0.5
         TextBox5.Text = 0.1
-        TextBox3.Text = 0
-        TextBox4.Text = -40
-        TextBox6.Text = 2
         GlobalVariables.xaxismax = 6.0
         GlobalVariables.xaxismin = 0.5
         GlobalVariables.xaxisint = 0.1
-        GlobalVariables.yaxismax = 0
-        GlobalVariables.yaxismin = -40.0
-        GlobalVariables.yaxisint = 2.0
+        If GlobalVariables.chartformat = "logmag" Then
+            TextBox3.Text = 0
+            TextBox4.Text = -40
+            TextBox6.Text = 2
+            GlobalVariables.yaxismax = 0
+            GlobalVariables.yaxismin = -40.0
+            GlobalVariables.yaxisint = 2.0
+        ElseIf GlobalVariables.chartformat = "linearmag" Then
+            TextBox3.Text = 1.1
+            TextBox4.Text = 0.0
+            TextBox6.Text = 0.1
+            GlobalVariables.yaxismax = 1.1
+            GlobalVariables.yaxismin = 0.0
+            GlobalVariables.yaxisint = 0.1
+        ElseIf GlobalVariables.chartformat = "phase" Then
+            TextBox3.Text = 200
+            TextBox4.Text = -200
+            TextBox6.Text = 20
+            GlobalVariables.yaxismax = 200
+            GlobalVariables.yaxismin = -200
+            GlobalVariables.yaxisint = 20
+        ElseIf (GlobalVariables.chartformat = "real") Or (GlobalVariables.chartformat = "imaginary") Then
+            TextBox3.Text = 1.1
+            TextBox4.Text = -1.1
+            TextBox6.Text = 0.1
+            GlobalVariables.yaxismax = 1.1
+            GlobalVariables.yaxismin = -1.1
+            GlobalVariables.yaxisint = 0.1
+        End If
     End Sub
 
     Private Sub TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox1.KeyDown
