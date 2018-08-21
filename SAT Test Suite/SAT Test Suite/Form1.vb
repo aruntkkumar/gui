@@ -93,6 +93,7 @@ Public Class Form1
     Dim b As String
     Dim d As Integer
     Dim filename As String
+    Dim yvalue As Double = 0.0
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'AddToolStripMenuItem.Enabled = False
@@ -4917,19 +4918,52 @@ Checknextfilename2:
             For j As Integer = 0 To GlobalVariables.seriesnames.Length - 1
                 For i As Integer = 0 To GlobalVariables.teststring.Length - 1
                     If GlobalVariables.seriesnames(j).ToLower.Contains(GlobalVariables.teststring(i).ToLower) Then
-                        For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
-                            If Math.Round(pt.XValue, 3) >= GlobalVariables.testxaxisstart(i) Then
-                                If Math.Round(pt.XValue, 3) <= GlobalVariables.testxaxisstop(i) Then
-                                    If (Math.Round(pt.YValues(0), 3) > GlobalVariables.testvaluemax(i)) Or (Math.Round(pt.YValues(0), 3) < GlobalVariables.testvaluemin(i)) Then
-                                        GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
-                                        'MsgBox(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last() & "," & GlobalVariables.seriesnames(j) & "," & GlobalVariables.testxaxisstart(i) & "," & GlobalVariables.testxaxisstop(i) & "," & "Fail")
-                                        Exit For
-                                    End If
-                                Else
+                        'MsgBox(Chart1.Series(GlobalVariables.seriesnames(j)).Points.First.XValue & " " & Chart1.Series(GlobalVariables.seriesnames(j)).Points.Last.XValue)
+                        'MsgBox(Chart1.Series(GlobalVariables.seriesnames(j)).Points.FindByValue(GlobalVariables.testxaxisstart(i), "X").XValue)    'Null reference if no datapoint is found
+                        If (GlobalVariables.testxaxisstart(i) >= Chart1.Series(GlobalVariables.seriesnames(j)).Points.First.XValue) AndAlso (GlobalVariables.testxaxisstart(i) <= Chart1.Series(GlobalVariables.seriesnames(j)).Points.Last.XValue) Then
+                            'Check if the start X axis value is already available in the chart or not
+                            Dim pt1 As New DataPoint
+                            Dim pt2 As New DataPoint
+                            For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
+                                If pt.XValue > GlobalVariables.testxaxisstart(i) Then
+                                    pt2 = pt
                                     Exit For
                                 End If
+                                pt1 = pt
+                            Next
+                            yvalue = ((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue) * GlobalVariables.testxaxisstart(i)) + (pt2.YValues(0) - (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue)) * pt2.XValue))
+                            If (yvalue > GlobalVariables.testvaluemax(i)) Or (yvalue < GlobalVariables.testvaluemin(i)) Then
+                                GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                            Else
+                                If (GlobalVariables.testxaxisstop(i) < Chart1.Series(GlobalVariables.seriesnames(j)).Points.Last.XValue) Then
+                                    For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
+                                        If pt.XValue > GlobalVariables.testxaxisstart(i) Then
+                                            pt2 = pt
+                                            Exit For
+                                        End If
+                                        pt1 = pt
+                                    Next
+                                    yvalue = ((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue) * GlobalVariables.testxaxisstop(i)) + (pt2.YValues(0) - (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue)) * pt2.XValue))
+                                End If
+                                If (yvalue > GlobalVariables.testvaluemax(i)) Or (yvalue < GlobalVariables.testvaluemin(i)) Then
+                                    GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                                Else
+                                    For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
+                                        If pt.XValue >= GlobalVariables.testxaxisstart(i) Then   'Math.Round(pt.XValue, 3) to pt.XValue
+                                            If pt.XValue <= GlobalVariables.testxaxisstop(i) Then
+                                                If (pt.YValues(0) > GlobalVariables.testvaluemax(i)) Or (pt.YValues(0) < GlobalVariables.testvaluemin(i)) Then    'Math.Round(pt.YValues(0), 3 changed to pt.YValues(0)
+                                                    GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                                                    'MsgBox(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last() & "," & GlobalVariables.seriesnames(j) & "," & GlobalVariables.testxaxisstart(i) & "," & GlobalVariables.testxaxisstop(i) & "," & "Fail")
+                                                    Exit For
+                                                End If
+                                            Else
+                                                Exit For
+                                            End If
+                                        End If
+                                    Next
+                                End If
                             End If
-                        Next
+                            End If
                     End If
                 Next
             Next

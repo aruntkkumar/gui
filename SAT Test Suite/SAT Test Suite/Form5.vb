@@ -58,28 +58,24 @@ Public Class Form5
                     Dim misValue As Object = System.Reflection.Missing.Value
 
                     xlWorkBook = xlApp.Workbooks.Add(misValue)
-                    xlWorkSheet = xlWorkBook.Sheets.Add(Count:=1)
-                    Dim xlWorkSheet1 As Microsoft.Office.Interop.Excel.Worksheet = xlWorkBook.Sheets(1)
-                    Dim xlWorkSheet2 As Microsoft.Office.Interop.Excel.Worksheet = xlWorkBook.Sheets(2)
+                    xlWorkSheet = xlWorkBook.Sheets("Sheet1")
 
-                    xlWorkSheet2 = xlWorkBook.Sheets("sheet2")      'To bring Sheet1 as the first page
+                    For i As Integer = 0 To DataGridView2.RowCount - 1
+                        For j As Integer = 0 To DataGridView2.ColumnCount - 1
+                            For k As Integer = 1 To DataGridView2.Columns.Count
+                                xlWorkSheet.Cells(1, k) = DataGridView2.Columns(k - 1).HeaderText
+                                xlWorkSheet.Cells(i + 2, j + 1) = DataGridView2(j, i).Value.ToString()
+                            Next
+                        Next
+                    Next
+
+                    Dim xlWorkSheet2 As Microsoft.Office.Interop.Excel.Worksheet = xlWorkBook.Sheets.Add(After:=xlWorkSheet)
 
                     For i As Integer = 0 To DataGridView1.RowCount - 1
                         For j As Integer = 0 To DataGridView1.ColumnCount - 1
                             For k As Integer = 1 To DataGridView1.Columns.Count
                                 xlWorkSheet2.Cells(1, k) = DataGridView1.Columns(k - 1).HeaderText
                                 xlWorkSheet2.Cells(i + 2, j + 1) = DataGridView1(j, i).Value.ToString()
-                            Next
-                        Next
-                    Next
-
-                    xlWorkSheet1 = xlWorkBook.Sheets("sheet1")
-
-                    For i As Integer = 0 To DataGridView2.RowCount - 1
-                        For j As Integer = 0 To DataGridView2.ColumnCount - 1
-                            For k As Integer = 1 To DataGridView2.Columns.Count
-                                xlWorkSheet1.Cells(1, k) = DataGridView2.Columns(k - 1).HeaderText
-                                xlWorkSheet1.Cells(i + 2, j + 1) = DataGridView2(j, i).Value.ToString()
                             Next
                         Next
                     Next
