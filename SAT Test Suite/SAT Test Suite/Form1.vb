@@ -94,6 +94,7 @@ Public Class Form1
     Dim d As Integer
     Dim filename As String
     Dim yvalue As Double = 0.0
+    Dim devicetimedate As String = ""
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'AddToolStripMenuItem.Enabled = False
@@ -2969,6 +2970,7 @@ Endfilename:
                     instrument.WriteString("MMEMory:TRANsfer? '" & readvalue & "\MyData.s4p'", True)
                 End If
                 'AllocConsole() 'show console
+                devicetimedate = "N5230A " & (Date.Now).ToString("dd/MM/yyyy HH:mm:ss")
                 devicedata = ""
                 matrix = "full"
                 Using sr As New StringReader(instrument.ReadString())
@@ -3478,6 +3480,7 @@ Endfilename:
         generic = False
         db = False
         device = False
+        devicetimedate = ""
         GlobalVariables.series = New Integer(-1) {}     'Array with zeo elements
         GlobalVariables.seriesnames = New String(-1) {}
         TextBox1.Text = ""
@@ -3653,6 +3656,7 @@ Endfilename:
                 'Else
                 '    instrument.WriteString("MMEM:DEL 'c:\Test1.s1p'", True)
                 'End If
+                devicetimedate = "ZVL6 " & (Date.Now).ToString("dd/MM/yyyy HH:mm:ss")
                 devicedata = ""
                 devicedata = "#  GHZ  S  dB  R  50.0" & vbCrLf & "! Rohde & Schwarz ZVL" & vbCrLf
                 If ports = 1 Then
@@ -4022,6 +4026,7 @@ Endfilename:
                 'x2max = 0
                 Erase names
                 names = New String(-1) {}
+                devicetimedate = "E5071C " & (Date.Now).ToString("dd/MM/yyyy HH:mm:ss")
                 devicedata = devicedata & fullstring
                 devicedata = devicedata.Substring(devicedata.IndexOf("!"))  'Removing the extra numbers added in the start
                 fullstring = line & vbCrLf & fullstring     'Adding the starting line which was used in the While condition
@@ -4933,7 +4938,11 @@ Checknextfilename2:
                             Next
                             yvalue = ((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue) * GlobalVariables.testxaxisstart(i)) + (pt2.YValues(0) - (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue)) * pt2.XValue))
                             If (yvalue > GlobalVariables.testvaluemax(i)) Or (yvalue < GlobalVariables.testvaluemin(i)) Then
-                                GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                                If (GlobalVariables.seriesnames(j).Split("#"c).Last()) <> GlobalVariables.seriesnames(j) Then
+                                    GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                                Else
+                                    GlobalVariables.dt.Rows.Add(devicetimedate, GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                                End If
                             Else
                                 If (GlobalVariables.testxaxisstop(i) < Chart1.Series(GlobalVariables.seriesnames(j)).Points.Last.XValue) Then
                                     For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
@@ -4946,17 +4955,25 @@ Checknextfilename2:
                                     yvalue = ((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue) * GlobalVariables.testxaxisstop(i)) + (pt2.YValues(0) - (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue)) * pt2.XValue))
                                 End If
                                 If (yvalue > GlobalVariables.testvaluemax(i)) Or (yvalue < GlobalVariables.testvaluemin(i)) Then
-                                    GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                                    If (GlobalVariables.seriesnames(j).Split("#"c).Last()) <> GlobalVariables.seriesnames(j) Then
+                                        GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                                    Else
+                                        GlobalVariables.dt.Rows.Add(devicetimedate, GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                                    End If
                                 Else
                                     For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
                                         If pt.XValue >= GlobalVariables.testxaxisstart(i) Then   'Math.Round(pt.XValue, 3) to pt.XValue
                                             If pt.XValue <= GlobalVariables.testxaxisstop(i) Then
                                                 If (pt.YValues(0) > GlobalVariables.testvaluemax(i)) Or (pt.YValues(0) < GlobalVariables.testvaluemin(i)) Then    'Math.Round(pt.YValues(0), 3 changed to pt.YValues(0)
-                                                    GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
-                                                    'MsgBox(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last() & "," & GlobalVariables.seriesnames(j) & "," & GlobalVariables.testxaxisstart(i) & "," & GlobalVariables.testxaxisstop(i) & "," & "Fail")
+                                                    If (GlobalVariables.seriesnames(j).Split("#"c).Last()) <> GlobalVariables.seriesnames(j) Then
+                                                        GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                                                        'MsgBox(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last() & "," & GlobalVariables.seriesnames(j) & "," & GlobalVariables.testxaxisstart(i) & "," & GlobalVariables.testxaxisstop(i) & "," & "Fail")
+                                                    Else
+                                                        GlobalVariables.dt.Rows.Add(devicetimedate, GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
+                                                    End If
                                                     Exit For
-                                                End If
-                                            Else
+                                                    End If
+                                                Else
                                                 Exit For
                                             End If
                                         End If
