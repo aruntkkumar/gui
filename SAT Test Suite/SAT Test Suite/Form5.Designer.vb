@@ -120,7 +120,7 @@ Partial Class Form5
         Me.DataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         DataGridViewCellStyle8.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.DataGridView2.RowsDefaultCellStyle = DataGridViewCellStyle8
-        Me.DataGridView2.Size = New System.Drawing.Size(601, 338)
+        Me.DataGridView2.Size = New System.Drawing.Size(601, 335)
         Me.DataGridView2.TabIndex = 1
         '
         'Column1
