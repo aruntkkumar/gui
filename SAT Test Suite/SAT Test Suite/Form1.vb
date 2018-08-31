@@ -4946,7 +4946,7 @@ Checknextfilename2:
                             Else
                                 If (GlobalVariables.testxaxisstop(i) < Chart1.Series(GlobalVariables.seriesnames(j)).Points.Last.XValue) Then
                                     For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
-                                        If pt.XValue > GlobalVariables.testxaxisstart(i) Then
+                                        If pt.XValue > GlobalVariables.testxaxisstop(i) Then
                                             pt2 = pt
                                             Exit For
                                         End If
