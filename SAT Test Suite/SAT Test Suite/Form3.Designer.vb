@@ -34,13 +34,13 @@ Partial Class Form3
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.Button1 = New MetroFramework.Controls.MetroButton()
         Me.Button2 = New MetroFramework.Controls.MetroButton()
+        Me.Button3 = New MetroFramework.Controls.MetroButton()
+        Me.Button4 = New MetroFramework.Controls.MetroButton()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Button3 = New MetroFramework.Controls.MetroButton()
-        Me.Button4 = New MetroFramework.Controls.MetroButton()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -102,6 +102,30 @@ Partial Class Form3
         Me.Button2.Text = "Clear Data"
         Me.Button2.UseSelectable = True
         '
+        'Button3
+        '
+        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button3.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button3.FontWeight = MetroFramework.MetroButtonWeight.Regular
+        Me.Button3.Location = New System.Drawing.Point(48, 477)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(115, 38)
+        Me.Button3.TabIndex = 29
+        Me.Button3.Text = "Load Data"
+        Me.Button3.UseSelectable = True
+        '
+        'Button4
+        '
+        Me.Button4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button4.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button4.FontWeight = MetroFramework.MetroButtonWeight.Regular
+        Me.Button4.Location = New System.Drawing.Point(169, 477)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(115, 38)
+        Me.Button4.TabIndex = 30
+        Me.Button4.Text = "Save Data"
+        Me.Button4.UseSelectable = True
+        '
         'Column1
         '
         DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
@@ -136,45 +160,21 @@ Partial Class Form3
         '
         DataGridViewCellStyle6.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Column4.DefaultCellStyle = DataGridViewCellStyle6
-        Me.Column4.HeaderText = "Maximum value (dB)"
+        Me.Column4.HeaderText = "Upper Limit (dB)"
         Me.Column4.Name = "Column4"
         Me.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
         Me.Column4.ToolTipText = "Maximum pass range"
-        Me.Column4.Width = 80
+        Me.Column4.Width = 62
         '
         'Column5
         '
         DataGridViewCellStyle7.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Column5.DefaultCellStyle = DataGridViewCellStyle7
-        Me.Column5.HeaderText = "Minimum value (dB)"
+        Me.Column5.HeaderText = "Lower Limit (dB)"
         Me.Column5.Name = "Column5"
         Me.Column5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
         Me.Column5.ToolTipText = "Minimum pass range"
-        Me.Column5.Width = 77
-        '
-        'Button3
-        '
-        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button3.FontSize = MetroFramework.MetroButtonSize.Medium
-        Me.Button3.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button3.Location = New System.Drawing.Point(48, 477)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(115, 38)
-        Me.Button3.TabIndex = 29
-        Me.Button3.Text = "Load Data"
-        Me.Button3.UseSelectable = True
-        '
-        'Button4
-        '
-        Me.Button4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button4.FontSize = MetroFramework.MetroButtonSize.Medium
-        Me.Button4.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button4.Location = New System.Drawing.Point(169, 477)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(115, 38)
-        Me.Button4.TabIndex = 30
-        Me.Button4.Text = "Save Data"
-        Me.Button4.UseSelectable = True
+        Me.Column5.Width = 62
         '
         'Form3
         '
@@ -201,11 +201,11 @@ Partial Class Form3
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents Button1 As MetroFramework.Controls.MetroButton
     Friend WithEvents Button2 As MetroFramework.Controls.MetroButton
+    Friend WithEvents Button3 As MetroFramework.Controls.MetroButton
+    Friend WithEvents Button4 As MetroFramework.Controls.MetroButton
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
-    Friend WithEvents Button3 As MetroFramework.Controls.MetroButton
-    Friend WithEvents Button4 As MetroFramework.Controls.MetroButton
 End Class

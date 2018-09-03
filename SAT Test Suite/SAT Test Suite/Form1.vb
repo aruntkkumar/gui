@@ -4937,7 +4937,7 @@ Checknextfilename2:
                                 pt1 = pt
                             Next
                             yvalue = ((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue) * GlobalVariables.testxaxisstart(i)) + (pt2.YValues(0) - (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue)) * pt2.XValue))
-                            If (yvalue > GlobalVariables.testvaluemax(i)) Or (yvalue < GlobalVariables.testvaluemin(i)) Then
+                            If (yvalue > GlobalVariables.upperlimit(i)) Or (yvalue < GlobalVariables.lowerlimit(i)) Then
                                 If (GlobalVariables.seriesnames(j).Split("#"c).Last()) <> GlobalVariables.seriesnames(j) Then
                                     GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
                                 Else
@@ -4954,7 +4954,7 @@ Checknextfilename2:
                                     Next
                                     yvalue = ((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue) * GlobalVariables.testxaxisstop(i)) + (pt2.YValues(0) - (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue)) * pt2.XValue))
                                 End If
-                                If (yvalue > GlobalVariables.testvaluemax(i)) Or (yvalue < GlobalVariables.testvaluemin(i)) Then
+                                If (yvalue > GlobalVariables.upperlimit(i)) Or (yvalue < GlobalVariables.lowerlimit(i)) Then
                                     If (GlobalVariables.seriesnames(j).Split("#"c).Last()) <> GlobalVariables.seriesnames(j) Then
                                         GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
                                     Else
@@ -4964,7 +4964,7 @@ Checknextfilename2:
                                     For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
                                         If pt.XValue >= GlobalVariables.testxaxisstart(i) Then   'Math.Round(pt.XValue, 3) to pt.XValue
                                             If pt.XValue <= GlobalVariables.testxaxisstop(i) Then
-                                                If (pt.YValues(0) > GlobalVariables.testvaluemax(i)) Or (pt.YValues(0) < GlobalVariables.testvaluemin(i)) Then    'Math.Round(pt.YValues(0), 3 changed to pt.YValues(0)
+                                                If (pt.YValues(0) > GlobalVariables.upperlimit(i)) Or (pt.YValues(0) < GlobalVariables.lowerlimit(i)) Then    'Math.Round(pt.YValues(0), 3 changed to pt.YValues(0)
                                                     If (GlobalVariables.seriesnames(j).Split("#"c).Last()) <> GlobalVariables.seriesnames(j) Then
                                                         GlobalVariables.dt.Rows.Add(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
                                                         'MsgBox(TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last() & "," & GlobalVariables.seriesnames(j) & "," & GlobalVariables.testxaxisstart(i) & "," & GlobalVariables.testxaxisstop(i) & "," & "Fail")
@@ -4972,8 +4972,8 @@ Checknextfilename2:
                                                         GlobalVariables.dt.Rows.Add(devicetimedate, GlobalVariables.seriesnames(j), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), "Fail")
                                                     End If
                                                     Exit For
-                                                    End If
-                                                Else
+                                                End If
+                                            Else
                                                 Exit For
                                             End If
                                         End If
@@ -5052,8 +5052,8 @@ Public Class GlobalVariables
     Public Shared teststring() As String
     Public Shared testxaxisstop() As Double
     Public Shared testxaxisstart() As Double
-    Public Shared testvaluemax() As Double
-    Public Shared testvaluemin() As Double
+    Public Shared upperlimit() As Double
+    Public Shared lowerlimit() As Double
     Public Shared dt As System.Data.DataTable
 
 End Class

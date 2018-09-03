@@ -24,18 +24,18 @@ Public Class Form3
         DataGridView1.ColumnHeadersDefaultCellStyle.Font = New System.Drawing.Font("Segoe UI", 13.0F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
         DataGridView1.DefaultCellStyle.Font = New System.Drawing.Font("Segoe UI", 12.0F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
         If GlobalVariables.chartformat = "logmag" Then
-            DataGridView1.Columns(3).HeaderText = "Maximum value (dB)"
-            DataGridView1.Columns(4).HeaderText = "Minimum value (dB)"
+            DataGridView1.Columns(3).HeaderText = "Upper Limit (dB)"
+            DataGridView1.Columns(4).HeaderText = "Lower Limit (dB)"
         ElseIf (GlobalVariables.chartformat = "linearmag") Or (GlobalVariables.chartformat = "real") Or (GlobalVariables.chartformat = "imaginary") Then
-            DataGridView1.Columns(3).HeaderText = "Maximum value (val)"
-            DataGridView1.Columns(4).HeaderText = "Minimum value (val)"
+            DataGridView1.Columns(3).HeaderText = "Upper Limit (val)"
+            DataGridView1.Columns(4).HeaderText = "Lower Limit (val)"
         ElseIf GlobalVariables.chartformat = "phase" Then
-            DataGridView1.Columns(3).HeaderText = "Maximum value (deg)"
-            DataGridView1.Columns(4).HeaderText = "Minimum value (deg)"
+            DataGridView1.Columns(3).HeaderText = "Upper Limit (deg)"
+            DataGridView1.Columns(4).HeaderText = "Lower Limit (deg)"
         End If
         If Not GlobalVariables.teststring Is Nothing Then
             For i As Integer = 0 To GlobalVariables.teststring.Length - 1
-                DataGridView1.Rows.Add(GlobalVariables.teststring(i), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), GlobalVariables.testvaluemax(i), GlobalVariables.testvaluemin(i))
+                DataGridView1.Rows.Add(GlobalVariables.teststring(i), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), GlobalVariables.upperlimit(i), GlobalVariables.lowerlimit(i))
             Next
         End If
 
@@ -135,18 +135,18 @@ Public Class Form3
                             Try
                                 test = CDbl(DataGridView1.Item(j, i).Value)
                             Catch ex As Exception
-                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid maximum value for the cell (" & i + 1 & "," & j + 1 & ").", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid upper limit for the cell (" & i + 1 & "," & j + 1 & ").", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Exit Sub
                             End Try
                         ElseIf j = 4 Then
                             Try
                                 test = CDbl(DataGridView1.Item(j, i).Value)
                             Catch ex As Exception
-                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid minimum value for the cell (" & i + 1 & "," & j + 1 & ").", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                MetroFramework.MetroMessageBox.Show(Me, "Please enter a valid lower limit for the cell (" & i + 1 & "," & j + 1 & ").", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Exit Sub
                             End Try
                             If CDbl(DataGridView1.Item(j, i).Value) >= CDbl(DataGridView1.Item(j - 1, i).Value) Then
-                                MetroFramework.MetroMessageBox.Show(Me, "The minimum value """ & DataGridView1.Item(4, i).Value & """ from the cell (" & i + 1 & "," & j + 1 & ") cannot be larger than the maximum value. Please reconfirm the values and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                MetroFramework.MetroMessageBox.Show(Me, "The lower limit """ & DataGridView1.Item(4, i).Value & """ from the cell (" & i + 1 & "," & j + 1 & ") cannot be larger than the upper limit. Please reconfirm the values and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                 Exit Sub
                             End If
                         End If
@@ -156,14 +156,14 @@ Public Class Form3
             GlobalVariables.teststring = New String(DataGridView1.RowCount - 2) {}
             GlobalVariables.testxaxisstop = New Double(DataGridView1.RowCount - 2) {}
             GlobalVariables.testxaxisstart = New Double(DataGridView1.RowCount - 2) {}
-            GlobalVariables.testvaluemax = New Double(DataGridView1.RowCount - 2) {}
-            GlobalVariables.testvaluemin = New Double(DataGridView1.RowCount - 2) {}
+            GlobalVariables.upperlimit = New Double(DataGridView1.RowCount - 2) {}
+            GlobalVariables.lowerlimit = New Double(DataGridView1.RowCount - 2) {}
             For i As Integer = 0 To DataGridView1.RowCount - 2
                 GlobalVariables.teststring(i) = DataGridView1.Item(0, i).Value.ToString()
                 GlobalVariables.testxaxisstart(i) = DataGridView1.Item(1, i).Value
                 GlobalVariables.testxaxisstop(i) = DataGridView1.Item(2, i).Value
-                GlobalVariables.testvaluemax(i) = DataGridView1.Item(3, i).Value
-                GlobalVariables.testvaluemin(i) = DataGridView1.Item(4, i).Value
+                GlobalVariables.upperlimit(i) = DataGridView1.Item(3, i).Value
+                GlobalVariables.lowerlimit(i) = DataGridView1.Item(4, i).Value
             Next
             GlobalVariables.okbutton = "ok"
             If Not Me.IsDisposed() Then
@@ -236,7 +236,7 @@ Public Class Form3
                             'Routine to check the Y-axis values
                             If j = 4 Then
                                 If CDbl(result.Tables(0).Rows(i)(j)) > CDbl(result.Tables(0).Rows(i)(j - 1)) Then
-                                    MetroFramework.MetroMessageBox.Show(Me, "The minimum value """ & result.Tables(0).Rows(i)(j) & """ from the cell (" & i + 1 & "," & j + 1 & ") cannot be larger than the maximum value. Please reconfirm the values and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                    MetroFramework.MetroMessageBox.Show(Me, "The lower limit """ & result.Tables(0).Rows(i)(j) & """ from the cell (" & i + 1 & "," & j + 1 & ") cannot be larger than the upper limit. Please reconfirm the values and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                     Exit Sub
                                 End If
                             End If

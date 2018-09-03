@@ -10,21 +10,21 @@ Public Class Form5
         DataGridView1.ColumnHeadersDefaultCellStyle.Font = New System.Drawing.Font("Segoe UI", 13.0F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
         DataGridView1.DefaultCellStyle.Font = New System.Drawing.Font("Segoe UI", 12.0F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
         If GlobalVariables.chartformat = "logmag" Then
-            DataGridView1.Columns(3).HeaderText = "Maximum value (dB)"
-            DataGridView1.Columns(4).HeaderText = "Minimum value (dB)"
-            dt1.Columns.AddRange(New DataColumn() {New DataColumn("Search phrase", GetType(String)), New DataColumn("Start Frequency (GHz)", GetType(String)), New DataColumn("Stop Frequency (GHz)", GetType(String)), New DataColumn("Maximum value (dB)", GetType(String)), New DataColumn("Minimum value (dB)", GetType(String))})
+            DataGridView1.Columns(3).HeaderText = "Upper Limit (dB)"
+            DataGridView1.Columns(4).HeaderText = "Lower Limit (dB)"
+            dt1.Columns.AddRange(New DataColumn() {New DataColumn("Search phrase", GetType(String)), New DataColumn("Start Frequency (GHz)", GetType(String)), New DataColumn("Stop Frequency (GHz)", GetType(String)), New DataColumn("Upper Limit (dB)", GetType(String)), New DataColumn("Lower Limit (dB)", GetType(String))})
         ElseIf (GlobalVariables.chartformat = "linearmag") Or (GlobalVariables.chartformat = "real") Or (GlobalVariables.chartformat = "imaginary") Then
-            DataGridView1.Columns(3).HeaderText = "Maximum value (val)"
-            DataGridView1.Columns(4).HeaderText = "Minimum value (val)"
-            dt1.Columns.AddRange(New DataColumn() {New DataColumn("Search phrase", GetType(String)), New DataColumn("Start Frequency (GHz)", GetType(String)), New DataColumn("Stop Frequency (GHz)", GetType(String)), New DataColumn("Maximum value (val)", GetType(String)), New DataColumn("Minimum value (val)", GetType(String))})
+            DataGridView1.Columns(3).HeaderText = "Upper Limit (val)"
+            DataGridView1.Columns(4).HeaderText = "Lower Limit (val)"
+            dt1.Columns.AddRange(New DataColumn() {New DataColumn("Search phrase", GetType(String)), New DataColumn("Start Frequency (GHz)", GetType(String)), New DataColumn("Stop Frequency (GHz)", GetType(String)), New DataColumn("Upper Limit (val)", GetType(String)), New DataColumn("Lower Limit (val)", GetType(String))})
         ElseIf GlobalVariables.chartformat = "phase" Then
-            DataGridView1.Columns(3).HeaderText = "Maximum value (deg)"
-            DataGridView1.Columns(4).HeaderText = "Minimum value (deg)"
-            dt1.Columns.AddRange(New DataColumn() {New DataColumn("Search phrase", GetType(String)), New DataColumn("Start Frequency (GHz)", GetType(String)), New DataColumn("Stop Frequency (GHz)", GetType(String)), New DataColumn("Maximum value (deg)", GetType(String)), New DataColumn("Minimum value (deg)", GetType(String))})
+            DataGridView1.Columns(3).HeaderText = "Upper Limit (deg)"
+            DataGridView1.Columns(4).HeaderText = "Lower Limit (deg)"
+            dt1.Columns.AddRange(New DataColumn() {New DataColumn("Search phrase", GetType(String)), New DataColumn("Start Frequency (GHz)", GetType(String)), New DataColumn("Stop Frequency (GHz)", GetType(String)), New DataColumn("Upper Limit (deg)", GetType(String)), New DataColumn("Lower Limit (deg)", GetType(String))})
         End If
         If Not GlobalVariables.teststring Is Nothing Then
             For i As Integer = 0 To GlobalVariables.teststring.Length - 1
-                DataGridView1.Rows.Add(GlobalVariables.teststring(i), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), GlobalVariables.testvaluemax(i), GlobalVariables.testvaluemin(i))
+                DataGridView1.Rows.Add(GlobalVariables.teststring(i), GlobalVariables.testxaxisstart(i), GlobalVariables.testxaxisstop(i), GlobalVariables.upperlimit(i), GlobalVariables.lowerlimit(i))
             Next
         End If
         AddHandler DataGridView1.CellValueChanged, AddressOf DataGridView1_CellValueChanged

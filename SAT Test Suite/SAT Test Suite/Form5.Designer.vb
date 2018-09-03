@@ -49,12 +49,12 @@ Partial Class Form5
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.Button4 = New MetroFramework.Controls.MetroButton()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Button4 = New MetroFramework.Controls.MetroButton()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,7 +71,7 @@ Partial Class Form5
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Location = New System.Drawing.Point(37, 73)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 1
+        Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(610, 379)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -120,7 +120,7 @@ Partial Class Form5
         Me.DataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         DataGridViewCellStyle8.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.DataGridView2.RowsDefaultCellStyle = DataGridViewCellStyle8
-        Me.DataGridView2.Size = New System.Drawing.Size(601, 335)
+        Me.DataGridView2.Size = New System.Drawing.Size(601, 332)
         Me.DataGridView2.TabIndex = 1
         '
         'Column1
@@ -225,6 +225,18 @@ Partial Class Form5
         Me.DataGridView1.Size = New System.Drawing.Size(601, 337)
         Me.DataGridView1.TabIndex = 1
         '
+        'Button4
+        '
+        Me.Button4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button4.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button4.FontWeight = MetroFramework.MetroButtonWeight.Regular
+        Me.Button4.Location = New System.Drawing.Point(516, 477)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(115, 38)
+        Me.Button4.TabIndex = 31
+        Me.Button4.Text = "Save Data"
+        Me.Button4.UseSelectable = True
+        '
         'DataGridViewTextBoxColumn1
         '
         DataGridViewCellStyle11.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
@@ -234,7 +246,7 @@ Partial Class Form5
         Me.DataGridViewTextBoxColumn1.ReadOnly = True
         Me.DataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
         Me.DataGridViewTextBoxColumn1.ToolTipText = "Check all series name that includes that phrase provided"
-        Me.DataGridViewTextBoxColumn1.Width = 74
+        Me.DataGridViewTextBoxColumn1.Width = 82
         '
         'DataGridViewTextBoxColumn2
         '
@@ -262,35 +274,23 @@ Partial Class Form5
         '
         DataGridViewCellStyle14.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle14
-        Me.DataGridViewTextBoxColumn4.HeaderText = "Maximum value (dB)"
+        Me.DataGridViewTextBoxColumn4.HeaderText = "Upper Limit (dB)"
         Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
         Me.DataGridViewTextBoxColumn4.ReadOnly = True
         Me.DataGridViewTextBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.DataGridViewTextBoxColumn4.ToolTipText = "Maximum pass range"
-        Me.DataGridViewTextBoxColumn4.Width = 80
+        Me.DataGridViewTextBoxColumn4.ToolTipText = "Minimum pass range"
+        Me.DataGridViewTextBoxColumn4.Width = 62
         '
         'DataGridViewTextBoxColumn5
         '
         DataGridViewCellStyle15.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle15
-        Me.DataGridViewTextBoxColumn5.HeaderText = "Minimum value (dB)"
+        Me.DataGridViewTextBoxColumn5.HeaderText = "Lower Limit (dB)"
         Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
         Me.DataGridViewTextBoxColumn5.ReadOnly = True
         Me.DataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.DataGridViewTextBoxColumn5.ToolTipText = "Minimum pass range"
-        Me.DataGridViewTextBoxColumn5.Width = 77
-        '
-        'Button4
-        '
-        Me.Button4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button4.FontSize = MetroFramework.MetroButtonSize.Medium
-        Me.Button4.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button4.Location = New System.Drawing.Point(516, 477)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(115, 38)
-        Me.Button4.TabIndex = 31
-        Me.Button4.Text = "Save Data"
-        Me.Button4.UseSelectable = True
+        Me.DataGridViewTextBoxColumn5.ToolTipText = "Maximum pass range"
+        Me.DataGridViewTextBoxColumn5.Width = 62
         '
         'Form5
         '
@@ -319,15 +319,15 @@ Partial Class Form5
     Friend WithEvents TabPage2 As TabPage
     Friend WithEvents DataGridView2 As DataGridView
     Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
     Friend WithEvents Button4 As MetroFramework.Controls.MetroButton
+    Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
 End Class
