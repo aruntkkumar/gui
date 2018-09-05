@@ -49,12 +49,12 @@ Partial Class Form5
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.Button4 = New MetroFramework.Controls.MetroButton()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Button4 = New MetroFramework.Controls.MetroButton()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,7 +71,7 @@ Partial Class Form5
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Location = New System.Drawing.Point(37, 73)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.SelectedIndex = 1
         Me.TabControl1.Size = New System.Drawing.Size(610, 379)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -222,20 +222,8 @@ Partial Class Form5
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         DataGridViewCellStyle16.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.DataGridView1.RowsDefaultCellStyle = DataGridViewCellStyle16
-        Me.DataGridView1.Size = New System.Drawing.Size(601, 337)
+        Me.DataGridView1.Size = New System.Drawing.Size(601, 334)
         Me.DataGridView1.TabIndex = 1
-        '
-        'Button4
-        '
-        Me.Button4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button4.FontSize = MetroFramework.MetroButtonSize.Medium
-        Me.Button4.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button4.Location = New System.Drawing.Point(516, 477)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(115, 38)
-        Me.Button4.TabIndex = 31
-        Me.Button4.Text = "Save Data"
-        Me.Button4.UseSelectable = True
         '
         'DataGridViewTextBoxColumn1
         '
@@ -246,7 +234,7 @@ Partial Class Form5
         Me.DataGridViewTextBoxColumn1.ReadOnly = True
         Me.DataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
         Me.DataGridViewTextBoxColumn1.ToolTipText = "Check all series name that includes that phrase provided"
-        Me.DataGridViewTextBoxColumn1.Width = 82
+        Me.DataGridViewTextBoxColumn1.Width = 74
         '
         'DataGridViewTextBoxColumn2
         '
@@ -292,6 +280,18 @@ Partial Class Form5
         Me.DataGridViewTextBoxColumn5.ToolTipText = "Maximum pass range"
         Me.DataGridViewTextBoxColumn5.Width = 62
         '
+        'Button4
+        '
+        Me.Button4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button4.FontSize = MetroFramework.MetroButtonSize.Medium
+        Me.Button4.FontWeight = MetroFramework.MetroButtonWeight.Regular
+        Me.Button4.Location = New System.Drawing.Point(516, 477)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(115, 38)
+        Me.Button4.TabIndex = 31
+        Me.Button4.Text = "Save Data"
+        Me.Button4.UseSelectable = True
+        '
         'Form5
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -304,7 +304,7 @@ Partial Class Form5
         Me.MinimumSize = New System.Drawing.Size(628, 347)
         Me.Name = "Form5"
         Me.Resizable = False
-        Me.Text = "Test Results"
+        Me.Text = "Limit Test Results"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()

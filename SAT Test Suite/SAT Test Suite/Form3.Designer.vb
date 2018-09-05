@@ -32,15 +32,15 @@ Partial Class Form3
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form3))
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.Button1 = New MetroFramework.Controls.MetroButton()
-        Me.Button2 = New MetroFramework.Controls.MetroButton()
-        Me.Button3 = New MetroFramework.Controls.MetroButton()
-        Me.Button4 = New MetroFramework.Controls.MetroButton()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Button1 = New MetroFramework.Controls.MetroButton()
+        Me.Button2 = New MetroFramework.Controls.MetroButton()
+        Me.Button3 = New MetroFramework.Controls.MetroButton()
+        Me.Button4 = New MetroFramework.Controls.MetroButton()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -77,6 +77,56 @@ Partial Class Form3
         Me.DataGridView1.RowsDefaultCellStyle = DataGridViewCellStyle8
         Me.DataGridView1.Size = New System.Drawing.Size(587, 372)
         Me.DataGridView1.TabIndex = 0
+        '
+        'Column1
+        '
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.Column1.DefaultCellStyle = DataGridViewCellStyle3
+        Me.Column1.HeaderText = "Search phrase"
+        Me.Column1.Name = "Column1"
+        Me.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.Column1.ToolTipText = "Check all series name that includes that phrase provided"
+        Me.Column1.Width = 74
+        '
+        'Column2
+        '
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.Column2.DefaultCellStyle = DataGridViewCellStyle4
+        Me.Column2.HeaderText = "Start Frequency (GHz)"
+        Me.Column2.Name = "Column2"
+        Me.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.Column2.ToolTipText = "Start of the frequency limit"
+        Me.Column2.Width = 106
+        '
+        'Column3
+        '
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.Column3.DefaultCellStyle = DataGridViewCellStyle5
+        Me.Column3.HeaderText = "Stop Frequency (GHz)"
+        Me.Column3.Name = "Column3"
+        Me.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.Column3.ToolTipText = "Stop of the frequency limit"
+        Me.Column3.Width = 106
+        '
+        'Column4
+        '
+        DataGridViewCellStyle6.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.Column4.DefaultCellStyle = DataGridViewCellStyle6
+        Me.Column4.HeaderText = "Upper Limit (dB)"
+        Me.Column4.Name = "Column4"
+        Me.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.Column4.ToolTipText = "Maximum pass range"
+        Me.Column4.Width = 62
+        '
+        'Column5
+        '
+        DataGridViewCellStyle7.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
+        Me.Column5.DefaultCellStyle = DataGridViewCellStyle7
+        Me.Column5.HeaderText = "Lower Limit (dB)"
+        Me.Column5.Name = "Column5"
+        Me.Column5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.Column5.ToolTipText = "Minimum pass range"
+        Me.Column5.Width = 62
         '
         'Button1
         '
@@ -126,56 +176,6 @@ Partial Class Form3
         Me.Button4.Text = "Save Data"
         Me.Button4.UseSelectable = True
         '
-        'Column1
-        '
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
-        Me.Column1.DefaultCellStyle = DataGridViewCellStyle3
-        Me.Column1.HeaderText = "Search phrase"
-        Me.Column1.Name = "Column1"
-        Me.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.Column1.ToolTipText = "Check all series name that includes that phrase provided"
-        Me.Column1.Width = 82
-        '
-        'Column2
-        '
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
-        Me.Column2.DefaultCellStyle = DataGridViewCellStyle4
-        Me.Column2.HeaderText = "Start Frequency (GHz)"
-        Me.Column2.Name = "Column2"
-        Me.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.Column2.ToolTipText = "Start of the frequency limit"
-        Me.Column2.Width = 106
-        '
-        'Column3
-        '
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
-        Me.Column3.DefaultCellStyle = DataGridViewCellStyle5
-        Me.Column3.HeaderText = "Stop Frequency (GHz)"
-        Me.Column3.Name = "Column3"
-        Me.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.Column3.ToolTipText = "Stop of the frequency limit"
-        Me.Column3.Width = 106
-        '
-        'Column4
-        '
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
-        Me.Column4.DefaultCellStyle = DataGridViewCellStyle6
-        Me.Column4.HeaderText = "Upper Limit (dB)"
-        Me.Column4.Name = "Column4"
-        Me.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.Column4.ToolTipText = "Maximum pass range"
-        Me.Column4.Width = 62
-        '
-        'Column5
-        '
-        DataGridViewCellStyle7.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
-        Me.Column5.DefaultCellStyle = DataGridViewCellStyle7
-        Me.Column5.HeaderText = "Lower Limit (dB)"
-        Me.Column5.Name = "Column5"
-        Me.Column5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.Column5.ToolTipText = "Minimum pass range"
-        Me.Column5.Width = 62
-        '
         'Form3
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -192,7 +192,7 @@ Partial Class Form3
         Me.MinimumSize = New System.Drawing.Size(628, 347)
         Me.Name = "Form3"
         Me.Resizable = False
-        Me.Text = "Test Mode"
+        Me.Text = "Limit Test Mode"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

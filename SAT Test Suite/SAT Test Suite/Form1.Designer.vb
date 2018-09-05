@@ -343,7 +343,7 @@ Partial Class Form1
         '
         Me.TestModeToolStripMenuItem.Name = "TestModeToolStripMenuItem"
         Me.TestModeToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
-        Me.TestModeToolStripMenuItem.Text = "Test Mode"
+        Me.TestModeToolStripMenuItem.Text = "Limit Test Mode"
         '
         'ConnectivityToolStripMenuItem
         '
