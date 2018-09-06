@@ -31,3 +31,5 @@ C:\Users\arun.kumar\Desktop\TEST\gui\SAT Test Suite\SAT Test Suite\obj\x64\Debug
 C:\Users\arun.kumar\Desktop\TEST\gui\SAT Test Suite\SAT Test Suite\obj\x64\Debug\SAT Test Suite.vbproj.GenerateResource.Cache
 C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\obj\x64\Debug\SAT_Test_Suite.Form4.resources
 C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\obj\x64\Debug\SAT_Test_Suite.Form5.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\obj\x64\Debug\SAT_Test_Suite.Form6.resources
+C:\Users\arun.kumar\Desktop\git_show\gui\SAT Test Suite\SAT Test Suite\obj\x64\Debug\SAT_Test_Suite.Form7.resources

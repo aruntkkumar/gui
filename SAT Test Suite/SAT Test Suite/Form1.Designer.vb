@@ -63,6 +63,7 @@ Partial Class Form1
         Me.ImaginaryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripSeparator()
         Me.TestModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AverageTestModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConnectivityToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ScanMyDevicesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FirstDevice = New System.Windows.Forms.ToolStripMenuItem()
@@ -104,7 +105,7 @@ Partial Class Form1
         Me.label3.Name = "label3"
         Me.label3.Size = New System.Drawing.Size(46, 15)
         Me.label3.TabIndex = 16
-        Me.label3.Text = "Ver. 4.0"
+        Me.label3.Text = "Ver. 4.1"
         '
         'Chart1
         '
@@ -199,7 +200,7 @@ Partial Class Form1
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddMarkerToolStripMenuItem, Me.ComparisonModeToolStripMenuItem, Me.ToolStripMenuItem4, Me.ClearSelectedMarkerToolStripMenuItem, Me.ClearAllMarkersToolStripMenuItem, Me.ClearChartAreaToolStripMenuItem, Me.ToolStripMenuItem3, Me.OptionsToolStripMenuItem, Me.ToolStripMenuItem5, Me.ChartTypeToolStripMenuItem, Me.ToolStripMenuItem6, Me.TestModeToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddMarkerToolStripMenuItem, Me.ComparisonModeToolStripMenuItem, Me.ToolStripMenuItem4, Me.ClearSelectedMarkerToolStripMenuItem, Me.ClearAllMarkersToolStripMenuItem, Me.ClearChartAreaToolStripMenuItem, Me.ToolStripMenuItem3, Me.OptionsToolStripMenuItem, Me.ToolStripMenuItem5, Me.ChartTypeToolStripMenuItem, Me.ToolStripMenuItem6, Me.TestModeToolStripMenuItem, Me.AverageTestModeToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
@@ -344,6 +345,12 @@ Partial Class Form1
         Me.TestModeToolStripMenuItem.Name = "TestModeToolStripMenuItem"
         Me.TestModeToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
         Me.TestModeToolStripMenuItem.Text = "Limit Test Mode"
+        '
+        'AverageTestModeToolStripMenuItem
+        '
+        Me.AverageTestModeToolStripMenuItem.Name = "AverageTestModeToolStripMenuItem"
+        Me.AverageTestModeToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.AverageTestModeToolStripMenuItem.Text = "Average Test Mode"
         '
         'ConnectivityToolStripMenuItem
         '
@@ -550,4 +557,5 @@ Partial Class Form1
     Private WithEvents Label1 As Label
     Friend WithEvents ToolStripMenuItem6 As ToolStripSeparator
     Friend WithEvents TestModeToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AverageTestModeToolStripMenuItem As ToolStripMenuItem
 End Class

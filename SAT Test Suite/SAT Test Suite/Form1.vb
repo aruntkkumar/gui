@@ -90,11 +90,13 @@ Public Class Form1
     Dim firsttime As Boolean = True
     Dim livemarkername(-1) As String
     Dim livemarkerlocation(-1) As Integer
-    Dim b As String
-    Dim d As Integer
+    'Dim b As String
+    Dim num As Integer
     Dim filename As String
     Dim yvalue As Double = 0.0
     Dim devicetimedate As String = ""
+    Dim foundstart As Boolean = False
+    Dim foundstop As Boolean = False
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'AddToolStripMenuItem.Enabled = False
@@ -4583,44 +4585,46 @@ Endfilename:
         If GlobalVariables.Markertraceindex <> -1 Then
             If GlobalVariables.Markertrace = "ALL" Then
                 For i As Integer = 0 To GlobalVariables.seriesnames.Length - 1
-                    Dim Datapoint As DataPoint = Nothing
-                    Dim j As Integer = 0
-                    For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(i)).Points
-                        Datapoint = pt
-                        If pt.XValue >= GlobalVariables.Markerfreq Then
-                            Exit For
-                        End If
-                        j += 1
-                    Next
-                    For a As Integer = 0 To checkboxnum - 1
-                        If seriesname(a) = GlobalVariables.seriesnames(i) AndAlso seriespointindex(a) = j Then
-                            GoTo NextValue
-                        End If
-                    Next
-
-                    If checkboxnum > 50 Then
-                        checkboxnum = 1
-                        CheckedListBox1.Items.Clear()
-                        For k As Integer = 0 To 49
-                            Chart1.Series(seriesname(k)).Points.Item(seriespointindex(k)).Label = ""
-                            Chart1.Series(seriesname(k)).Points.Item(seriespointindex(k)).MarkerStyle = MarkerStyle.None
+                    If GlobalVariables.series(i) = 1 Then
+                        Dim Datapoint As DataPoint = Nothing
+                        Dim j As Integer = 0
+                        For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(i)).Points
+                            Datapoint = pt
+                            If pt.XValue >= GlobalVariables.Markerfreq Then
+                                Exit For
+                            End If
+                            j += 1
                         Next
-                        ClearAllMarkersToolStripMenuItem.Enabled = False
-                    End If
-                    RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-                    CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(Datapoint.XValue, 3) & ", Y=" & Math.Round(Datapoint.YValues(0), 3), isChecked:=True)
-                    AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
-                    Datapoint.Label = checkboxnum
-                    Datapoint.MarkerStyle = MarkerStyle.Triangle
-                    Datapoint.MarkerSize = 10
-                    Datapoint.MarkerColor = Chart1.Series(GlobalVariables.seriesnames(i)).Color
-                    seriesname(checkboxnum - 1) = GlobalVariables.seriesnames(i)
-                    seriespointindex(checkboxnum - 1) = j
-                    ClearAllMarkersToolStripMenuItem.Enabled = True
-                    checkboxnum += 1
-                    prevxval = Datapoint.XValue
-                    prevyval = Datapoint.YValues(0)
+                        For a As Integer = 0 To checkboxnum - 1
+                            If seriesname(a) = GlobalVariables.seriesnames(i) AndAlso seriespointindex(a) = j Then
+                                GoTo NextValue
+                            End If
+                        Next
+
+                        If checkboxnum > 50 Then
+                            checkboxnum = 1
+                            CheckedListBox1.Items.Clear()
+                            For k As Integer = 0 To 49
+                                Chart1.Series(seriesname(k)).Points.Item(seriespointindex(k)).Label = ""
+                                Chart1.Series(seriesname(k)).Points.Item(seriespointindex(k)).MarkerStyle = MarkerStyle.None
+                            Next
+                            ClearAllMarkersToolStripMenuItem.Enabled = False
+                        End If
+                        RemoveHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                        CheckedListBox1.Items.Add(checkboxnum & ". X=" & Math.Round(Datapoint.XValue, 3) & ", Y=" & Math.Round(Datapoint.YValues(0), 3), isChecked:=True)
+                        AddHandler CheckedListBox1.ItemCheck, AddressOf CheckedListBox1_ItemCheck
+                        Datapoint.Label = checkboxnum
+                        Datapoint.MarkerStyle = MarkerStyle.Triangle
+                        Datapoint.MarkerSize = 10
+                        Datapoint.MarkerColor = Chart1.Series(GlobalVariables.seriesnames(i)).Color
+                        seriesname(checkboxnum - 1) = GlobalVariables.seriesnames(i)
+                        seriespointindex(checkboxnum - 1) = j
+                        ClearAllMarkersToolStripMenuItem.Enabled = True
+                        checkboxnum += 1
+                        prevxval = Datapoint.XValue
+                        prevyval = Datapoint.YValues(0)
 NextValue:
+                    End If
                 Next
             Else
                 Dim Datapoint As DataPoint = Nothing
@@ -4980,11 +4984,85 @@ Checknextfilename2:
                                     Next
                                 End If
                             End If
-                            End If
+                        End If
                     End If
                 Next
             Next
             Form5.ShowDialog()
+        End If
+    End Sub
+
+    Private Sub AverageTestModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AverageTestModeToolStripMenuItem.Click
+        GlobalVariables.okbutton = "cancel"
+        Form6.ShowDialog()
+        If GlobalVariables.okbutton = "ok" Then
+            GlobalVariables.dt = New Data.DataTable
+            GlobalVariables.dt.Columns.AddRange(New DataColumn() {New DataColumn("Search phrase", GetType(String)), New DataColumn("File Name", GetType(String)), New DataColumn("Series Name", GetType(String)), New DataColumn("Start Frequency (GHz)", GetType(Double)), New DataColumn("Stop Frequency (GHz)", GetType(Double)), New DataColumn("Average Value", GetType(Double))})
+            For j As Integer = 0 To GlobalVariables.seriesnames.Length - 1
+                For i As Integer = 0 To GlobalVariables.avgteststring.Length - 1
+                    If GlobalVariables.seriesnames(j).ToLower.Contains(GlobalVariables.avgteststring(i).ToLower) Then
+                        If (GlobalVariables.avgtestxaxisstart(i) >= Chart1.Series(GlobalVariables.seriesnames(j)).Points.First.XValue) AndAlso (GlobalVariables.avgtestxaxisstart(i) <= Chart1.Series(GlobalVariables.seriesnames(j)).Points.Last.XValue) Then
+                            Dim pt1 As New DataPoint
+                            Dim pt2 As New DataPoint
+                            yvalue = 0.0
+                            num = 0
+                            foundstart = False
+                            foundstop = False
+                            For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
+                                If pt.XValue > GlobalVariables.avgtestxaxisstop(i) Then    'If higher than the stop frequency value, Exit For
+                                    Exit For
+                                ElseIf pt.XValue >= GlobalVariables.avgtestxaxisstart(i) Then
+                                    'yvalue += Math.Pow(10, pt.YValues(0) / 20)
+                                    yvalue += pt.YValues(0)
+                                    num += 1
+                                    If pt.XValue = GlobalVariables.avgtestxaxisstart(i) Then
+                                        foundstart = True
+                                    End If
+                                    If pt.XValue = GlobalVariables.avgtestxaxisstop(i) Then
+                                        foundstop = True
+                                    End If
+                                End If
+                            Next
+                            If foundstart = False Then
+                                pt1 = Nothing
+                                pt2 = Nothing
+                                For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
+                                    If pt.XValue > GlobalVariables.avgtestxaxisstart(i) Then
+                                        pt2 = pt
+                                        Exit For
+                                    End If
+                                    pt1 = pt
+                                Next
+                                'yvalue += Math.Pow(10, (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue) * GlobalVariables.avgtestxaxisstart(i)) + (pt2.YValues(0) - (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue)) * pt2.XValue))) / 20)
+                                yvalue += (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue) * GlobalVariables.avgtestxaxisstart(i)) + (pt2.YValues(0) - (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue)) * pt2.XValue)))
+                                num += 1
+                            End If
+                            If foundstop = False Then
+                                pt1 = Nothing
+                                pt2 = Nothing
+                                For Each pt As DataPoint In Chart1.Series(GlobalVariables.seriesnames(j)).Points
+                                    If pt.XValue > GlobalVariables.avgtestxaxisstop(i) Then
+                                        pt2 = pt
+                                        Exit For
+                                    End If
+                                    pt1 = pt
+                                Next
+                                'yvalue += Math.Pow(10, (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue) * GlobalVariables.avgtestxaxisstop(i)) + (pt2.YValues(0) - (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue)) * pt2.XValue))) / 20)
+                                yvalue += (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue) * GlobalVariables.avgtestxaxisstop(i)) + (pt2.YValues(0) - (((pt2.YValues(0) - pt1.YValues(0)) / (pt2.XValue - pt1.XValue)) * pt2.XValue)))
+                                num += 1
+                            End If
+                            If (GlobalVariables.seriesnames(j).Split("#"c).Last()) <> GlobalVariables.seriesnames(j) Then
+                                'GlobalVariables.dt.Rows.Add(GlobalVariables.avgteststring(i), TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.avgtestxaxisstart(i), GlobalVariables.avgtestxaxisstop(i), Math.Round((20 * Math.Log10(yvalue / num)), 3))
+                                GlobalVariables.dt.Rows.Add(GlobalVariables.avgteststring(i), TextBox1.Lines(CInt(GlobalVariables.seriesnames(j).Split("#"c).Last()).ToString - 1).Split("\"c).Last(), GlobalVariables.seriesnames(j), GlobalVariables.avgtestxaxisstart(i), GlobalVariables.avgtestxaxisstop(i), Math.Round((yvalue / num), 3))
+                            Else
+                                'GlobalVariables.dt.Rows.Add(GlobalVariables.avgteststring(i), devicetimedate, GlobalVariables.seriesnames(j), GlobalVariables.avgtestxaxisstart(i), GlobalVariables.avgtestxaxisstop(i), Math.Round((20 * Math.Log10(yvalue / num)), 3))
+                                GlobalVariables.dt.Rows.Add(GlobalVariables.avgteststring(i), devicetimedate, GlobalVariables.seriesnames(j), GlobalVariables.avgtestxaxisstart(i), GlobalVariables.avgtestxaxisstop(i), Math.Round((yvalue / num), 3))
+                            End If
+                        End If
+                    End If
+                Next
+            Next
+            Form7.ShowDialog()
         End If
     End Sub
 
@@ -5055,6 +5133,9 @@ Public Class GlobalVariables
     Public Shared upperlimit() As Double
     Public Shared lowerlimit() As Double
     Public Shared dt As System.Data.DataTable
+    Public Shared avgteststring() As String
+    Public Shared avgtestxaxisstop() As Double
+    Public Shared avgtestxaxisstart() As Double
 
 End Class
 

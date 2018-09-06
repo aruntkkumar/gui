@@ -3,7 +3,7 @@ Imports System.IO
 Imports Excel
 
 Public Class Form3
-    Dim DisplayPoint1 As Point
+    'Dim DisplayPoint1 As Point
     Dim flag As Integer = 0
     Dim test As Double = 0.0
     Dim dialog1 As OpenFileDialog = New OpenFileDialog()
@@ -186,7 +186,7 @@ Public Class Form3
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Try
-            dialog1.Title = "Load Data"
+            dialog1.Title = "Load Limit Data"
             dialog1.Multiselect = False
             dialog1.Filter = "Excel Workbook (*.xlsx)|*.xlsx|Excel 97-2003 Workbook (*.xls)|*.xls"
             dialog1.FilterIndex = 1
@@ -261,7 +261,7 @@ Public Class Form3
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         Try
             If DataGridView1.RowCount > 1 Then
-                dialog2.Title = "Save Data"
+                dialog2.Title = "Save Limit Data"
                 dialog2.Filter = "Excel Workbook (*.xlsx)|*.xlsx"
                 dialog2.FilterIndex = 1
                 dialog2.RestoreDirectory = True

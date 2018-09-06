@@ -50,7 +50,7 @@ Public Class Form5
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         Try
             If DataGridView2.RowCount > 1 Then
-                dialog2.Title = "Save Data"
+                dialog2.Title = "Save Limit Data"
                 dialog2.Filter = "Excel Workbook (*.xlsx)|*.xlsx"
                 dialog2.FilterIndex = 1
                 dialog2.RestoreDirectory = True
