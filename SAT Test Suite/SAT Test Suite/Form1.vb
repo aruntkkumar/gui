@@ -3345,6 +3345,18 @@ Endfilename:
                     FirstDevice.Checked = True
                     AddMarker()
                 End If
+                Try
+                    instrument.IO.Close()
+                Catch eb As Exception
+                End Try
+                Try
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
+                Catch ec As Exception
+                End Try
+                Try
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
+                Catch ed As Exception
+                End Try
             Catch ex As Exception
                 If ex.Message.Contains("HRESULT") Then  'Previous value was If ex.Message = "HRESULT = 80040000" Then
                     MetroFramework.MetroMessageBox.Show(Me, "Error while connecting to Agilent N5230A NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -3879,6 +3891,19 @@ Endfilename:
                     SecondDevice.Checked = True
                     AddMarker()
                 End If
+                'Finally
+                Try
+                    instrument.IO.Close()
+                Catch eb As Exception
+                End Try
+                Try
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
+                Catch ec As Exception
+                End Try
+                Try
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
+                Catch ed As Exception
+                End Try
             Catch ex As Exception
                 If ex.Message.Contains("HRESULT") Then  'Previous value was If ex.Message = "HRESULT = 80040011" Then
                     MetroFramework.MetroMessageBox.Show(Me, "Error while connecting to Rohde && Schwarz ZVL6 NA. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -4252,6 +4277,19 @@ Endfilename:
                     ThirdDevice.Checked = True
                     AddMarker()
                 End If
+                'Finally
+                Try
+                    instrument.IO.Close()
+                Catch eb As Exception
+                End Try
+                Try
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(instrument)
+                Catch ec As Exception
+                End Try
+                Try
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(ioMgr)
+                Catch ed As Exception
+                End Try
             Catch ex As Exception
                 If ex.Message.Contains("HRESULT") Then  'Previous value was If ex.Message = "HRESULT = 80040011" Then
                     MetroFramework.MetroMessageBox.Show(Me, "Error while connecting to Keysight E5071C ENA Vector Network Analyzer. Please check if the device is available and connected to the network.", "Connectivity Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
