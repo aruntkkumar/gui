@@ -59,6 +59,7 @@
         Me.Size = New Size(406, 205)
         textBox1.Text = ""
         textBox2.Text = ""
+        textBox1.Select()
     End Sub
 
     Private Sub Form7_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing

@@ -593,7 +593,7 @@ Partial Class Form4
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(459, 14)
         Me.Label17.TabIndex = 68
-        Me.Label17.Text = "Copyright © 2013-2016 SMART ANTENNA TECHNOLOGIES LIMITED. All Rights Reserved."
+        Me.Label17.Text = "Copyright © 2013-2018 SMART ANTENNA TECHNOLOGIES LIMITED. All Rights Reserved."
         '
         'PictureBox1
         '

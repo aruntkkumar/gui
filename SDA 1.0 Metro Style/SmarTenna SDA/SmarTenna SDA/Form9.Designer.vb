@@ -77,6 +77,12 @@ Partial Class Form9
         Me.MyDevicesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PINGPIOToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SCOUTSC4410ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ConfigurationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TypeASSCCXM3664XRToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TypeBSP4TCXA4447GToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
@@ -97,6 +103,9 @@ Partial Class Form9
         Me.ComboBox7 = New MetroFramework.Controls.MetroComboBox()
         Me.ComboBox8 = New MetroFramework.Controls.MetroComboBox()
         Me.TextBox3 = New MetroFramework.Controls.MetroTextBox()
+        Me.Label23 = New MetroFramework.Controls.MetroLabel()
+        Me.ComboBox13 = New MetroFramework.Controls.MetroComboBox()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -108,9 +117,9 @@ Partial Class Form9
         Me.RichTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.RichTextBox1.Font = New System.Drawing.Font("Consolas", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RichTextBox1.ForeColor = System.Drawing.SystemColors.Window
-        Me.RichTextBox1.Location = New System.Drawing.Point(591, 273)
+        Me.RichTextBox1.Location = New System.Drawing.Point(591, 139)
         Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.Size = New System.Drawing.Size(273, 335)
+        Me.RichTextBox1.Size = New System.Drawing.Size(273, 426)
         Me.RichTextBox1.TabIndex = 115
         Me.RichTextBox1.Text = ""
         '
@@ -118,7 +127,7 @@ Partial Class Form9
         '
         Me.RadioButton3.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton3.AutoSize = True
-        Me.RadioButton3.Location = New System.Drawing.Point(523, 179)
+        Me.RadioButton3.Location = New System.Drawing.Point(523, 105)
         Me.RadioButton3.Name = "RadioButton3"
         Me.RadioButton3.Size = New System.Drawing.Size(26, 15)
         Me.RadioButton3.TabIndex = 114
@@ -129,7 +138,7 @@ Partial Class Form9
         '
         Me.Label18.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(470, 176)
+        Me.Label18.Location = New System.Drawing.Point(470, 102)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(47, 19)
         Me.Label18.TabIndex = 113
@@ -139,7 +148,7 @@ Partial Class Form9
         '
         Me.Label14.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(591, 238)
+        Me.Label14.Location = New System.Drawing.Point(591, 102)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(99, 19)
         Me.Label14.TabIndex = 112
@@ -149,7 +158,7 @@ Partial Class Form9
         '
         Me.RadioButton2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton2.AutoSize = True
-        Me.RadioButton2.Location = New System.Drawing.Point(420, 179)
+        Me.RadioButton2.Location = New System.Drawing.Point(420, 105)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(26, 15)
         Me.RadioButton2.TabIndex = 111
@@ -160,7 +169,7 @@ Partial Class Form9
         '
         Me.RadioButton1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.RadioButton1.AutoSize = True
-        Me.RadioButton1.Location = New System.Drawing.Point(326, 179)
+        Me.RadioButton1.Location = New System.Drawing.Point(326, 105)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(26, 15)
         Me.RadioButton1.TabIndex = 110
@@ -171,7 +180,7 @@ Partial Class Form9
         '
         Me.Label13.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(376, 176)
+        Me.Label13.Location = New System.Drawing.Point(376, 102)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(38, 19)
         Me.Label13.TabIndex = 109
@@ -181,7 +190,7 @@ Partial Class Form9
         '
         Me.Label12.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(273, 176)
+        Me.Label12.Location = New System.Drawing.Point(273, 102)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(47, 19)
         Me.Label12.TabIndex = 108
@@ -194,18 +203,18 @@ Partial Class Form9
         Me.Label17.BackColor = System.Drawing.Color.Transparent
         Me.Label17.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World, CType(0, Byte))
         Me.Label17.ForeColor = System.Drawing.Color.FromArgb(CType(CType(4, Byte), Integer), CType(CType(37, Byte), Integer), CType(CType(84, Byte), Integer))
-        Me.Label17.Location = New System.Drawing.Point(494, 693)
+        Me.Label17.Location = New System.Drawing.Point(494, 666)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(459, 14)
         Me.Label17.TabIndex = 107
-        Me.Label17.Text = "Copyright © 2013-2016 SMART ANTENNA TECHNOLOGIES LIMITED. All Rights Reserved."
+        Me.Label17.Text = "Copyright © 2013-2018 SMART ANTENNA TECHNOLOGIES LIMITED. All Rights Reserved."
         '
         'PictureBox1
         '
         Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PictureBox1.Cursor = System.Windows.Forms.Cursors.Hand
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(862, 641)
+        Me.PictureBox1.Location = New System.Drawing.Point(862, 614)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(94, 49)
         Me.PictureBox1.TabIndex = 106
@@ -247,14 +256,14 @@ Partial Class Form9
         Me.Label1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label1.Size = New System.Drawing.Size(80, 14)
         Me.Label1.TabIndex = 103
-        Me.Label1.Text = "Build VER: 1.0"
+        Me.Label1.Text = "Build VER: 2.0"
         '
         'Button6
         '
         Me.Button6.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button6.DisplayFocus = True
         Me.Button6.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button6.Location = New System.Drawing.Point(591, 632)
+        Me.Button6.Location = New System.Drawing.Point(591, 586)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(119, 38)
         Me.Button6.TabIndex = 102
@@ -266,43 +275,46 @@ Partial Class Form9
         Me.Button5.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button5.DisplayFocus = True
         Me.Button5.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button5.Location = New System.Drawing.Point(591, 176)
+        Me.Button5.Location = New System.Drawing.Point(345, 639)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(119, 38)
         Me.Button5.TabIndex = 101
         Me.Button5.Text = "Set Comm"
         Me.Button5.UseSelectable = True
+        Me.Button5.Visible = False
         '
         'Button4
         '
         Me.Button4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button4.DisplayFocus = True
         Me.Button4.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button4.Location = New System.Drawing.Point(745, 102)
+        Me.Button4.Location = New System.Drawing.Point(220, 639)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(119, 38)
         Me.Button4.TabIndex = 100
         Me.Button4.Text = "Close"
         Me.Button4.UseSelectable = True
+        Me.Button4.Visible = False
         '
         'Button3
         '
         Me.Button3.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button3.DisplayFocus = True
         Me.Button3.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button3.Location = New System.Drawing.Point(591, 102)
+        Me.Button3.Location = New System.Drawing.Point(95, 639)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(119, 38)
         Me.Button3.TabIndex = 99
         Me.Button3.Text = "Open"
         Me.Button3.UseSelectable = True
+        Me.Button3.Visible = False
         '
         'Button2
         '
         Me.Button2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button2.DisplayFocus = True
         Me.Button2.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button2.Location = New System.Drawing.Point(273, 632)
+        Me.Button2.Location = New System.Drawing.Point(273, 586)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(119, 38)
         Me.Button2.TabIndex = 98
@@ -314,7 +326,7 @@ Partial Class Form9
         Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button1.DisplayFocus = True
         Me.Button1.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button1.Location = New System.Drawing.Point(95, 632)
+        Me.Button1.Location = New System.Drawing.Point(95, 586)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(119, 38)
         Me.Button1.TabIndex = 97
@@ -325,7 +337,7 @@ Partial Class Form9
         '
         Me.Label8.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(95, 583)
+        Me.Label8.Location = New System.Drawing.Point(95, 540)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(81, 19)
         Me.Label8.TabIndex = 96
@@ -335,7 +347,7 @@ Partial Class Form9
         '
         Me.Label7.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(95, 398)
+        Me.Label7.Location = New System.Drawing.Point(95, 324)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(94, 19)
         Me.Label7.TabIndex = 95
@@ -345,7 +357,7 @@ Partial Class Form9
         '
         Me.Label6.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(95, 361)
+        Me.Label6.Location = New System.Drawing.Point(95, 287)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(94, 19)
         Me.Label6.TabIndex = 94
@@ -355,7 +367,7 @@ Partial Class Form9
         '
         Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(95, 324)
+        Me.Label5.Location = New System.Drawing.Point(95, 250)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(94, 19)
         Me.Label5.TabIndex = 93
@@ -365,7 +377,7 @@ Partial Class Form9
         '
         Me.Label16.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(95, 287)
+        Me.Label16.Location = New System.Drawing.Point(95, 213)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(94, 19)
         Me.Label16.TabIndex = 92
@@ -375,7 +387,7 @@ Partial Class Form9
         '
         Me.Label9.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(95, 250)
+        Me.Label9.Location = New System.Drawing.Point(95, 176)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(81, 19)
         Me.Label9.TabIndex = 91
@@ -385,17 +397,17 @@ Partial Class Form9
         '
         Me.Label10.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(95, 213)
+        Me.Label10.Location = New System.Drawing.Point(95, 139)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(91, 19)
+        Me.Label10.Size = New System.Drawing.Size(133, 19)
         Me.Label10.TabIndex = 90
-        Me.Label10.Text = "Slave address:"
+        Me.Label10.Text = "Device Slave address:"
         '
         'Label11
         '
         Me.Label11.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(95, 176)
+        Me.Label11.Location = New System.Drawing.Point(95, 102)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(85, 19)
         Me.Label11.TabIndex = 89
@@ -405,21 +417,23 @@ Partial Class Form9
         '
         Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(95, 139)
+        Me.Label4.Location = New System.Drawing.Point(470, 644)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(72, 19)
         Me.Label4.TabIndex = 88
         Me.Label4.Text = "Baud Rate:"
+        Me.Label4.Visible = False
         '
         'Label15
         '
         Me.Label15.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(95, 102)
+        Me.Label15.Location = New System.Drawing.Point(470, 625)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(82, 19)
         Me.Label15.TabIndex = 87
         Me.Label15.Text = "Comm Port:"
+        Me.Label15.Visible = False
         '
         'ComboBox12
         '
@@ -428,7 +442,7 @@ Partial Class Form9
         Me.ComboBox12.FormattingEnabled = True
         Me.ComboBox12.ItemHeight = 19
         Me.ComboBox12.Items.AddRange(New Object() {"SP2T", "SP3T", "SP4T", "SP5T", "SP6T", "SP7T", "SP8T"})
-        Me.ComboBox12.Location = New System.Drawing.Point(273, 398)
+        Me.ComboBox12.Location = New System.Drawing.Point(273, 324)
         Me.ComboBox12.MaxDropDownItems = 20
         Me.ComboBox12.Name = "ComboBox12"
         Me.ComboBox12.PromptText = "Switch Type"
@@ -443,7 +457,7 @@ Partial Class Form9
         Me.ComboBox11.FormattingEnabled = True
         Me.ComboBox11.ItemHeight = 19
         Me.ComboBox11.Items.AddRange(New Object() {"SP2T", "SP3T", "SP4T", "SP5T", "SP6T", "SP7T", "SP8T"})
-        Me.ComboBox11.Location = New System.Drawing.Point(273, 361)
+        Me.ComboBox11.Location = New System.Drawing.Point(273, 287)
         Me.ComboBox11.MaxDropDownItems = 20
         Me.ComboBox11.Name = "ComboBox11"
         Me.ComboBox11.PromptText = "Switch Type"
@@ -458,7 +472,7 @@ Partial Class Form9
         Me.ComboBox10.FormattingEnabled = True
         Me.ComboBox10.ItemHeight = 19
         Me.ComboBox10.Items.AddRange(New Object() {"SP2T", "SP3T", "SP4T", "SP5T", "SP6T", "SP7T", "SP8T"})
-        Me.ComboBox10.Location = New System.Drawing.Point(273, 324)
+        Me.ComboBox10.Location = New System.Drawing.Point(273, 250)
         Me.ComboBox10.MaxDropDownItems = 20
         Me.ComboBox10.Name = "ComboBox10"
         Me.ComboBox10.PromptText = "Switch Type"
@@ -479,7 +493,7 @@ Partial Class Form9
         Me.ComboBox4.FormattingEnabled = True
         Me.ComboBox4.ItemHeight = 19
         Me.ComboBox4.Items.AddRange(New Object() {"OFF/External", "1.2", "1.8"})
-        Me.ComboBox4.Location = New System.Drawing.Point(273, 250)
+        Me.ComboBox4.Location = New System.Drawing.Point(273, 176)
         Me.ComboBox4.MaxDropDownItems = 20
         Me.ComboBox4.Name = "ComboBox4"
         Me.ComboBox4.Size = New System.Drawing.Size(265, 25)
@@ -493,7 +507,7 @@ Partial Class Form9
         Me.ComboBox3.FormattingEnabled = True
         Me.ComboBox3.ItemHeight = 19
         Me.ComboBox3.Items.AddRange(New Object() {"1 (ADR = Low); LM8335", "9 (ADR = High); LM8335", "6 (UID = Low); SONY CXM3664XR", "7 (UID - High); SONY CXM3664XR"})
-        Me.ComboBox3.Location = New System.Drawing.Point(273, 213)
+        Me.ComboBox3.Location = New System.Drawing.Point(273, 139)
         Me.ComboBox3.MaxDropDownItems = 20
         Me.ComboBox3.Name = "ComboBox3"
         Me.ComboBox3.Size = New System.Drawing.Size(265, 25)
@@ -507,12 +521,13 @@ Partial Class Form9
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.ItemHeight = 19
         Me.ComboBox2.Items.AddRange(New Object() {"256000", "128000", "115200", "57600", "38400", "28800", "19200", "14400", "9600", "4800", "2400", "1200", "600"})
-        Me.ComboBox2.Location = New System.Drawing.Point(273, 139)
+        Me.ComboBox2.Location = New System.Drawing.Point(558, 644)
         Me.ComboBox2.MaxDropDownItems = 20
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(265, 25)
         Me.ComboBox2.TabIndex = 79
         Me.ComboBox2.UseSelectable = True
+        Me.ComboBox2.Visible = False
         '
         'ComboBox1
         '
@@ -520,12 +535,13 @@ Partial Class Form9
         Me.ComboBox1.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.ItemHeight = 19
-        Me.ComboBox1.Location = New System.Drawing.Point(273, 102)
+        Me.ComboBox1.Location = New System.Drawing.Point(558, 619)
         Me.ComboBox1.MaxDropDownItems = 20
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(265, 25)
         Me.ComboBox1.TabIndex = 78
         Me.ComboBox1.UseSelectable = True
+        Me.ComboBox1.Visible = False
         '
         'ComboBox9
         '
@@ -534,7 +550,7 @@ Partial Class Form9
         Me.ComboBox9.FormattingEnabled = True
         Me.ComboBox9.ItemHeight = 19
         Me.ComboBox9.Items.AddRange(New Object() {"SP2T", "SP3T", "SP4T", "SP5T", "SP6T", "SP7T", "SP8T"})
-        Me.ComboBox9.Location = New System.Drawing.Point(273, 287)
+        Me.ComboBox9.Location = New System.Drawing.Point(273, 213)
         Me.ComboBox9.MaxDropDownItems = 20
         Me.ComboBox9.Name = "ComboBox9"
         Me.ComboBox9.PromptText = "Switch Type"
@@ -589,11 +605,12 @@ Partial Class Form9
         Me.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem"
         Me.ViewToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
         Me.ViewToolStripMenuItem.Text = "View"
+        Me.ViewToolStripMenuItem.Visible = False
         '
         'FullScreenToolStripMenuItem
         '
         Me.FullScreenToolStripMenuItem.Name = "FullScreenToolStripMenuItem"
-        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
+        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FullScreenToolStripMenuItem.Text = "Full Screen"
         '
         'ToolsToolStripMenuItem
@@ -605,7 +622,7 @@ Partial Class Form9
         '
         'OptionsToolStripMenuItem
         '
-        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MyDevicesToolStripMenuItem})
+        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MyDevicesToolStripMenuItem, Me.ConfigurationToolStripMenuItem})
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
@@ -614,7 +631,7 @@ Partial Class Form9
         '
         Me.MyDevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PINGPIOToolStripMenuItem, Me.SCOUTSC4410ToolStripMenuItem})
         Me.MyDevicesToolStripMenuItem.Name = "MyDevicesToolStripMenuItem"
-        Me.MyDevicesToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.MyDevicesToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.MyDevicesToolStripMenuItem.Text = "My Devices"
         '
         'PINGPIOToolStripMenuItem
@@ -628,6 +645,43 @@ Partial Class Form9
         Me.SCOUTSC4410ToolStripMenuItem.Name = "SCOUTSC4410ToolStripMenuItem"
         Me.SCOUTSC4410ToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
         Me.SCOUTSC4410ToolStripMenuItem.Text = "SCOUT SC4410"
+        '
+        'ConfigurationToolStripMenuItem
+        '
+        Me.ConfigurationToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TypeASSCCXM3664XRToolStripMenuItem, Me.TypeBSP4TCXA4447GToolStripMenuItem, Me.TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem, Me.TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem, Me.TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem})
+        Me.ConfigurationToolStripMenuItem.Name = "ConfigurationToolStripMenuItem"
+        Me.ConfigurationToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
+        Me.ConfigurationToolStripMenuItem.Text = "Configuration"
+        '
+        'TypeASSCCXM3664XRToolStripMenuItem
+        '
+        Me.TypeASSCCXM3664XRToolStripMenuItem.Name = "TypeASSCCXM3664XRToolStripMenuItem"
+        Me.TypeASSCCXM3664XRToolStripMenuItem.Size = New System.Drawing.Size(499, 22)
+        Me.TypeASSCCXM3664XRToolStripMenuItem.Text = "Type A: SSC CXM3664XR (Main && Aux UID - Low)"
+        '
+        'TypeBSP4TCXA4447GToolStripMenuItem
+        '
+        Me.TypeBSP4TCXA4447GToolStripMenuItem.Name = "TypeBSP4TCXA4447GToolStripMenuItem"
+        Me.TypeBSP4TCXA4447GToolStripMenuItem.Size = New System.Drawing.Size(499, 22)
+        Me.TypeBSP4TCXA4447GToolStripMenuItem.Text = "Type B: SP4T CXA4447GC"
+        '
+        'TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem
+        '
+        Me.TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Name = "TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem"
+        Me.TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Size = New System.Drawing.Size(499, 22)
+        Me.TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Text = "Type C: 4-bit SSC && SPDT CXA4405GC (Main && Aux UID - Low)"
+        '
+        'TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem
+        '
+        Me.TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Name = "TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem"
+        Me.TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Size = New System.Drawing.Size(499, 22)
+        Me.TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Text = "Type D: SP4T CXA4484GC && SPDT CXA4405GC (Main IDO - High, Aux IDO - Low)"
+        '
+        'TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem
+        '
+        Me.TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Name = "TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem"
+        Me.TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Size = New System.Drawing.Size(499, 22)
+        Me.TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Text = "Type E: SP4T CXA4484XR && SPDT CXA4405GC (Main IDO - High, Aux IDO - Low)"
         '
         'HelpToolStripMenuItem
         '
@@ -659,7 +713,7 @@ Partial Class Form9
         Me.Button7.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button7.DisplayFocus = True
         Me.Button7.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button7.Location = New System.Drawing.Point(334, 435)
+        Me.Button7.Location = New System.Drawing.Point(360, 398)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(69, 25)
         Me.Button7.TabIndex = 117
@@ -673,7 +727,7 @@ Partial Class Form9
         '
         '
         Me.TextBox1.CustomButton.Image = Nothing
-        Me.TextBox1.CustomButton.Location = New System.Drawing.Point(23, 1)
+        Me.TextBox1.CustomButton.Location = New System.Drawing.Point(42, 1)
         Me.TextBox1.CustomButton.Name = ""
         Me.TextBox1.CustomButton.Size = New System.Drawing.Size(23, 23)
         Me.TextBox1.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
@@ -682,7 +736,7 @@ Partial Class Form9
         Me.TextBox1.CustomButton.UseSelectable = True
         Me.TextBox1.CustomButton.Visible = False
         Me.TextBox1.Lines = New String(-1) {}
-        Me.TextBox1.Location = New System.Drawing.Point(273, 435)
+        Me.TextBox1.Location = New System.Drawing.Point(273, 398)
         Me.TextBox1.MaxLength = 32767
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -690,10 +744,10 @@ Partial Class Form9
         Me.TextBox1.SelectedText = ""
         Me.TextBox1.SelectionLength = 0
         Me.TextBox1.SelectionStart = 0
-        Me.TextBox1.Size = New System.Drawing.Size(47, 25)
+        Me.TextBox1.Size = New System.Drawing.Size(66, 25)
         Me.TextBox1.TabIndex = 118
         Me.TextBox1.UseSelectable = True
-        Me.TextBox1.WaterMark = "0 to 64"
+        Me.TextBox1.WaterMark = "0 to 64, 96"
         Me.TextBox1.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.TextBox1.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
         '
@@ -702,26 +756,26 @@ Partial Class Form9
         Me.ListBox1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ListBox1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ListBox1.FormattingEnabled = True
-        Me.ListBox1.Location = New System.Drawing.Point(419, 435)
+        Me.ListBox1.Location = New System.Drawing.Point(452, 398)
         Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(119, 43)
+        Me.ListBox1.Size = New System.Drawing.Size(87, 56)
         Me.ListBox1.TabIndex = 119
         '
         'Label19
         '
         Me.Label19.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(95, 435)
+        Me.Label19.Location = New System.Drawing.Point(95, 398)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(71, 19)
+        Me.Label19.Size = New System.Drawing.Size(107, 19)
         Me.Label19.TabIndex = 120
-        Me.Label19.Text = "SSC states:"
+        Me.Label19.Text = "RFFE MIPI states:"
         '
         'Label20
         '
         Me.Label20.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(95, 509)
+        Me.Label20.Location = New System.Drawing.Point(95, 466)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(102, 19)
         Me.Label20.TabIndex = 121
@@ -731,7 +785,7 @@ Partial Class Form9
         '
         Me.Label21.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(95, 546)
+        Me.Label21.Location = New System.Drawing.Point(95, 503)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(94, 19)
         Me.Label21.TabIndex = 122
@@ -742,7 +796,7 @@ Partial Class Form9
         Me.Button8.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Button8.DisplayFocus = True
         Me.Button8.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.Button8.Location = New System.Drawing.Point(334, 466)
+        Me.Button8.Location = New System.Drawing.Point(360, 429)
         Me.Button8.Name = "Button8"
         Me.Button8.Size = New System.Drawing.Size(69, 25)
         Me.Button8.TabIndex = 123
@@ -753,7 +807,7 @@ Partial Class Form9
         '
         Me.Toggle1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Toggle1.AutoSize = True
-        Me.Toggle1.Location = New System.Drawing.Point(273, 511)
+        Me.Toggle1.Location = New System.Drawing.Point(273, 468)
         Me.Toggle1.Name = "Toggle1"
         Me.Toggle1.Size = New System.Drawing.Size(80, 17)
         Me.Toggle1.TabIndex = 124
@@ -764,7 +818,7 @@ Partial Class Form9
         '
         Me.Toggle2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Toggle2.AutoSize = True
-        Me.Toggle2.Location = New System.Drawing.Point(273, 548)
+        Me.Toggle2.Location = New System.Drawing.Point(273, 505)
         Me.Toggle2.Name = "Toggle2"
         Me.Toggle2.Size = New System.Drawing.Size(80, 17)
         Me.Toggle2.TabIndex = 125
@@ -775,7 +829,7 @@ Partial Class Form9
         '
         Me.Toggle3.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Toggle3.AutoSize = True
-        Me.Toggle3.Location = New System.Drawing.Point(458, 643)
+        Me.Toggle3.Location = New System.Drawing.Point(458, 597)
         Me.Toggle3.Name = "Toggle3"
         Me.Toggle3.Size = New System.Drawing.Size(80, 17)
         Me.Toggle3.TabIndex = 127
@@ -786,7 +840,7 @@ Partial Class Form9
         '
         Me.Label22.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(403, 641)
+        Me.Label22.Location = New System.Drawing.Point(403, 595)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(53, 19)
         Me.Label22.TabIndex = 128
@@ -808,7 +862,7 @@ Partial Class Form9
         Me.TextBox2.CustomButton.UseSelectable = True
         Me.TextBox2.CustomButton.Visible = False
         Me.TextBox2.Lines = New String(-1) {}
-        Me.TextBox2.Location = New System.Drawing.Point(273, 583)
+        Me.TextBox2.Location = New System.Drawing.Point(273, 540)
         Me.TextBox2.MaxLength = 32767
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -829,8 +883,8 @@ Partial Class Form9
         Me.ComboBox5.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox5.FormattingEnabled = True
         Me.ComboBox5.ItemHeight = 19
-        Me.ComboBox5.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
-        Me.ComboBox5.Location = New System.Drawing.Point(409, 287)
+        Me.ComboBox5.Items.AddRange(New Object() {"Isolation", "RF1", "RF2", "RF3", "RF4"})
+        Me.ComboBox5.Location = New System.Drawing.Point(409, 213)
         Me.ComboBox5.MaxDropDownItems = 20
         Me.ComboBox5.Name = "ComboBox5"
         Me.ComboBox5.PromptText = "Switch Value"
@@ -844,8 +898,8 @@ Partial Class Form9
         Me.ComboBox6.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox6.FormattingEnabled = True
         Me.ComboBox6.ItemHeight = 19
-        Me.ComboBox6.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
-        Me.ComboBox6.Location = New System.Drawing.Point(409, 324)
+        Me.ComboBox6.Items.AddRange(New Object() {"Isolation", "RF1", "RF2", "RF3", "RF4"})
+        Me.ComboBox6.Location = New System.Drawing.Point(409, 250)
         Me.ComboBox6.MaxDropDownItems = 20
         Me.ComboBox6.Name = "ComboBox6"
         Me.ComboBox6.PromptText = "Switch Value"
@@ -859,8 +913,8 @@ Partial Class Form9
         Me.ComboBox7.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox7.FormattingEnabled = True
         Me.ComboBox7.ItemHeight = 19
-        Me.ComboBox7.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
-        Me.ComboBox7.Location = New System.Drawing.Point(409, 361)
+        Me.ComboBox7.Items.AddRange(New Object() {"Isolation", "RF1", "RF2", "RF3", "RF4"})
+        Me.ComboBox7.Location = New System.Drawing.Point(409, 287)
         Me.ComboBox7.MaxDropDownItems = 20
         Me.ComboBox7.Name = "ComboBox7"
         Me.ComboBox7.PromptText = "Switch Value"
@@ -874,8 +928,8 @@ Partial Class Form9
         Me.ComboBox8.FontSize = MetroFramework.MetroComboBoxSize.Small
         Me.ComboBox8.FormattingEnabled = True
         Me.ComboBox8.ItemHeight = 19
-        Me.ComboBox8.Items.AddRange(New Object() {"Isolation", "ANT-RF1", "ANT-RF2", "ANT-RF3", "ANT-RF4"})
-        Me.ComboBox8.Location = New System.Drawing.Point(409, 398)
+        Me.ComboBox8.Items.AddRange(New Object() {"Isolation", "RF1", "RF2", "RF3", "RF4"})
+        Me.ComboBox8.Location = New System.Drawing.Point(409, 324)
         Me.ComboBox8.MaxDropDownItems = 20
         Me.ComboBox8.Name = "ComboBox8"
         Me.ComboBox8.PromptText = "Switch Value"
@@ -890,7 +944,7 @@ Partial Class Form9
         '
         '
         Me.TextBox3.CustomButton.Image = Nothing
-        Me.TextBox3.CustomButton.Location = New System.Drawing.Point(23, 1)
+        Me.TextBox3.CustomButton.Location = New System.Drawing.Point(42, 1)
         Me.TextBox3.CustomButton.Name = ""
         Me.TextBox3.CustomButton.Size = New System.Drawing.Size(23, 23)
         Me.TextBox3.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
@@ -899,7 +953,7 @@ Partial Class Form9
         Me.TextBox3.CustomButton.UseSelectable = True
         Me.TextBox3.CustomButton.Visible = False
         Me.TextBox3.Lines = New String(-1) {}
-        Me.TextBox3.Location = New System.Drawing.Point(273, 466)
+        Me.TextBox3.Location = New System.Drawing.Point(273, 429)
         Me.TextBox3.MaxLength = 32767
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -907,17 +961,48 @@ Partial Class Form9
         Me.TextBox3.SelectedText = ""
         Me.TextBox3.SelectionLength = 0
         Me.TextBox3.SelectionStart = 0
-        Me.TextBox3.Size = New System.Drawing.Size(47, 25)
+        Me.TextBox3.Size = New System.Drawing.Size(66, 25)
         Me.TextBox3.TabIndex = 134
         Me.TextBox3.UseSelectable = True
         Me.TextBox3.WaterMark = "Units"
         Me.TextBox3.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.TextBox3.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
         '
+        'Label23
+        '
+        Me.Label23.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(95, 361)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(80, 19)
+        Me.Label23.TabIndex = 135
+        Me.Label23.Text = "MIPI Device:"
+        '
+        'ComboBox13
+        '
+        Me.ComboBox13.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.ComboBox13.FontSize = MetroFramework.MetroComboBoxSize.Small
+        Me.ComboBox13.FormattingEnabled = True
+        Me.ComboBox13.ItemHeight = 19
+        Me.ComboBox13.Items.AddRange(New Object() {"CXM3664XR", "CXA4484GC / CXA4484XR", "4-bit SSC (in development)"})
+        Me.ComboBox13.Location = New System.Drawing.Point(273, 361)
+        Me.ComboBox13.MaxDropDownItems = 20
+        Me.ComboBox13.Name = "ComboBox13"
+        Me.ComboBox13.Size = New System.Drawing.Size(265, 25)
+        Me.ComboBox13.TabIndex = 136
+        Me.ComboBox13.UseSelectable = True
+        '
+        'BackgroundWorker1
+        '
+        Me.BackgroundWorker1.WorkerReportsProgress = True
+        Me.BackgroundWorker1.WorkerSupportsCancellation = True
+        '
         'Form9
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(976, 727)
+        Me.ClientSize = New System.Drawing.Size(976, 700)
+        Me.Controls.Add(Me.ComboBox13)
+        Me.Controls.Add(Me.Label23)
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.ComboBox8)
         Me.Controls.Add(Me.ComboBox7)
@@ -974,6 +1059,7 @@ Partial Class Form9
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.ComboBox9)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
         Me.Name = "Form9"
         Me.Resizable = False
         Me.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow
@@ -1059,4 +1145,13 @@ Partial Class Form9
     Friend WithEvents ComboBox7 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents ComboBox8 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents TextBox3 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents ConfigurationToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TypeASSCCXM3664XRToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TypeBSP4TCXA4447GToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Label23 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents ComboBox13 As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class

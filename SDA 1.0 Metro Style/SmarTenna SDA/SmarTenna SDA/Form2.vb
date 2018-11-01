@@ -41,5 +41,6 @@
 
     Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Size = New Size(406, 205)
+        textBox1.Select()
     End Sub
 End Class
