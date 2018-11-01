@@ -39,3 +39,4 @@ C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarT
 C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form9.resources
 C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Resources.resources
 C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna SDA.vbproj.GenerateResource.Cache
+C:\Users\arun.kumar\Desktop\git_show\gui\SDA 1.0 Metro Style\SmarTenna SDA\SmarTenna SDA\obj\Debug\SmarTenna_SDA.Form0.resources

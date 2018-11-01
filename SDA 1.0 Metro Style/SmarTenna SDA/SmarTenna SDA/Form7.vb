@@ -56,7 +56,7 @@
     End Sub
 
     Private Sub Form7_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Size = New Size(406, 205)
+        'Me.Size = New Size(406, 205)
         textBox1.Text = ""
         textBox2.Text = ""
         textBox1.Select()
@@ -71,4 +71,11 @@
         End If
     End Sub
 
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        If CheckBox1.Checked = True Then
+            textBox2.PasswordChar = ""
+        Else
+            textBox2.PasswordChar = "*"
+        End If
+    End Sub
 End Class

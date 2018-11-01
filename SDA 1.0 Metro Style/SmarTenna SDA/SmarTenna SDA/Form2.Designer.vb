@@ -27,13 +27,14 @@ Partial Class Form2
         Me.button2 = New MetroFramework.Controls.MetroButton()
         Me.textBox1 = New MetroFramework.Controls.MetroTextBox()
         Me.textBox2 = New MetroFramework.Controls.MetroTextBox()
+        Me.CheckBox1 = New MetroFramework.Controls.MetroCheckBox()
         Me.SuspendLayout()
         '
         'button1
         '
         Me.button1.DisplayFocus = True
         Me.button1.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.button1.Location = New System.Drawing.Point(42, 144)
+        Me.button1.Location = New System.Drawing.Point(42, 168)
         Me.button1.Name = "button1"
         Me.button1.Size = New System.Drawing.Size(119, 38)
         Me.button1.TabIndex = 1
@@ -44,7 +45,7 @@ Partial Class Form2
         '
         Me.button2.DisplayFocus = True
         Me.button2.FontWeight = MetroFramework.MetroButtonWeight.Regular
-        Me.button2.Location = New System.Drawing.Point(242, 144)
+        Me.button2.Location = New System.Drawing.Point(242, 168)
         Me.button2.Name = "button2"
         Me.button2.Size = New System.Drawing.Size(119, 38)
         Me.button2.TabIndex = 2
@@ -115,10 +116,21 @@ Partial Class Form2
         Me.textBox2.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.textBox2.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.World)
         '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(42, 142)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(105, 15)
+        Me.CheckBox1.TabIndex = 15
+        Me.CheckBox1.Text = "Show Password"
+        Me.CheckBox1.UseSelectable = True
+        '
         'Form2
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(406, 205)
+        Me.ClientSize = New System.Drawing.Size(406, 229)
+        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.textBox2)
         Me.Controls.Add(Me.textBox1)
         Me.Controls.Add(Me.button2)
@@ -130,6 +142,7 @@ Partial Class Form2
         Me.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow
         Me.Text = "System Login Form"
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -137,4 +150,5 @@ Partial Class Form2
     Friend WithEvents button2 As MetroFramework.Controls.MetroButton
     Friend WithEvents textBox1 As MetroFramework.Controls.MetroTextBox
     Friend WithEvents textBox2 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents CheckBox1 As MetroFramework.Controls.MetroCheckBox
 End Class
