@@ -610,7 +610,7 @@ Partial Class Form9
         'FullScreenToolStripMenuItem
         '
         Me.FullScreenToolStripMenuItem.Name = "FullScreenToolStripMenuItem"
-        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FullScreenToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
         Me.FullScreenToolStripMenuItem.Text = "Full Screen"
         '
         'ToolsToolStripMenuItem
@@ -624,14 +624,14 @@ Partial Class Form9
         '
         Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MyDevicesToolStripMenuItem, Me.ConfigurationToolStripMenuItem})
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
         'MyDevicesToolStripMenuItem
         '
         Me.MyDevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PINGPIOToolStripMenuItem, Me.SCOUTSC4410ToolStripMenuItem})
         Me.MyDevicesToolStripMenuItem.Name = "MyDevicesToolStripMenuItem"
-        Me.MyDevicesToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
+        Me.MyDevicesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.MyDevicesToolStripMenuItem.Text = "My Devices"
         '
         'PINGPIOToolStripMenuItem
@@ -650,7 +650,7 @@ Partial Class Form9
         '
         Me.ConfigurationToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TypeASSCCXM3664XRToolStripMenuItem, Me.TypeBSP4TCXA4447GToolStripMenuItem, Me.TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem, Me.TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem, Me.TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem})
         Me.ConfigurationToolStripMenuItem.Name = "ConfigurationToolStripMenuItem"
-        Me.ConfigurationToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
+        Me.ConfigurationToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ConfigurationToolStripMenuItem.Text = "Configuration"
         '
         'TypeASSCCXM3664XRToolStripMenuItem

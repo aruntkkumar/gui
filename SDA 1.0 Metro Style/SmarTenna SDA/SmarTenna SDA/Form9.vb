@@ -28,6 +28,7 @@ Public Class Form9
     Dim i As Integer
     Delegate Sub SetTextCallBack(ByVal [text] As String)
     Dim foundit As Integer
+    Dim output As String
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Label3.Text = Date.Now.ToString("dd/MM/yyyy")
@@ -574,22 +575,28 @@ Public Class Form9
                 Try
                     If PINGPIOToolStripMenuItem.Checked = True Then
                         NUMATO()
+                        Thread.Sleep(5)
+                        myserialPort2.Write("gpio writeall 00" & vbCr)  'BUG FIX FOR SKIPPING FIRST DATA
+                        myserialPort2.ReadLine()
+                        myserialPort2.ReadExisting()
+                        Thread.Sleep(5)
                         myserialPort2.Write("gpio writeall " & byte1.ToString("X") & vbCr)
                         RichTextBox1.Text &= myserialPort2.ReadLine().Replace(">", "")
                         RichTextBox1.Text &= myserialPort2.ReadExisting().Replace(">", "")
-                        Thread.Sleep(25)
+                        Thread.Sleep(5)
                         myserialPort2.Write("gpio writeall " & byte2.ToString("X") & vbCr)
                         RichTextBox1.Text &= myserialPort2.ReadLine().Replace(">", "")
                         RichTextBox1.Text &= myserialPort2.ReadExisting().Replace(">", "")
-                        Thread.Sleep(25)
+                        Thread.Sleep(5)
                         myserialPort2.Write("gpio writeall " & byte3.ToString("X") & vbCr)
                         RichTextBox1.Text &= myserialPort2.ReadLine().Replace(">", "")
                         RichTextBox1.Text &= myserialPort2.ReadExisting().Replace(">", "")
-                        Thread.Sleep(25)
+                        Thread.Sleep(5)
                         myserialPort2.Write("gpio writeall " & byte4.ToString("X") & vbCr)
                         RichTextBox1.Text &= myserialPort2.ReadLine().Replace(">", "")
                         RichTextBox1.Text &= myserialPort2.ReadExisting().Replace(">", "")
-                        Thread.Sleep(25)
+                        Thread.Sleep(5)
+                        'output = "gpio writeall " & byte1.ToString("X") & vbCr & "gpio writeall " & byte2.ToString("X") & vbCr & "gpio writeall " & byte3.ToString("X") & vbCr & "gpio writeall " & byte4.ToString("X") & vbCr
                         If Not ListBox1.Items.Count = 0 Then
                             For i = 0 To ListBox1.Items.Count - 1
                                 If i Mod 2 = 0 Then
@@ -598,23 +605,32 @@ Public Class Form9
                                     test = &H0
                                 End If
                                 test = test Or ListBox1.Items.Item(i)
+                                'output = output & "gpio writeall " & test.ToString("X") & vbCr
                                 myserialPort2.Write("gpio writeall " & test.ToString("X") & vbCr)
                                 RichTextBox1.Text &= myserialPort2.ReadLine().Replace(">", "")
                                 RichTextBox1.Text &= myserialPort2.ReadExisting().Replace(">", "")
-                                Thread.Sleep(25)
+                                Thread.Sleep(5)
                             Next
-                            myserialPort2.Write(vbCr)
-                            RichTextBox1.Text &= myserialPort2.ReadLine().Replace(">", "")
-                            RichTextBox1.Text &= myserialPort2.ReadExisting().Replace(">", "")
                         End If
+                        myserialPort2.Write("gpio writeall 00" & vbCr)  'CLEARING THE DATA LINES
+                        RichTextBox1.Text &= myserialPort2.ReadLine().Replace(">", "")
+                        RichTextBox1.Text &= myserialPort2.ReadExisting().Replace(">", "")
+                        Thread.Sleep(5)
+                        myserialPort2.Write(vbCr)
+                        RichTextBox1.Text &= myserialPort2.ReadLine().Replace(">", "")
+                        RichTextBox1.Text &= myserialPort2.ReadExisting().Replace(">", "")
+                        'myserialPort2.Write(output & vbCr)
+                        'RichTextBox1.Text &= myserialPort2.ReadLine().Replace(">", "")
+                        'RichTextBox1.Text &= myserialPort2.ReadExisting().Replace(">", "")
                     Else
                         SCOUTSC4410_Start()
                         myserialPort2.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
                         RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
                         RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
-                        myserialPort2.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte2.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte3.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte4.ToString("X") & vbCrLf)
-                        RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
-                        RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
+                        output = "rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte2.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte3.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte4.ToString("X") & vbCrLf
+                        'myserialPort2.WriteLine("rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte2.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte3.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte4.ToString("X") & vbCrLf)
+                        'RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
+                        'RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
                         'RichTextBox1.Text.Replace("->", "")
                         If Not ListBox1.Items.Count = 0 Then
                             For i = 0 To ListBox1.Items.Count - 1
@@ -624,12 +640,16 @@ Public Class Form9
                                     test = &H0
                                 End If
                                 test = test Or ListBox1.Items.Item(i)
-                                myserialPort2.WriteLine("rw 1 0x05 0x" & test.ToString("X") & vbCrLf)
-                                RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
-                                RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
+                                output = output & "rw 1 0x05 0x" & test.ToString("X") & vbCrLf
+                                'myserialPort2.WriteLine("rw 1 0x05 0x" & test.ToString("X") & vbCrLf)
+                                'RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
+                                'RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
                                 'RichTextBox1.Text.Replace("->", "")
                             Next
                         End If
+                        myserialPort2.WriteLine(output & "rw 1 0x05 0x00" & vbCrLf)
+                        RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
+                        RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
                     End If
                 Catch ex As Exception
                     MetroFramework.MetroMessageBox.Show(Me, myserialPort2.PortName & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -655,7 +675,7 @@ Public Class Form9
             Catch ex As Exception
             End Try
             Application.DoEvents()  ' Give port time to close down
-            Thread.Sleep(200)
+            Thread.Sleep(20)
         Loop Until Toggle3.Checked = False
     End Sub
 
@@ -669,17 +689,17 @@ Public Class Form9
     End Sub
 
     Sub ResettoDefault()
-        If device = 3 Then
-            Button5.Enabled = False
-            ComboBox3.Enabled = False
-            ComboBox4.Enabled = False
-            '           Button2.Enabled = True
-        Else
-            Button5.Enabled = True
-            ComboBox3.Enabled = True
-            ComboBox4.Enabled = True
-            '           Button2.Enabled = False
-        End If
+        'If device = 3 Then
+        '    Button5.Enabled = False
+        '    ComboBox3.Enabled = False
+        '    ComboBox4.Enabled = False
+        '    Button2.Enabled = True
+        'Else
+        '    Button5.Enabled = True
+        '    ComboBox3.Enabled = True
+        '    ComboBox4.Enabled = True
+        '    Button2.Enabled = False
+        'End If
         'RadioButton1.Enabled = True
         'RadioButton2.Enabled = True
         RadioButton1.Checked = False
@@ -694,11 +714,14 @@ Public Class Form9
         ComboBox10.SelectedIndex = -1
         'ComboBox11.SelectedIndex = -1
         'ComboBox12.SelectedIndex = -1
+        ComboBox3.Enabled = True
+        ComboBox4.Enabled = True
         ComboBox5.Enabled = True
         ComboBox6.Enabled = True
         ComboBox9.Enabled = True
         ComboBox10.Enabled = True
         ComboBox13.SelectedIndex = -1
+        ComboBox13.Enabled = True
         'ComboBox9.SelectedIndex = -1
         TextBox1.Text = ""
         TextBox1.WaterMark = "0 to 64, 96"
@@ -859,8 +882,6 @@ Public Class Form9
     Private Sub SCOUTSC4410ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SCOUTSC4410ToolStripMenuItem.Click
         If SCOUTSC4410ToolStripMenuItem.Checked = True Then
             SCOUTSC4410ToolStripMenuItem.Checked = False
-            ComboBox3.Enabled = True
-            ComboBox4.Enabled = True
             RadioButton1.Checked = False
             RadioButton2.Checked = False
             ComboBox3.SelectedIndex = -1
@@ -873,11 +894,14 @@ Public Class Form9
             ComboBox10.SelectedIndex = -1
             'ComboBox11.SelectedIndex = -1
             'ComboBox12.SelectedIndex = -1
+            ComboBox3.Enabled = True
+            ComboBox4.Enabled = True
             ComboBox5.Enabled = True
             ComboBox6.Enabled = True
             ComboBox9.Enabled = True
             ComboBox10.Enabled = True
             ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = True
             'ComboBox9.SelectedIndex = -1
             TextBox1.Text = ""
             TextBox1.WaterMark = "0 to 64, 96"
@@ -910,11 +934,14 @@ Public Class Form9
             ComboBox10.SelectedIndex = -1
             'ComboBox11.SelectedIndex = -1
             'ComboBox12.SelectedIndex = -1
+            ComboBox3.Enabled = True
+            ComboBox4.Enabled = True
             ComboBox5.Enabled = True
             ComboBox6.Enabled = True
             ComboBox9.Enabled = True
             ComboBox10.Enabled = True
             ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = True
             'ComboBox9.SelectedIndex = -1
             TextBox1.Text = ""
             TextBox1.WaterMark = "0 to 64, 96"
@@ -1036,8 +1063,6 @@ Public Class Form9
     Private Sub PINGPIOToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PINGPIOToolStripMenuItem.Click
         If PINGPIOToolStripMenuItem.Checked = True Then
             PINGPIOToolStripMenuItem.Checked = False
-            ComboBox3.Enabled = True
-            ComboBox4.Enabled = True
             RadioButton1.Checked = False
             RadioButton2.Checked = False
             ComboBox3.SelectedIndex = -1
@@ -1050,11 +1075,14 @@ Public Class Form9
             ComboBox10.SelectedIndex = -1
             'ComboBox11.SelectedIndex = -1
             'ComboBox12.SelectedIndex = -1
+            ComboBox3.Enabled = True
+            ComboBox4.Enabled = True
             ComboBox5.Enabled = True
             ComboBox6.Enabled = True
             ComboBox9.Enabled = True
             ComboBox10.Enabled = True
             ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = True
             'ComboBox9.SelectedIndex = -1
             TextBox1.Text = ""
             TextBox1.WaterMark = "0 to 64, 96"
@@ -1077,10 +1105,6 @@ Public Class Form9
             SCOUTSC4410ToolStripMenuItem.Checked = False
             RadioButton1.Checked = True
             RadioButton2.Checked = False
-            ComboBox3.Enabled = False
-            ComboBox3.SelectedIndex = -1
-            ComboBox4.Enabled = False
-            ComboBox4.SelectedIndex = -1
             ComboBox3.SelectedIndex = -1
             ComboBox4.SelectedIndex = -1
             ComboBox5.SelectedIndex = -1
@@ -1091,11 +1115,14 @@ Public Class Form9
             ComboBox10.SelectedIndex = -1
             'ComboBox11.SelectedIndex = -1
             'ComboBox12.SelectedIndex = -1
+            ComboBox3.Enabled = False
+            ComboBox4.Enabled = False
             ComboBox5.Enabled = True
             ComboBox6.Enabled = True
             ComboBox9.Enabled = True
             ComboBox10.Enabled = True
             ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = True
             'ComboBox9.SelectedIndex = -1
             TextBox1.Text = ""
             TextBox1.WaterMark = "0 to 64, 96"
@@ -1177,7 +1204,7 @@ Public Class Form9
         'SerialPort1.StopBits = StopBits.One
         'SerialPort1.Open()
         myserialPort2.PortName = readvalue1
-        myserialPort2.BaudRate = 9600
+        myserialPort2.BaudRate = 115200 '9600
         myserialPort2.Parity = Parity.None
         myserialPort2.DataBits = 8
         myserialPort2.StopBits = StopBits.One
@@ -1533,48 +1560,51 @@ Public Class Form9
     End Sub
 
     Private Sub BackgroundWorker1_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork  ' Do some time-consuming work on this thread.
-        myPort = IO.Ports.SerialPort.GetPortNames()
-        Dim x As New ComPortFinder
-        Dim list As List(Of String)
+        Try
+            myPort = IO.Ports.SerialPort.GetPortNames()
+            Dim x As New ComPortFinder
+            Dim list As List(Of String)
 
-        list = x.ComPortNames("173C", "0002")
-        foundit = 0
-        For Each item As String In list
-            If item <> Nothing Then
-                For Each Str As String In myPort
-                    If Str.Contains(item) Then
-                        SCOUTSC4410ToolStripMenuItem.Enabled = True
-                        foundit = 1
-                    End If
-                Next
+            list = x.ComPortNames("173C", "0002")
+            foundit = 0
+            For Each item As String In list
+                If item <> Nothing Then
+                    For Each Str As String In myPort
+                        If Str.Contains(item) Then
+                            SCOUTSC4410ToolStripMenuItem.Enabled = True
+                            foundit = 1
+                        End If
+                    Next
+                End If
+            Next
+            If foundit = 0 Then
+                If SCOUTSC4410ToolStripMenuItem.Checked = True Then
+                    ResettoDefault()
+                End If
+                SCOUTSC4410ToolStripMenuItem.Enabled = False
+                SCOUTSC4410ToolStripMenuItem.Checked = False
             End If
-        Next
-        If foundit = 0 Then
-            If SCOUTSC4410ToolStripMenuItem.Checked = True Then
-                ResettoDefault()
+            list = x.ComPortNames("2A19", "0800")
+            foundit = 0
+            For Each item As String In list
+                If item <> Nothing Then
+                    For Each Str As String In myPort
+                        If Str.Contains(item) Then
+                            PINGPIOToolStripMenuItem.Enabled = True
+                            foundit = 1
+                        End If
+                    Next
+                End If
+            Next
+            If foundit = 0 Then
+                If PINGPIOToolStripMenuItem.Checked = True Then
+                    ResettoDefault()
+                End If
+                PINGPIOToolStripMenuItem.Enabled = False
+                PINGPIOToolStripMenuItem.Checked = False
             End If
-            SCOUTSC4410ToolStripMenuItem.Enabled = False
-            SCOUTSC4410ToolStripMenuItem.Checked = False
-        End If
-        list = x.ComPortNames("2A19", "0800")
-        foundit = 0
-        For Each item As String In list
-            If item <> Nothing Then
-                For Each Str As String In myPort
-                    If Str.Contains(item) Then
-                        PINGPIOToolStripMenuItem.Enabled = True
-                        foundit = 1
-                    End If
-                Next
-            End If
-        Next
-        If foundit = 0 Then
-            If PINGPIOToolStripMenuItem.Checked = True Then
-                ResettoDefault()
-            End If
-            PINGPIOToolStripMenuItem.Enabled = False
-            PINGPIOToolStripMenuItem.Checked = False
-        End If
+        Catch ex As Exception
+        End Try
     End Sub
 
     Private Sub ComboBox9_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox9.SelectedIndexChanged
@@ -1772,12 +1802,15 @@ Public Class Form9
             ComboBox10.Enabled = False
             'ComboBox11.Enabled = False
             'ComboBox12.Enabled = False
+            ComboBox13.SelectedIndex = 0
+            ComboBox13.Enabled = False
             TextBox2.Enabled = False
             TextBox3.Enabled = False
             TextBox2.Text = "0"
             TextBox3.Text = "1"
             Toggle1.Enabled = False
             Toggle2.Enabled = False
+            ListBox1.Items.Clear()
             TypeASSCCXM3664XRToolStripMenuItem.Checked = True
             TypeBSP4TCXA4447GToolStripMenuItem.Checked = False
             TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Checked = False
@@ -1785,8 +1818,8 @@ Public Class Form9
             TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Checked = False
         Else
             ComboBox3.SelectedIndex = -1
-            ComboBox3.Enabled = True
             ComboBox4.SelectedIndex = -1
+            ComboBox3.Enabled = True
             ComboBox4.Enabled = True
             ComboBox5.Enabled = True
             ComboBox6.Enabled = True
@@ -1796,10 +1829,13 @@ Public Class Form9
             ComboBox10.Enabled = True
             'ComboBox11.Enabled = True
             'ComboBox12.Enabled = True
+            ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = True
             TextBox2.Text = ""
             TextBox2.Enabled = True
             TextBox3.Enabled = True
             TextBox3.Text = ""
+            ListBox1.Items.Clear()
             Toggle1.Enabled = True
             Toggle2.Enabled = True
             TypeASSCCXM3664XRToolStripMenuItem.Checked = False
@@ -1830,12 +1866,16 @@ Public Class Form9
             ComboBox5.Items.Clear()
             ComboBox5.Items.AddRange(New String() {"RF1", "RF2", "RF3", "RF4", "RF1/2", "RF3/4", "ALL ON", "ALL OFF"})
             ComboBox10.Enabled = False
+            ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = False
             'ComboBox11.Enabled = False
             'ComboBox12.Enabled = False
             TextBox2.Enabled = False
             TextBox3.Enabled = False
             TextBox2.Text = "0"
-            TextBox3.Text = "0"
+            TextBox3.Text = "1"
+            ListBox1.Items.Clear()
+            ListBox1.Items.Add("0")
             Toggle1.Enabled = False
             Toggle2.Enabled = False
             TypeASSCCXM3664XRToolStripMenuItem.Checked = False
@@ -1845,25 +1885,28 @@ Public Class Form9
             TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Checked = False
         Else
             ComboBox3.SelectedIndex = -1
-            ComboBox3.Enabled = True
             ComboBox4.SelectedIndex = -1
+            ComboBox3.Enabled = True
             ComboBox4.Enabled = True
             ComboBox5.Enabled = True
             ComboBox6.Enabled = True
             'ComboBox7.Enabled = True
             'ComboBox8.Enabled = True
-            ComboBox9.Enabled = True
             ComboBox9.SelectedIndex = -1
+            ComboBox9.Enabled = True
             ComboBox5.Items.Clear()
             ComboBox5.Items.AddRange(New String() {"Isolation", "RF1", "RF2", "RF3", "RF4"})
             ComboBox5.SelectedIndex = -1
             ComboBox10.Enabled = True
             'ComboBox11.Enabled = True
             'ComboBox12.Enabled = True
+            ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = True
             TextBox2.Enabled = True
             TextBox3.Enabled = True
             TextBox2.Text = ""
             TextBox3.Text = ""
+            ListBox1.Items.Clear()
             Toggle1.Enabled = True
             Toggle2.Enabled = True
             TypeBSP4TCXA4447GToolStripMenuItem.Checked = False
@@ -1894,11 +1937,14 @@ Public Class Form9
             ComboBox10.Enabled = False
             'ComboBox11.Enabled = False
             'ComboBox12.Enabled = False
+            ComboBox13.SelectedIndex = 2
+            ComboBox13.Enabled = False
             TextBox1.WaterMark = "0 to 16, 24"
             TextBox2.Enabled = False
             TextBox3.Enabled = False
             TextBox2.Text = "0"
             TextBox3.Text = "1"
+            ListBox1.Items.Clear()
             Toggle1.Enabled = False
             Toggle2.Enabled = False
             TypeASSCCXM3664XRToolStripMenuItem.Checked = False
@@ -1908,24 +1954,27 @@ Public Class Form9
             TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Checked = False
         Else
             ComboBox3.SelectedIndex = -1
-            ComboBox3.Enabled = True
             ComboBox4.SelectedIndex = -1
+            ComboBox5.SelectedIndex = -1
+            ComboBox9.SelectedIndex = -1
+            ComboBox3.Enabled = True
             ComboBox4.Enabled = True
             ComboBox5.Enabled = True
             ComboBox6.Enabled = True
             'ComboBox7.Enabled = True
             'ComboBox8.Enabled = True
             ComboBox9.Enabled = True
-            ComboBox9.SelectedIndex = -1
-            ComboBox5.SelectedIndex = -1
             ComboBox10.Enabled = True
             'ComboBox11.Enabled = True
             'ComboBox12.Enabled = True
+            ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = True
             TextBox1.WaterMark = "0 to 64, 96"
             TextBox2.Enabled = True
             TextBox3.Enabled = True
             TextBox2.Text = ""
             TextBox3.Text = ""
+            ListBox1.Items.Clear()
             Toggle1.Enabled = True
             Toggle2.Enabled = True
             TextBox2.Enabled = True
