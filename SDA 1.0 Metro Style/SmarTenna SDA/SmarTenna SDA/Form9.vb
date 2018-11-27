@@ -168,9 +168,9 @@ Public Class Form9
         TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Checked = False
         TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Checked = False
         TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Checked = False
-        TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Visible = False
-        TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Visible = False
-        TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Visible = False
+        'TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Visible = False
+        'TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Visible = False
+        'TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Visible = False
         AddHandler System.Windows.Forms.Application.Idle, AddressOf Application_Idle
         Control.CheckForIllegalCrossThreadCalls = False
     End Sub
@@ -292,14 +292,27 @@ Public Class Form9
                     test = &H0
                     test = test Or ListBox1.Items.Item(0)
                     If ComboBox3.Text = "6 (UID = Low); SONY CXM3664XR" Then
-                        myserialPort2.WriteLine("rw " & "6 0x01 0x" & test.ToString("X") & vbCrLf)
+                        myserialPort2.WriteLine("rw 6 0x01 0x" & test.ToString("X") & vbCrLf)
+                        RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
+                        RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
+                        RichTextBox1.Text &= "State selected: " & test & vbCrLf
+                        myserialPort2.WriteLine("rr 6 0x01" & vbCrLf)
+                        RichTextBox1.Text &= "SSC current state: "
+                        RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
+                        RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
                     Else
-                        myserialPort2.WriteLine("rw " & "7 0x01 0x" & test.ToString("X") & vbCrLf)
+                        myserialPort2.WriteLine("rw 7 0x01 0x" & test.ToString("X") & vbCrLf)
+                        RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
+                        RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
+                        RichTextBox1.Text &= "State selected: " & test & vbCrLf
+                        myserialPort2.WriteLine("rr 7 0x01" & vbCrLf)
+                        RichTextBox1.Text &= "SSC current state: "
+                        RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
+                        RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
                     End If
-                    RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
-                    RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
                 Catch ex As Exception
-                    MetroFramework.MetroMessageBox.Show(Me, myserialPort2.PortName & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    'MetroFramework.MetroMessageBox.Show(Me, myserialPort2.PortName & " does not exist. Please open a valid COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MetroFramework.MetroMessageBox.Show(Me, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     'MsgBox(ComboBox1.Text & " does not exist. Please open a valid COM port", MsgBoxStyle.Information, "Error")
                     SerialReset()
                     Exit Sub
@@ -1467,6 +1480,8 @@ Public Class Form9
                 MetroFramework.MetroMessageBox.Show(Me, "Please enter an integer between 0-64 or 96 for the corresponding state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             ElseIf TextBox1.WaterMark = "0 to 16, 24" Then
                 MetroFramework.MetroMessageBox.Show(Me, "Please enter an integer between 0-16 or 24 for the corresponding state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ElseIf TextBox1.WaterMark = "0 to 15" Then
+                MetroFramework.MetroMessageBox.Show(Me, "Please enter an integer between 0-15 for the corresponding state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
             Exit Sub
         End Try
@@ -1476,6 +1491,8 @@ Public Class Form9
                 MetroFramework.MetroMessageBox.Show(Me, "Invalid state. Please enter an integer between 0-64 or 96 for the corresponding state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             ElseIf ((TextBox1.WaterMark = "0 to 16, 24") AndAlso (test > 16) AndAlso (test <> 24)) Then
                 MetroFramework.MetroMessageBox.Show(Me, "Invalid state. Please enter an integer between 0-16 or 24 for the corresponding state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ElseIf ((TextBox1.WaterMark = "0 to 15") AndAlso (test > 15)) Then
+                MetroFramework.MetroMessageBox.Show(Me, "Invalid state. Please enter an integer between 0-15 for the corresponding state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 If (TextBox3.Text = "") Then
                     MetroFramework.MetroMessageBox.Show(Me, "Please enter the number of RFFE MIPI values to be programmed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1515,6 +1532,8 @@ Public Class Form9
                 MetroFramework.MetroMessageBox.Show(Me, "Please enter an integer between 0-64 or 96 for the corresponding state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             ElseIf TextBox1.WaterMark = "0 to 16, 24" Then
                 MetroFramework.MetroMessageBox.Show(Me, "Please enter an integer between 0-16 or 24 for the corresponding state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ElseIf TextBox1.WaterMark = "0 to 15" Then
+                MetroFramework.MetroMessageBox.Show(Me, "Please enter an integer between 0-15 for the corresponding state", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
     End Sub
@@ -1933,10 +1952,11 @@ Public Class Form9
             'ComboBox7.Enabled = False
             'ComboBox8.Enabled = False
             ComboBox9.Enabled = False
-            ComboBox9.SelectedIndex = 0
             ComboBox10.Enabled = False
             'ComboBox11.Enabled = False
             'ComboBox12.Enabled = False
+            ComboBox9.SelectedIndex = 0
+            ComboBox5.SelectedIndex = 0
             ComboBox13.SelectedIndex = 2
             ComboBox13.Enabled = False
             TextBox1.WaterMark = "0 to 16, 24"
@@ -1977,17 +1997,146 @@ Public Class Form9
             ListBox1.Items.Clear()
             Toggle1.Enabled = True
             Toggle2.Enabled = True
-            TextBox2.Enabled = True
             TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Checked = False
         End If
     End Sub
 
     Private Sub TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Click
+        If TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Checked = False Then
 
+            If PINGPIOToolStripMenuItem.Checked = True Then
+                ComboBox3.SelectedIndex = -1
+                ComboBox3.Enabled = False
+                ComboBox4.SelectedIndex = -1
+                ComboBox4.Enabled = False
+            Else
+                ComboBox3.SelectedIndex = 0 'EVB02 LM8335 ADR is grounded
+                ComboBox3.Enabled = True
+                ComboBox4.SelectedIndex = 2
+                ComboBox4.Enabled = True
+            End If
+
+            ComboBox5.Enabled = True
+            ComboBox6.Enabled = False
+            'ComboBox7.Enabled = False
+            'ComboBox8.Enabled = False
+            ComboBox9.Enabled = False
+            ComboBox10.Enabled = False
+            'ComboBox11.Enabled = False
+            'ComboBox12.Enabled = False
+            ComboBox9.SelectedIndex = 0
+            ComboBox5.SelectedIndex = 0
+            ComboBox13.SelectedIndex = 1
+            ComboBox13.Enabled = False
+            TextBox1.WaterMark = "0 to 15"
+            TextBox2.Enabled = False
+            TextBox3.Enabled = False
+            TextBox2.Text = "0"
+            TextBox3.Text = "1"
+            Toggle1.Enabled = False
+            Toggle2.Enabled = False
+            ListBox1.Items.Clear()
+            TypeASSCCXM3664XRToolStripMenuItem.Checked = False
+            TypeBSP4TCXA4447GToolStripMenuItem.Checked = False
+            TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Checked = False
+            TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Checked = True
+            TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Checked = False
+        Else
+            ComboBox3.SelectedIndex = -1
+            ComboBox4.SelectedIndex = -1
+            ComboBox3.Enabled = True
+            ComboBox4.Enabled = True
+            ComboBox5.Enabled = True
+            ComboBox6.Enabled = True
+            'ComboBox7.Enabled = True
+            'ComboBox8.Enabled = True
+            ComboBox9.Enabled = True
+            ComboBox10.Enabled = True
+            'ComboBox11.Enabled = True
+            'ComboBox12.Enabled = True
+            ComboBox5.SelectedIndex = -1
+            ComboBox9.SelectedIndex = -1
+            ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = True
+            TextBox1.WaterMark = "0 to 64, 96"
+            TextBox2.Text = ""
+            TextBox2.Enabled = True
+            TextBox3.Enabled = True
+            TextBox3.Text = ""
+            ListBox1.Items.Clear()
+            Toggle1.Enabled = True
+            Toggle2.Enabled = True
+            TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Checked = False
+        End If
     End Sub
 
     Private Sub TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Click
+        If TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Checked = False Then
 
+            If PINGPIOToolStripMenuItem.Checked = True Then
+                ComboBox3.SelectedIndex = -1
+                ComboBox3.Enabled = False
+                ComboBox4.SelectedIndex = -1
+                ComboBox4.Enabled = False
+            Else
+                ComboBox3.SelectedIndex = 0 'EVB02 LM8335 ADR is grounded
+                ComboBox3.Enabled = True
+                ComboBox4.SelectedIndex = 2
+                ComboBox4.Enabled = True
+            End If
+
+            ComboBox5.Enabled = True
+            ComboBox6.Enabled = False
+            'ComboBox7.Enabled = False
+            'ComboBox8.Enabled = False
+            ComboBox9.Enabled = False
+            ComboBox10.Enabled = False
+            'ComboBox11.Enabled = False
+            'ComboBox12.Enabled = False
+            ComboBox9.SelectedIndex = 0
+            ComboBox5.SelectedIndex = 0
+            ComboBox13.SelectedIndex = 1
+            ComboBox13.Enabled = False
+            TextBox1.WaterMark = "0 to 15"
+            TextBox2.Enabled = False
+            TextBox3.Enabled = False
+            TextBox2.Text = "0"
+            TextBox3.Text = "1"
+            Toggle1.Enabled = False
+            Toggle2.Enabled = False
+            ListBox1.Items.Clear()
+            TypeASSCCXM3664XRToolStripMenuItem.Checked = False
+            TypeBSP4TCXA4447GToolStripMenuItem.Checked = False
+            TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Checked = False
+            TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Checked = False
+            TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Checked = True
+        Else
+            ComboBox3.SelectedIndex = -1
+            ComboBox4.SelectedIndex = -1
+            ComboBox3.Enabled = True
+            ComboBox4.Enabled = True
+            ComboBox5.Enabled = True
+            ComboBox6.Enabled = True
+            'ComboBox7.Enabled = True
+            'ComboBox8.Enabled = True
+            ComboBox9.Enabled = True
+            ComboBox10.Enabled = True
+            'ComboBox11.Enabled = True
+            'ComboBox12.Enabled = True
+            ComboBox5.SelectedIndex = -1
+            ComboBox9.SelectedIndex = -1
+            ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = True
+            TextBox1.WaterMark = "0 to 64, 96"
+            TextBox2.Text = ""
+            TextBox2.Enabled = True
+            TextBox3.Enabled = True
+            TextBox3.Text = ""
+            ListBox1.Items.Clear()
+            Toggle1.Enabled = True
+            Toggle2.Enabled = True
+            TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Checked = False
+        End If
     End Sub
 
 End Class
