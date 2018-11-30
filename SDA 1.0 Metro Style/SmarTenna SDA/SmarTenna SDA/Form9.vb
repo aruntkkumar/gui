@@ -1386,31 +1386,32 @@ Public Class Form9
         End Try
         Application.DoEvents()  ' Give port time to close down
         Thread.Sleep(200)
-        'Button2.Enabled = False
-        'Button3.Enabled = True
-        'Button4.Enabled = False
-        'Button5.Enabled = True
-        'ComboBox1.Enabled = True
-        'ComboBox2.Enabled = True
-        ComboBox3.Enabled = True
-        ComboBox4.Enabled = True
-        'RadioButton1.Enabled = True
-        'RadioButton2.Enabled = True
-        RadioButton1.Checked = False
-        RadioButton2.Checked = False
-        ComboBox5.Enabled = True
-        ComboBox6.Enabled = True
-        'ComboBox7.Enabled = True
-        'ComboBox8.Enabled = True
-        ComboBox9.Enabled = True
-        ComboBox10.Enabled = True
-        'ComboBox11.Enabled = True
-        'ComboBox12.Enabled = True
-        TextBox2.Enabled = True
-        TextBox3.Enabled = True
-        TextBox3.Text = ""
-        Toggle1.Enabled = True
-        Toggle2.Enabled = True
+        ResettoDefault()
+        ''Button2.Enabled = False
+        ''Button3.Enabled = True
+        ''Button4.Enabled = False
+        ''Button5.Enabled = True
+        ''ComboBox1.Enabled = True
+        ''ComboBox2.Enabled = True
+        'ComboBox3.Enabled = True
+        'ComboBox4.Enabled = True
+        ''RadioButton1.Enabled = True
+        ''RadioButton2.Enabled = True
+        'RadioButton1.Checked = False
+        'RadioButton2.Checked = False
+        'ComboBox5.Enabled = True
+        'ComboBox6.Enabled = True
+        ''ComboBox7.Enabled = True
+        ''ComboBox8.Enabled = True
+        'ComboBox9.Enabled = True
+        'ComboBox10.Enabled = True
+        ''ComboBox11.Enabled = True
+        ''ComboBox12.Enabled = True
+        'TextBox2.Enabled = True
+        'TextBox3.Enabled = True
+        'TextBox3.Text = ""
+        'Toggle1.Enabled = True
+        'Toggle2.Enabled = True
         'ComboBox1.Items.Clear()
         myPort = IO.Ports.SerialPort.GetPortNames()
         'ComboBox1.Items.AddRange(myPort)
