@@ -73,6 +73,8 @@ Public Class Form9
         SCOUTSC4410ToolStripMenuItem.Enabled = False
         PINGPIOToolStripMenuItem.Checked = False
         PINGPIOToolStripMenuItem.Enabled = False
+        SCOUTSC4415ToolStripMenuItem.Checked = False
+        SCOUTSC4415ToolStripMenuItem.Enabled = False
         Label18.Visible = False
         RadioButton3.Visible = False
 
@@ -118,6 +120,16 @@ Public Class Form9
                 For Each Str As String In myPort
                     If Str.Contains(item) Then
                         PINGPIOToolStripMenuItem.Enabled = True
+                    End If
+                Next
+            End If
+        Next
+        list = x.ComPortNames("173C", "0003")
+        For Each item As String In list
+            If item <> Nothing Then
+                For Each Str As String In myPort
+                    If Str.Contains(item) Then
+                        SCOUTSC4415ToolStripMenuItem.Enabled = True
                     End If
                 Next
             End If
@@ -252,11 +264,11 @@ Public Class Form9
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Do
-            If PINGPIOToolStripMenuItem.Checked = False AndAlso SCOUTSC4410ToolStripMenuItem.Checked = False Then
+            If PINGPIOToolStripMenuItem.Checked = False AndAlso SCOUTSC4410ToolStripMenuItem.Checked = False AndAlso SCOUTSC4415ToolStripMenuItem.Checked = False Then
                 MetroFramework.MetroMessageBox.Show(Me, "Please select an available device under ""My Devices"" and try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-            If SCOUTSC4410ToolStripMenuItem.Checked = True Then
+            If SCOUTSC4410ToolStripMenuItem.Checked = True Or SCOUTSC4415ToolStripMenuItem.Checked = True Then
                 If ComboBox3.Text = "" Then
                     MetroFramework.MetroMessageBox.Show(Me, "Please select the Device Slave address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
@@ -276,15 +288,20 @@ Public Class Form9
                     End If
                 End If
             End If
-            If (ComboBox3.Text = "6 (UID = Low); SONY CXM3664XR" Or ComboBox3.Text = "7 (UID - High); SONY CXM3664XR") AndAlso (SCOUTSC4410ToolStripMenuItem.Checked = True) Then
+            If (ComboBox3.Text = "6 (UID = Low); SONY CXM3664XR" Or ComboBox3.Text = "7 (UID - High); SONY CXM3664XR") AndAlso ((SCOUTSC4410ToolStripMenuItem.Checked = True) Or (SCOUTSC4415ToolStripMenuItem.Checked = True)) Then
                 test2 = CInt(TextBox3.Text)
                 If (test2 <> ListBox1.Items.Count) Then
                     MetroFramework.MetroMessageBox.Show(Me, "Please enter all the RFFE MIPI values", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
                 End If
                 Try
-                    SCOUTSC4410_Start()
-                    myserialPort2.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
+                    If SCOUTSC4410ToolStripMenuItem.Checked = True Then
+                        SCOUTSC4410_Start()
+                        myserialPort2.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
+                    ElseIf SCOUTSC4415ToolStripMenuItem.Checked = True Then
+                        SCOUTSC4415_Start()
+                        myserialPort2.WriteLine("mode 1" & vbCrLf & "vio " & vio & vbCrLf & "clock 52000" & vbCrLf)
+                    End If
                     RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
                     RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
                     'SerialPort1.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
@@ -636,8 +653,13 @@ Public Class Form9
                         'RichTextBox1.Text &= myserialPort2.ReadLine().Replace(">", "")
                         'RichTextBox1.Text &= myserialPort2.ReadExisting().Replace(">", "")
                     Else
-                        SCOUTSC4410_Start()
-                        myserialPort2.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
+                        If SCOUTSC4410ToolStripMenuItem.Checked = True Then
+                            SCOUTSC4410_Start()
+                            myserialPort2.WriteLine("vio " & vio & vbCrLf & "clk 0" & vbCrLf)
+                        ElseIf SCOUTSC4415ToolStripMenuItem.Checked = True Then
+                            SCOUTSC4415_Start()
+                            myserialPort2.WriteLine("mode 1" & vbCrLf & "vio " & vio & vbCrLf & "clock 52000" & vbCrLf)
+                        End If
                         RichTextBox1.Text &= myserialPort2.ReadLine().Replace("->", "")
                         RichTextBox1.Text &= myserialPort2.ReadExisting().Replace("->", "")
                         output = "rw 1 0x05 0x" & byte1.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte2.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte3.ToString("X") & vbCrLf & "rw 1 0x05 0x" & byte4.ToString("X") & vbCrLf
@@ -748,6 +770,7 @@ Public Class Form9
         Toggle2.Checked = False
         PINGPIOToolStripMenuItem.Checked = False
         SCOUTSC4410ToolStripMenuItem.Checked = False
+        SCOUTSC4415ToolStripMenuItem.Checked = False
         ConfigurationToolStripMenuItem.Enabled = False
         TypeASSCCXM3664XRToolStripMenuItem.Checked = False
         TypeBSP4TCXA4447GToolStripMenuItem.Checked = False
@@ -935,6 +958,7 @@ Public Class Form9
         Else
             SCOUTSC4410ToolStripMenuItem.Checked = True
             PINGPIOToolStripMenuItem.Checked = False
+            SCOUTSC4415ToolStripMenuItem.Checked = False
             RadioButton1.Checked = False
             RadioButton2.Checked = True
             ComboBox3.SelectedIndex = -1
@@ -1033,6 +1057,27 @@ Public Class Form9
         Return 0
     End Function
 
+    Function SCOUTSC4415_Start()
+        myPort = IO.Ports.SerialPort.GetPortNames()
+        Dim x As New ComPortFinder
+        Try
+            Dim list = x.ComPortNames("173C", "0003")
+            For Each item As String In list
+                If item <> Nothing Then
+                    For Each Str As String In myPort
+                        If Str.Contains(item) Then
+                            ScoutON2(item)
+                        End If
+                    Next
+                End If
+            Next
+        Catch ex As Exception
+            SerialReset()
+            RichTextBox1.Text &= "SCOUT SC4415 has been disconnected" & vbCrLf & vbCrLf
+        End Try
+        Return 0
+    End Function
+
     Function ScoutON(ByVal readvalue1 As String)
         Try
             myserialPort2.Close()
@@ -1044,6 +1089,7 @@ Public Class Form9
         SCOUTSC4410ToolStripMenuItem.Checked = True
         'SierraWirelessToolStripMenuItem.Checked = False
         PINGPIOToolStripMenuItem.Checked = False
+        SCOUTSC4415ToolStripMenuItem.Checked = False
         'SerialPort1.PortName = readvalue1
         'SerialPort1.BaudRate = 115200
         'SerialPort1.Parity = Parity.None
@@ -1070,6 +1116,47 @@ Public Class Form9
         'RadioButton3.Checked = False
         device = 1
         RichTextBox1.Text &= "Active device selected as SCOUT SC4410" & vbCrLf & "Port Name: " & readvalue1 & "; Baud Rate: 115200" & vbCrLf & vbCrLf
+        Return 0
+    End Function
+
+    Function ScoutON2(ByVal readvalue1 As String)
+        Try
+            myserialPort2.Close()
+            'SerialPort1.Close()
+        Catch ex As Exception
+        End Try
+        Application.DoEvents()  ' Give port time to close down
+        Thread.Sleep(200)
+        SCOUTSC4410ToolStripMenuItem.Checked = False
+        'SierraWirelessToolStripMenuItem.Checked = False
+        PINGPIOToolStripMenuItem.Checked = False
+        SCOUTSC4415ToolStripMenuItem.Checked = True
+        'SerialPort1.PortName = readvalue1
+        'SerialPort1.BaudRate = 115200
+        'SerialPort1.Parity = Parity.None
+        'SerialPort1.DataBits = 8
+        'SerialPort1.StopBits = StopBits.One
+        'SerialPort1.Open()
+        myserialPort2.PortName = readvalue1
+        myserialPort2.BaudRate = 115200
+        myserialPort2.Parity = Parity.None
+        myserialPort2.DataBits = 8
+        myserialPort2.StopBits = StopBits.One
+        myserialPort2.Open()
+        'Button3.Enabled = False
+        'Button4.Enabled = True
+        'Button5.Enabled = True
+        'ComboBox1.Enabled = False
+        'ComboBox2.Enabled = False
+        'ComboBox1.SelectedIndex = -1
+        'ComboBox2.SelectedIndex = -1
+        ComboBox3.Enabled = True
+        ComboBox4.Enabled = True
+        RadioButton1.Checked = False
+        RadioButton2.Checked = True
+        'RadioButton3.Checked = False
+        device = 1
+        RichTextBox1.Text &= "Active device selected as SCOUT SC4415" & vbCrLf & "Port Name: " & readvalue1 & "; Baud Rate: 115200" & vbCrLf & vbCrLf
         Return 0
     End Function
 
@@ -1116,6 +1203,7 @@ Public Class Form9
         Else
             PINGPIOToolStripMenuItem.Checked = True
             SCOUTSC4410ToolStripMenuItem.Checked = False
+            SCOUTSC4415ToolStripMenuItem.Checked = False
             RadioButton1.Checked = True
             RadioButton2.Checked = False
             ComboBox3.SelectedIndex = -1
@@ -1210,6 +1298,7 @@ Public Class Form9
         SCOUTSC4410ToolStripMenuItem.Checked = False
         'SierraWirelessToolStripMenuItem.Checked = False
         PINGPIOToolStripMenuItem.Checked = True
+        SCOUTSC4415ToolStripMenuItem.Checked = False
         'SerialPort1.PortName = readvalue1
         'SerialPort1.BaudRate = 115200
         'SerialPort1.Parity = Parity.None
@@ -1386,32 +1475,31 @@ Public Class Form9
         End Try
         Application.DoEvents()  ' Give port time to close down
         Thread.Sleep(200)
-        ResettoDefault()
-        ''Button2.Enabled = False
-        ''Button3.Enabled = True
-        ''Button4.Enabled = False
-        ''Button5.Enabled = True
-        ''ComboBox1.Enabled = True
-        ''ComboBox2.Enabled = True
-        'ComboBox3.Enabled = True
-        'ComboBox4.Enabled = True
-        ''RadioButton1.Enabled = True
-        ''RadioButton2.Enabled = True
-        'RadioButton1.Checked = False
-        'RadioButton2.Checked = False
-        'ComboBox5.Enabled = True
-        'ComboBox6.Enabled = True
-        ''ComboBox7.Enabled = True
-        ''ComboBox8.Enabled = True
-        'ComboBox9.Enabled = True
-        'ComboBox10.Enabled = True
-        ''ComboBox11.Enabled = True
-        ''ComboBox12.Enabled = True
-        'TextBox2.Enabled = True
-        'TextBox3.Enabled = True
-        'TextBox3.Text = ""
-        'Toggle1.Enabled = True
-        'Toggle2.Enabled = True
+        'Button2.Enabled = False
+        'Button3.Enabled = True
+        'Button4.Enabled = False
+        'Button5.Enabled = True
+        'ComboBox1.Enabled = True
+        'ComboBox2.Enabled = True
+        ComboBox3.Enabled = True
+        ComboBox4.Enabled = True
+        'RadioButton1.Enabled = True
+        'RadioButton2.Enabled = True
+        RadioButton1.Checked = False
+        RadioButton2.Checked = False
+        ComboBox5.Enabled = True
+        ComboBox6.Enabled = True
+        'ComboBox7.Enabled = True
+        'ComboBox8.Enabled = True
+        ComboBox9.Enabled = True
+        ComboBox10.Enabled = True
+        'ComboBox11.Enabled = True
+        'ComboBox12.Enabled = True
+        TextBox2.Enabled = True
+        TextBox3.Enabled = True
+        TextBox3.Text = ""
+        Toggle1.Enabled = True
+        Toggle2.Enabled = True
         'ComboBox1.Items.Clear()
         myPort = IO.Ports.SerialPort.GetPortNames()
         'ComboBox1.Items.AddRange(myPort)
@@ -1425,9 +1513,11 @@ Public Class Form9
         SCOUTSC4410ToolStripMenuItem.Checked = False
         'SierraWirelessToolStripMenuItem.Checked = False
         PINGPIOToolStripMenuItem.Checked = False
+        SCOUTSC4415ToolStripMenuItem.Checked = False
         SCOUTSC4410ToolStripMenuItem.Enabled = False
         'SierraWirelessToolStripMenuItem.Enabled = False
         PINGPIOToolStripMenuItem.Enabled = False
+        SCOUTSC4415ToolStripMenuItem.Enabled = False
         device = 0
         Dim x As New ComPortFinder
         Dim list As List(Of String)
@@ -1450,6 +1540,16 @@ Public Class Form9
                 For Each Str As String In myPort
                     If Str.Contains(item) Then
                         PINGPIOToolStripMenuItem.Enabled = True
+                    End If
+                Next
+            End If
+        Next
+        list = x.ComPortNames("173C", "0003")
+        For Each item As String In list
+            If item <> Nothing Then
+                For Each Str As String In myPort
+                    If Str.Contains(item) Then
+                        SCOUTSC4415ToolStripMenuItem.Enabled = True
                     End If
                 Next
             End If
@@ -1622,6 +1722,25 @@ Public Class Form9
                 End If
                 PINGPIOToolStripMenuItem.Enabled = False
                 PINGPIOToolStripMenuItem.Checked = False
+            End If
+            list = x.ComPortNames("173C", "0003")
+            foundit = 0
+            For Each item As String In list
+                If item <> Nothing Then
+                    For Each Str As String In myPort
+                        If Str.Contains(item) Then
+                            SCOUTSC4415ToolStripMenuItem.Enabled = True
+                            foundit = 1
+                        End If
+                    Next
+                End If
+            Next
+            If foundit = 0 Then
+                If SCOUTSC4415ToolStripMenuItem.Checked = True Then
+                    ResettoDefault()
+                End If
+                SCOUTSC4415ToolStripMenuItem.Enabled = False
+                SCOUTSC4415ToolStripMenuItem.Checked = False
             End If
         Catch ex As Exception
         End Try
@@ -1810,7 +1929,7 @@ Public Class Form9
             Else
                 ComboBox3.SelectedIndex = 2
                 ComboBox3.Enabled = True
-                ComboBox4.SelectedIndex = -1
+                ComboBox4.SelectedIndex = 2
                 ComboBox4.Enabled = True
             End If
 
@@ -2140,4 +2259,87 @@ Public Class Form9
         End If
     End Sub
 
+    Private Sub SCOUTSC4415ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SCOUTSC4415ToolStripMenuItem.Click
+        If SCOUTSC4415ToolStripMenuItem.Checked = True Then
+            SCOUTSC4415ToolStripMenuItem.Checked = False
+            RadioButton1.Checked = False
+            RadioButton2.Checked = False
+            ComboBox3.SelectedIndex = -1
+            ComboBox4.SelectedIndex = -1
+            ComboBox5.SelectedIndex = -1
+            ComboBox6.SelectedIndex = -1
+            'ComboBox7.SelectedIndex = -1
+            'ComboBox8.SelectedIndex = -1
+            ComboBox9.SelectedIndex = -1
+            ComboBox10.SelectedIndex = -1
+            'ComboBox11.SelectedIndex = -1
+            'ComboBox12.SelectedIndex = -1
+            ComboBox3.Enabled = True
+            ComboBox4.Enabled = True
+            ComboBox5.Enabled = True
+            ComboBox6.Enabled = True
+            ComboBox9.Enabled = True
+            ComboBox10.Enabled = True
+            ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = True
+            'ComboBox9.SelectedIndex = -1
+            TextBox1.Text = ""
+            TextBox1.WaterMark = "0 to 64, 96"
+            TextBox2.Text = ""
+            TextBox3.Text = ""
+            TextBox1.Enabled = True
+            TextBox2.Enabled = True
+            TextBox3.Enabled = True
+            ListBox1.Items.Clear()
+            Toggle1.Checked = False
+            Toggle2.Checked = False
+            ConfigurationToolStripMenuItem.Enabled = False
+            TypeASSCCXM3664XRToolStripMenuItem.Checked = False
+            TypeBSP4TCXA4447GToolStripMenuItem.Checked = False
+            TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Checked = False
+            TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Checked = False
+            TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Checked = False
+        Else
+            SCOUTSC4415ToolStripMenuItem.Checked = True
+            PINGPIOToolStripMenuItem.Checked = False
+            SCOUTSC4410ToolStripMenuItem.Checked = False
+            RadioButton1.Checked = False
+            RadioButton2.Checked = True
+            ComboBox3.SelectedIndex = -1
+            ComboBox4.SelectedIndex = -1
+            ComboBox5.SelectedIndex = -1
+            ComboBox6.SelectedIndex = -1
+            'ComboBox7.SelectedIndex = -1
+            'ComboBox8.SelectedIndex = -1
+            ComboBox9.SelectedIndex = -1
+            ComboBox10.SelectedIndex = -1
+            'ComboBox11.SelectedIndex = -1
+            'ComboBox12.SelectedIndex = -1
+            ComboBox3.Enabled = True
+            ComboBox4.Enabled = True
+            ComboBox5.Enabled = True
+            ComboBox6.Enabled = True
+            ComboBox9.Enabled = True
+            ComboBox10.Enabled = True
+            ComboBox13.SelectedIndex = -1
+            ComboBox13.Enabled = True
+            'ComboBox9.SelectedIndex = -1
+            TextBox1.Text = ""
+            TextBox1.WaterMark = "0 to 64, 96"
+            TextBox2.Text = ""
+            TextBox3.Text = ""
+            TextBox1.Enabled = True
+            TextBox2.Enabled = True
+            TextBox3.Enabled = True
+            ListBox1.Items.Clear()
+            Toggle1.Checked = False
+            Toggle2.Checked = False
+            ConfigurationToolStripMenuItem.Enabled = True
+            TypeASSCCXM3664XRToolStripMenuItem.Checked = False
+            TypeBSP4TCXA4447GToolStripMenuItem.Checked = False
+            TypeC4bitSSCSPDTCXA4405GCToolStripMenuItem.Checked = False
+            TypeDSP4TCXA4484GCSPDTCXA4405GCToolStripMenuItem.Checked = False
+            TypeESP4TCXA4484XRSPDTCXA4405GCToolStripMenuItem.Checked = False
+        End If
+    End Sub
 End Class

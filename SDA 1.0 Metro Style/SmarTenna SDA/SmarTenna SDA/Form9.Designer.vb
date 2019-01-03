@@ -106,6 +106,7 @@ Partial Class Form9
         Me.Label23 = New MetroFramework.Controls.MetroLabel()
         Me.ComboBox13 = New MetroFramework.Controls.MetroComboBox()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.SCOUTSC4415ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -629,7 +630,7 @@ Partial Class Form9
         '
         'MyDevicesToolStripMenuItem
         '
-        Me.MyDevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PINGPIOToolStripMenuItem, Me.SCOUTSC4410ToolStripMenuItem})
+        Me.MyDevicesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PINGPIOToolStripMenuItem, Me.SCOUTSC4410ToolStripMenuItem, Me.SCOUTSC4415ToolStripMenuItem})
         Me.MyDevicesToolStripMenuItem.Name = "MyDevicesToolStripMenuItem"
         Me.MyDevicesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.MyDevicesToolStripMenuItem.Text = "My Devices"
@@ -997,6 +998,12 @@ Partial Class Form9
         Me.BackgroundWorker1.WorkerReportsProgress = True
         Me.BackgroundWorker1.WorkerSupportsCancellation = True
         '
+        'SCOUTSC4415ToolStripMenuItem
+        '
+        Me.SCOUTSC4415ToolStripMenuItem.Name = "SCOUTSC4415ToolStripMenuItem"
+        Me.SCOUTSC4415ToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+        Me.SCOUTSC4415ToolStripMenuItem.Text = "SCOUT SC4415"
+        '
         'Form9
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -1154,4 +1161,5 @@ Partial Class Form9
     Friend WithEvents Label23 As MetroFramework.Controls.MetroLabel
     Friend WithEvents ComboBox13 As MetroFramework.Controls.MetroComboBox
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents SCOUTSC4415ToolStripMenuItem As ToolStripMenuItem
 End Class
